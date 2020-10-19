@@ -5,6 +5,9 @@
       location = "group:TelenavDemo.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:search-ios-sdk/TelenavSDK.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
