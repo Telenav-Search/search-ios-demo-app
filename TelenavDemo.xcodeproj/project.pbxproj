@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,7 +16,55 @@
 		06DCC28B253D9A4E0075423F /* TelenavSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DCC28A253D9A4E0075423F /* TelenavSDK.framework */; };
 		06DCC28C253D9A4E0075423F /* TelenavSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06DCC28A253D9A4E0075423F /* TelenavSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71658639CE2625B8BFAF594E /* Pods_TelenavDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */; };
+		780E0050253EE773007C535B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 780E0043253EE648007C535B /* Alamofire.framework */; };
+		780E0051253EE773007C535B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 780E0043253EE648007C535B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		780EFF9C253EE613007C535B /* TelenavSDK.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = 780EFF9B253EE613007C535B /* TelenavSDK.xcworkspace */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		780E0042253EE648007C535B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 780E003C253EE648007C535B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5D797E9A5C5782CE845840781FA1CC81;
+			remoteInfo = Alamofire;
+		};
+		780E0044253EE648007C535B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 780E003C253EE648007C535B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7B1BBEC293D5A9BC1E0F76EB26040CD3;
+			remoteInfo = "Pods-TelenavSDK";
+		};
+		780E0046253EE648007C535B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 780E003C253EE648007C535B /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE8469733BF23B814F7939B1DC1A321C;
+			remoteInfo = "Pods-TelenavSDK-TelenavSDKTests";
+		};
+		780E0048253EE665007C535B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 06751A91253D7E84001F6B11;
+			remoteInfo = TelenavSDK;
+		};
+		780EFFA3253EE61C007C535B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06751A92253D7E84001F6B11;
+			remoteInfo = TelenavSDK;
+		};
+		780EFFA5253EE61C007C535B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06751A9B253D7E84001F6B11;
+			remoteInfo = TelenavSDKTests;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		06DCC28D253D9A4E0075423F /* Embed Frameworks */ = {
@@ -26,6 +74,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				06DCC28C253D9A4E0075423F /* TelenavSDK.framework in Embed Frameworks */,
+				780E0051253EE773007C535B /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -44,6 +93,9 @@
 		06751B21253D9061001F6B11 /* TelenavSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TelenavSDK.framework; sourceTree = "<group>"; };
 		06DCC28A253D9A4E0075423F /* TelenavSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TelenavSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelenavDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		780E003C253EE648007C535B /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = "search-ios-sdk/Pods/Pods.xcodeproj"; sourceTree = "<group>"; };
+		780EFF9B253EE613007C535B /* TelenavSDK.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; name = TelenavSDK.xcworkspace; path = "search-ios-sdk/TelenavSDK.xcworkspace"; sourceTree = "<group>"; };
+		780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TelenavSDK.xcodeproj; path = "search-ios-sdk/TelenavSDK.xcodeproj"; sourceTree = "<group>"; };
 		D01080F692F4769F924C6B4C /* Pods-TelenavDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.release.xcconfig"; sourceTree = "<group>"; };
 		D0EFA59272D2BCECB1CB9C46 /* Pods-TelenavDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,6 +106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71658639CE2625B8BFAF594E /* Pods_TelenavDemo.framework in Frameworks */,
+				780E0050253EE773007C535B /* Alamofire.framework in Frameworks */,
 				06DCC28B253D9A4E0075423F /* TelenavSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,6 +117,9 @@
 		06751AF5253D8D09001F6B11 = {
 			isa = PBXGroup;
 			children = (
+				780E003C253EE648007C535B /* Pods.xcodeproj */,
+				780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */,
+				780EFF9B253EE613007C535B /* TelenavSDK.xcworkspace */,
 				06751B00253D8D09001F6B11 /* TelenavDemo */,
 				06751AFF253D8D09001F6B11 /* Products */,
 				06751B17253D8DCA001F6B11 /* Frameworks */,
@@ -112,6 +168,25 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		780E003D253EE648007C535B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				780E0043253EE648007C535B /* Alamofire.framework */,
+				780E0045253EE648007C535B /* Pods_TelenavSDK.framework */,
+				780E0047253EE648007C535B /* Pods_TelenavSDK_TelenavSDKTests.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		780EFF9E253EE61C007C535B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				780EFFA4253EE61C007C535B /* TelenavSDK.framework */,
+				780EFFA6253EE61C007C535B /* TelenavSDKTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -123,12 +198,12 @@
 				06751AFA253D8D09001F6B11 /* Sources */,
 				06751AFB253D8D09001F6B11 /* Frameworks */,
 				06751AFC253D8D09001F6B11 /* Resources */,
-				B96027548836189763773348 /* [CP] Embed Pods Frameworks */,
 				06DCC28D253D9A4E0075423F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				780E0049253EE665007C535B /* PBXTargetDependency */,
 			);
 			name = TelenavDemo;
 			productName = TelenavDemo;
@@ -160,12 +235,60 @@
 			mainGroup = 06751AF5253D8D09001F6B11;
 			productRefGroup = 06751AFF253D8D09001F6B11 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 780E003D253EE648007C535B /* Products */;
+					ProjectRef = 780E003C253EE648007C535B /* Pods.xcodeproj */;
+				},
+				{
+					ProductGroup = 780EFF9E253EE61C007C535B /* Products */;
+					ProjectRef = 780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				06751AFD253D8D09001F6B11 /* TelenavDemo */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		780E0043253EE648007C535B /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 780E0042253EE648007C535B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		780E0045253EE648007C535B /* Pods_TelenavSDK.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Pods_TelenavSDK.framework;
+			remoteRef = 780E0044253EE648007C535B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		780E0047253EE648007C535B /* Pods_TelenavSDK_TelenavSDKTests.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Pods_TelenavSDK_TelenavSDKTests.framework;
+			remoteRef = 780E0046253EE648007C535B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		780EFFA4253EE61C007C535B /* TelenavSDK.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = TelenavSDK.framework;
+			remoteRef = 780EFFA3253EE61C007C535B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		780EFFA6253EE61C007C535B /* TelenavSDKTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = TelenavSDKTests.xctest;
+			remoteRef = 780EFFA5253EE61C007C535B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		06751AFC253D8D09001F6B11 /* Resources */ = {
@@ -175,6 +298,7 @@
 				06751B0E253D8D0A001F6B11 /* LaunchScreen.storyboard in Resources */,
 				06751B0B253D8D0A001F6B11 /* Assets.xcassets in Resources */,
 				06751B09253D8D09001F6B11 /* Main.storyboard in Resources */,
+				780EFF9C253EE613007C535B /* TelenavSDK.xcworkspace in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,23 +327,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B96027548836189763773348 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -234,6 +341,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		780E0049253EE665007C535B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TelenavSDK;
+			targetProxy = 780E0048253EE665007C535B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		06751B07253D8D09001F6B11 /* Main.storyboard */ = {
@@ -378,6 +493,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8V4FFQ8JKL;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -401,6 +517,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8V4FFQ8JKL;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
