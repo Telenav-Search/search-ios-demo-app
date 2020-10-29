@@ -1,4 +1,0 @@
-[submodule "search-ios-sdk"]
-	path = search-ios-sdk
-	url = git@github.com:Telenav-Search/search-ios-sdk.git
-	branch = main

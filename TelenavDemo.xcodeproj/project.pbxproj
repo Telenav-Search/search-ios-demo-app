@@ -7,74 +7,56 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060298E1254AC784003D760A /* Pods_TelenavDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060298DF254AC771003D760A /* Pods_TelenavDemo.framework */; };
+		060298E2254AC784003D760A /* Pods_TelenavDemo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 060298DF254AC771003D760A /* Pods_TelenavDemo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		06029954254AD18A003D760A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06751B05253D8D09001F6B11 /* ViewController.swift */; };
+		06029955254AD18A003D760A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06751B01253D8D09001F6B11 /* AppDelegate.swift */; };
+		06029956254AD18A003D760A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06751B03253D8D09001F6B11 /* SceneDelegate.swift */; };
+		06029959254AD18A003D760A /* TelenavSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0602994E254AD106003D760A /* TelenavSDK.framework */; };
+		0602995C254AD18A003D760A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06751B0C253D8D0A001F6B11 /* LaunchScreen.storyboard */; };
+		0602995D254AD18A003D760A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06751B0A253D8D0A001F6B11 /* Assets.xcassets */; };
+		0602995E254AD18A003D760A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06751B07253D8D09001F6B11 /* Main.storyboard */; };
+		06029961254AD18A003D760A /* TelenavSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0602994E254AD106003D760A /* TelenavSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0602996A254AD430003D760A /* Pods_TelenavSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06029968254AD430003D760A /* Pods_TelenavSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0602997D254AD55D003D760A /* Pods_TelenavSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0602997C254AD55D003D760A /* Pods_TelenavSDK.framework */; };
 		06751B02253D8D09001F6B11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06751B01253D8D09001F6B11 /* AppDelegate.swift */; };
 		06751B04253D8D09001F6B11 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06751B03253D8D09001F6B11 /* SceneDelegate.swift */; };
 		06751B06253D8D09001F6B11 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06751B05253D8D09001F6B11 /* ViewController.swift */; };
 		06751B09253D8D09001F6B11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06751B07253D8D09001F6B11 /* Main.storyboard */; };
 		06751B0B253D8D0A001F6B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06751B0A253D8D0A001F6B11 /* Assets.xcassets */; };
 		06751B0E253D8D0A001F6B11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06751B0C253D8D0A001F6B11 /* LaunchScreen.storyboard */; };
-		06DCC28B253D9A4E0075423F /* TelenavSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DCC28A253D9A4E0075423F /* TelenavSDK.framework */; };
-		06DCC28C253D9A4E0075423F /* TelenavSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06DCC28A253D9A4E0075423F /* TelenavSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		71658639CE2625B8BFAF594E /* Pods_TelenavDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */; };
-		780E0050253EE773007C535B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 780E0043253EE648007C535B /* Alamofire.framework */; };
-		780E0051253EE773007C535B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 780E0043253EE648007C535B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		780EFF9C253EE613007C535B /* TelenavSDK.xcworkspace in Resources */ = {isa = PBXBuildFile; fileRef = 780EFF9B253EE613007C535B /* TelenavSDK.xcworkspace */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		780E0042253EE648007C535B /* PBXContainerItemProxy */ = {
+		060298DE254AC771003D760A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 780E003C253EE648007C535B /* Pods.xcodeproj */;
+			containerPortal = 060298DA254AC771003D760A /* Pods.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 5D797E9A5C5782CE845840781FA1CC81;
-			remoteInfo = Alamofire;
-		};
-		780E0044253EE648007C535B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 780E003C253EE648007C535B /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7B1BBEC293D5A9BC1E0F76EB26040CD3;
-			remoteInfo = "Pods-TelenavSDK";
-		};
-		780E0046253EE648007C535B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 780E003C253EE648007C535B /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BE8469733BF23B814F7939B1DC1A321C;
-			remoteInfo = "Pods-TelenavSDK-TelenavSDKTests";
-		};
-		780E0048253EE665007C535B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 06751A91253D7E84001F6B11;
-			remoteInfo = TelenavSDK;
-		};
-		780EFFA3253EE61C007C535B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 06751A92253D7E84001F6B11;
-			remoteInfo = TelenavSDK;
-		};
-		780EFFA5253EE61C007C535B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 06751A9B253D7E84001F6B11;
-			remoteInfo = TelenavSDKTests;
+			remoteGlobalIDString = 0F423D7A5201B5D5D0C3C1B2B4E4C954;
+			remoteInfo = "Pods-TelenavDemo";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0602995F254AD18A003D760A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				06029961254AD18A003D760A /* TelenavSDK.framework in Embed Frameworks */,
+				0602996A254AD430003D760A /* Pods_TelenavSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06DCC28D253D9A4E0075423F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				06DCC28C253D9A4E0075423F /* TelenavSDK.framework in Embed Frameworks */,
-				780E0051253EE773007C535B /* Alamofire.framework in Embed Frameworks */,
+				060298E2254AC784003D760A /* Pods_TelenavDemo.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,6 +64,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		060298D5254AC743003D760A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		060298DA254AC771003D760A /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		060298EC254AC88E003D760A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		06029908254AC956003D760A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0602990B254AC95D003D760A /* Pods_TelenavSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_TelenavSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0602994E254AD106003D760A /* TelenavSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TelenavSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		06029966254AD18A003D760A /* TelenavDemoInternal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelenavDemoInternal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		06029967254AD18A003D760A /* TelenavDemo copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TelenavDemo copy-Info.plist"; path = "/Users/ezaderiy/work/search-ios-sdk/search-ios-demo-app/TelenavDemo copy-Info.plist"; sourceTree = "<absolute>"; };
+		06029968254AD430003D760A /* Pods_TelenavSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_TelenavSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0602997C254AD55D003D760A /* Pods_TelenavSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_TelenavSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		06751AFE253D8D09001F6B11 /* TelenavDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelenavDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06751B01253D8D09001F6B11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		06751B03253D8D09001F6B11 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,38 +84,58 @@
 		06751B0F253D8D0A001F6B11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06751B21253D9061001F6B11 /* TelenavSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TelenavSDK.framework; sourceTree = "<group>"; };
 		06DCC28A253D9A4E0075423F /* TelenavSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TelenavSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		082EF80066CCD2C5121F6427 /* Pods-TelenavDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.release.xcconfig"; sourceTree = "<group>"; };
 		4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelenavDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		780E003C253EE648007C535B /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = "search-ios-sdk/Pods/Pods.xcodeproj"; sourceTree = "<group>"; };
-		780EFF9B253EE613007C535B /* TelenavSDK.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; name = TelenavSDK.xcworkspace; path = "search-ios-sdk/TelenavSDK.xcworkspace"; sourceTree = "<group>"; };
-		780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TelenavSDK.xcodeproj; path = "search-ios-sdk/TelenavSDK.xcodeproj"; sourceTree = "<group>"; };
-		D01080F692F4769F924C6B4C /* Pods-TelenavDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.release.xcconfig"; sourceTree = "<group>"; };
-		D0EFA59272D2BCECB1CB9C46 /* Pods-TelenavDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		8295D5FDA6BB1F6BAD5A43E6 /* Pods-TelenavDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		06029957254AD18A003D760A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0602997D254AD55D003D760A /* Pods_TelenavSDK.framework in Frameworks */,
+				06029959254AD18A003D760A /* TelenavSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06751AFB253D8D09001F6B11 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71658639CE2625B8BFAF594E /* Pods_TelenavDemo.framework in Frameworks */,
-				780E0050253EE773007C535B /* Alamofire.framework in Frameworks */,
-				06DCC28B253D9A4E0075423F /* TelenavSDK.framework in Frameworks */,
+				060298E1254AC784003D760A /* Pods_TelenavDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		060298DB254AC771003D760A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				060298DF254AC771003D760A /* Pods_TelenavDemo.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		06029947254AD0F9003D760A /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				0602990B254AC95D003D760A /* Pods_TelenavSDK.framework */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		06751AF5253D8D09001F6B11 = {
 			isa = PBXGroup;
 			children = (
-				780E003C253EE648007C535B /* Pods.xcodeproj */,
-				780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */,
-				780EFF9B253EE613007C535B /* TelenavSDK.xcworkspace */,
+				060298DA254AC771003D760A /* Pods.xcodeproj */,
 				06751B00253D8D09001F6B11 /* TelenavDemo */,
 				06751AFF253D8D09001F6B11 /* Products */,
 				06751B17253D8DCA001F6B11 /* Frameworks */,
 				207E6E8773F10079223920AE /* Pods */,
+				06029947254AD0F9003D760A /* Recovered References */,
+				06029967254AD18A003D760A /* TelenavDemo copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				06751AFE253D8D09001F6B11 /* TelenavDemo.app */,
+				06029966254AD18A003D760A /* TelenavDemoInternal.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -152,6 +165,12 @@
 		06751B17253D8DCA001F6B11 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0602997C254AD55D003D760A /* Pods_TelenavSDK.framework */,
+				06029968254AD430003D760A /* Pods_TelenavSDK.framework */,
+				0602994E254AD106003D760A /* TelenavSDK.framework */,
+				06029908254AC956003D760A /* Alamofire.framework */,
+				060298EC254AC88E003D760A /* Alamofire.framework */,
+				060298D5254AC743003D760A /* Alamofire.framework */,
 				06DCC28A253D9A4E0075423F /* TelenavSDK.framework */,
 				06751B21253D9061001F6B11 /* TelenavSDK.framework */,
 				4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */,
@@ -162,34 +181,33 @@
 		207E6E8773F10079223920AE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D0EFA59272D2BCECB1CB9C46 /* Pods-TelenavDemo.debug.xcconfig */,
-				D01080F692F4769F924C6B4C /* Pods-TelenavDemo.release.xcconfig */,
+				8295D5FDA6BB1F6BAD5A43E6 /* Pods-TelenavDemo.debug.xcconfig */,
+				082EF80066CCD2C5121F6427 /* Pods-TelenavDemo.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		780E003D253EE648007C535B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				780E0043253EE648007C535B /* Alamofire.framework */,
-				780E0045253EE648007C535B /* Pods_TelenavSDK.framework */,
-				780E0047253EE648007C535B /* Pods_TelenavSDK_TelenavSDKTests.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		780EFF9E253EE61C007C535B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				780EFFA4253EE61C007C535B /* TelenavSDK.framework */,
-				780EFFA6253EE61C007C535B /* TelenavSDKTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		06029951254AD18A003D760A /* TelenavDemoInternal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06029963254AD18A003D760A /* Build configuration list for PBXNativeTarget "TelenavDemoInternal" */;
+			buildPhases = (
+				06029953254AD18A003D760A /* Sources */,
+				06029957254AD18A003D760A /* Frameworks */,
+				0602995B254AD18A003D760A /* Resources */,
+				0602995F254AD18A003D760A /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TelenavDemoInternal;
+			productName = TelenavDemo;
+			productReference = 06029966254AD18A003D760A /* TelenavDemoInternal.app */;
+			productType = "com.apple.product-type.application";
+		};
 		06751AFD253D8D09001F6B11 /* TelenavDemo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06751B12253D8D0A001F6B11 /* Build configuration list for PBXNativeTarget "TelenavDemo" */;
@@ -203,7 +221,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				780E0049253EE665007C535B /* PBXTargetDependency */,
 			);
 			name = TelenavDemo;
 			productName = TelenavDemo;
@@ -237,60 +254,39 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 780E003D253EE648007C535B /* Products */;
-					ProjectRef = 780E003C253EE648007C535B /* Pods.xcodeproj */;
-				},
-				{
-					ProductGroup = 780EFF9E253EE61C007C535B /* Products */;
-					ProjectRef = 780EFF9D253EE61C007C535B /* TelenavSDK.xcodeproj */;
+					ProductGroup = 060298DB254AC771003D760A /* Products */;
+					ProjectRef = 060298DA254AC771003D760A /* Pods.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
 				06751AFD253D8D09001F6B11 /* TelenavDemo */,
+				06029951254AD18A003D760A /* TelenavDemoInternal */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		780E0043253EE648007C535B /* Alamofire.framework */ = {
+		060298DF254AC771003D760A /* Pods_TelenavDemo.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = Alamofire.framework;
-			remoteRef = 780E0042253EE648007C535B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		780E0045253EE648007C535B /* Pods_TelenavSDK.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Pods_TelenavSDK.framework;
-			remoteRef = 780E0044253EE648007C535B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		780E0047253EE648007C535B /* Pods_TelenavSDK_TelenavSDKTests.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Pods_TelenavSDK_TelenavSDKTests.framework;
-			remoteRef = 780E0046253EE648007C535B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		780EFFA4253EE61C007C535B /* TelenavSDK.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = TelenavSDK.framework;
-			remoteRef = 780EFFA3253EE61C007C535B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		780EFFA6253EE61C007C535B /* TelenavSDKTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = TelenavSDKTests.xctest;
-			remoteRef = 780EFFA5253EE61C007C535B /* PBXContainerItemProxy */;
+			path = Pods_TelenavDemo.framework;
+			remoteRef = 060298DE254AC771003D760A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0602995B254AD18A003D760A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0602995C254AD18A003D760A /* LaunchScreen.storyboard in Resources */,
+				0602995D254AD18A003D760A /* Assets.xcassets in Resources */,
+				0602995E254AD18A003D760A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06751AFC253D8D09001F6B11 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -298,7 +294,6 @@
 				06751B0E253D8D0A001F6B11 /* LaunchScreen.storyboard in Resources */,
 				06751B0B253D8D0A001F6B11 /* Assets.xcassets in Resources */,
 				06751B09253D8D09001F6B11 /* Main.storyboard in Resources */,
-				780EFF9C253EE613007C535B /* TelenavSDK.xcworkspace in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +325,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		06029953254AD18A003D760A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06029954254AD18A003D760A /* ViewController.swift in Sources */,
+				06029955254AD18A003D760A /* AppDelegate.swift in Sources */,
+				06029956254AD18A003D760A /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06751AFA253D8D09001F6B11 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -341,14 +346,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		780E0049253EE665007C535B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TelenavSDK;
-			targetProxy = 780E0048253EE665007C535B /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		06751B07253D8D09001F6B11 /* Main.storyboard */ = {
@@ -370,6 +367,52 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		06029964254AD18A003D760A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8V4FFQ8JKL;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "TelenavDemo copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.thumbtack.TelenavDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		06029965254AD18A003D760A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8V4FFQ8JKL;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "TelenavDemo copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.thumbtack.TelenavDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		06751B10253D8D0A001F6B11 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -488,7 +531,7 @@
 		};
 		06751B13253D8D0A001F6B11 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0EFA59272D2BCECB1CB9C46 /* Pods-TelenavDemo.debug.xcconfig */;
+			baseConfigurationReference = 8295D5FDA6BB1F6BAD5A43E6 /* Pods-TelenavDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -512,7 +555,7 @@
 		};
 		06751B14253D8D0A001F6B11 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D01080F692F4769F924C6B4C /* Pods-TelenavDemo.release.xcconfig */;
+			baseConfigurationReference = 082EF80066CCD2C5121F6427 /* Pods-TelenavDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -537,6 +580,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		06029963254AD18A003D760A /* Build configuration list for PBXNativeTarget "TelenavDemoInternal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06029964254AD18A003D760A /* Debug */,
+				06029965254AD18A003D760A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		06751AF9253D8D09001F6B11 /* Build configuration list for PBXProject "TelenavDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

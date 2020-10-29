@@ -7,11 +7,21 @@
 		<key>TelenavDemo.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>2</integer>
+		</dict>
+		<key>TelenavDemoInternal.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>06029951254AD18A003D760A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>06751AFD253D8D09001F6B11</key>
 		<dict>
 			<key>primary</key>
