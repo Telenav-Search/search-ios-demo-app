@@ -4,6 +4,17 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>MKDirectionsRequest</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.apple.maps.directionsrequest</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -20,6 +31,21 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MKDirectionsApplicationSupportedModes</key>
+	<array>
+		<string>MKDirectionsModeBike</string>
+		<string>MKDirectionsModeCar</string>
+		<string>MKDirectionsModeOther</string>
+		<string>MKDirectionsModePedestrian</string>
+		<string>MKDirectionsModeStreetCar</string>
+		<string>MKDirectionsModeTaxi</string>
+	</array>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Will you allow this app to always know your location?</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Do you allow this app to know your current location?</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Do you allow this app to know your current location?</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
