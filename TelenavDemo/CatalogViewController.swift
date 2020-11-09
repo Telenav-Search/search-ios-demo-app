@@ -18,8 +18,6 @@ class CatalogViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //tableView.register(CatalogBaseCell.self, forCellReuseIdentifier: "CatalogBaseCell")
     }
 
     // MARK: - TableView
@@ -42,4 +40,7 @@ class CatalogViewController: UIViewController, UITableViewDataSource, UITableVie
         delegate?.didSelectNode()
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 45
+    }
 }

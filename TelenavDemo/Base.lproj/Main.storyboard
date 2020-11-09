@@ -102,7 +102,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bCi-53-fPB">
-                                                    <rect key="frame" x="9" y="5" width="35.5" height="35.5"/>
+                                                    <rect key="frame" x="9" y="5" width="35.5" height="35"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="bCi-53-fPB" secondAttribute="height" multiplier="1:1" id="G8p-SN-L60"/>
                                                         <constraint firstAttribute="height" constant="35" id="hHg-gb-UHi"/>

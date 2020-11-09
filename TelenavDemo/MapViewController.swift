@@ -17,6 +17,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var mapView: MKMapView!
     
+    let searchService = TelenavSearchService()
     let locationManager = CLLocationManager()
     
     var catalogVisible = true {
@@ -26,7 +27,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     lazy var catalogVC: CatalogViewController = {
-        let vc = storyboard!.instantiateViewController(identifier: "CatalogViewController") as! CatalogViewController
+        let vc = storyboard!.instantiateViewController(withIdentifier: "CatalogViewController") as! CatalogViewController
         vc.delegate = self
         return vc
     }()
@@ -36,7 +37,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        print("\(TelenavCore().test())")
+        searchService.search(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: "food") { (result, err) in
+            print(result)
+        }
         
         configureLocationManager()
         addChildView()
