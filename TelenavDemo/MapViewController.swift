@@ -36,7 +36,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        TelenavCore.setApiKey("3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f")
+        
         searchService.search(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: "food") { (result, err) in
             print(result)
         }
