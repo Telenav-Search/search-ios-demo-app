@@ -8,7 +8,7 @@
 import UIKit
 import TelenavSDK
 
-protocol CatalogViewControllerDelegate {
+protocol CatalogViewControllerDelegate: SuggestionsDisplayManagerDelegate {
     func didSelectNode()
     func didReturnToMap()
 }
@@ -19,7 +19,11 @@ class CatalogViewController: UIViewController  {
     
     @IBOutlet var categoriesDisplayManager: CategoriesDisplayManager!
     
-    @IBOutlet var suggestionsDisplayManager: SuggestionsDisplayManager!
+    @IBOutlet var suggestionsDisplayManager: SuggestionsDisplayManager! {
+        didSet {
+            suggestionsDisplayManager.delegate = self
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,5 +41,12 @@ class CatalogViewController: UIViewController  {
  
     @IBAction func didClickReturnToMap(_ sender: Any) {
         delegate?.didReturnToMap()
+    }
+}
+
+extension CatalogViewController: SuggestionsDisplayManagerDelegate {
+    
+    func didSelectSuggestion(id: String) {
+        delegate?.didSelectSuggestion(id: id)
     }
 }

@@ -22,12 +22,22 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var mapView: MKMapView!
     
+    @IBOutlet weak var detailsView: DetailsView! {
+        didSet {
+            detailsView.layer.cornerRadius = 18
+            detailsView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        }
+    }
+    
+    @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint!
+    
     let searchService = TelenavSearchService()
     let suggestionsService = TelenavSuggestionsService()
     let locationManager = CLLocationManager()
     
     let fakeCategoriesService = FakeCategoriesGenerator()
     let fakeSuggestionsService = FakeSuggestionsGenerator()
+    let fakeDetailsService = FakeDetailsGenerator()
     
     private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 1, qosClass: .userInitiated)
     
@@ -42,6 +52,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         vc.delegate = self
         return vc
     }()
+
     
     // MARK: - View management
     
@@ -67,6 +78,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.catalogVisible = true
         }
         
+        toggleDetailView(visible: false)
         configureLocationManager()
         addChildView()
     }
@@ -97,6 +109,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         catalogVC.view.rightAnchor.constraint(equalTo: mapContainerView.rightAnchor).isActive = true
     }
 
+    private func toggleDetailView(visible: Bool) {
+        detailsViewBottomConstraint?.constant = visible ? 0 : -(detailsView?.bounds.height ?? 190)
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     // MARK: - Actions
     
     @IBAction func catalogAction(_ sender: Any) {
@@ -104,6 +124,21 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     // MARK: - Catalog Delegate
+    
+    func didSelectSuggestion(id: String) {
+        
+        fakeDetailsService.getDetails(id: id) { (telenavEntities, err) in
+
+            guard let detail = telenavEntities?.first else {
+                return
+            }
+
+            self.detailsView.fillEntity(detail)
+            self.toggleDetailView(visible: true)
+            
+            self.catalogVisible = false
+        }
+    }
     
     func didSelectNode() {
         

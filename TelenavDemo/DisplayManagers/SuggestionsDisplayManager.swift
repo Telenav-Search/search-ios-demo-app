@@ -8,9 +8,15 @@
 import UIKit
 import TelenavSDK
 
+protocol SuggestionsDisplayManagerDelegate: class {
+    func didSelectSuggestion(id: String)
+}
+
 class SuggestionsDisplayManager: NSObject {
 
     var suggestions: [TelenavSuggestionResult] = []
+    
+    weak var delegate: SuggestionsDisplayManagerDelegate?
     
     func reloadTable() {
         
@@ -55,5 +61,15 @@ extension SuggestionsDisplayManager: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let suggestionId = suggestions[indexPath.row].id else {
+            return
+        }
+        
+        delegate?.didSelectSuggestion(id: suggestionId)
     }
 }

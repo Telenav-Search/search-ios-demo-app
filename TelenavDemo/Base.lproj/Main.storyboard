@@ -18,10 +18,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WIn-Qv-FkV">
-                                <rect key="frame" x="0.0" y="79" width="414" height="783"/>
+                                <rect key="frame" x="0.0" y="79" width="414" height="817"/>
                                 <subviews>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="lZ1-5J-ZmU">
-                                        <rect key="frame" x="0.0" y="40" width="414" height="743"/>
+                                        <rect key="frame" x="0.0" y="40" width="414" height="777"/>
                                     </mapView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oXT-GO-hax">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
@@ -33,15 +33,25 @@
                                             <action selector="catalogAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fjS-nx-jM9"/>
                                         </connections>
                                     </button>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pzA-GP-v7g" customClass="DetailsView" customModule="TelenavDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="567" width="414" height="250"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="250" id="95s-uj-wHd"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="lZ1-5J-ZmU" firstAttribute="leading" secondItem="WIn-Qv-FkV" secondAttribute="leading" id="5J0-o8-YrD"/>
                                     <constraint firstItem="oXT-GO-hax" firstAttribute="top" secondItem="WIn-Qv-FkV" secondAttribute="top" id="JrS-Vj-uL3"/>
+                                    <constraint firstItem="pzA-GP-v7g" firstAttribute="leading" secondItem="WIn-Qv-FkV" secondAttribute="leading" id="K0S-1a-fII"/>
+                                    <constraint firstAttribute="bottom" secondItem="pzA-GP-v7g" secondAttribute="bottom" id="RcD-Qy-qc4"/>
                                     <constraint firstItem="lZ1-5J-ZmU" firstAttribute="top" secondItem="oXT-GO-hax" secondAttribute="bottom" id="W7Y-Re-ZD1"/>
                                     <constraint firstItem="oXT-GO-hax" firstAttribute="leading" secondItem="WIn-Qv-FkV" secondAttribute="leading" id="a1S-vm-7no"/>
                                     <constraint firstAttribute="bottom" secondItem="lZ1-5J-ZmU" secondAttribute="bottom" id="bgo-ON-uBK"/>
                                     <constraint firstAttribute="trailing" secondItem="lZ1-5J-ZmU" secondAttribute="trailing" id="laO-bL-K1w"/>
+                                    <constraint firstAttribute="trailing" secondItem="pzA-GP-v7g" secondAttribute="trailing" id="mMK-nK-Fy5"/>
                                     <constraint firstAttribute="trailing" secondItem="oXT-GO-hax" secondAttribute="trailing" id="x7M-b7-ir0"/>
                                 </constraints>
                             </view>
@@ -62,12 +72,14 @@
                             <constraint firstItem="WIn-Qv-FkV" firstAttribute="top" secondItem="rqq-SL-795" secondAttribute="bottom" id="U1m-8d-DJh"/>
                             <constraint firstItem="rqq-SL-795" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Vi4-yy-UlX"/>
                             <constraint firstItem="WIn-Qv-FkV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="kqV-D4-fi4"/>
-                            <constraint firstItem="WIn-Qv-FkV" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="nro-Qc-x8i"/>
+                            <constraint firstItem="WIn-Qv-FkV" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="nro-Qc-x8i"/>
                             <constraint firstItem="WIn-Qv-FkV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="t6Y-sr-bGK"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="catalogButton" destination="oXT-GO-hax" id="A6N-nM-ead"/>
+                        <outlet property="detailsView" destination="pzA-GP-v7g" id="IVp-hp-SOq"/>
+                        <outlet property="detailsViewBottomConstraint" destination="RcD-Qy-qc4" id="zNQ-07-nly"/>
                         <outlet property="mapContainerView" destination="WIn-Qv-FkV" id="5hk-hK-Yi4"/>
                         <outlet property="mapView" destination="lZ1-5J-ZmU" id="tmL-c7-yWf"/>
                         <outlet property="searchTextField" destination="rqq-SL-795" id="glJ-nR-PPY"/>
