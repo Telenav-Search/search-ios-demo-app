@@ -6,41 +6,36 @@
 //
 
 import UIKit
+import TelenavSDK
 
 protocol CatalogViewControllerDelegate {
     func didSelectNode()
+    func didReturnToMap()
 }
 
-class CatalogViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CatalogViewController: UIViewController  {
 
-    @IBOutlet weak var tableView: UITableView!
     var delegate: CatalogViewControllerDelegate?
+    
+    @IBOutlet var categoriesDisplayManager: CategoriesDisplayManager!
+    
+    @IBOutlet var suggestionsDisplayManager: SuggestionsDisplayManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.categoriesDisplayManager.reloadTable()
     }
 
-    // MARK: - TableView
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+    func fillCategories(_ categories: [TelenavCategoryDisplayModel]) {
+        self.categoriesDisplayManager.categories = categories
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CatalogBaseCell") as? CatalogBaseCell else {
-            return UITableViewCell()
-        }
-        
-        cell.mainLabel.text = "Return to map"
-        
-        return cell
+    func fillSuggestions(_ suggestions: [TelenavSuggestionResult]) {
+        self.suggestionsDisplayManager.suggestions = suggestions
+        self.suggestionsDisplayManager.reloadTable()
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didSelectNode()
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 45
+ 
+    @IBAction func didClickReturnToMap(_ sender: Any) {
+        delegate?.didReturnToMap()
     }
 }

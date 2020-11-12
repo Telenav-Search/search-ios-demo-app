@@ -12,13 +12,24 @@ import MapKit
 
 class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLocationManagerDelegate {
 
-    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var searchTextField: UITextField! {
+        didSet {
+            searchTextField.delegate = self
+        }
+    }
+    
     @IBOutlet weak var catalogButton: UIButton!
     @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var mapView: MKMapView!
     
     let searchService = TelenavSearchService()
+    let suggestionsService = TelenavSuggestionsService()
     let locationManager = CLLocationManager()
+    
+    let fakeCategoriesService = FakeCategoriesGenerator()
+    let fakeSuggestionsService = FakeSuggestionsGenerator()
+    
+    private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 1, qosClass: .userInitiated)
     
     var catalogVisible = true {
         didSet {
@@ -40,6 +51,20 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         searchService.search(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: "food") { (result, err) in
             print(result)
+        }
+        
+        suggestionsService.getSuggestions(location: TelenavGeoPoint(lat: 45.5, lon: 25), query: "food", includeEntity: false) { (result, err) in
+            print(result?.results)
+        }
+        
+        fakeCategoriesService.getCategories { (categories, err) in
+            
+            guard let categories = categories else {
+                return
+            }
+            
+            self.catalogVC.fillCategories(categories)
+            self.catalogVisible = true
         }
         
         configureLocationManager()
@@ -81,6 +106,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     // MARK: - Catalog Delegate
     
     func didSelectNode() {
+        
+    }
+    
+    func didReturnToMap() {
         catalogVisible = false
     }
     
@@ -103,6 +132,46 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
 
         setPinUsingMKPointAnnotation(location: locValue)
     }
-    
 }
 
+extension MapViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let currentText = (textField.text ?? "") as NSString
+        let resultText = currentText.replacingCharacters(in: range, with: string)
+        
+        throttler.throttle {
+            DispatchQueue.main.async {
+                
+                if resultText.isEmpty {
+                    self.catalogVC.categoriesDisplayManager.reloadTable()
+                }
+                
+                else {
+                    
+                    self.getSuggestions(text: resultText) { (result) in
+                        
+                        self.catalogVC.fillSuggestions(result)
+                    }
+                }
+            }
+        }
+        
+        return true
+    }
+    
+    private func getSuggestions(text: String, comletion: @escaping ([TelenavSuggestionResult]) -> Void) {
+        
+        fakeSuggestionsService.getSuggestions { (suggestions, err) in
+            
+            guard let suggestions = suggestions else {
+                print(err?.localizedDescription)
+                comletion([])
+                return
+            }
+            
+            comletion(suggestions)
+        }
+    }
+}
