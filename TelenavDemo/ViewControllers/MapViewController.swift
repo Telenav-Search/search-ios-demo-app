@@ -20,7 +20,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     @IBOutlet weak var catalogButton: UIButton!
     @IBOutlet weak var mapContainerView: UIView!
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapView: MKMapView! {
+        didSet {
+            mapView.delegate = self
+        }
+    }
     
     @IBOutlet weak var detailsView: DetailsView! {
         didSet {
@@ -38,6 +42,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     let fakeCategoriesService = FakeCategoriesGenerator()
     let fakeSuggestionsService = FakeSuggestionsGenerator()
     let fakeDetailsService = FakeDetailsGenerator()
+    let fakeSearchService = FakeSearchGenerator()
     
     private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 1, qosClass: .userInitiated)
     
@@ -47,12 +52,38 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
+    var heightAnchor: NSLayoutConstraint!
+    
+    var searchVisible = false {
+        didSet {
+            searchResultsVC.view.isHidden = !searchVisible
+            
+            for sbv in searchResultsVC.view.subviews {
+                sbv.isHidden = !searchVisible
+            }
+            
+            heightAnchor.constant = setupSearchHeight()
+            
+            mapContainerView.layoutIfNeeded()
+            view.layoutIfNeeded()
+        }
+    }
+
+    private var searchPaginationContext: String?
+    private var searchContent = [TelenavSearchResult]()
+    private var currentAnnotations = [MKAnnotation]()
+    
     lazy var catalogVC: CatalogViewController = {
         let vc = storyboard!.instantiateViewController(withIdentifier: "CatalogViewController") as! CatalogViewController
         vc.delegate = self
         return vc
     }()
-
+    
+    lazy var searchResultsVC: SearchResultViewController = {
+        let vc = storyboard!.instantiateViewController(withIdentifier: "SearchResultViewController") as! SearchResultViewController
+        vc.delegate = self
+        return vc
+    }()
     
     // MARK: - View management
     
@@ -80,6 +111,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         toggleDetailView(visible: false)
         configureLocationManager()
         addChildView()
+        addSearchAsChild()
     }
     
     func configureLocationManager() {
@@ -107,6 +139,35 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         catalogVC.view.leftAnchor.constraint(equalTo: mapContainerView.leftAnchor).isActive = true
         catalogVC.view.rightAnchor.constraint(equalTo: mapContainerView.rightAnchor).isActive = true
     }
+    
+    func addSearchAsChild() {
+        addChild(searchResultsVC)
+        mapContainerView.addSubview(searchResultsVC.view)
+        mapContainerView.bringSubviewToFront(searchResultsVC.view)
+        
+        searchResultsVC.view.translatesAutoresizingMaskIntoConstraints = false
+        setupSearchConstraints()
+        
+        searchResultsVC.view.backgroundColor = .red
+    }
+    
+    private func setupSearchConstraints() {
+        
+        searchResultsVC.view.topAnchor.constraint(equalTo: mapContainerView.topAnchor).isActive = true
+            
+        heightAnchor = searchResultsVC.view.heightAnchor.constraint(equalToConstant: setupSearchHeight())
+        heightAnchor.isActive = true
+        
+        searchResultsVC.view.leftAnchor.constraint(equalTo: mapContainerView.leftAnchor).isActive = true
+        searchResultsVC.view.rightAnchor.constraint(equalTo: mapContainerView.rightAnchor).isActive = true
+    }
+    
+    private func setupSearchHeight() -> CGFloat {
+        
+        let heightConstraint = searchVisible ? mapContainerView.frame.height / 3 : 0
+
+        return heightConstraint
+    }
 
     private func toggleDetailView(visible: Bool) {
         detailsViewBottomConstraint?.constant = visible ? 0 : -(detailsView?.bounds.height ?? 190)
@@ -122,20 +183,37 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         catalogVisible = true
     }
     
+    
+    @IBAction func didTapOnMap(_ sender: Any) {
+        
+        toggleDetailView(visible: false)
+    }
+    
     // MARK: - Catalog Delegate
     
     func didSelectSuggestion(id: String) {
         
-        fakeDetailsService.getDetails(id: id) { (telenavEntities, err) in
-
-            guard let detail = telenavEntities?.first else {
+        searchTextField.resignFirstResponder()
+        
+        mapView.removeAnnotations(self.currentAnnotations)
+        
+        goToDetails(entityId: id) { (entity) in
+            
+            guard let coord = entity.place?.address?.geoCoordinates, let id = entity.id else {
                 return
             }
-
-            self.detailsView.fillEntity(detail)
-            self.toggleDetailView(visible: true)
             
-            self.catalogVisible = false
+            let coordinates = CLLocationCoordinate2D(latitude: coord.latitude ?? 0, longitude: coord.longitude ?? 0)
+            
+            let annotation = PlaceAnnotation(coordinate: coordinates, id: id)
+            
+            self.currentAnnotations = [annotation]
+            
+            let region = self.obtainRegionForAnnotationsArr(self.currentAnnotations)
+            
+            self.mapView.setRegion(region, animated: true)
+            
+            self.mapView.addAnnotations(self.currentAnnotations)
         }
     }
     
@@ -182,12 +260,80 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
 
-        setPinUsingMKPointAnnotation(location: locValue)
+//        setPinUsingMKPointAnnotation(location: locValue)
+    }
+    
+    private func obtainRegionForAnnotationsArr(_ arr: [MKAnnotation]) -> MKCoordinateRegion {
+     
+         var minLat: Double = 90;
+         var minLon: Double = 180;
+         var maxLat: Double = -90;
+         var maxLon: Double = -180;
+         
+         for ann in arr {
+             minLat = fmin(minLat, ann.coordinate.latitude)
+             minLon = fmin(minLon, ann.coordinate.longitude)
+             maxLat = fmax(maxLat, ann.coordinate.latitude)
+             maxLon = fmax(maxLon, ann.coordinate.longitude)
+         }
+         
+         let midLat =  (minLat + maxLat)/2;
+         let midLong = (minLon + maxLon)/2;
+         
+         let deltaLat = fabs(maxLat - minLat);
+         let deltaLong = fabs(maxLon - minLon);
+         
+         let span = MKCoordinateSpan.init(latitudeDelta: deltaLat, longitudeDelta: deltaLong)
+         let region = MKCoordinateRegion.init(center: CLLocationCoordinate2DMake(midLat, midLong), span: span)
+     
+         return region
+     }
+    
+    private func goToDetails(entityId: String, completion: ((TelenavEntity) -> Void)? = nil) {
+        fakeDetailsService.getDetails(id: entityId) { (telenavEntities, err) in
+
+            guard let detail = telenavEntities?.first else {
+                return
+            }
+
+            self.detailsView.fillEntity(detail)
+            self.toggleDetailView(visible: true)
+            
+            self.catalogVisible = false
+            
+            completion?(detail)
+        }
     }
 }
 
 extension MapViewController: UITextFieldDelegate {
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        guard let searchQuery = textField.text else { return false }
+        
+        fakeSearchService.getSearchResult(query: searchQuery) { (telenavSearch, err) in
+            
+            self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
+            
+            for res in telenavSearch?.results ?? [] {
+                
+                if self.searchContent.contains(res) == false {
+                    self.searchContent.append(res)
+                }
+            }
+            
+            self.searchResultsVC.fillSearchResults(self.searchContent)
+            self.searchVisible = true
+            self.catalogVisible = false
+            
+            self.addAnnotations(from: self.searchContent)
+        }
+        
+        textField.resignFirstResponder()
+        return true
+    }
+
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let currentText = (textField.text ?? "") as NSString
@@ -213,6 +359,27 @@ extension MapViewController: UITextFieldDelegate {
         return true
     }
     
+    private func addAnnotations(from searchResults: [TelenavSearchResult]) {
+        
+        let annotations = searchResults.map { (res) -> PlaceAnnotation in
+            let annotation = PlaceAnnotation(coordinate: CLLocationCoordinate2D(latitude: res.place?.address?.geoCoordinates?.latitude ?? 0, longitude: res.place?.address?.geoCoordinates?.longitude ?? 0), id: res.id!)
+            annotation.title = res.place?.name
+    
+            return annotation
+        }
+        
+        self.currentAnnotations = annotations
+        
+        let region = obtainRegionForAnnotationsArr(annotations)
+        
+        mapView.setRegion(region, animated: true)
+        
+        let padding = UIEdgeInsets.init(top: 100, left: 50, bottom: 50, right: 200)
+        mapView.setVisibleMapRect(region.mapRect, edgePadding: padding, animated: true)
+        
+        mapView.addAnnotations(annotations)
+    }
+    
     private func getSuggestions(text: String, comletion: @escaping ([TelenavSuggestionResult]) -> Void) {
         
         fakeSuggestionsService.getSuggestions { (suggestions, err) in
@@ -224,6 +391,52 @@ extension MapViewController: UITextFieldDelegate {
             }
             
             comletion(suggestions)
+        }
+    }
+}
+
+extension MapViewController: SearchResultViewControllerDelegate {
+    
+    func didSelectResultItem(id: String) {
+        goToDetails(entityId: id)
+    }
+
+    func goBack() {
+        searchVisible = false
+        catalogVisible = true
+    }
+
+}
+
+extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        if view.annotation is PlaceAnnotation {
+            let placeAnn = view.annotation as! PlaceAnnotation
+            
+            goToDetails(entityId: placeAnn.placeId)
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+    }
+}
+
+extension MKCoordinateRegion {
+    
+    var mapRect: MKMapRect {
+        get{
+            let a = MKMapPoint.init(CLLocationCoordinate2DMake(
+                self.center.latitude + self.span.latitudeDelta / 2,
+                self.center.longitude - self.span.longitudeDelta / 2))
+            
+            let b = MKMapPoint.init(CLLocationCoordinate2DMake(
+                self.center.latitude - self.span.latitudeDelta / 2,
+                self.center.longitude + self.span.longitudeDelta / 2))
+            
+            return MKMapRect.init(x: min(a.x,b.x), y: min(a.y,b.y), width: abs(a.x-b.x), height: abs(a.y-b.y))
         }
     }
 }

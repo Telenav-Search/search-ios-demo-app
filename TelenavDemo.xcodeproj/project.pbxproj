@@ -33,6 +33,12 @@
 		06CC38AC255933AF00345A0E /* ObjcExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CC38AB255933AF00345A0E /* ObjcExample.m */; };
 		06CC38AD255933AF00345A0E /* ObjcExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CC38AB255933AF00345A0E /* ObjcExample.m */; };
 		76F9B02BC396D2907843C7D6 /* Pods_TelenavDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */; };
+		C509FC35255EADB300C1EE56 /* FakeSearchGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC34255EADB300C1EE56 /* FakeSearchGenerator.swift */; };
+		C509FC36255EADB300C1EE56 /* FakeSearchGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC34255EADB300C1EE56 /* FakeSearchGenerator.swift */; };
+		C509FC39255EADE600C1EE56 /* FakeSearchResults.json in Resources */ = {isa = PBXBuildFile; fileRef = C509FC38255EADE600C1EE56 /* FakeSearchResults.json */; };
+		C509FC3A255EADE600C1EE56 /* FakeSearchResults.json in Resources */ = {isa = PBXBuildFile; fileRef = C509FC38255EADE600C1EE56 /* FakeSearchResults.json */; };
+		C509FC3C255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */; };
+		C509FC3D255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */; };
 		C5432C5E255D3F4D008D8088 /* FakeCategoriesGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5432C5D255D3F4D008D8088 /* FakeCategoriesGenerator.swift */; };
 		C5432C5F255D3F4D008D8088 /* FakeCategoriesGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5432C5D255D3F4D008D8088 /* FakeCategoriesGenerator.swift */; };
 		C5432C62255D4127008D8088 /* FakeCategories.json in Resources */ = {isa = PBXBuildFile; fileRef = C5432C61255D4127008D8088 /* FakeCategories.json */; };
@@ -143,6 +149,9 @@
 		082EF80066CCD2C5121F6427 /* Pods-TelenavDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.release.xcconfig"; sourceTree = "<group>"; };
 		4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelenavDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8295D5FDA6BB1F6BAD5A43E6 /* Pods-TelenavDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		C509FC34255EADB300C1EE56 /* FakeSearchGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeSearchGenerator.swift; sourceTree = "<group>"; };
+		C509FC38255EADE600C1EE56 /* FakeSearchResults.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FakeSearchResults.json; sourceTree = "<group>"; };
+		C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		C5432C5D255D3F4D008D8088 /* FakeCategoriesGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeCategoriesGenerator.swift; sourceTree = "<group>"; };
 		C5432C61255D4127008D8088 /* FakeCategories.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FakeCategories.json; sourceTree = "<group>"; };
 		C5432C7F255D540B008D8088 /* TelenavCategoryDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelenavCategoryDisplayModel.swift; sourceTree = "<group>"; };
@@ -329,9 +338,11 @@
 				C5432C5D255D3F4D008D8088 /* FakeCategoriesGenerator.swift */,
 				C5432CBF255D7C87008D8088 /* FakeSuggestionsGenerator.swift */,
 				C54C0550255D942D0002CE83 /* FakeDetailsGenerator.swift */,
+				C509FC34255EADB300C1EE56 /* FakeSearchGenerator.swift */,
 				C5432C61255D4127008D8088 /* FakeCategories.json */,
 				C5432CBC255D7C24008D8088 /* FakeSuggestions.json */,
 				C54C054C255D8FE10002CE83 /* FakeDetails.json */,
+				C509FC38255EADE600C1EE56 /* FakeSearchResults.json */,
 			);
 			path = FakeDataServices;
 			sourceTree = "<group>";
@@ -343,6 +354,7 @@
 				C54C055A255D9CE90002CE83 /* DetailsView.xib */,
 				C54C055D255DA1D30002CE83 /* DetailViewCell.swift */,
 				C54C055E255DA1D30002CE83 /* DetailViewCell.xib */,
+				C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -462,6 +474,7 @@
 				C5432CBE255D7C24008D8088 /* FakeSuggestions.json in Resources */,
 				0602995D254AD18A003D760A /* Assets.xcassets in Resources */,
 				0602995E254AD18A003D760A /* Main.storyboard in Resources */,
+				C509FC3A255EADE600C1EE56 /* FakeSearchResults.json in Resources */,
 				C5432C63255D4127008D8088 /* FakeCategories.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,6 +490,7 @@
 				C5432CBD255D7C24008D8088 /* FakeSuggestions.json in Resources */,
 				06751B0B253D8D0A001F6B11 /* Assets.xcassets in Resources */,
 				06751B09253D8D09001F6B11 /* Main.storyboard in Resources */,
+				C509FC39255EADE600C1EE56 /* FakeSearchResults.json in Resources */,
 				C5432C62255D4127008D8088 /* FakeCategories.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -514,6 +528,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C54C0575255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */,
+				C509FC36255EADB300C1EE56 /* FakeSearchGenerator.swift in Sources */,
 				C54C0579255E9C150002CE83 /* SearchResultViewController.swift in Sources */,
 				C5432CB7255D77D2008D8088 /* SuggestionsDisplayManager.swift in Sources */,
 				C5432CB3255D7730008D8088 /* SuggesstionCell.swift in Sources */,
@@ -528,6 +543,7 @@
 				06029954254AD18A003D760A /* MapViewController.swift in Sources */,
 				06029955254AD18A003D760A /* AppDelegate.swift in Sources */,
 				C54C0572255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
+				C509FC3D255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */,
 				C54C0559255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC9255D7DA7008D8088 /* Throttler.swift in Sources */,
 				C54C0560255DA1D30002CE83 /* DetailViewCell.swift in Sources */,
@@ -543,6 +559,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C54C0574255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */,
+				C509FC35255EADB300C1EE56 /* FakeSearchGenerator.swift in Sources */,
 				C54C0578255E9C150002CE83 /* SearchResultViewController.swift in Sources */,
 				C5432CB6255D77D2008D8088 /* SuggestionsDisplayManager.swift in Sources */,
 				C5432CB2255D7730008D8088 /* SuggesstionCell.swift in Sources */,
@@ -557,6 +574,7 @@
 				06751B06253D8D09001F6B11 /* MapViewController.swift in Sources */,
 				06751B02253D8D09001F6B11 /* AppDelegate.swift in Sources */,
 				C54C0571255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
+				C509FC3C255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */,
 				C54C0558255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC8255D7DA7008D8088 /* Throttler.swift in Sources */,
 				C54C055F255DA1D30002CE83 /* DetailViewCell.swift in Sources */,
