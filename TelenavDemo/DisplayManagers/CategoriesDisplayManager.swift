@@ -17,6 +17,8 @@ class CategoriesDisplayManager: NSObject {
     
     weak var delegate: CategoriesDisplayManagerDelegate?
     
+    var idxPath = [IndexPath]()
+    
     func reloadTable() {
                 
         if (tableView.delegate is CategoriesDisplayManager) == false {
@@ -89,28 +91,13 @@ extension CategoriesDisplayManager: UITableViewDelegate {
         
         if category.isExpanded == true {
             
-            let indexToCollaps = idxOfSelectedCat + 1
-            
-            var idxPathsToRemove = [IndexPath]()
-            
-            let subcatsToRemove = category.category.childNodes ?? []
-            
-            let mappedSubcats = subcatsToRemove.map { (cat) -> TelenavCategoryDisplayModel in
-                
-                return TelenavCategoryDisplayModel(category: cat, catLevel: category.catLevel + 1)
+            let idxPathsToRemove = findNodesForCollapsing(for: category)
+        
+            guard let firstIdx = idxPathsToRemove.first?.row, let lastIdx =  idxPathsToRemove.last?.row else {
+                return
             }
             
-            for subcat in mappedSubcats {
-                
-                for i in indexToCollaps...(idxOfSelectedCat + subcats.count) {
-                    if categories[i].category.id == subcat.category.id {
-                     
-                        idxPathsToRemove.append(IndexPath(row: i, section: 0))
-                    }
-                }
-            }
-            
-            categories.removeSubrange(idxPathsToRemove.first!.row...idxPathsToRemove.last!.row)
+            categories.removeSubrange(firstIdx...lastIdx)
             
             tableView.deleteRows(at: idxPathsToRemove, with: .fade)
             
@@ -134,8 +121,41 @@ extension CategoriesDisplayManager: UITableViewDelegate {
             tableView.insertRows(at: idxPathsToInsert, with: .fade)
         }
     
-        
         category.isExpanded.toggle()
         tableView.reloadRows(at: [IndexPath(row: idxOfSelectedCat, section: 0)], with: .fade)
+    }
+
+    func findNodesForCollapsing(for cat: TelenavCategoryDisplayModel) -> [IndexPath] {
+        
+        let selectedCategoryLevel = cat.catLevel
+        var idxPaths = [IndexPath]()
+        
+        guard let selectedCategoryIdx = categories.firstIndex(where: { (categ) -> Bool in
+            categ.category.id == cat.category.id
+        }) else {
+            return []
+        }
+        
+        for idx in (selectedCategoryIdx...self.categories.count - 1) {
+            
+            let category = categories[idx]
+            
+            if category.catLevel == selectedCategoryLevel && category.category.id != cat.category.id {
+                break
+            }
+            
+            if (category.isExpanded && category.catLevel >= selectedCategoryLevel) {
+                
+                let indexPath = IndexPath(row: idx + 1, section: 0)
+                idxPaths.append(indexPath)
+            }
+            
+            if (category.category.childNodes == nil && category.catLevel > selectedCategoryLevel) {
+                let indexPath = IndexPath(row: idx, section: 0)
+                idxPaths.append(indexPath)
+            }
+        }
+        
+        return idxPaths
     }
 }
