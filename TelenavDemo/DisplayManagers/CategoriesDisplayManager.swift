@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol CategoriesDisplayManagerDelegate: class {
+    func goToChildCategory(id: String)
+}
+
 class CategoriesDisplayManager: NSObject {
 
     var categories: [TelenavCategoryDisplayModel] = []
+    
+    weak var delegate: CategoriesDisplayManagerDelegate?
     
     func reloadTable() {
                 
@@ -53,7 +59,16 @@ extension CategoriesDisplayManager: UITableViewDelegate {
         
         let category = categories[indexPath.row]
         
-        insertSubcategoriesOfCategory(category)
+        if let children = category.category.childNodes, children.count > 0 {
+            insertSubcategoriesOfCategory(category)
+        } else {
+            
+            guard let id = category.category.id else {
+                return
+            }
+            
+            delegate?.goToChildCategory(id: id)
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -22,14 +22,14 @@ class StaticCategoriesDisplayManager: NSObject {
     
     func reloadTable() {
                 
-        if (tableView.delegate is StaticCategoriesDisplayManager) == false {
-            tableView.delegate = self
+        if (tableView?.delegate is StaticCategoriesDisplayManager) == false {
+            tableView?.delegate = self
         }
         
-        if (tableView.dataSource is StaticCategoriesDisplayManager) == false {
-            tableView.dataSource = nil
-            tableView.dataSource = self
-            tableView.reloadData()
+        if (tableView?.dataSource is StaticCategoriesDisplayManager) == false {
+            tableView?.dataSource = nil
+            tableView?.dataSource = self
+            tableView?.reloadData()
         }
     }
 }
@@ -56,6 +56,8 @@ extension StaticCategoriesDisplayManager: UITableViewDataSource {
 extension  StaticCategoriesDisplayManager: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
         
         let catItem = categories[indexPath.row]
 

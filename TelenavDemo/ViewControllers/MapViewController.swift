@@ -11,14 +11,16 @@ import Alamofire
 import MapKit
 
 class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLocationManagerDelegate {
-
+    
     @IBOutlet weak var searchTextField: UITextField! {
         didSet {
             searchTextField.delegate = self
         }
     }
     
-    @IBOutlet weak var catalogButton: UIButton!
+    
+    @IBOutlet weak var backButton: UIButton!
+    
     @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
@@ -72,6 +74,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private var searchPaginationContext: String?
     private var searchContent = [TelenavSearchResult]()
     private var currentAnnotations = [MKAnnotation]()
+    private var staticCategories = [TelenavStaticCategory]()
     
     lazy var catalogVC: CatalogViewController = {
         let vc = storyboard!.instantiateViewController(withIdentifier: "CatalogViewController") as! CatalogViewController
@@ -104,6 +107,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             guard let categories = staticCats else {
                 return
             }
+            
+            self.staticCategories = categories
             
             self.catalogVC.fillStaticCategories(categories)
         }
@@ -142,8 +147,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     func addSearchAsChild() {
         addChild(searchResultsVC)
-        mapContainerView.addSubview(searchResultsVC.view)
-        mapContainerView.bringSubviewToFront(searchResultsVC.view)
+        view.addSubview(searchResultsVC.view)
+        view.bringSubviewToFront(searchResultsVC.view)
         
         searchResultsVC.view.translatesAutoresizingMaskIntoConstraints = false
         setupSearchConstraints()
@@ -153,7 +158,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func setupSearchConstraints() {
         
-        searchResultsVC.view.topAnchor.constraint(equalTo: mapContainerView.topAnchor).isActive = true
+        searchResultsVC.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             
         heightAnchor = searchResultsVC.view.heightAnchor.constraint(equalToConstant: setupSearchHeight())
         heightAnchor.isActive = true
@@ -170,7 +175,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
 
     private func toggleDetailView(visible: Bool) {
-        detailsViewBottomConstraint?.constant = visible ? 0 : -(detailsView?.bounds.height ?? 190)
+        detailsViewBottomConstraint?.constant = visible ? 0 : -(detailsView?.bounds.height ?? 220)
         
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -179,17 +184,47 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     // MARK: - Actions
     
-    @IBAction func catalogAction(_ sender: Any) {
-        catalogVisible = true
+    @IBAction func didTapOnMap(_ sender: Any) {
+        
+        toggleDetailView(visible: false)
+        searchTextField.resignFirstResponder()
     }
     
     
-    @IBAction func didTapOnMap(_ sender: Any) {
+    @IBAction func didClickBack(_ sender: Any) {
         
+        catalogVisible = true
+        backButton.isHidden = true
         toggleDetailView(visible: false)
     }
     
     // MARK: - Catalog Delegate
+    
+    func goToChildCategory(id: String) {
+        searchTextField.resignFirstResponder()
+        
+        mapView.removeAnnotations(self.currentAnnotations)
+        
+        self.backButton.isHidden = false
+        
+        goToDetails(entityId: id) { (entity) in
+            
+            guard let coord = entity.place?.address?.geoCoordinates, let id = entity.id else {
+                return
+            }
+            
+            let coordinates = CLLocationCoordinate2D(latitude: coord.latitude ?? 0, longitude: coord.longitude ?? 0)
+            
+            let annotation = PlaceAnnotation(coordinate: coordinates, id: id)
+            
+            self.currentAnnotations = [annotation]
+            
+            let region = self.mapView.regionThatFits(MKCoordinateRegion(center: coordinates, latitudinalMeters: 400, longitudinalMeters: 400))
+            
+            self.mapView.setRegion(region, animated: true)
+            self.mapView.addAnnotations(self.currentAnnotations)
+        }
+    }
     
     func didSelectSuggestion(id: String) {
         
@@ -209,27 +244,28 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             
             self.currentAnnotations = [annotation]
             
-            let region = self.obtainRegionForAnnotationsArr(self.currentAnnotations)
+            let region = self.mapView.regionThatFits(MKCoordinateRegion(center: coordinates, latitudinalMeters: 200, longitudinalMeters: 200))
             
             self.mapView.setRegion(region, animated: true)
-            
             self.mapView.addAnnotations(self.currentAnnotations)
+            self.backButton.isHidden = false
         }
     }
     
-    func didSelectNode() {
-        
-    }
-    
     func didReturnToMap() {
-        catalogVisible = false
+        catalogVisible = true
+        backButton.isHidden = true
+        catalogVC.fillStaticCategories(self.staticCategories)
     }
     
     func didSelectCategoryItem(_ item: StaticCategoryCellItem) {
         
         switch item.cellType {
         case .categoryItem:
-            break
+            
+            startSearch(searchQuery: (item as! StaticCategoryDisplayModel).staticCategory.name ?? "")
+            self.backButton.isHidden = false
+            
         case .moreItem:
             fakeCategoriesService.getAllCategories { (categories, err) in
 
@@ -304,13 +340,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             completion?(detail)
         }
     }
-}
-
-extension MapViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        guard let searchQuery = textField.text else { return false }
+    private func startSearch(searchQuery: String) {
         
         fakeSearchService.getSearchResult(query: searchQuery) { (telenavSearch, err) in
             
@@ -326,9 +357,21 @@ extension MapViewController: UITextFieldDelegate {
             self.searchResultsVC.fillSearchResults(self.searchContent)
             self.searchVisible = true
             self.catalogVisible = false
-            
+                        
             self.addAnnotations(from: self.searchContent)
         }
+    }
+}
+
+extension MapViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        guard let searchQuery = textField.text else {
+            return false
+        }
+        
+        startSearch(searchQuery: searchQuery)
         
         textField.resignFirstResponder()
         return true
@@ -371,7 +414,7 @@ extension MapViewController: UITextFieldDelegate {
         self.currentAnnotations = annotations
         
         let region = obtainRegionForAnnotationsArr(annotations)
-        
+            
         mapView.setRegion(region, animated: true)
         
         let padding = UIEdgeInsets.init(top: 100, left: 50, bottom: 50, right: 200)
@@ -398,14 +441,15 @@ extension MapViewController: UITextFieldDelegate {
 extension MapViewController: SearchResultViewControllerDelegate {
     
     func didSelectResultItem(id: String) {
+        backButton.isHidden = false
         goToDetails(entityId: id)
     }
 
     func goBack() {
         searchVisible = false
         catalogVisible = true
+        backButton.isHidden = true
     }
-
 }
 
 extension MapViewController: MKMapViewDelegate {

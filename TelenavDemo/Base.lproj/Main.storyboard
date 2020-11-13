@@ -52,12 +52,30 @@
                                     <constraint firstAttribute="height" constant="35" id="zDo-dy-WwQ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
                             </textField>
+                            <button hidden="YES" opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hi6-Gd-9ul">
+                                <rect key="frame" x="0.0" y="44" width="414" height="35"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" red="0.078431372550000003" green="0.1176470588" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="titleEdgeInsets" minX="25" minY="0.0" maxX="20" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="20" maxY="0.0"/>
+                                <state key="normal" title="Back " image="arrow.left" catalog="system">
+                                    <color key="titleColor" red="0.078431372550000003" green="0.1176470588" blue="0.12941176469999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didClickBack:" destination="Ooi-cQ-16u" eventType="touchUpInside" id="Gor-Yd-Lhl"/>
+                                    <action selector="didClickBack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vAb-59-aTY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="hi6-Gd-9ul" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="BCR-SD-gZP"/>
+                            <constraint firstItem="hi6-Gd-9ul" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JgZ-CG-QxE"/>
+                            <constraint firstItem="hi6-Gd-9ul" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="KIy-5k-6w4"/>
+                            <constraint firstItem="WIn-Qv-FkV" firstAttribute="top" secondItem="hi6-Gd-9ul" secondAttribute="bottom" id="KKO-EL-Ks1"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rqq-SL-795" secondAttribute="trailing" constant="16" id="PQK-hI-BCV"/>
                             <constraint firstItem="rqq-SL-795" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Pyw-ED-brm"/>
                             <constraint firstItem="WIn-Qv-FkV" firstAttribute="top" secondItem="rqq-SL-795" secondAttribute="bottom" id="U1m-8d-DJh"/>
@@ -68,6 +86,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="hi6-Gd-9ul" id="oI0-bU-lkX"/>
                         <outlet property="detailsView" destination="pzA-GP-v7g" id="IVp-hp-SOq"/>
                         <outlet property="detailsViewBottomConstraint" destination="RcD-Qy-qc4" id="zNQ-07-nly"/>
                         <outlet property="mapContainerView" destination="WIn-Qv-FkV" id="5hk-hK-Yi4"/>
@@ -350,7 +369,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4cp-hD-BMp">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4cp-hD-BMp">
                                 <rect key="frame" x="0.0" y="44" width="414" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hNR-KG-8AW">

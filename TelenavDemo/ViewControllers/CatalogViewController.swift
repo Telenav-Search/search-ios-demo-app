@@ -8,8 +8,7 @@
 import UIKit
 import TelenavSDK
 
-protocol CatalogViewControllerDelegate: SuggestionsDisplayManagerDelegate, StaticCategoriesDisplayManagerDelegate {
-    func didSelectNode()
+protocol CatalogViewControllerDelegate: SuggestionsDisplayManagerDelegate, StaticCategoriesDisplayManagerDelegate, CategoriesDisplayManagerDelegate {
     func didReturnToMap()
 }
 
@@ -17,7 +16,11 @@ class CatalogViewController: UIViewController  {
 
     var delegate: CatalogViewControllerDelegate?
     
-    @IBOutlet var categoriesDisplayManager: CategoriesDisplayManager!
+    @IBOutlet var categoriesDisplayManager: CategoriesDisplayManager! {
+        didSet {
+            categoriesDisplayManager.delegate = self
+        }
+    }
     
     @IBOutlet var suggestionsDisplayManager: SuggestionsDisplayManager! {
         didSet {
@@ -53,6 +56,7 @@ class CatalogViewController: UIViewController  {
         catItems.append(StaticCategoryMoreItem())
         
         self.staticCategoriesDisplayManager.categories = catItems
+        self.staticCategoriesDisplayManager.reloadTable()
     }
     
     func fillSuggestions(_ suggestions: [TelenavSuggestionResult]) {
@@ -75,7 +79,13 @@ extension CatalogViewController: SuggestionsDisplayManagerDelegate {
 extension CatalogViewController: StaticCategoriesDisplayManagerDelegate {
     
     func didSelectCategoryItem(_ item: StaticCategoryCellItem) {
-        
         self.delegate?.didSelectCategoryItem(item)
+    }
+}
+
+extension CatalogViewController: CategoriesDisplayManagerDelegate {
+    
+    func goToChildCategory(id: String) {
+        delegate?.goToChildCategory(id: id)
     }
 }
