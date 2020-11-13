@@ -13,6 +13,23 @@ class TelenavCategoryDisplayModel {
     var category: TelenavCategory
     var catLevel: Int = 0
     var isExpanded: Bool = false
+    var imgName: String {
+        
+        let image: String
+        
+        if let childNodes = category.childNodes, childNodes.count > 0 {
+            
+            if isExpanded {
+                image = "ArrowDown"
+            } else {
+                image = "ArrowRight"
+            }
+        } else {
+            image = "magnifyingglass"
+        }
+        
+        return image
+    }
     
     init(category: TelenavCategory, catLevel: Int) {
         self.category = category

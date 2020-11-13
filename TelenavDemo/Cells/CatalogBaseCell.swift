@@ -22,7 +22,13 @@ class CatalogBaseCell: UITableViewCell {
 
     func fillCategory(_ category: TelenavCategoryDisplayModel) {
         mainLabel.text = category.category.name
-//        mainImageView.image =
+        
+        if let img = UIImage(named: category.imgName) {
+            mainImageView.image = img
+        } else if let img = UIImage(systemName: category.imgName) {
+            mainImageView.image = img
+        }
+        
         if category.catLevel > 0 {
             mainImageLeadingConstraint.constant = CGFloat(15 * category.catLevel)
         } else {

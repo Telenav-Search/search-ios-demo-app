@@ -121,5 +121,6 @@ extension CategoriesDisplayManager: UITableViewDelegate {
     
         
         category.isExpanded.toggle()
+        tableView.reloadRows(at: [IndexPath(row: idxOfSelectedCat, section: 0)], with: .fade)
     }
 }
