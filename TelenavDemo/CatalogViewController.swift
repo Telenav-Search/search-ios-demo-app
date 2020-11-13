@@ -8,7 +8,7 @@
 import UIKit
 import TelenavSDK
 
-protocol CatalogViewControllerDelegate: SuggestionsDisplayManagerDelegate {
+protocol CatalogViewControllerDelegate: SuggestionsDisplayManagerDelegate, StaticCategoriesDisplayManagerDelegate {
     func didSelectNode()
     func didReturnToMap()
 }
@@ -25,13 +25,34 @@ class CatalogViewController: UIViewController  {
         }
     }
     
+    @IBOutlet var staticCategoriesDisplayManager: StaticCategoriesDisplayManager! {
+        didSet {
+            staticCategoriesDisplayManager.delegate = self
+        }
+    }
+     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.categoriesDisplayManager.reloadTable()
+        self.staticCategoriesDisplayManager.reloadTable()
     }
 
-    func fillCategories(_ categories: [TelenavCategoryDisplayModel]) {
+    func fillAllCategories(_ categories: [TelenavCategoryDisplayModel]) {
         self.categoriesDisplayManager.categories = categories
+        self.categoriesDisplayManager.reloadTable()
+    }
+    
+    func fillStaticCategories(_ categories: [TelenavStaticCategory]) {
+        
+        var catItems = [StaticCategoryCellItem]()
+        
+        for category in categories {
+            let item = StaticCategoryDisplayModel(staticCategory: category)
+            catItems.append(item)
+        }
+        
+        catItems.append(StaticCategoryMoreItem())
+        
+        self.staticCategoriesDisplayManager.categories = catItems
     }
     
     func fillSuggestions(_ suggestions: [TelenavSuggestionResult]) {
@@ -48,5 +69,13 @@ extension CatalogViewController: SuggestionsDisplayManagerDelegate {
     
     func didSelectSuggestion(id: String) {
         delegate?.didSelectSuggestion(id: id)
+    }
+}
+
+extension CatalogViewController: StaticCategoriesDisplayManagerDelegate {
+    
+    func didSelectCategoryItem(_ item: StaticCategoryCellItem) {
+        
+        self.delegate?.didSelectCategoryItem(item)
     }
 }

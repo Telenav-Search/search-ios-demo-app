@@ -65,6 +65,12 @@
 		C54C0562255DA1D30002CE83 /* DetailViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C54C055E255DA1D30002CE83 /* DetailViewCell.xib */; };
 		C54C0564255DA26E0002CE83 /* DetailViewDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C0563255DA26E0002CE83 /* DetailViewDisplayModel.swift */; };
 		C54C0565255DA26E0002CE83 /* DetailViewDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C0563255DA26E0002CE83 /* DetailViewDisplayModel.swift */; };
+		C54C056D255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C056C255E93330002CE83 /* StaticCategoriesDisplayManager.swift */; };
+		C54C056E255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C056C255E93330002CE83 /* StaticCategoriesDisplayManager.swift */; };
+		C54C0571255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C0570255E93EC0002CE83 /* StaticCatalogCell.swift */; };
+		C54C0572255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C0570255E93EC0002CE83 /* StaticCatalogCell.swift */; };
+		C54C0574255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C0573255E967A0002CE83 /* StaticCategoryDisplayModels.swift */; };
+		C54C0575255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C0573255E967A0002CE83 /* StaticCategoryDisplayModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +155,9 @@
 		C54C055D255DA1D30002CE83 /* DetailViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewCell.swift; sourceTree = "<group>"; };
 		C54C055E255DA1D30002CE83 /* DetailViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewCell.xib; sourceTree = "<group>"; };
 		C54C0563255DA26E0002CE83 /* DetailViewDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewDisplayModel.swift; sourceTree = "<group>"; };
+		C54C056C255E93330002CE83 /* StaticCategoriesDisplayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticCategoriesDisplayManager.swift; sourceTree = "<group>"; };
+		C54C0570255E93EC0002CE83 /* StaticCatalogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticCatalogCell.swift; sourceTree = "<group>"; };
+		C54C0573255E967A0002CE83 /* StaticCategoryDisplayModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticCategoryDisplayModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,6 +292,7 @@
 			children = (
 				C5432C7F255D540B008D8088 /* TelenavCategoryDisplayModel.swift */,
 				C54C0563255DA26E0002CE83 /* DetailViewDisplayModel.swift */,
+				C54C0573255E967A0002CE83 /* StaticCategoryDisplayModels.swift */,
 			);
 			path = DisplayModels;
 			sourceTree = "<group>";
@@ -292,6 +302,7 @@
 			children = (
 				06608B06254C549400DF38C3 /* CatalogBaseCell.swift */,
 				C5432CB1255D7730008D8088 /* SuggesstionCell.swift */,
+				C54C0570255E93EC0002CE83 /* StaticCatalogCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -301,6 +312,7 @@
 			children = (
 				C5432CB5255D77D2008D8088 /* SuggestionsDisplayManager.swift */,
 				C5432CB8255D77E1008D8088 /* CategoriesDisplayManager.swift */,
+				C54C056C255E93330002CE83 /* StaticCategoriesDisplayManager.swift */,
 			);
 			path = DisplayManagers;
 			sourceTree = "<group>";
@@ -485,10 +497,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C54C0575255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */,
 				C5432CB7255D77D2008D8088 /* SuggestionsDisplayManager.swift in Sources */,
 				C5432CB3255D7730008D8088 /* SuggesstionCell.swift in Sources */,
 				C5432CBA255D77E1008D8088 /* CategoriesDisplayManager.swift in Sources */,
 				C54C0552255D942D0002CE83 /* FakeDetailsGenerator.swift in Sources */,
+				C54C056E255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
 				C5432C81255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
 				06608B02254C4AF800DF38C3 /* CatalogViewController.swift in Sources */,
 				C5432C5F255D3F4D008D8088 /* FakeCategoriesGenerator.swift in Sources */,
@@ -496,6 +510,7 @@
 				06608B08254C549400DF38C3 /* CatalogBaseCell.swift in Sources */,
 				06029954254AD18A003D760A /* MapViewController.swift in Sources */,
 				06029955254AD18A003D760A /* AppDelegate.swift in Sources */,
+				C54C0572255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
 				C54C0559255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC9255D7DA7008D8088 /* Throttler.swift in Sources */,
 				C54C0560255DA1D30002CE83 /* DetailViewCell.swift in Sources */,
@@ -509,10 +524,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C54C0574255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */,
 				C5432CB6255D77D2008D8088 /* SuggestionsDisplayManager.swift in Sources */,
 				C5432CB2255D7730008D8088 /* SuggesstionCell.swift in Sources */,
 				C5432CB9255D77E1008D8088 /* CategoriesDisplayManager.swift in Sources */,
 				C54C0551255D942D0002CE83 /* FakeDetailsGenerator.swift in Sources */,
+				C54C056D255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
 				C5432C80255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
 				06608B01254C4AF800DF38C3 /* CatalogViewController.swift in Sources */,
 				C5432C5E255D3F4D008D8088 /* FakeCategoriesGenerator.swift in Sources */,
@@ -520,6 +537,7 @@
 				06608B07254C549400DF38C3 /* CatalogBaseCell.swift in Sources */,
 				06751B06253D8D09001F6B11 /* MapViewController.swift in Sources */,
 				06751B02253D8D09001F6B11 /* AppDelegate.swift in Sources */,
+				C54C0571255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
 				C54C0558255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC8255D7DA7008D8088 /* Throttler.swift in Sources */,
 				C54C055F255DA1D30002CE83 /* DetailViewCell.swift in Sources */,

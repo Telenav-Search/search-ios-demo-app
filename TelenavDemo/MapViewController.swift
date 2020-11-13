@@ -67,15 +67,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         suggestionsService.getSuggestions(location: TelenavGeoPoint(lat: 45.5, lon: 25), query: "food", includeEntity: false) { (result, err) in
             print(result?.results)
         }
-        
-        fakeCategoriesService.getCategories { (categories, err) in
+    
+        fakeCategoriesService.getStaticCategories { (staticCats, err) in
             
-            guard let categories = categories else {
+            guard let categories = staticCats else {
                 return
             }
             
-            self.catalogVC.fillCategories(categories)
-            self.catalogVisible = true
+            self.catalogVC.fillStaticCategories(categories)
         }
         
         toggleDetailView(visible: false)
@@ -146,6 +145,24 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     func didReturnToMap() {
         catalogVisible = false
+    }
+    
+    func didSelectCategoryItem(_ item: StaticCategoryCellItem) {
+        
+        switch item.cellType {
+        case .categoryItem:
+            break
+        case .moreItem:
+            fakeCategoriesService.getAllCategories { (categories, err) in
+
+                guard let categories = categories else {
+                    return
+                }
+
+                self.catalogVC.fillAllCategories(categories)
+                self.catalogVisible = true
+            }
+        }
     }
     
     // MARK: - Map
