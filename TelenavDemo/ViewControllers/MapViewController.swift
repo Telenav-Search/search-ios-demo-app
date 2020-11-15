@@ -37,8 +37,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint!
     
-    let searchService = TelenavSearchService()
-    let suggestionsService = TelenavSuggestionsService()
     let locationManager = CLLocationManager()
     
     let fakeCategoriesService = FakeCategoriesGenerator()
@@ -94,11 +92,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         super.viewDidLoad()
         TelenavCore.setApiKey("3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f")
         
-        searchService.search(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: "food") { (result, err) in
+        TelenavCore.search(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: "food") { (result, err) in
             print(result)
         }
         
-        suggestionsService.getSuggestions(location: TelenavGeoPoint(lat: 45.5, lon: 25), query: "food", includeEntity: false) { (result, err) in
+        TelenavCore.getSuggestions(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: "food", includeEntity: false) { (result, err) in
             print(result?.results)
         }
     
