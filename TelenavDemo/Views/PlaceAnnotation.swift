@@ -13,6 +13,7 @@ class PlaceAnnotation: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var placeId: String
     var title: String?
+    var number: Int = 1
     
     init(coordinate: CLLocationCoordinate2D, id: String) {
         

@@ -49,10 +49,13 @@ class DetailsView: UIView {
             
             content = [
                 DetailViewDisplayModel(fieldName: "Name", fieldValue: entity.place?.name ?? ""),
-                DetailViewDisplayModel(fieldName: "Type", fieldValue: entity.type?.rawValue ?? ""),
                 DetailViewDisplayModel(fieldName: "Address", fieldValue: entity.place?.address?.addressLines?.joined(separator: "\n") ?? ""),
                 DetailViewDisplayModel(fieldName: "Website", fieldValue: entity.place?.websites?.joined(separator: "\n") ?? "")
             ]
+            
+            if let distance = entity.distance {
+                content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: "\(distance) km"))
+            }
             
             tableView.reloadData()
             

@@ -25,6 +25,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
             mapView.delegate = self
+            mapView.showsUserLocation = true
         }
     }
     
@@ -42,7 +43,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     let fakeCategoriesService = FakeCategoriesGenerator()
     let fakeSuggestionsService = FakeSuggestionsGenerator()
     let fakeDetailsService = FakeDetailsGenerator()
-    let fakeSearchService = FakeSearchGenerator()
     
     private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 1, qosClass: .userInitiated)
     
@@ -74,6 +74,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private var currentAnnotations = [MKAnnotation]()
     private var staticCategories = [TelenavStaticCategory]()
     
+    private var currentLocation: CLLocationCoordinate2D?
+    
     lazy var catalogVC: CatalogViewController = {
         let vc = storyboard!.instantiateViewController(withIdentifier: "CatalogViewController") as! CatalogViewController
         vc.delegate = self
@@ -90,11 +92,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        TelenavCore.setApiKey("3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f")
-        
-        TelenavCore.search(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: "food") { (result, err) in
-            print(result)
-        }
+       
+        setApiKey()
         
         TelenavCore.getSuggestions(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: "food", includeEntity: false) { (result, err) in
             print(result?.results)
@@ -167,8 +166,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func setupSearchHeight() -> CGFloat {
         
-        let heightConstraint = searchVisible ? mapContainerView.frame.height / 3 : 0
-
+        var heightConstraint: CGFloat
+        
+        if searchVisible {
+            heightConstraint = self.searchContent.count > 1 ? mapContainerView.frame.height / 3 : 180
+        } else {
+            heightConstraint = 0
+        }
+    
         return heightConstraint
     }
 
@@ -178,6 +183,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
+    }
+    
+    private func setApiKey() {
+        
+        TelenavCore.setApiKey("3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f")
     }
     
     // MARK: - Actions
@@ -282,8 +292,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     func setPinUsingMKPointAnnotation(location: CLLocationCoordinate2D){
        let annotation = MKPointAnnotation()
        annotation.coordinate = location
-       annotation.title = "Here"
-       annotation.subtitle = "Device Location"
+       annotation.title = "Device Location"
        let coordinateRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 800, longitudinalMeters: 800)
        mapView.setRegion(coordinateRegion, animated: true)
        mapView.addAnnotation(annotation)
@@ -294,7 +303,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
 
-//        setPinUsingMKPointAnnotation(location: locValue)
+        self.currentLocation = locValue
+        setPinUsingMKPointAnnotation(location: locValue)
     }
     
     private func obtainRegionForAnnotationsArr(_ arr: [MKAnnotation]) -> MKCoordinateRegion {
@@ -341,17 +351,20 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func startSearch(searchQuery: String) {
         
-        fakeSearchService.getSearchResult(query: searchQuery) { (telenavSearch, err) in
+        TelenavCore.search(location: TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0), searchQuery: searchQuery, pageContext: self.searchPaginationContext, filters: nil) { (telenavSearch, err) in
             
             self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
             
             for res in telenavSearch?.results ?? [] {
-                
-                if self.searchContent.contains(res) == false {
+        
+                if self.searchContent.contains(where: { (searchRes) -> Bool in
+                    searchRes.id == res.id
+                }) == false {
                     self.searchContent.append(res)
                 }
             }
             
+            self.heightAnchor.constant = self.setupSearchHeight()
             self.searchResultsVC.fillSearchResults(self.searchContent)
             self.searchVisible = true
             self.catalogVisible = false
@@ -402,11 +415,28 @@ extension MapViewController: UITextFieldDelegate {
     
     private func addAnnotations(from searchResults: [TelenavSearchResult]) {
         
-        let annotations = searchResults.map { (res) -> PlaceAnnotation in
+        let sortedSearch = searchResults.sorted { (s1, s2) -> Bool in
+            s1.distance ?? 0 < s2.distance ?? 0
+        }
+                
+        var annotations = [MKAnnotation]()
+        
+        for (idx,res) in sortedSearch.enumerated() {
             let annotation = PlaceAnnotation(coordinate: CLLocationCoordinate2D(latitude: res.place?.address?.geoCoordinates?.latitude ?? 0, longitude: res.place?.address?.geoCoordinates?.longitude ?? 0), id: res.id!)
             annotation.title = res.place?.name
-    
-            return annotation
+            annotation.number = idx + 1
+            
+            annotations.append(annotation)
+        }
+        
+        if let currentLocation = currentLocation {
+            
+            let myLocationAnnotation = MKPointAnnotation()
+            myLocationAnnotation.coordinate = currentLocation
+            myLocationAnnotation.title = "Here"
+            myLocationAnnotation.subtitle = "Device Location"
+            
+            annotations.append(myLocationAnnotation)
         }
         
         self.currentAnnotations = annotations
@@ -437,7 +467,7 @@ extension MapViewController: UITextFieldDelegate {
 }
 
 extension MapViewController: SearchResultViewControllerDelegate {
-    
+   
     func didSelectResultItem(id: String) {
         backButton.isHidden = false
         goToDetails(entityId: id)
@@ -453,6 +483,26 @@ extension MapViewController: SearchResultViewControllerDelegate {
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+       
+        if view.annotation is PlaceAnnotation {
+            
+            UIView.animate(withDuration: 0.3) {
+                view.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            }
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        
+        if view.annotation is PlaceAnnotation {
+
+            UIView.animate(withDuration: 0.3) {
+                view.transform = .identity
+            }
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         
         if view.annotation is PlaceAnnotation {
             let placeAnn = view.annotation as! PlaceAnnotation
@@ -461,8 +511,39 @@ extension MapViewController: MKMapViewDelegate {
         }
     }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is PlaceAnnotation else { return nil }
         
+        let customAnnotationView = self.customAnnotationView(in: mapView, for: annotation)
+        return customAnnotationView
+    }
+    
+    private func customAnnotationView(in mapView: MKMapView, for annotation: MKAnnotation) -> PlaceAnnotationView {
+        let identifier = "PlaceAnnotationView"
+
+        if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? PlaceAnnotationView {
+            annotationView.annotation = annotation
+            setNumber(for: annotation, customAnnotationView: annotationView)
+
+            return annotationView
+        } else {
+            let customAnnotationView = PlaceAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            customAnnotationView.canShowCallout = true
+            
+            let btn = UIButton(type: .detailDisclosure)
+            customAnnotationView.rightCalloutAccessoryView = btn
+            
+            setNumber(for: annotation, customAnnotationView: customAnnotationView)
+            
+            return customAnnotationView
+        }
+    }
+    
+    private func setNumber(for annotation: MKAnnotation, customAnnotationView: PlaceAnnotationView) {
+        
+        if let ann = annotation as? PlaceAnnotation {
+            customAnnotationView.number = ann.number
+        }
     }
 }
 
