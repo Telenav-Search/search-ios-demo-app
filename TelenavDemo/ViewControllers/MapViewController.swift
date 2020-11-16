@@ -292,8 +292,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     func setPinUsingMKPointAnnotation(location: CLLocationCoordinate2D){
        let annotation = MKPointAnnotation()
        annotation.coordinate = location
-       annotation.title = "Here"
-       annotation.subtitle = "Device Location"
+       annotation.title = "Device Location"
        let coordinateRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 800, longitudinalMeters: 800)
        mapView.setRegion(coordinateRegion, animated: true)
        mapView.addAnnotation(annotation)
@@ -305,7 +304,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
 
         self.currentLocation = locValue
-//        setPinUsingMKPointAnnotation(location: locValue)
+        setPinUsingMKPointAnnotation(location: locValue)
     }
     
     private func obtainRegionForAnnotationsArr(_ arr: [MKAnnotation]) -> MKCoordinateRegion {
@@ -352,7 +351,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func startSearch(searchQuery: String) {
         
-        TelenavCore.search(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: searchQuery, pageContext: self.searchPaginationContext, filters: nil) { (telenavSearch, err) in
+        TelenavCore.search(location: TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0), searchQuery: searchQuery, pageContext: self.searchPaginationContext, filters: nil) { (telenavSearch, err) in
             
             self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
             
