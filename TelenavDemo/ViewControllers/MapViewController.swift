@@ -325,14 +325,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
          let midLat =  (minLat + maxLat)/2;
          let midLong = (minLon + maxLon)/2;
          
-         var deltaLat = fabs(maxLat - minLat);
-         var deltaLong = fabs(maxLon - minLon);
+         let deltaLat = fabs(maxLat - minLat);
+         let deltaLong = fabs(maxLon - minLon);
          
-        if deltaLat == 0 && deltaLong == 0 {
-            deltaLat = 200
-            deltaLong = 200
-        }
-        
          let span = MKCoordinateSpan.init(latitudeDelta: deltaLat, longitudeDelta: deltaLong)
          let region = MKCoordinateRegion.init(center: CLLocationCoordinate2DMake(midLat, midLong), span: span)
      
