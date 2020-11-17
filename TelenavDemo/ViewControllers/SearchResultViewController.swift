@@ -11,6 +11,7 @@ import TelenavSDK
 protocol SearchResultViewControllerDelegate: class {
     func goBack()
     func didSelectResultItem(id: String)
+    func loadMoreSearchResults()
 }
 
 class SearchResultViewController: UIViewController {
@@ -23,6 +24,8 @@ class SearchResultViewController: UIViewController {
             tableView.dataSource = self
         }
     }
+    
+    var lastDisplayedIndexPath: IndexPath?
     
     private var content = [TelenavSearchResult]()
     
@@ -63,6 +66,20 @@ extension SearchResultViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         //TODO: For pagination
+        guard let lastDisplayedIndexPath = lastDisplayedIndexPath else {
+            self.lastDisplayedIndexPath = indexPath
+            return
+        }
+        
+        guard indexPath > lastDisplayedIndexPath else {
+            return
+        }
+        
+        self.lastDisplayedIndexPath = indexPath
+        
+        if indexPath.row == content.count - 1 {
+            delegate?.loadMoreSearchResults()
+        }
     }
 }
 

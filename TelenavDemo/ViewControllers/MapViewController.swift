@@ -354,26 +354,35 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func startSearch(searchQuery: String) {
         
-        TelenavCore.search(location: TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0), searchQuery: searchQuery, pageContext: self.searchPaginationContext, filters: nil) { (telenavSearch, err) in
-            
-            self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
-            
-            for res in telenavSearch?.results ?? [] {
+        let searchParams = TelenavSearchParams(searchQuery: searchQuery,
+                                               location: TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
+                                               filters: nil,
+                                               searchOptionsIntent: SearchOptionIntent.around,
+                                               showAddressLines: false)
         
-                if self.searchContent.contains(where: { (searchRes) -> Bool in
-                    searchRes.id == res.id
-                }) == false {
-                    self.searchContent.append(res)
-                }
-            }
-            
-            self.heightAnchor.constant = self.setupSearchHeight()
-            self.searchResultsVC.fillSearchResults(self.searchContent)
-            self.searchVisible = true
-            self.catalogVisible = false
-                        
-            self.addAnnotations(from: self.searchContent)
+        TelenavCore.search(searchParams: searchParams) { (telenavSearch, err) in
+            self.handleSearchResult(telenavSearch)
         }
+    }
+    
+    private func handleSearchResult(_ telenavSearch: TelenavSearch?) {
+        self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
+        
+        for res in telenavSearch?.results ?? [] {
+    
+            if self.searchContent.contains(where: { (searchRes) -> Bool in
+                searchRes.id == res.id
+            }) == false {
+                self.searchContent.append(res)
+            }
+        }
+        
+        self.heightAnchor.constant = self.setupSearchHeight()
+        self.searchResultsVC.fillSearchResults(self.searchContent)
+        self.searchVisible = true
+        self.catalogVisible = false
+                    
+        self.addAnnotations(from: self.searchContent)
     }
 }
 
@@ -470,6 +479,13 @@ extension MapViewController: UITextFieldDelegate {
 }
 
 extension MapViewController: SearchResultViewControllerDelegate {
+    
+    func loadMoreSearchResults() {
+                
+        TelenavCore.search(pageContext: self.searchPaginationContext) { (searchRes, err) in
+            self.handleSearchResult(searchRes)
+        }
+    }
    
     func didSelectResultItem(id: String) {
         backButton.isHidden = false
