@@ -24,7 +24,9 @@ class SearchResultViewController: UIViewController {
         }
     }
     
-    private var content = [TelenavSearchResult]()
+    var lastDisplayedIndexPath: IndexPath?
+    
+    private var content = [TelenavEntity]()
     
     weak var delegate: SearchResultViewControllerDelegate?
     
@@ -34,7 +36,7 @@ class SearchResultViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func fillSearchResults(_ content: [TelenavSearchResult]) {
+    func fillSearchResults(_ content: [TelenavEntity]) {
         self.content = content
         tableView.reloadData()
     }

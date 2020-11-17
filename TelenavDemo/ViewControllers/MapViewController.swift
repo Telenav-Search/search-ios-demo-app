@@ -70,7 +70,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
 
     private var searchPaginationContext: String?
-    private var searchContent = [TelenavSearchResult]()
+    private var searchContent = [TelenavEntity]()
     private var currentAnnotations = [MKAnnotation]()
     private var staticCategories = [TelenavStaticCategory]()
     
@@ -307,7 +307,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
 
         self.currentLocation = locValue
-        setPinUsingMKPointAnnotation(location: locValue)
+//        setPinUsingMKPointAnnotation(location: locValue)
     }
     
     private func obtainRegionForAnnotationsArr(_ arr: [MKAnnotation]) -> MKCoordinateRegion {
@@ -416,7 +416,7 @@ extension MapViewController: UITextFieldDelegate {
         return true
     }
     
-    private func addAnnotations(from searchResults: [TelenavSearchResult]) {
+    private func addAnnotations(from searchResults: [TelenavEntity]) {
         
         let sortedSearch = searchResults.sorted { (s1, s2) -> Bool in
             s1.distance ?? 0 < s2.distance ?? 0
