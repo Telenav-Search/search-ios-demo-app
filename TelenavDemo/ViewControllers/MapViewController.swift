@@ -351,8 +351,13 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func startSearch(searchQuery: String) {
         
-        TelenavCore.search(location: TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0), searchQuery: searchQuery, pageContext: self.searchPaginationContext, filters: nil) { (telenavSearch, err) in
-            
+        let searchParams = TelenavSearchParams(searchQuery: searchQuery,
+                                               location: TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
+                                               filters: nil,
+                                               searchOptionsIntent: SearchOptionIntent.around,
+                                               showAddressLines: false)
+        
+        TelenavCore.search(searchParams: searchParams) { (telenavSearch, err) in
             self.handleSearchResult(telenavSearch)
         }
     }
@@ -473,7 +478,7 @@ extension MapViewController: UITextFieldDelegate {
 extension MapViewController: SearchResultViewControllerDelegate {
     
     func loadMoreSearchResults() {
-        
+                
         TelenavCore.search(pageContext: self.searchPaginationContext) { (searchRes, err) in
             self.handleSearchResult(searchRes)
         }
