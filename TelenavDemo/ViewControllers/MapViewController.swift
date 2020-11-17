@@ -275,13 +275,16 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.backButton.isHidden = false
             
         case .moreItem:
-            fakeCategoriesService.getAllCategories { (categories, err) in
+            
+            TelenavCore.getCategories { (categories, err) in
 
                 guard let categories = categories else {
                     return
                 }
 
-                self.catalogVC.fillAllCategories(categories)
+                let cats = self.fakeCategoriesService.mappedCats(categories)
+                
+                self.catalogVC.fillAllCategories(cats)
                 self.catalogVisible = true
             }
         }

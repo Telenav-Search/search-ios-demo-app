@@ -150,7 +150,7 @@ extension CategoriesDisplayManager: UITableViewDelegate {
                 idxPaths.append(indexPath)
             }
             
-            if (category.category.childNodes == nil && category.catLevel > selectedCategoryLevel) {
+            if (category.catLevel > selectedCategoryLevel) {
                 let indexPath = IndexPath(row: idx, section: 0)
                 idxPaths.append(indexPath)
             }
