@@ -43,6 +43,31 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             predictionsView.backgroundColor = .clear
             predictionsView.layer.cornerRadius = 9
             predictionsView.layer.masksToBounds = true
+            
+            predictionsView.selectedWordCallback = { [weak self] word in
+                
+                guard let self = self else {
+                    return
+                }
+                
+                guard let predictionWord = word.predictWord else {
+                    return
+                }
+                
+                if var wordsArray = self.searchTextField.text?.components(separatedBy: CharacterSet.whitespaces) {
+                    
+                    if wordsArray.last?.isEmpty == true {
+                        self.searchTextField.text?.append(predictionWord + " ")
+                    } else {
+                        if let lastWord = wordsArray.last, let lastWordIdx = wordsArray.lastIndex(of: lastWord) {
+                            wordsArray[lastWordIdx] = predictionWord + " "
+                        }
+                        self.searchTextField.text = wordsArray.joined(separator: " ")
+                    }
+                }
+                
+                self.getPredictions(on: predictionWord)
+            }
         }
     }
     
@@ -401,17 +426,22 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         TelenavCore.getWord(location: location, searchQuery: searchQuery) { (prediction, err) in
             
             if let predictions = prediction?.results {
+                
                 self.predictionsView.content = predictions
                 self.predictionsView.isHidden = false
                 self.mapContainerView.bringSubviewToFront(self.predictionsView)
             } else {
-                self.predictionsView.isHidden = true
+                self.hidePredictionsView()
             }
         }
     }
 }
 
 extension MapViewController: UITextFieldDelegate {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.hidePredictionsView()
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
@@ -435,6 +465,7 @@ extension MapViewController: UITextFieldDelegate {
                 
                 if resultText.isEmpty {
                     self.catalogVC.categoriesDisplayManager.reloadTable()
+                    self.hidePredictionsView()
                 }
                 
                 else {
@@ -502,6 +533,10 @@ extension MapViewController: UITextFieldDelegate {
             
             comletion(suggestions)
         }
+    }
+    
+    private func hidePredictionsView() {
+        predictionsView.isHidden = true
     }
 }
 

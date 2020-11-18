@@ -88,6 +88,8 @@
 		C5FD76BF2564230700E6D780 /* PredictionWordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76BC2564230700E6D780 /* PredictionWordCell.swift */; };
 		C5FD76C02564230700E6D780 /* PredictionWordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */; };
 		C5FD76C12564230700E6D780 /* PredictionWordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */; };
+		C5FD76CC25653CA800E6D780 /* SelfSizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */; };
+		C5FD76CD25653CE100E6D780 /* SelfSizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -172,6 +174,7 @@
 		C5FD76B92564221300E6D780 /* PredictionsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PredictionsView.xib; sourceTree = "<group>"; };
 		C5FD76BC2564230700E6D780 /* PredictionWordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionWordCell.swift; sourceTree = "<group>"; };
 		C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PredictionWordCell.xib; sourceTree = "<group>"; };
+		C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizedCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -349,6 +352,7 @@
 				C5FD76B92564221300E6D780 /* PredictionsView.xib */,
 				C5FD76BC2564230700E6D780 /* PredictionWordCell.swift */,
 				C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */,
+				C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -535,6 +539,7 @@
 				C5432CB3255D7730008D8088 /* SuggesstionCell.swift in Sources */,
 				C5432CBA255D77E1008D8088 /* CategoriesDisplayManager.swift in Sources */,
 				C54C0552255D942D0002CE83 /* FakeDetailsGenerator.swift in Sources */,
+				C5FD76CD25653CE100E6D780 /* SelfSizedCollectionView.swift in Sources */,
 				C54C056E255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
 				C5432C81255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
 				06608B02254C4AF800DF38C3 /* CatalogViewController.swift in Sources */,
@@ -569,6 +574,7 @@
 				C5432CB2255D7730008D8088 /* SuggesstionCell.swift in Sources */,
 				C5432CB9255D77E1008D8088 /* CategoriesDisplayManager.swift in Sources */,
 				C54C0551255D942D0002CE83 /* FakeDetailsGenerator.swift in Sources */,
+				C5FD76CC25653CA800E6D780 /* SelfSizedCollectionView.swift in Sources */,
 				C54C056D255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
 				C5432C80255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
 				06608B01254C4AF800DF38C3 /* CatalogViewController.swift in Sources */,
