@@ -34,7 +34,7 @@
                                             <constraint firstAttribute="height" constant="250" id="95s-uj-wHd"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="koQ-v2-zDU" customClass="PredictionsView" customModule="TelenavDemo" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="koQ-v2-zDU" customClass="PredictionsView" customModule="TelenavDemo" customModuleProvider="target">
                                         <rect key="frame" x="16" y="8" width="382" height="40"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
@@ -50,7 +50,7 @@
                                     <constraint firstItem="pzA-GP-v7g" firstAttribute="leading" secondItem="WIn-Qv-FkV" secondAttribute="leading" id="K0S-1a-fII"/>
                                     <constraint firstAttribute="bottom" secondItem="pzA-GP-v7g" secondAttribute="bottom" id="RcD-Qy-qc4"/>
                                     <constraint firstAttribute="bottom" secondItem="lZ1-5J-ZmU" secondAttribute="bottom" id="bgo-ON-uBK"/>
-                                    <constraint firstAttribute="trailing" secondItem="koQ-v2-zDU" secondAttribute="trailing" constant="16" id="ioF-di-AlY"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="koQ-v2-zDU" secondAttribute="trailing" constant="16" id="ioF-di-AlY"/>
                                     <constraint firstItem="lZ1-5J-ZmU" firstAttribute="top" secondItem="WIn-Qv-FkV" secondAttribute="top" id="jOX-Gx-puw"/>
                                     <constraint firstAttribute="trailing" secondItem="lZ1-5J-ZmU" secondAttribute="trailing" id="laO-bL-K1w"/>
                                     <constraint firstAttribute="trailing" secondItem="pzA-GP-v7g" secondAttribute="trailing" id="mMK-nK-Fy5"/>

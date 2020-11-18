@@ -18,7 +18,9 @@ class PredictionsView: UIView {
         }
     }
     
-    @IBOutlet weak var collectionView: UICollectionView! {
+    var selectedWordCallback: ((TelenavPredictionWordResult) -> Void)?
+    
+    @IBOutlet weak var collectionView: SelfSizedCollectionView! {
         didSet {
             collectionView.delegate = self
             collectionView.dataSource = self
@@ -64,11 +66,22 @@ extension PredictionsView: UICollectionViewDataSource {
 
 extension PredictionsView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = content[indexPath.item]
+        
+        selectedWordCallback?(item)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.frame.width / CGFloat(content.count)
-        let size = CGSize(width: width, height: collectionView.frame.height)
+        guard let word = content[indexPath.row].predictWord else {
+            return CGSize.zero
+        }
         
-        return size
+        let itemWidth = word.size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17)]).width
+        
+        let insets: CGFloat = 20
+        
+        return CGSize(width: itemWidth + insets, height: collectionView.frame.height)
     }
 }
