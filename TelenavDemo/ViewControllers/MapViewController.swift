@@ -110,6 +110,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private var currentLocation: CLLocationCoordinate2D?
     
+    private var searchResultDisplaying: Bool = false
+    
     lazy var catalogVC: CatalogViewController = {
         let vc = storyboard!.instantiateViewController(withIdentifier: "CatalogViewController") as! CatalogViewController
         vc.delegate = self
@@ -253,6 +255,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             let coordinates = CLLocationCoordinate2D(latitude: coord.latitude ?? 0, longitude: coord.longitude ?? 0)
             
             let annotation = PlaceAnnotation(coordinate: coordinates, id: id)
+            annotation.title = entity.place?.name ?? "Place name"
             
             self.currentAnnotations = [annotation]
             
@@ -302,6 +305,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             let coordinates = CLLocationCoordinate2D(latitude: coord.latitude ?? 0, longitude: coord.longitude ?? 0)
             
             let annotation = PlaceAnnotation(coordinate: coordinates, id: id)
+            annotation.title = entity.place?.name ?? "Place name"
             
             self.currentAnnotations = [annotation]
             
@@ -436,7 +440,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         self.searchResultsVC.fillSearchResults(self.searchContent)
         self.searchVisible = true
         self.catalogVisible = false
-                    
+        self.searchResultDisplaying = true
         self.addAnnotations(from: self.searchContent)
     }
     
@@ -594,8 +598,6 @@ extension MapViewController: MKMapViewDelegate {
         if let placeAnn = view.annotation as? PlaceAnnotation {
             
             view.isSelected = true
-            
-            goToDetails(entityId: placeAnn.placeId)
         }
     }
     
@@ -624,7 +626,12 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
-        annotationsSetupCallback?()
+     
+        if searchResultDisplaying == false {
+            annotationsSetupCallback?()
+        }
+        
+        searchResultDisplaying = false
     }
     
     private func customAnnotationView(in mapView: MKMapView, for annotation: MKAnnotation) -> PlaceAnnotationView {
