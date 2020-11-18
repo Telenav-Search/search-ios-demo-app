@@ -18,7 +18,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    
     @IBOutlet weak var backButton: UIButton!
     
     @IBOutlet weak var mapContainerView: UIView!
@@ -75,7 +74,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     let locationManager = CLLocationManager()
     
     let fakeCategoriesService = FakeCategoriesGenerator()
-    let fakeSuggestionsService = FakeSuggestionsGenerator()
     let fakeDetailsService = FakeDetailsGenerator()
     
     private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 1, qosClass: .userInitiated)
@@ -108,6 +106,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private var currentAnnotations = [MKAnnotation]()
     private var staticCategories = [TelenavStaticCategory]()
     
+    private var annotationsSetupCallback: (() -> Void)?
+    
     private var currentLocation: CLLocationCoordinate2D?
     
     lazy var catalogVC: CatalogViewController = {
@@ -129,10 +129,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
        
         setApiKey()
         
-        TelenavCore.getSuggestions(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: "food", includeEntity: false) { (result, err) in
-            print(result?.results)
-        }
-    
         fakeCategoriesService.getStaticCategories { (staticCats, err) in
             
             guard let categories = staticCats else {
@@ -232,7 +228,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         searchTextField.resignFirstResponder()
     }
     
-    
     @IBAction func didClickBack(_ sender: Any) {
         
         catalogVisible = true
@@ -265,6 +260,30 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             
             self.mapView.setRegion(region, animated: true)
             self.mapView.addAnnotations(self.currentAnnotations)
+            
+            self.selectDetailOnMap(id: id)
+        }
+    }
+    
+    private func selectDetailOnMap(id: String) {
+        self.annotationsSetupCallback = {
+            
+            if let selectedAnn = self.currentAnnotations.first(where: { (ann) -> Bool in
+                
+                if let placeAnn = ann as? PlaceAnnotation {
+                    
+                    if placeAnn.placeId == id {
+                        return true
+                    } else {
+                        return false
+                    }
+                } else {
+                    return false
+                }
+            }) {
+                let view = self.mapView.view(for: selectedAnn)
+                view?.isSelected = true
+            }
         }
     }
     
@@ -291,6 +310,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.mapView.setRegion(region, animated: true)
             self.mapView.addAnnotations(self.currentAnnotations)
             self.backButton.isHidden = false
+            
+            self.selectDetailOnMap(id: id)
         }
     }
     
@@ -381,7 +402,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.toggleDetailView(visible: true)
             
             self.catalogVisible = false
-            
+        
             completion?(detail)
         }
     }
@@ -523,10 +544,15 @@ extension MapViewController: UITextFieldDelegate {
     
     private func getSuggestions(text: String, comletion: @escaping ([TelenavSuggestionResult]) -> Void) {
         
-        fakeSuggestionsService.getSuggestions { (suggestions, err) in
+        let location = TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
+        
+        TelenavCore.getSuggestions(location: location, searchQuery: text, includeEntity: true) { (suggestions, err) in
             
-            guard let suggestions = suggestions else {
-                print(err?.localizedDescription)
+            guard let suggestions = suggestions?.results else {
+                if let err = err {
+                    print(err.localizedDescription)
+                }
+                
                 comletion([])
                 return
             }
@@ -565,9 +591,11 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
        
-        if view.annotation is PlaceAnnotation {
+        if let placeAnn = view.annotation as? PlaceAnnotation {
             
             view.isSelected = true
+            
+            goToDetails(entityId: placeAnn.placeId)
         }
     }
     
@@ -593,6 +621,10 @@ extension MapViewController: MKMapViewDelegate {
         
         let customAnnotationView = self.customAnnotationView(in: mapView, for: annotation)
         return customAnnotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+        annotationsSetupCallback?()
     }
     
     private func customAnnotationView(in mapView: MKMapView, for annotation: MKAnnotation) -> PlaceAnnotationView {
