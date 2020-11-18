@@ -3,12 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		060298E1254AC784003D760A /* Pods_TelenavDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060298DF254AC771003D760A /* Pods_TelenavDemo.framework */; };
-		060298E2254AC784003D760A /* Pods_TelenavDemo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 060298DF254AC771003D760A /* Pods_TelenavDemo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		06029954254AD18A003D760A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06751B05253D8D09001F6B11 /* MapViewController.swift */; };
 		06029955254AD18A003D760A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06751B01253D8D09001F6B11 /* AppDelegate.swift */; };
 		06029956254AD18A003D760A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06751B03253D8D09001F6B11 /* SceneDelegate.swift */; };
@@ -17,7 +15,6 @@
 		0602995D254AD18A003D760A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06751B0A253D8D0A001F6B11 /* Assets.xcassets */; };
 		0602995E254AD18A003D760A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06751B07253D8D09001F6B11 /* Main.storyboard */; };
 		06029961254AD18A003D760A /* TelenavSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0602994E254AD106003D760A /* TelenavSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0602996A254AD430003D760A /* Pods_TelenavSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06029968254AD430003D760A /* Pods_TelenavSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		06608B01254C4AF800DF38C3 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06608B00254C4AF800DF38C3 /* CatalogViewController.swift */; };
 		06608B02254C4AF800DF38C3 /* CatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06608B00254C4AF800DF38C3 /* CatalogViewController.swift */; };
 		06608B07254C549400DF38C3 /* CatalogBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06608B06254C549400DF38C3 /* CatalogBaseCell.swift */; };
@@ -93,16 +90,6 @@
 		C5FD76C12564230700E6D780 /* PredictionWordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		060298DE254AC771003D760A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 060298DA254AC771003D760A /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0F423D7A5201B5D5D0C3C1B2B4E4C954;
-			remoteInfo = "Pods-TelenavDemo";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		0602995F254AD18A003D760A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -111,7 +98,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				06029961254AD18A003D760A /* TelenavSDK.framework in Embed Frameworks */,
-				0602996A254AD430003D760A /* Pods_TelenavSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -122,7 +108,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				060298E2254AC784003D760A /* Pods_TelenavDemo.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,7 +116,6 @@
 
 /* Begin PBXFileReference section */
 		060298D5254AC743003D760A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		060298DA254AC771003D760A /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		060298EC254AC88E003D760A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		06029908254AC956003D760A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0602990B254AC95D003D760A /* Pods_TelenavSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_TelenavSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -205,7 +189,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				060298E1254AC784003D760A /* Pods_TelenavDemo.framework in Frameworks */,
 				76F9B02BC396D2907843C7D6 /* Pods_TelenavDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,14 +196,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		060298DB254AC771003D760A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				060298DF254AC771003D760A /* Pods_TelenavDemo.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		06029947254AD0F9003D760A /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,7 +218,6 @@
 		06751AF5253D8D09001F6B11 = {
 			isa = PBXGroup;
 			children = (
-				060298DA254AC771003D760A /* Pods.xcodeproj */,
 				06751B00253D8D09001F6B11 /* TelenavDemo */,
 				06608B03254C4EE700DF38C3 /* SupportFiles */,
 				06751AFF253D8D09001F6B11 /* Products */,
@@ -419,6 +393,7 @@
 				06751AFB253D8D09001F6B11 /* Frameworks */,
 				06751AFC253D8D09001F6B11 /* Resources */,
 				06DCC28D253D9A4E0075423F /* Embed Frameworks */,
+				7B195D18C5C1EEEE4CF81B2E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -458,12 +433,6 @@
 			mainGroup = 06751AF5253D8D09001F6B11;
 			productRefGroup = 06751AFF253D8D09001F6B11 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 060298DB254AC771003D760A /* Products */;
-					ProjectRef = 060298DA254AC771003D760A /* Pods.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				06751AFD253D8D09001F6B11 /* TelenavDemo */,
@@ -471,16 +440,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		060298DF254AC771003D760A /* Pods_TelenavDemo.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Pods_TelenavDemo.framework;
-			remoteRef = 060298DE254AC771003D760A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0602995B254AD18A003D760A /* Resources */ = {
@@ -542,6 +501,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7B195D18C5C1EEEE4CF81B2E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -818,7 +794,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8V4FFQ8JKL;
+				DEVELOPMENT_TEAM = 98RVTKNYNW;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -829,7 +805,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.thumbtack.TelenavDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thumbtack.TelenavDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -846,7 +822,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8V4FFQ8JKL;
+				DEVELOPMENT_TEAM = 98RVTKNYNW;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -857,7 +833,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.thumbtack.TelenavDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thumbtack.TelenavDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
