@@ -58,7 +58,7 @@ extension SearchResultViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.fillSearchResultItem(content[indexPath.row])
+        cell.fillSearchResultItem(content[indexPath.row], itemNumber: indexPath.row + 1)
         
         return cell
     }

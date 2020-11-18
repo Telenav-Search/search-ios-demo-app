@@ -233,7 +233,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         searchTextField.resignFirstResponder()
     }
     
-    
     @IBAction func didClickBack(_ sender: Any) {
         
         catalogVisible = true
