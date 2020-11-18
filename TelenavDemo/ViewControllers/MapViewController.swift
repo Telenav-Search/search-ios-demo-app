@@ -38,6 +38,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var predictionsView: PredictionsView! {
+        didSet {
+            predictionsView.backgroundColor = .clear
+            predictionsView.layer.cornerRadius = 9
+            predictionsView.layer.masksToBounds = true
+        }
+    }
+    
+    
     let locationManager = CLLocationManager()
     
     let fakeCategoriesService = FakeCategoriesGenerator()
@@ -384,6 +393,22 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     
         self.addAnnotations(from: self.searchContent)
     }
+    
+    private func getPredictions(on searchQuery: String) {
+        
+        let location = TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
+        
+        TelenavCore.getWord(location: location, searchQuery: searchQuery) { (prediction, err) in
+            
+            if let predictions = prediction?.results {
+                self.predictionsView.content = predictions
+                self.predictionsView.isHidden = false
+                self.mapContainerView.bringSubviewToFront(self.predictionsView)
+            } else {
+                self.predictionsView.isHidden = true
+            }
+        }
+    }
 }
 
 extension MapViewController: UITextFieldDelegate {
@@ -413,6 +438,8 @@ extension MapViewController: UITextFieldDelegate {
                 }
                 
                 else {
+                    
+                    self.getPredictions(on: resultText)
                     
                     self.getSuggestions(text: resultText) { (result) in
                         

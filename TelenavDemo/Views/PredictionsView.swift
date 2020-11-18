@@ -10,7 +10,13 @@ import TelenavSDK
 
 class PredictionsView: UIView {
 
-    var content = [TelenavPredictionWordResult]()
+    @IBOutlet var contentView: UIView!
+
+    var content = [TelenavPredictionWordResult]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
@@ -18,6 +24,24 @@ class PredictionsView: UIView {
             collectionView.dataSource = self
             collectionView.register(UINib(nibName: "PredictionWordCell", bundle: nil), forCellWithReuseIdentifier: "PredictionWordCell")
         }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+
+    private func commonInit() {
+        Bundle.main.loadNibNamed(String(describing: PredictionsView.self), owner: self)
+        addSubview(contentView)
+        contentView.frame = self.bounds
+        contentView.isUserInteractionEnabled = true
+        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
 }
 
@@ -29,13 +53,22 @@ extension PredictionsView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell: PredictionWordCell = collectionView.dequeueReusableCell(withReuseIdentifier: "PredictionWordCell", for: indexPath) as? PredictionWordCell else {
-            return
+            return UICollectionViewCell()
         }
         
+        cell.fillPrediction(word: content[indexPath.row])
         
+        return cell
     }
 }
 
-extension PredictionsView: UICollectionViewDelegate {
+extension PredictionsView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let width = collectionView.frame.width / CGFloat(content.count)
+        let size = CGSize(width: width, height: collectionView.frame.height)
+        
+        return size
+    }
 }
