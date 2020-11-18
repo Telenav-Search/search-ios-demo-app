@@ -567,9 +567,7 @@ extension MapViewController: MKMapViewDelegate {
        
         if view.annotation is PlaceAnnotation {
             
-            UIView.animate(withDuration: 0.3) {
-                view.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-            }
+            view.isSelected = true
         }
     }
     
@@ -577,9 +575,7 @@ extension MapViewController: MKMapViewDelegate {
         
         if view.annotation is PlaceAnnotation {
 
-            UIView.animate(withDuration: 0.3) {
-                view.transform = .identity
-            }
+            view.isSelected = false
         }
     }
     
