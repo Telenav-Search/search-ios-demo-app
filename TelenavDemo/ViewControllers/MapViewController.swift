@@ -285,6 +285,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 }
             }) {
                 let view = self.mapView.view(for: selectedAnn)
+                self.mapView.selectAnnotation(selectedAnn, animated: true)
                 view?.isSelected = true
             }
         }
