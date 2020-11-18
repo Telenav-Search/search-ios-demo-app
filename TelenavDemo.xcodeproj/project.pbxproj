@@ -80,6 +80,16 @@
 		C54C0579255E9C150002CE83 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C0577255E9C150002CE83 /* SearchResultViewController.swift */; };
 		C54C057B255E9C750002CE83 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C057A255E9C750002CE83 /* SearchResultCell.swift */; };
 		C54C057C255E9C750002CE83 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C057A255E9C750002CE83 /* SearchResultCell.swift */; };
+		C5FD76B62564220A00E6D780 /* PredictionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76B52564220A00E6D780 /* PredictionsView.swift */; };
+		C5FD76B72564220A00E6D780 /* PredictionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76B52564220A00E6D780 /* PredictionsView.swift */; };
+		C5FD76BA2564221300E6D780 /* PredictionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5FD76B92564221300E6D780 /* PredictionsView.xib */; };
+		C5FD76BB2564221300E6D780 /* PredictionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5FD76B92564221300E6D780 /* PredictionsView.xib */; };
+		C5FD76BE2564230700E6D780 /* PredictionWordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76BC2564230700E6D780 /* PredictionWordCell.swift */; };
+		C5FD76BF2564230700E6D780 /* PredictionWordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76BC2564230700E6D780 /* PredictionWordCell.swift */; };
+		C5FD76C02564230700E6D780 /* PredictionWordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */; };
+		C5FD76C12564230700E6D780 /* PredictionWordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */; };
+		C5FD76CC25653CA800E6D780 /* SelfSizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */; };
+		C5FD76CD25653CE100E6D780 /* SelfSizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -160,6 +170,11 @@
 		C54C0573255E967A0002CE83 /* StaticCategoryDisplayModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticCategoryDisplayModels.swift; sourceTree = "<group>"; };
 		C54C0577255E9C150002CE83 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		C54C057A255E9C750002CE83 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		C5FD76B52564220A00E6D780 /* PredictionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsView.swift; sourceTree = "<group>"; };
+		C5FD76B92564221300E6D780 /* PredictionsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PredictionsView.xib; sourceTree = "<group>"; };
+		C5FD76BC2564230700E6D780 /* PredictionWordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionWordCell.swift; sourceTree = "<group>"; };
+		C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PredictionWordCell.xib; sourceTree = "<group>"; };
+		C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizedCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -333,6 +348,11 @@
 				C54C055E255DA1D30002CE83 /* DetailViewCell.xib */,
 				C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */,
 				C528632F25628B00007B67C6 /* PlaceAnnotationView.swift */,
+				C5FD76B52564220A00E6D780 /* PredictionsView.swift */,
+				C5FD76B92564221300E6D780 /* PredictionsView.xib */,
+				C5FD76BC2564230700E6D780 /* PredictionWordCell.swift */,
+				C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */,
+				C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -432,9 +452,11 @@
 			files = (
 				C54C054E255D8FE10002CE83 /* FakeDetails.json in Resources */,
 				C54C0562255DA1D30002CE83 /* DetailViewCell.xib in Resources */,
+				C5FD76C12564230700E6D780 /* PredictionWordCell.xib in Resources */,
 				0602995C254AD18A003D760A /* LaunchScreen.storyboard in Resources */,
 				C54C055C255D9CE90002CE83 /* DetailsView.xib in Resources */,
 				C5432CBE255D7C24008D8088 /* FakeSuggestions.json in Resources */,
+				C5FD76BB2564221300E6D780 /* PredictionsView.xib in Resources */,
 				0602995D254AD18A003D760A /* Assets.xcassets in Resources */,
 				0602995E254AD18A003D760A /* Main.storyboard in Resources */,
 				C509FC3A255EADE600C1EE56 /* FakeSearchResults.json in Resources */,
@@ -448,9 +470,11 @@
 			files = (
 				C54C054D255D8FE10002CE83 /* FakeDetails.json in Resources */,
 				C54C0561255DA1D30002CE83 /* DetailViewCell.xib in Resources */,
+				C5FD76C02564230700E6D780 /* PredictionWordCell.xib in Resources */,
 				06751B0E253D8D0A001F6B11 /* LaunchScreen.storyboard in Resources */,
 				C54C055B255D9CE90002CE83 /* DetailsView.xib in Resources */,
 				C5432CBD255D7C24008D8088 /* FakeSuggestions.json in Resources */,
+				C5FD76BA2564221300E6D780 /* PredictionsView.xib in Resources */,
 				06751B0B253D8D0A001F6B11 /* Assets.xcassets in Resources */,
 				06751B09253D8D09001F6B11 /* Main.storyboard in Resources */,
 				C509FC39255EADE600C1EE56 /* FakeSearchResults.json in Resources */,
@@ -515,6 +539,7 @@
 				C5432CB3255D7730008D8088 /* SuggesstionCell.swift in Sources */,
 				C5432CBA255D77E1008D8088 /* CategoriesDisplayManager.swift in Sources */,
 				C54C0552255D942D0002CE83 /* FakeDetailsGenerator.swift in Sources */,
+				C5FD76CD25653CE100E6D780 /* SelfSizedCollectionView.swift in Sources */,
 				C54C056E255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
 				C5432C81255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
 				06608B02254C4AF800DF38C3 /* CatalogViewController.swift in Sources */,
@@ -528,6 +553,8 @@
 				C54C0559255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC9255D7DA7008D8088 /* Throttler.swift in Sources */,
 				C54C0560255DA1D30002CE83 /* DetailViewCell.swift in Sources */,
+				C5FD76BF2564230700E6D780 /* PredictionWordCell.swift in Sources */,
+				C5FD76B72564220A00E6D780 /* PredictionsView.swift in Sources */,
 				06CC38AD255933AF00345A0E /* ObjcExample.m in Sources */,
 				06029956254AD18A003D760A /* SceneDelegate.swift in Sources */,
 				C54C057C255E9C750002CE83 /* SearchResultCell.swift in Sources */,
@@ -547,6 +574,7 @@
 				C5432CB2255D7730008D8088 /* SuggesstionCell.swift in Sources */,
 				C5432CB9255D77E1008D8088 /* CategoriesDisplayManager.swift in Sources */,
 				C54C0551255D942D0002CE83 /* FakeDetailsGenerator.swift in Sources */,
+				C5FD76CC25653CA800E6D780 /* SelfSizedCollectionView.swift in Sources */,
 				C54C056D255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
 				C5432C80255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
 				06608B01254C4AF800DF38C3 /* CatalogViewController.swift in Sources */,
@@ -560,6 +588,8 @@
 				C54C0558255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC8255D7DA7008D8088 /* Throttler.swift in Sources */,
 				C54C055F255DA1D30002CE83 /* DetailViewCell.swift in Sources */,
+				C5FD76BE2564230700E6D780 /* PredictionWordCell.swift in Sources */,
+				C5FD76B62564220A00E6D780 /* PredictionsView.swift in Sources */,
 				06CC38AC255933AF00345A0E /* ObjcExample.m in Sources */,
 				06751B04253D8D09001F6B11 /* SceneDelegate.swift in Sources */,
 				C54C057B255E9C750002CE83 /* SearchResultCell.swift in Sources */,
@@ -623,7 +653,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8V4FFQ8JKL;
+				DEVELOPMENT_TEAM = NSL6KMD9K6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -634,7 +664,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.thumbtack.TelenavDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lineate.TelenavDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;

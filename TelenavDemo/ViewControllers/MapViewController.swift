@@ -38,6 +38,41 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var predictionsView: PredictionsView! {
+        didSet {
+            predictionsView.backgroundColor = .clear
+            predictionsView.layer.cornerRadius = 9
+            predictionsView.layer.masksToBounds = true
+            
+            predictionsView.selectedWordCallback = { [weak self] word in
+                
+                guard let self = self else {
+                    return
+                }
+                
+                guard let predictionWord = word.predictWord else {
+                    return
+                }
+                
+                if var wordsArray = self.searchTextField.text?.components(separatedBy: CharacterSet.whitespaces) {
+                    
+                    if wordsArray.last?.isEmpty == true {
+                        self.searchTextField.text?.append(predictionWord + " ")
+                    } else {
+                        if let lastWord = wordsArray.last, let lastWordIdx = wordsArray.lastIndex(of: lastWord) {
+                            wordsArray[lastWordIdx] = predictionWord + " "
+                        }
+                        self.searchTextField.text = wordsArray.joined(separator: " ")
+                    }
+                }
+                
+                self.hidePredictionsView()
+                self.getPredictions(on: predictionWord)
+            }
+        }
+    }
+    
+    
     let locationManager = CLLocationManager()
     
     let fakeCategoriesService = FakeCategoriesGenerator()
@@ -307,7 +342,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
 
         self.currentLocation = locValue
-        setPinUsingMKPointAnnotation(location: locValue)
+//        setPinUsingMKPointAnnotation(location: locValue)
     }
     
     private func obtainRegionForAnnotationsArr(_ arr: [MKAnnotation]) -> MKCoordinateRegion {
@@ -384,9 +419,30 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     
         self.addAnnotations(from: self.searchContent)
     }
+    
+    private func getPredictions(on searchQuery: String) {
+        
+        let location = TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
+        
+        TelenavCore.getWord(location: location, searchQuery: searchQuery) { (prediction, err) in
+            
+            if let predictions = prediction?.results {
+                
+                self.predictionsView.content = predictions
+                self.predictionsView.isHidden = false
+                self.mapContainerView.bringSubviewToFront(self.predictionsView)
+            } else {
+                self.hidePredictionsView()
+            }
+        }
+    }
 }
 
 extension MapViewController: UITextFieldDelegate {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.hidePredictionsView()
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
@@ -410,9 +466,12 @@ extension MapViewController: UITextFieldDelegate {
                 
                 if resultText.isEmpty {
                     self.catalogVC.categoriesDisplayManager.reloadTable()
+                    self.hidePredictionsView()
                 }
                 
                 else {
+                    
+                    self.getPredictions(on: resultText)
                     
                     self.getSuggestions(text: resultText) { (result) in
                         
@@ -475,6 +534,10 @@ extension MapViewController: UITextFieldDelegate {
             
             comletion(suggestions)
         }
+    }
+    
+    private func hidePredictionsView() {
+        predictionsView.isHidden = true
     }
 }
 
