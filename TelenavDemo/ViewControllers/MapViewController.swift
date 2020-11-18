@@ -66,7 +66,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     }
                 }
                 
-                self.getPredictions(on: predictionWord)
+                self.hidePredictionsView()
             }
         }
     }
