@@ -30,8 +30,8 @@ class SearchResultCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func fillSearchResultItem(_ item: TelenavEntity) {
-        self.numberLabel.text = ""
+    func fillSearchResultItem(_ item: TelenavEntity, itemNumber: Int) {
+        self.numberLabel.text = "\(itemNumber)"
         self.nameLabel.text = item.place?.name
         self.addressLabel.text = item.place?.address?.formattedAddress
         
