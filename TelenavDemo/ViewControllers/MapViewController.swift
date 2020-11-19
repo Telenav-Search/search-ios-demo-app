@@ -123,6 +123,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private var searchResultDisplaying: Bool = false
     private var searchQuery: String?
+    private var hasMoreSearchResults: Bool = false
     
     lazy var catalogVC: CatalogViewController = {
         let vc = storyboard!.instantiateViewController(withIdentifier: "CatalogViewController") as! CatalogViewController
@@ -426,6 +427,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func startSearch(searchQuery: String) {
         
+        resetSearch()
+        
         self.searchQuery = searchQuery
         
         let searchParams = TelenavSearchParams(searchQuery: searchQuery,
@@ -435,13 +438,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                                                showAddressLines: false)
         
         TelenavCore.search(searchParams: searchParams) { (telenavSearch, err) in
-            self.handleSearchResult(telenavSearch)
+            self.handleSearchResult(telenavSearch, isPaginated: false)
         }
     }
     
-    private func handleSearchResult(_ telenavSearch: TelenavSearch?) {
-                
-        if self.searchPaginationContext == telenavSearch?.paginationContext?.prevPageContext {
+    private func handleSearchResult(_ telenavSearch: TelenavSearch?, isPaginated: Bool) {
+        
+        self.hasMoreSearchResults = telenavSearch?.hasMore ?? false
+    
+        if isPaginated {
             for res in telenavSearch?.results ?? [] {
         
                 if self.searchContent.contains(where: { (searchRes) -> Bool in
@@ -457,7 +462,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
                 
         self.heightAnchor.constant = self.setupSearchHeight()
-        self.searchResultsVC.fillSearchResults(self.searchContent)
+        self.searchResultsVC.fillSearchResults(self.searchContent, resetPagination: isPaginated == false)
         self.searchVisible = true
         self.catalogVisible = false
         self.searchResultDisplaying = true
@@ -530,6 +535,8 @@ extension MapViewController: UITextFieldDelegate {
     
     private func addAnnotations(from searchResults: [TelenavEntity]) {
         
+        mapView.removeAnnotations(self.currentAnnotations)
+        
         let sortedSearch = searchResults.sorted { (s1, s2) -> Bool in
             s1.distance ?? 0 < s2.distance ?? 0
         }
@@ -588,14 +595,23 @@ extension MapViewController: UITextFieldDelegate {
     private func hidePredictionsView() {
         predictionsView.isHidden = true
     }
+    
+    private func resetSearch() {
+        self.searchQuery = nil
+        self.searchPaginationContext = nil
+        self.hasMoreSearchResults = false
+    }
 }
 
 extension MapViewController: SearchResultViewControllerDelegate {
     
     func loadMoreSearchResults() {
                 
-        TelenavCore.search(pageContext: self.searchPaginationContext) { (searchRes, err) in
-            self.handleSearchResult(searchRes)
+        if self.hasMoreSearchResults {
+            
+            TelenavCore.search(pageContext: self.searchPaginationContext) { (searchRes, err) in
+                self.handleSearchResult(searchRes, isPaginated: true)
+            }
         }
     }
    

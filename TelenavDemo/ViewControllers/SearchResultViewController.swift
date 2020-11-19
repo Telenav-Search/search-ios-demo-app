@@ -37,8 +37,13 @@ class SearchResultViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func fillSearchResults(_ content: [TelenavEntity]) {
+    func fillSearchResults(_ content: [TelenavEntity], resetPagination: Bool = false) {
         self.content = content
+        
+        if resetPagination == true {
+            self.lastDisplayedIndexPath = nil
+        }
+        
         tableView.reloadData()
     }
 
