@@ -26,8 +26,10 @@ class SuggestionsDisplayManager: NSObject {
         
         if (tableView.dataSource is SuggestionsDisplayManager) == false {
             tableView.dataSource = self
-            tableView.reloadData()
         }
+        
+        tableView.reloadData()
+
     }
     
     @IBOutlet weak var tableView: UITableView!

@@ -35,8 +35,8 @@ class SearchResultCell: UITableViewCell {
         self.nameLabel.text = item.place?.name
         self.addressLabel.text = item.place?.address?.formattedAddress
         
-        if let distance = item.distance {
-            self.distanceLabel.text = "\(distance) km"
+        if let distance = item.formattedDistance {
+            self.distanceLabel.text = distance
             self.distanceLabel.isHidden = false
         } else {
             self.distanceLabel.isHidden = true

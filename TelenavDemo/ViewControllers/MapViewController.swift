@@ -53,19 +53,30 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     return
                 }
                 
+                let predictionWithWhitespace = predictionWord + " "
+
                 if var wordsArray = self.searchTextField.text?.components(separatedBy: CharacterSet.whitespaces) {
                     
                     if wordsArray.last?.isEmpty == true {
-                        self.searchTextField.text?.append(predictionWord + " ")
+                        self.searchTextField.text?.append(predictionWithWhitespace)
                     } else {
                         if let lastWord = wordsArray.last, let lastWordIdx = wordsArray.lastIndex(of: lastWord) {
-                            wordsArray[lastWordIdx] = predictionWord + " "
+                            wordsArray[lastWordIdx] = predictionWithWhitespace
                         }
-                        self.searchTextField.text = wordsArray.joined(separator: " ")
+                        
+                        let searchStr = wordsArray.joined(separator: " ")
+                        
+                        self.searchTextField.text = searchStr
+                        
+                    }
+                
+                    self.getSuggestions(text: wordsArray.joined(separator: " ")) { (result) in
+                        
+                        self.catalogVC.fillSuggestions(result)
                     }
                 }
                 
-                self.getPredictions(on: predictionWord)
+                self.getPredictions(on: predictionWithWhitespace)
             }
         }
     }
@@ -111,6 +122,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private var currentLocation: CLLocationCoordinate2D?
     
     private var searchResultDisplaying: Bool = false
+    private var searchQuery: String?
     
     lazy var catalogVC: CatalogViewController = {
         let vc = storyboard!.instantiateViewController(withIdentifier: "CatalogViewController") as! CatalogViewController
@@ -331,7 +343,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         switch item.cellType {
         case .categoryItem:
             
-            startSearch(searchQuery: (item as! StaticCategoryDisplayModel).staticCategory.name ?? "")
+            startSearch(searchQuery: (item as? StaticCategoryDisplayModel)?.staticCategory.name ?? "")
             self.backButton.isHidden = false
             
         case .moreItem:
@@ -414,6 +426,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func startSearch(searchQuery: String) {
         
+        self.searchQuery = searchQuery
+        
         let searchParams = TelenavSearchParams(searchQuery: searchQuery,
                                                location: TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
                                                filters: nil,
@@ -426,17 +440,22 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     private func handleSearchResult(_ telenavSearch: TelenavSearch?) {
-        self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
+                
+        if self.searchPaginationContext == telenavSearch?.paginationContext?.prevPageContext {
+            for res in telenavSearch?.results ?? [] {
         
-        for res in telenavSearch?.results ?? [] {
-    
-            if self.searchContent.contains(where: { (searchRes) -> Bool in
-                searchRes.id == res.id
-            }) == false {
-                self.searchContent.append(res)
+                if self.searchContent.contains(where: { (searchRes) -> Bool in
+                    searchRes.id == res.id
+                }) == false {
+                    self.searchContent.append(res)
+                }
             }
+        } else {
+            self.searchContent = telenavSearch?.results ?? []
         }
         
+        self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
+                
         self.heightAnchor.constant = self.setupSearchHeight()
         self.searchResultsVC.fillSearchResults(self.searchContent)
         self.searchVisible = true

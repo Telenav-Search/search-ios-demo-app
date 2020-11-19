@@ -325,9 +325,9 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3.0 km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LH7-Nq-Nya">
-                                                    <rect key="frame" x="333" y="10" width="60" height="17"/>
+                                                    <rect key="frame" x="100" y="10" width="293" height="17"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="Sob-9h-gmE"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="Sob-9h-gmE"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.82122029050000001" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -370,7 +370,7 @@
                                                 <constraint firstItem="7Je-fK-cFk" firstAttribute="top" secondItem="aOi-DV-cEd" secondAttribute="bottom" constant="9" id="HVJ-yb-eCT"/>
                                                 <constraint firstItem="aOi-DV-cEd" firstAttribute="top" secondItem="pwn-qH-h7i" secondAttribute="topMargin" constant="4.5" id="Nq7-NQ-ffh"/>
                                                 <constraint firstItem="uWl-y8-GnL" firstAttribute="leading" secondItem="pwn-qH-h7i" secondAttribute="leading" constant="16" id="OiG-L6-YXh"/>
-                                                <constraint firstItem="LH7-Nq-Nya" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aOi-DV-cEd" secondAttribute="trailing" constant="15" id="a0H-a6-rLY"/>
+                                                <constraint firstItem="LH7-Nq-Nya" firstAttribute="leading" secondItem="aOi-DV-cEd" secondAttribute="trailing" constant="15" id="a0H-a6-rLY"/>
                                                 <constraint firstItem="aOi-DV-cEd" firstAttribute="leading" secondItem="pwn-qH-h7i" secondAttribute="leadingMargin" id="e70-Gu-ksP"/>
                                                 <constraint firstAttribute="trailing" secondItem="LH7-Nq-Nya" secondAttribute="trailing" constant="21" id="eOo-Xz-Wz7"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="7Je-fK-cFk" secondAttribute="trailing" constant="16" id="f7U-Ec-gFe"/>
