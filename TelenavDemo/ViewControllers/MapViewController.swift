@@ -341,6 +341,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     func didSelectCategoryItem(_ item: StaticCategoryCellItem) {
         
+        searchTextField.resignFirstResponder()
+        
         switch item.cellType {
         case .categoryItem:
             
