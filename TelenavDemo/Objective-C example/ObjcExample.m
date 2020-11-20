@@ -12,7 +12,7 @@
 @implementation ObjcExample
 
 - (void)test {
-    [TelenavCore setApiKey:@"w" apiSecret:@"W"];
+    [TNEntityCore setApiKey:@"w" apiSecret:@"W"];
 }
 
 @end

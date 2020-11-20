@@ -10,7 +10,7 @@ import TelenavSDK
 
 class FakeCategoriesGenerator {
     
-    func getStaticCategories(completion: @escaping ([TelenavStaticCategory]?, Error?) -> Void) {
+    func getStaticCategories(completion: @escaping ([TNEntityStaticCategory]?, Error?) -> Void) {
         
         completion(staticCategories, nil)
     }
@@ -24,7 +24,7 @@ class FakeCategoriesGenerator {
         completion(cats, nil)
     }
     
-    func mappedCats(_ categories: [TelenavCategory]) -> [TelenavCategoryDisplayModel] {
+    func mappedCats(_ categories: [TNEntityCategory]) -> [TelenavCategoryDisplayModel] {
         
         var dispCats = [TelenavCategoryDisplayModel]()
         
@@ -37,7 +37,7 @@ class FakeCategoriesGenerator {
         return dispCats
     }
     
-    private func getCategoriesFromFakeJSON() -> [TelenavCategory] {
+    private func getCategoriesFromFakeJSON() -> [TNEntityCategory] {
         
         guard let categoriesJSONURL = Bundle.main.url(forResource: "FakeCategories", withExtension: "json") else {
             return []
@@ -48,7 +48,7 @@ class FakeCategoriesGenerator {
             
             let decoder = JSONDecoder()
             
-            let presets = try decoder.decode([TelenavCategory].self, from: jsonData)
+            let presets = try decoder.decode([TNEntityCategory].self, from: jsonData)
             
             return presets
         } catch {
@@ -58,17 +58,17 @@ class FakeCategoriesGenerator {
         return []
     }
     
-    private var staticCategories: [TelenavStaticCategory] {
-        let food = TelenavStaticCategory(name: "Food")
-        let coffee = TelenavStaticCategory(name: "Coffee")
-        let groccery = TelenavStaticCategory(name: "Grocery")
-        let shopping = TelenavStaticCategory(name: "Shopping")
-        let parking = TelenavStaticCategory(name: "Parking")
-        let banksAtms = TelenavStaticCategory(name: "Banks/ATMs")
-        let hotels = TelenavStaticCategory(name: "Hotels/Motels")
-        let attractions = TelenavStaticCategory(name: "Attractions")
-        let fuel = TelenavStaticCategory(name: "Fuel")
-        let electricVehicleCharge = TelenavStaticCategory(name: "Electric Vehicle Charge station")
+    private var staticCategories: [TNEntityStaticCategory] {
+        let food = TNEntityStaticCategory(name: "Food")
+        let coffee = TNEntityStaticCategory(name: "Coffee")
+        let groccery = TNEntityStaticCategory(name: "Grocery")
+        let shopping = TNEntityStaticCategory(name: "Shopping")
+        let parking = TNEntityStaticCategory(name: "Parking")
+        let banksAtms = TNEntityStaticCategory(name: "Banks/ATMs")
+        let hotels = TNEntityStaticCategory(name: "Hotels/Motels")
+        let attractions = TNEntityStaticCategory(name: "Attractions")
+        let fuel = TNEntityStaticCategory(name: "Fuel")
+        let electricVehicleCharge = TNEntityStaticCategory(name: "Electric Vehicle Charge station")
         
         return [food, coffee, groccery, shopping, parking, banksAtms, hotels, attractions, fuel, electricVehicleCharge]
     }
