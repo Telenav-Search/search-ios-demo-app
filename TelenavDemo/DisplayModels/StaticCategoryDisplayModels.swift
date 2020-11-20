@@ -23,9 +23,9 @@ struct StaticCategoryDisplayModel: StaticCategoryCellItem {
         return .categoryItem
     }
     
-    var staticCategory: TelenavStaticCategory
+    var staticCategory: TNEntityStaticCategory
     
-    init(staticCategory: TelenavStaticCategory) {
+    init(staticCategory: TNEntityStaticCategory) {
         self.staticCategory = staticCategory
     }
 }

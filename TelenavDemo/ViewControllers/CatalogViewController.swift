@@ -44,7 +44,7 @@ class CatalogViewController: UIViewController  {
         self.categoriesDisplayManager.reloadTable()
     }
     
-    func fillStaticCategories(_ categories: [TelenavStaticCategory]) {
+    func fillStaticCategories(_ categories: [TNEntityStaticCategory]) {
         
         var catItems = [StaticCategoryCellItem]()
         

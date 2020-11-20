@@ -7,12 +7,15 @@
 
 #import "ObjcExample.h"
 #import "TelenavDemo-Swift.h"
-@import TelenavSDK;
+//@import TelenavSDK;
 
 @implementation ObjcExample
 
 - (void)test {
-    [TNEntityCore setApiKey:@"w" apiSecret:@"W"];
+//
+//    TNEntitySDKOptions* options = [TNEntitySDKOptions new];
+//
+//    [TNEntityCore setApiOptions: options];
 }
 
 @end

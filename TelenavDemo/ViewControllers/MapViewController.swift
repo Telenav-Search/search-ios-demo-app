@@ -115,7 +115,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private var searchPaginationContext: String?
     private var searchContent = [TNEntity]()
     private var currentAnnotations = [MKAnnotation]()
-    private var staticCategories = [TelenavStaticCategory]()
+    private var staticCategories = [TNEntityStaticCategory]()
     
     private var annotationsSetupCallback: (() -> Void)?
     
@@ -231,8 +231,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     private func setupSDK() {
-        TNEnityCore.setHost()
-        TNEntityCore.setApiKey("3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f")
+        TNEntityCore.setHost("http://restapidev.telenav.com/entity/v5/")
+        
+        let skdOptions = TNEntitySDKOptions(apiKey: "3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f", deviceId: nil, userId: nil, locale: Locale.current.languageCode)
+        
+        TNEntityCore.setApiOptions(skdOptions)
     }
     
     // MARK: - Actions
