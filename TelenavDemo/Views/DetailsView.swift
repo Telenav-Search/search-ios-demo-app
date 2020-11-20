@@ -62,7 +62,6 @@ class DetailsView: UIView {
         case .none:
             break
         }
-        
     }
 }
 

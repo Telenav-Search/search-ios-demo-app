@@ -179,20 +179,32 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U5H-B0-Nmk">
-                                                    <rect key="frame" x="20" y="10" width="374" height="57"/>
+                                                    <rect key="frame" x="20" y="10" width="284" height="57"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3.0 km" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zp8-MD-MrK">
+                                                    <rect key="frame" x="314" y="10" width="80" height="17"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="YFb-OC-IFM"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="U5H-B0-Nmk" secondAttribute="trailing" constant="20" id="Fcb-wd-rxT"/>
+                                                <constraint firstAttribute="trailing" secondItem="Zp8-MD-MrK" secondAttribute="trailing" constant="20" symbolic="YES" id="KPu-oR-0Ye"/>
                                                 <constraint firstAttribute="bottom" secondItem="U5H-B0-Nmk" secondAttribute="bottom" constant="10" id="Nvw-Cf-MhO"/>
                                                 <constraint firstItem="U5H-B0-Nmk" firstAttribute="top" secondItem="qmQ-OM-0YV" secondAttribute="top" constant="10" id="SZm-ae-tsv"/>
+                                                <constraint firstItem="Zp8-MD-MrK" firstAttribute="leading" secondItem="U5H-B0-Nmk" secondAttribute="trailing" constant="10" id="dga-tK-4YV"/>
+                                                <constraint firstItem="Zp8-MD-MrK" firstAttribute="top" secondItem="qmQ-OM-0YV" secondAttribute="top" constant="10" id="qxy-Yr-pTb"/>
                                                 <constraint firstItem="U5H-B0-Nmk" firstAttribute="leading" secondItem="qmQ-OM-0YV" secondAttribute="leading" constant="20" id="tuK-lz-OsS"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="distanceLabel" destination="Zp8-MD-MrK" id="wnI-Kw-ytp"/>
                                             <outlet property="suggestionTitleLabel" destination="U5H-B0-Nmk" id="t9I-GM-9da"/>
                                         </connections>
                                     </tableViewCell>

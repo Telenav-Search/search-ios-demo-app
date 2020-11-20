@@ -26,8 +26,10 @@ class SuggestionsDisplayManager: NSObject {
         
         if (tableView.dataSource is SuggestionsDisplayManager) == false {
             tableView.dataSource = self
-            tableView.reloadData()
         }
+        
+        tableView.reloadData()
+
     }
     
     @IBOutlet weak var tableView: UITableView!
@@ -44,9 +46,9 @@ extension SuggestionsDisplayManager: UITableViewDataSource {
             return UITableViewCell()
         }
      
-        let title = suggestions[indexPath.row].formattedLabel ?? ""
+        let suggestion = suggestions[indexPath.row]
         
-        cell.fillTitle(title)
+        cell.fillSuggestion(suggestion)
         
         return cell
     }

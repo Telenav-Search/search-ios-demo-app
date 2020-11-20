@@ -24,6 +24,20 @@ class PlaceAnnotationView: MKAnnotationView {
         self.addSubview(label)
 
     }
+    
+    var annotationColor: UIColor = .white
+    
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                annotationColor = UIColor(red: 255 / 256, green: 92 / 256, blue: 71 / 256, alpha: 1)
+            } else {
+                annotationColor = .white
+            }
+            
+            self.setNeedsDisplay()
+        }
+    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) not implemented!")
@@ -42,12 +56,11 @@ class PlaceAnnotationView: MKAnnotationView {
         var circleRect = CGRect(x: 0, y: 0, width: rect.width, height: rect.height)
         circleRect = circleRect.insetBy(dx: 5, dy: 5)
     
-        
         // set stroking color and draw circle
         context.setStrokeColor(UIColor.darkGray.cgColor)
         context.strokeEllipse(in: circleRect)
         
-        context.setFillColor(UIColor.white.cgColor)
+        context.setFillColor(annotationColor.cgColor)
         context.fillEllipse(in: circleRect)
     }
 }

@@ -18,7 +18,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    
     @IBOutlet weak var backButton: UIButton!
     
     @IBOutlet weak var mapContainerView: UIView!
@@ -54,20 +53,30 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     return
                 }
                 
+                let predictionWithWhitespace = predictionWord + " "
+
                 if var wordsArray = self.searchTextField.text?.components(separatedBy: CharacterSet.whitespaces) {
                     
                     if wordsArray.last?.isEmpty == true {
-                        self.searchTextField.text?.append(predictionWord + " ")
+                        self.searchTextField.text?.append(predictionWithWhitespace)
                     } else {
                         if let lastWord = wordsArray.last, let lastWordIdx = wordsArray.lastIndex(of: lastWord) {
-                            wordsArray[lastWordIdx] = predictionWord + " "
+                            wordsArray[lastWordIdx] = predictionWithWhitespace
                         }
-                        self.searchTextField.text = wordsArray.joined(separator: " ")
+                        
+                        let searchStr = wordsArray.joined(separator: " ")
+                        
+                        self.searchTextField.text = searchStr
+                        
+                    }
+                
+                    self.getSuggestions(text: wordsArray.joined(separator: " ")) { (result) in
+                        
+                        self.catalogVC.fillSuggestions(result)
                     }
                 }
                 
-                self.hidePredictionsView()
-                self.getPredictions(on: predictionWord)
+                self.getPredictions(on: predictionWithWhitespace)
             }
         }
     }
@@ -76,7 +85,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     let locationManager = CLLocationManager()
     
     let fakeCategoriesService = FakeCategoriesGenerator()
-    let fakeSuggestionsService = FakeSuggestionsGenerator()
     let fakeDetailsService = FakeDetailsGenerator()
     
     private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 1, qosClass: .userInitiated)
@@ -109,7 +117,13 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private var currentAnnotations = [MKAnnotation]()
     private var staticCategories = [TelenavStaticCategory]()
     
+    private var annotationsSetupCallback: (() -> Void)?
+    
     private var currentLocation: CLLocationCoordinate2D?
+    
+    private var searchResultDisplaying: Bool = false
+    private var searchQuery: String?
+    private var hasMoreSearchResults: Bool = false
     
     lazy var catalogVC: CatalogViewController = {
         let vc = storyboard!.instantiateViewController(withIdentifier: "CatalogViewController") as! CatalogViewController
@@ -130,10 +144,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
        
         setApiKey()
         
-        TelenavCore.getSuggestions(location: TelenavGeoPoint(lat: 45.5, lon: 25), searchQuery: "food", includeEntity: false) { (result, err) in
-            print(result?.results)
-        }
-    
         fakeCategoriesService.getStaticCategories { (staticCats, err) in
             
             guard let categories = staticCats else {
@@ -258,6 +268,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             let coordinates = CLLocationCoordinate2D(latitude: coord.latitude ?? 0, longitude: coord.longitude ?? 0)
             
             let annotation = PlaceAnnotation(coordinate: coordinates, id: id)
+            annotation.title = entity.place?.name ?? "Place name"
             
             self.currentAnnotations = [annotation]
             
@@ -265,6 +276,31 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             
             self.mapView.setRegion(region, animated: true)
             self.mapView.addAnnotations(self.currentAnnotations)
+            
+            self.selectDetailOnMap(id: id)
+        }
+    }
+    
+    private func selectDetailOnMap(id: String) {
+        self.annotationsSetupCallback = {
+            
+            if let selectedAnn = self.currentAnnotations.first(where: { (ann) -> Bool in
+                
+                if let placeAnn = ann as? PlaceAnnotation {
+                    
+                    if placeAnn.placeId == id {
+                        return true
+                    } else {
+                        return false
+                    }
+                } else {
+                    return false
+                }
+            }) {
+                let view = self.mapView.view(for: selectedAnn)
+                self.mapView.selectAnnotation(selectedAnn, animated: true)
+                view?.isSelected = true
+            }
         }
     }
     
@@ -283,6 +319,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             let coordinates = CLLocationCoordinate2D(latitude: coord.latitude ?? 0, longitude: coord.longitude ?? 0)
             
             let annotation = PlaceAnnotation(coordinate: coordinates, id: id)
+            annotation.title = entity.place?.name ?? "Place name"
             
             self.currentAnnotations = [annotation]
             
@@ -291,6 +328,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.mapView.setRegion(region, animated: true)
             self.mapView.addAnnotations(self.currentAnnotations)
             self.backButton.isHidden = false
+            
+            self.selectDetailOnMap(id: id)
         }
     }
     
@@ -302,10 +341,12 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     func didSelectCategoryItem(_ item: StaticCategoryCellItem) {
         
+        searchTextField.resignFirstResponder()
+        
         switch item.cellType {
         case .categoryItem:
             
-            startSearch(searchQuery: (item as! StaticCategoryDisplayModel).staticCategory.name ?? "")
+            startSearch(searchQuery: (item as? StaticCategoryDisplayModel)?.staticCategory.name ?? "")
             self.backButton.isHidden = false
             
         case .moreItem:
@@ -381,12 +422,16 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.toggleDetailView(visible: true)
             
             self.catalogVisible = false
-            
+        
             completion?(detail)
         }
     }
     
     private func startSearch(searchQuery: String) {
+        
+        resetSearch()
+        
+        self.searchQuery = searchQuery
         
         let searchParams = TelenavSearchParams(searchQuery: searchQuery,
                                                location: TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
@@ -395,27 +440,34 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                                                showAddressLines: false)
         
         TelenavCore.search(searchParams: searchParams) { (telenavSearch, err) in
-            self.handleSearchResult(telenavSearch)
+            self.handleSearchResult(telenavSearch, isPaginated: false)
         }
     }
     
-    private func handleSearchResult(_ telenavSearch: TelenavSearch?) {
-        self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
+    private func handleSearchResult(_ telenavSearch: TelenavSearch?, isPaginated: Bool) {
         
-        for res in telenavSearch?.results ?? [] {
+        self.hasMoreSearchResults = telenavSearch?.hasMore ?? false
     
-            if self.searchContent.contains(where: { (searchRes) -> Bool in
-                searchRes.id == res.id
-            }) == false {
-                self.searchContent.append(res)
+        if isPaginated {
+            for res in telenavSearch?.results ?? [] {
+        
+                if self.searchContent.contains(where: { (searchRes) -> Bool in
+                    searchRes.id == res.id
+                }) == false {
+                    self.searchContent.append(res)
+                }
             }
+        } else {
+            self.searchContent = telenavSearch?.results ?? []
         }
         
+        self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
+                
         self.heightAnchor.constant = self.setupSearchHeight()
-        self.searchResultsVC.fillSearchResults(self.searchContent)
+        self.searchResultsVC.fillSearchResults(self.searchContent, resetPagination: isPaginated == false)
         self.searchVisible = true
         self.catalogVisible = false
-                    
+        self.searchResultDisplaying = true
         self.addAnnotations(from: self.searchContent)
     }
     
@@ -485,6 +537,8 @@ extension MapViewController: UITextFieldDelegate {
     
     private func addAnnotations(from searchResults: [TelenavEntity]) {
         
+        mapView.removeAnnotations(self.currentAnnotations)
+        
         let sortedSearch = searchResults.sorted { (s1, s2) -> Bool in
             s1.distance ?? 0 < s2.distance ?? 0
         }
@@ -523,10 +577,15 @@ extension MapViewController: UITextFieldDelegate {
     
     private func getSuggestions(text: String, comletion: @escaping ([TelenavSuggestionResult]) -> Void) {
         
-        fakeSuggestionsService.getSuggestions { (suggestions, err) in
+        let location = TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
+        
+        TelenavCore.getSuggestions(location: location, searchQuery: text, includeEntity: true) { (suggestions, err) in
             
-            guard let suggestions = suggestions else {
-                print(err?.localizedDescription)
+            guard let suggestions = suggestions?.results else {
+                if let err = err {
+                    print(err.localizedDescription)
+                }
+                
                 comletion([])
                 return
             }
@@ -538,14 +597,23 @@ extension MapViewController: UITextFieldDelegate {
     private func hidePredictionsView() {
         predictionsView.isHidden = true
     }
+    
+    private func resetSearch() {
+        self.searchQuery = nil
+        self.searchPaginationContext = nil
+        self.hasMoreSearchResults = false
+    }
 }
 
 extension MapViewController: SearchResultViewControllerDelegate {
     
     func loadMoreSearchResults() {
                 
-        TelenavCore.search(pageContext: self.searchPaginationContext) { (searchRes, err) in
-            self.handleSearchResult(searchRes)
+        if self.hasMoreSearchResults {
+            
+            TelenavCore.search(pageContext: self.searchPaginationContext) { (searchRes, err) in
+                self.handleSearchResult(searchRes, isPaginated: true)
+            }
         }
     }
    
@@ -565,11 +633,9 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
        
-        if view.annotation is PlaceAnnotation {
+        if let placeAnn = view.annotation as? PlaceAnnotation {
             
-            UIView.animate(withDuration: 0.3) {
-                view.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-            }
+            view.isSelected = true
         }
     }
     
@@ -577,9 +643,7 @@ extension MapViewController: MKMapViewDelegate {
         
         if view.annotation is PlaceAnnotation {
 
-            UIView.animate(withDuration: 0.3) {
-                view.transform = .identity
-            }
+            view.isSelected = false
         }
     }
     
@@ -597,6 +661,15 @@ extension MapViewController: MKMapViewDelegate {
         
         let customAnnotationView = self.customAnnotationView(in: mapView, for: annotation)
         return customAnnotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+     
+        if searchResultDisplaying == false {
+            annotationsSetupCallback?()
+        }
+        
+        searchResultDisplaying = false
     }
     
     private func customAnnotationView(in mapView: MKMapView, for annotation: MKAnnotation) -> PlaceAnnotationView {
