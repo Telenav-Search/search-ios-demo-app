@@ -240,8 +240,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
 
     private func toggleDetailView(visible: Bool) {
         detailsViewBottomConstraint?.constant = visible ? 0 : -(detailsView?.bounds.height ?? 220)
-        
         UIView.animate(withDuration: 0.3) {
+
             self.view.layoutIfNeeded()
         }
     }
@@ -435,9 +435,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
      }
     
     private func goToDetails(entityId: String, completion: ((TNEntity) -> Void)? = nil) {
-        fakeDetailsService.getDetails(id: entityId) { (telenavEntities, err) in
-
-            guard let detail = telenavEntities?.first else {
+        
+        TNEntityCore.getEntityDetails(entitiesIds: [entityId]) { (entities, err) in
+            guard let detail = entities?.first else {
                 return
             }
 
