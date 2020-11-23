@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3tG-fG-gxy">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Map View Controller-->
+        <!--Map-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="TelenavDemo" customModuleProvider="target" sceneMemberID="viewController">
@@ -95,6 +95,7 @@
                             <constraint firstItem="WIn-Qv-FkV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="t6Y-sr-bGK"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Map" image="map" catalog="system" selectedImage="map.fill" id="BwK-pI-jXe"/>
                     <connections>
                         <outlet property="backButton" destination="hi6-Gd-9ul" id="oI0-bU-lkX"/>
                         <outlet property="detailsView" destination="pzA-GP-v7g" id="IVp-hp-SOq"/>
@@ -113,6 +114,24 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="140.57971014492756" y="85.714285714285708"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="mWz-R3-Byq">
+            <objects>
+                <tabBarController id="3tG-fG-gxy" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ZmW-gr-yCx">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="0Nt-YM-xDy"/>
+                        <segue destination="aZK-zB-Mjo" kind="relationship" relationship="viewControllers" id="bf3-kN-dYE"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N44-V8-N6z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1565" y="-754"/>
         </scene>
         <!--Catalog View Controller-->
         <scene sceneID="Q4h-6L-OfX">
@@ -439,9 +458,142 @@
             </objects>
             <point key="canvasLocation" x="1811.594202898551" y="84.375"/>
         </scene>
+        <!--Settings-->
+        <scene sceneID="hLZ-Xx-LMq">
+            <objects>
+                <viewController id="aZK-zB-Mjo" customClass="CoordinateSettingsController" customModule="TelenavDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oNP-UO-wzl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set custom location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czo-68-Yzp">
+                                <rect key="frame" x="38" y="247.5" width="151" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="vLS-8f-Yiz">
+                                <rect key="frame" x="38" y="291.5" width="356" height="89"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="48" translatesAutoresizingMaskIntoConstraints="NO" id="4O3-rI-YYn">
+                                        <rect key="frame" x="0.0" y="0.0" width="356" height="34"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latitude:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFx-59-iwe">
+                                                <rect key="frame" x="0.0" y="0.0" width="67" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="lat" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3yg-1A-gtk">
+                                                <rect key="frame" x="115" y="0.0" width="241" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" textContentType="location"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="cVg-fw-H9I">
+                                        <rect key="frame" x="0.0" y="55" width="356" height="34"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longitude:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mkk-7Y-F0e">
+                                                <rect key="frame" x="0.0" y="0.0" width="81" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="lng" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AQn-58-fsC">
+                                                <rect key="frame" x="116" y="0.0" width="240" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="ASCIICapableNumberPad" textContentType="location"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Agd-lS-rPP">
+                                <rect key="frame" x="38" y="403.5" width="40" height="30"/>
+                                <state key="normal" title="Apply"/>
+                                <connections>
+                                    <action selector="didClickApplyLocation:" destination="aZK-zB-Mjo" eventType="touchUpInside" id="Yl3-KN-ZfS"/>
+                                </connections>
+                            </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2Bd-SW-Mj1">
+                                <rect key="frame" x="319" y="112" width="49" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="P1L-eE-9k0"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="cupertinoLocSwitchStateChange:" destination="aZK-zB-Mjo" eventType="valueChanged" id="Jy9-IY-2gm"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Cupertino, San Francisco location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xi4-MS-ZcC">
+                                <rect key="frame" x="20" y="117" width="290.5" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20.5" id="fs0-MX-LUh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use real device location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQ2-pL-Gjn">
+                                <rect key="frame" x="129.5" y="164" width="181" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20.5" id="PFd-Ca-ws4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hyr-De-sT3">
+                                <rect key="frame" x="319" y="159" width="49" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="dRR-ic-Fhs"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="realLocSwitchStateChange:" destination="aZK-zB-Mjo" eventType="valueChanged" id="a6O-sf-pmc"/>
+                                </connections>
+                            </switch>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="4E5-dJ-5YW"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Xi4-MS-ZcC" firstAttribute="leading" secondItem="4E5-dJ-5YW" secondAttribute="leading" constant="20" id="4RI-Ko-M35"/>
+                            <constraint firstItem="Xi4-MS-ZcC" firstAttribute="top" secondItem="4E5-dJ-5YW" secondAttribute="top" constant="73" id="4jW-p7-hFe"/>
+                            <constraint firstItem="Agd-lS-rPP" firstAttribute="leading" secondItem="4E5-dJ-5YW" secondAttribute="leading" constant="38" id="617-ae-6z8"/>
+                            <constraint firstItem="4E5-dJ-5YW" firstAttribute="trailing" secondItem="2Bd-SW-Mj1" secondAttribute="trailing" constant="48" id="7IC-td-hhw"/>
+                            <constraint firstItem="4E5-dJ-5YW" firstAttribute="trailing" secondItem="vLS-8f-Yiz" secondAttribute="trailing" constant="20" id="CHY-C6-bRd"/>
+                            <constraint firstItem="Czo-68-Yzp" firstAttribute="top" secondItem="uQ2-pL-Gjn" secondAttribute="bottom" constant="63" id="FM3-27-kVN"/>
+                            <constraint firstItem="Czo-68-Yzp" firstAttribute="leading" secondItem="4E5-dJ-5YW" secondAttribute="leading" constant="38" id="Fw3-N8-NPJ"/>
+                            <constraint firstItem="Hyr-De-sT3" firstAttribute="leading" secondItem="2Bd-SW-Mj1" secondAttribute="leading" id="GAf-2z-5AB"/>
+                            <constraint firstItem="2Bd-SW-Mj1" firstAttribute="centerY" secondItem="Xi4-MS-ZcC" secondAttribute="centerY" id="GjR-Wj-Qng"/>
+                            <constraint firstItem="uQ2-pL-Gjn" firstAttribute="top" secondItem="Xi4-MS-ZcC" secondAttribute="bottom" constant="26.5" id="KBU-J4-h6g"/>
+                            <constraint firstItem="Hyr-De-sT3" firstAttribute="leading" secondItem="uQ2-pL-Gjn" secondAttribute="trailing" constant="8.5" id="QOj-zS-b6c"/>
+                            <constraint firstItem="vLS-8f-Yiz" firstAttribute="top" secondItem="Czo-68-Yzp" secondAttribute="bottom" constant="23.5" id="XuQ-Pb-PDz"/>
+                            <constraint firstItem="Agd-lS-rPP" firstAttribute="top" secondItem="vLS-8f-Yiz" secondAttribute="bottom" constant="23" id="gml-1g-ZPL"/>
+                            <constraint firstItem="2Bd-SW-Mj1" firstAttribute="leading" secondItem="Xi4-MS-ZcC" secondAttribute="trailing" constant="8.5" id="hvq-yu-S3Z"/>
+                            <constraint firstItem="vLS-8f-Yiz" firstAttribute="leading" secondItem="4E5-dJ-5YW" secondAttribute="leading" constant="38" id="tfF-Ro-BOm"/>
+                            <constraint firstItem="Hyr-De-sT3" firstAttribute="centerY" secondItem="uQ2-pL-Gjn" secondAttribute="centerY" id="tjp-JG-6b5"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" image="gearshape" catalog="system" selectedImage="gearshape.fill" id="gSy-ic-q9K"/>
+                    <connections>
+                        <outlet property="applyBtn" destination="Agd-lS-rPP" id="8b3-2A-SGZ"/>
+                        <outlet property="cupertinoLocSwitch" destination="2Bd-SW-Mj1" id="y7m-pk-SXv"/>
+                        <outlet property="latTextField" destination="3yg-1A-gtk" id="bYO-mk-lgi"/>
+                        <outlet property="lngTextField" destination="AQn-58-fsC" id="Vea-qI-hYc"/>
+                        <outlet property="realLocSwitch" destination="Hyr-De-sT3" id="zcZ-9o-LuS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2oZ-7E-aaI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2762.3188405797105" y="85.714285714285708"/>
+        </scene>
     </scenes>
     <resources>
         <image name="arrow.left" catalog="system" width="128" height="98"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
+        <image name="gearshape.fill" catalog="system" width="128" height="121"/>
+        <image name="map" catalog="system" width="128" height="110"/>
+        <image name="map.fill" catalog="system" width="128" height="110"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <image name="star.circle" catalog="system" width="128" height="121"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
