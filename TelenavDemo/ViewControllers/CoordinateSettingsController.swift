@@ -13,6 +13,8 @@ class CoordinateSettingsController: UIViewController {
     @IBOutlet weak var lngTextField: UITextField!
     @IBOutlet weak var latTextField: UITextField!
     @IBOutlet weak var applyBtn: UIButton!
+    @IBOutlet weak var cupertinoLocSwitch: UISwitch!
+    @IBOutlet weak var realLocSwitch: UISwitch!
     
     var location: CLLocationCoordinate2D?
     
@@ -23,11 +25,20 @@ class CoordinateSettingsController: UIViewController {
         latTextField.delegate = self
     }
 
-    @IBAction func didClickUseCupertinoLocation(_ sender: Any) {
-
-        location = CLLocationCoordinate2D(latitude: 37.78274, longitude: -122.43152)
-        
-        postLocationNotif()
+    @IBAction func cupertinoLocSwitchStateChange(_ sender: UISwitch) {
+        realLocSwitch.isOn = !cupertinoLocSwitch.isOn
+        if cupertinoLocSwitch.isOn {
+            location = CLLocationCoordinate2D(latitude: 37.78274, longitude: -122.43152)
+            postLocationNotif()
+        }
+    }
+    
+    @IBAction func realLocSwitchStateChange(_ sender: UISwitch) {
+        cupertinoLocSwitch.isOn = !realLocSwitch.isOn
+        if realLocSwitch.isOn {
+            location = nil
+            postLocationNotif()
+        }
     }
     
     @IBAction func didClickApplyLocation(_ sender: Any) {
@@ -39,15 +50,21 @@ class CoordinateSettingsController: UIViewController {
         location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
         
         postLocationNotif()
+        realLocSwitch.isOn = false
+        cupertinoLocSwitch.isOn = false
     }
     
     private func postLocationNotif() {
-        
-        guard let location = self.location else {
-            return
+        var userInfo = [String: Any]()
+
+        if let location = self.location {
+            userInfo["location"] = location
+        } else {
+            userInfo["useReal"] = true
         }
         
-        NotificationCenter.default.post(name: Notification.Name("LocationChangedNotification"), object: nil, userInfo: ["location" : location])
+        
+        NotificationCenter.default.post(name: Notification.Name("LocationChangedNotification"), object: nil, userInfo: userInfo)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

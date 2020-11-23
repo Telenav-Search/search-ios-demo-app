@@ -120,7 +120,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private var annotationsSetupCallback: (() -> Void)?
     
     private var currentLocation: CLLocationCoordinate2D?
-    
+    private var fakeLocation: CLLocationCoordinate2D?
+
     private var searchResultDisplaying: Bool = false
     private var searchQuery: String?
     private var hasMoreSearchResults: Bool = false
@@ -162,12 +163,17 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         NotificationCenter.default.addObserver(forName: Notification.Name("LocationChangedNotification"), object: nil, queue: .main) { [weak self] (notif) in
 
-            guard let location = notif.userInfo?["location"] as? CLLocationCoordinate2D else {
-                return
+            if let location = notif.userInfo?["location"] as? CLLocationCoordinate2D {
+                self?.fakeLocation = location
+                self?.currentLocation = location
+            } else if let useReal = notif.userInfo?["useReal"] as? Bool, useReal == true {
+                self?.fakeLocation = nil
+                if let realLoc = self?.locationManager.location?.coordinate {
+                    self?.currentLocation = realLoc
+                }
             }
 
-            self?.currentLocation = location
-        }
+       }
     }
     
     
@@ -391,7 +397,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
 
-//        self.currentLocation = locValue
+        if let fakeLocation = self.fakeLocation {
+            self.currentLocation = fakeLocation
+        } else {
+            self.currentLocation = locValue
+        }
 //        setPinUsingMKPointAnnotation(location: locValue)
     }
     
