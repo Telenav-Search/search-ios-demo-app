@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import TelenavSDK
+import TelenavEntitySDK
 
 protocol StaticCategoriesDisplayManagerDelegate: class {
     func didSelectCategoryItem(_ item: StaticCategoryCellItem)

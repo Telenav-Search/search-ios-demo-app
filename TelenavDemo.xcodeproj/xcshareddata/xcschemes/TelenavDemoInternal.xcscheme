@@ -15,23 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "06751A91253D7E84001F6B11"
-               BuildableName = "TelenavSDK.framework"
-               BlueprintName = "TelenavSDK"
-               ReferencedContainer = "container:../TelenavSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E41A60F71F46A87FA8905C7BFC29D81"
-               BuildableName = "Pods_TelenavSDK.framework"
-               BlueprintName = "Pods-TelenavSDK"
-               ReferencedContainer = "container:../Pods/Pods.xcodeproj">
+               BuildableName = "TelenavEntitySDK.framework"
+               BlueprintName = "TelenavEntitySDK"
+               ReferencedContainer = "container:../TelenavEntitySDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -48,6 +34,20 @@
                ReferencedContainer = "container:TelenavDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9B74D8D85D2623E81B8591C8232D44C9"
+               BuildableName = "Pods_TelenavEntitySDK.framework"
+               BlueprintName = "Pods-TelenavEntitySDK"
+               ReferencedContainer = "container:../Pods/Pods.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "06751A9A253D7E84001F6B11"
-               BuildableName = "TelenavSDKTests.xctest"
-               BlueprintName = "TelenavSDKTests"
-               ReferencedContainer = "container:../TelenavSDK.xcodeproj">
+               BuildableName = "TelenavEntitySDKTests.xctest"
+               BlueprintName = "TelenavEntitySDKTests"
+               ReferencedContainer = "container:../TelenavEntitySDK.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

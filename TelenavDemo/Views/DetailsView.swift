@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import TelenavSDK
+import TelenavEntitySDK
 
 class DetailsView: UIView {
     
@@ -40,7 +40,7 @@ class DetailsView: UIView {
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
     
-    func fillEntity(_ entity: TelenavEntity) {
+    func fillEntity(_ entity: TNEntity) {
         
         switch entity.type {
         case .address:

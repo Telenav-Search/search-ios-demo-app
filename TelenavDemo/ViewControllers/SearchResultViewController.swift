@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import TelenavSDK
+import TelenavEntitySDK
 
 protocol SearchResultViewControllerDelegate: class {
     func goBack()
@@ -27,7 +27,7 @@ class SearchResultViewController: UIViewController {
     
     var lastDisplayedIndexPath: IndexPath?
     
-    private var content = [TelenavEntity]()
+    private var content = [TNEntity]()
     
     weak var delegate: SearchResultViewControllerDelegate?
     
@@ -37,7 +37,7 @@ class SearchResultViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func fillSearchResults(_ content: [TelenavEntity], resetPagination: Bool = false) {
+    func fillSearchResults(_ content: [TNEntity], resetPagination: Bool = false) {
         self.content = content
         
         if resetPagination == true {
@@ -70,7 +70,6 @@ extension SearchResultViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        //TODO: For pagination
         guard let lastDisplayedIndexPath = lastDisplayedIndexPath else {
             self.lastDisplayedIndexPath = indexPath
             return

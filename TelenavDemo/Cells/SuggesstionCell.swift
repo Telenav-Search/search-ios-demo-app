@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import TelenavSDK
+import TelenavEntitySDK
 
 class SuggesstionCell: UITableViewCell {
 

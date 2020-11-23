@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import TelenavSDK
+import TelenavEntitySDK
 
 class SearchResultCell: UITableViewCell {
 
@@ -30,7 +30,7 @@ class SearchResultCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func fillSearchResultItem(_ item: TelenavEntity, itemNumber: Int) {
+    func fillSearchResultItem(_ item: TNEntity, itemNumber: Int) {
         self.numberLabel.text = "\(itemNumber)."
         self.nameLabel.text = item.place?.name
         self.addressLabel.text = item.place?.address?.formattedAddress

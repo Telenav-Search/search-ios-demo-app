@@ -6,11 +6,11 @@
 //
 
 import UIKit
-import TelenavSDK
+import TelenavEntitySDK
 
 class TelenavCategoryDisplayModel {
 
-    var category: TelenavCategory
+    var category: TNEntityCategory
     var catLevel: Int = 0
     var isExpanded: Bool = false
     var imgName: String {
@@ -31,7 +31,7 @@ class TelenavCategoryDisplayModel {
         return image
     }
     
-    init(category: TelenavCategory, catLevel: Int) {
+    init(category: TNEntityCategory, catLevel: Int) {
         self.category = category
         self.catLevel = catLevel
     }
