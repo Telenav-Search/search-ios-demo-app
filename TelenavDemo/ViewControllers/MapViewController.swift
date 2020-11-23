@@ -159,7 +159,17 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         configureLocationManager()
         addChildView()
         addSearchAsChild()
+        
+        NotificationCenter.default.addObserver(forName: Notification.Name("LocationChangedNotification"), object: nil, queue: .main) { [weak self] (notif) in
+
+            guard let location = notif.userInfo?["location"] as? CLLocationCoordinate2D else {
+                return
+            }
+
+            self?.currentLocation = location
+        }
     }
+    
     
     func configureLocationManager() {
         self.locationManager.requestAlwaysAuthorization()
@@ -381,7 +391,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
 
-        self.currentLocation = locValue
+//        self.currentLocation = locValue
 //        setPinUsingMKPointAnnotation(location: locValue)
     }
     
