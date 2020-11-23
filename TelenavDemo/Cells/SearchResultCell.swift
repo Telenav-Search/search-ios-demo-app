@@ -31,7 +31,7 @@ class SearchResultCell: UITableViewCell {
     }
 
     func fillSearchResultItem(_ item: TelenavEntity, itemNumber: Int) {
-        self.numberLabel.text = "\(itemNumber)"
+        self.numberLabel.text = "\(itemNumber)."
         self.nameLabel.text = item.place?.name
         self.addressLabel.text = item.place?.address?.formattedAddress
         
