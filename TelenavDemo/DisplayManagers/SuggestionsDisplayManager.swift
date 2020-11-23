@@ -53,6 +53,13 @@ extension SuggestionsDisplayManager: UITableViewDataSource {
         return cell
     }
 
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Suggestions"
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
 }
 
 extension SuggestionsDisplayManager: UITableViewDelegate {
