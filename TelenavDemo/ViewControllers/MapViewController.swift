@@ -498,7 +498,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         let location = TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
         
-        TNEntityCore.getWord(location: location, searchQuery: searchQuery) { (prediction, err) in
+        TNEntityCore.getWordPredictions(location: location, searchQuery: searchQuery) { (prediction, err) in
             
             if let predictions = prediction?.results {
                 
