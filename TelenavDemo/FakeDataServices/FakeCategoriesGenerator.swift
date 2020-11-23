@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import TelenavSDK
+import TelenavEntitySDK
 
 class FakeCategoriesGenerator {
     

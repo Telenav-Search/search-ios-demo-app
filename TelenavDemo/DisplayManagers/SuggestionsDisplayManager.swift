@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import TelenavSDK
+import TelenavEntitySDK
 
 protocol SuggestionsDisplayManagerDelegate: class {
     func didSelectSuggestion(id: String)

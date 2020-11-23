@@ -7,7 +7,7 @@
 
 #import "ObjcExample.h"
 #import "TelenavDemo-Swift.h"
-//@import TelenavSDK;
+//@import TelenavEntitySDK;
 
 @implementation ObjcExample
 

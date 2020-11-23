@@ -28,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E41A60F71F46A87FA8905C7BFC29D81"
-               BuildableName = "Pods_TelenavSDK.framework"
-               BlueprintName = "Pods-TelenavSDK"
-               ReferencedContainer = "container:../Pods/Pods.xcodeproj">
+               BlueprintIdentifier = "06029951254AD18A003D760A"
+               BuildableName = "TelenavDemoInternal.app"
+               BlueprintName = "TelenavDemoInternal"
+               ReferencedContainer = "container:TelenavDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -42,10 +42,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "06029951254AD18A003D760A"
-               BuildableName = "TelenavDemoInternal.app"
-               BlueprintName = "TelenavDemoInternal"
-               ReferencedContainer = "container:TelenavDemo.xcodeproj">
+               BlueprintIdentifier = "9B74D8D85D2623E81B8591C8232D44C9"
+               BuildableName = "Pods_TelenavEntitySDK.framework"
+               BlueprintName = "Pods-TelenavEntitySDK"
+               ReferencedContainer = "container:../Pods/Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
