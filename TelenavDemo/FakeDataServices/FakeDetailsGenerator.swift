@@ -6,18 +6,18 @@
 //
 
 import Foundation
-import TelenavSDK
+import TelenavEntitySDK
 
 class FakeDetailsGenerator {
         
-    func getDetails(id: String, completion: @escaping ([TelenavEntity]?, Error?) -> Void) {
+    func getDetails(id: String, completion: @escaping ([TNEntity]?, Error?) -> Void) {
         
         let detail = getDetailFromFakeJSON()
         
         completion(detail, nil)
     }
     
-    private func getDetailFromFakeJSON() -> [TelenavEntity] {
+    private func getDetailFromFakeJSON() -> [TNEntity] {
         
         guard let categoriesJSONURL = Bundle.main.url(forResource: "FakeDetails", withExtension: "json") else {
             return  []
@@ -29,7 +29,7 @@ class FakeDetailsGenerator {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
-            let details = try decoder.decode([TelenavEntity].self, from: jsonData)
+            let details = try decoder.decode([TNEntity].self, from: jsonData)
             
             return details
         } catch {

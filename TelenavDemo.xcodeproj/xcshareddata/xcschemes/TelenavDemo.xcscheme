@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "06751A91253D7E84001F6B11"
-               BuildableName = "TelenavSDK.framework"
-               BlueprintName = "TelenavSDK"
-               ReferencedContainer = "container:../TelenavSDK.xcodeproj">
+               BuildableName = "TelenavEntitySDK.framework"
+               BlueprintName = "TelenavEntitySDK"
+               ReferencedContainer = "container:../TelenavEntitySDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

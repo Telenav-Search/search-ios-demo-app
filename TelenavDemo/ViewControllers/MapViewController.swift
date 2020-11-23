@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import TelenavSDK
+import TelenavEntitySDK
 import Alamofire
 import MapKit
 
@@ -113,9 +113,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
 
     private var searchPaginationContext: String?
-    private var searchContent = [TelenavEntity]()
+    private var searchContent = [TNEntity]()
     private var currentAnnotations = [MKAnnotation]()
-    private var staticCategories = [TelenavStaticCategory]()
+    private var staticCategories = [TNEntityStaticCategory]()
     
     private var annotationsSetupCallback: (() -> Void)?
     
@@ -143,7 +143,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        setApiKey()
+        setupSDK()
         
         fakeCategoriesService.getStaticCategories { (staticCats, err) in
             
@@ -246,9 +246,12 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    private func setApiKey() {
+    private func setupSDK() {
+        TNEntityCore.setHost("http://restapidev.telenav.com/entity/v5/")
         
-        TelenavCore.setApiKey("3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f")
+        let skdOptions = TNEntitySDKOptions(apiKey: "3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f", deviceId: nil, userId: nil, locale: Locale.current.languageCode)
+        
+        TNEntityCore.setApiOptions(skdOptions)
     }
     
     // MARK: - Actions
@@ -367,7 +370,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             
         case .moreItem:
             
-            TelenavCore.getCategories { (categories, err) in
+            TNEntityCore.getCategories { (categories, err) in
 
                 guard let categories = categories else {
                     return
@@ -431,7 +434,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
          return region
      }
     
-    private func goToDetails(entityId: String, completion: ((TelenavEntity) -> Void)? = nil) {
+    private func goToDetails(entityId: String, completion: ((TNEntity) -> Void)? = nil) {
         fakeDetailsService.getDetails(id: entityId) { (telenavEntities, err) in
 
             guard let detail = telenavEntities?.first else {
@@ -454,17 +457,17 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         self.searchQuery = searchQuery
         
         let searchParams = TelenavSearchParams(searchQuery: searchQuery,
-                                               location: TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
+                                               location: TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
                                                filters: nil,
                                                searchOptionsIntent: SearchOptionIntent.around,
                                                showAddressLines: false)
         
-        TelenavCore.search(searchParams: searchParams) { (telenavSearch, err) in
+        TNEntityCore.search(searchParams: searchParams) { (telenavSearch, err) in
             self.handleSearchResult(telenavSearch, isPaginated: false)
         }
     }
     
-    private func handleSearchResult(_ telenavSearch: TelenavSearch?, isPaginated: Bool) {
+    private func handleSearchResult(_ telenavSearch: TNEntitySearch?, isPaginated: Bool) {
         
         self.hasMoreSearchResults = telenavSearch?.hasMore ?? false
     
@@ -493,9 +496,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func getPredictions(on searchQuery: String) {
         
-        let location = TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
+        let location = TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
         
-        TelenavCore.getWord(location: location, searchQuery: searchQuery) { (prediction, err) in
+        TNEntityCore.getWord(location: location, searchQuery: searchQuery) { (prediction, err) in
             
             if let predictions = prediction?.results {
                 
@@ -555,7 +558,7 @@ extension MapViewController: UITextFieldDelegate {
         return true
     }
     
-    private func addAnnotations(from searchResults: [TelenavEntity]) {
+    private func addAnnotations(from searchResults: [TNEntity]) {
         
         mapView.removeAnnotations(self.currentAnnotations)
         
@@ -597,9 +600,9 @@ extension MapViewController: UITextFieldDelegate {
     
     private func getSuggestions(text: String, comletion: @escaping ([TelenavSuggestionResult]) -> Void) {
         
-        let location = TelenavGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
+        let location = TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
         
-        TelenavCore.getSuggestions(location: location, searchQuery: text, includeEntity: true) { (suggestions, err) in
+        TNEntityCore.getSuggestions(location: location, searchQuery: text, includeEntity: true) { (suggestions, err) in
             
             guard let suggestions = suggestions?.results else {
                 if let err = err {
@@ -631,7 +634,7 @@ extension MapViewController: SearchResultViewControllerDelegate {
                 
         if self.hasMoreSearchResults {
             
-            TelenavCore.search(pageContext: self.searchPaginationContext) { (searchRes, err) in
+            TNEntityCore.search(pageContext: self.searchPaginationContext) { (searchRes, err) in
                 self.handleSearchResult(searchRes, isPaginated: true)
             }
         }
