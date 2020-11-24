@@ -20,7 +20,7 @@ class SuggesstionCell: UITableViewCell {
         contentView.layoutIfNeeded()
     }
 
-    func fillSuggestion(_ suggestion: TelenavSuggestionResult) {
+    func fillSuggestion(_ suggestion: TelenavSuggestion) {
         self.suggestionTitleLabel.text = suggestion.formattedLabel
         self.distanceLabel.text = suggestion.entity?.formattedDistance
     }

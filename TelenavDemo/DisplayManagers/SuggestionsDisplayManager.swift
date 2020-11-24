@@ -14,7 +14,7 @@ protocol SuggestionsDisplayManagerDelegate: class {
 
 class SuggestionsDisplayManager: NSObject {
 
-    var suggestions: [TelenavSuggestionResult] = []
+    var suggestions: [TelenavSuggestion] = []
     
     weak var delegate: SuggestionsDisplayManagerDelegate?
     

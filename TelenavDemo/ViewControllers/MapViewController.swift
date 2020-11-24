@@ -461,10 +461,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         self.searchQuery = searchQuery
         
-        let searchParams = TelenavSearchParams(searchQuery: searchQuery,
+        let searchParams = TNEntitySearchParams(searchQuery: searchQuery,
                                                location: TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
                                                filters: nil,
-                                               searchOptionsIntent: SearchOptionIntent.around,
+                                               searchOptionsIntent: TNEntitySearchOptionIntent.around,
                                                showAddressLines: false)
         
         TNEntityCore.search(searchParams: searchParams) { (telenavSearch, err) in
@@ -472,7 +472,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    private func handleSearchResult(_ telenavSearch: TNEntitySearch?, isPaginated: Bool) {
+    private func handleSearchResult(_ telenavSearch: TNEntitySearchResult?, isPaginated: Bool) {
         
         self.hasMoreSearchResults = telenavSearch?.hasMore ?? false
     
@@ -503,7 +503,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         let location = TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
         
-        TNEntityCore.getWordPredictions(location: location, searchQuery: searchQuery) { (prediction, err) in
+        let params = TNEntityPredictionWordParams(searchQuery: searchQuery, location: location)
+    
+        TNEntityCore.getWordPredictions(params: params) { (prediction, err) in
             
             if let predictions = prediction?.results {
                 
@@ -603,11 +605,13 @@ extension MapViewController: UITextFieldDelegate {
         mapView.addAnnotations(annotations)
     }
     
-    private func getSuggestions(text: String, comletion: @escaping ([TelenavSuggestionResult]) -> Void) {
+    private func getSuggestions(text: String, comletion: @escaping ([TelenavSuggestion]) -> Void) {
         
         let location = TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
         
-        TNEntityCore.getSuggestions(location: location, searchQuery: text, includeEntity: true) { (suggestions, err) in
+        let params = TNEntitySuggestionParams(searchQuery: text, location: location, includeEntity: true)
+        
+        TNEntityCore.getSuggestions(params: params) { (suggestions, err) in
             
             guard let suggestions = suggestions?.results else {
                 if let err = err {

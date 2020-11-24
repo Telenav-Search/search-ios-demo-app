@@ -10,14 +10,14 @@ import TelenavEntitySDK
 
 class FakeSearchGenerator: NSObject {
 
-    func getSearchResult(query: String, completion: @escaping (TNEntitySearch?, Error?) -> Void) {
+    func getSearchResult(query: String, completion: @escaping (TNEntitySearchResult?, Error?) -> Void) {
         
         let searchResult = getSearchResultFromFakeJSON()
         
         completion(searchResult, nil)
     }
     
-    private func getSearchResultFromFakeJSON() -> TNEntitySearch? {
+    private func getSearchResultFromFakeJSON() -> TNEntitySearchResult? {
         
         guard let categoriesJSONURL = Bundle.main.url(forResource: "FakeSearchResults", withExtension: "json") else {
             return nil
@@ -29,7 +29,7 @@ class FakeSearchGenerator: NSObject {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
-            let search = try decoder.decode(TNEntitySearch.self, from: jsonData)
+            let search = try decoder.decode(TNEntitySearchResult.self, from: jsonData)
             
             return search
         } catch {

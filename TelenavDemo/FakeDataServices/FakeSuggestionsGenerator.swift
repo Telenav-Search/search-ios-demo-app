@@ -10,14 +10,14 @@ import TelenavEntitySDK
 
 class FakeSuggestionsGenerator {
         
-    func getSuggestions(completion: @escaping ([TelenavSuggestionResult]?, Error?) -> Void) {
+    func getSuggestions(completion: @escaping ([TelenavSuggestion]?, Error?) -> Void) {
         
         let suggestions = getSuggesstionsFromFakeJSON()
         
         completion(suggestions, nil)
     }
     
-    private func getSuggesstionsFromFakeJSON() -> [TelenavSuggestionResult] {
+    private func getSuggesstionsFromFakeJSON() -> [TelenavSuggestion] {
         
         guard let categoriesJSONURL = Bundle.main.url(forResource: "FakeSuggestions", withExtension: "json") else {
             return []
@@ -29,7 +29,7 @@ class FakeSuggestionsGenerator {
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
-            let presets = try decoder.decode([TelenavSuggestionResult].self, from: jsonData)
+            let presets = try decoder.decode([TelenavSuggestion].self, from: jsonData)
             
             return presets
         } catch {

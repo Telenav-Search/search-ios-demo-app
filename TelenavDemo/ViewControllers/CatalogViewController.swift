@@ -59,7 +59,7 @@ class CatalogViewController: UIViewController  {
         self.staticCategoriesDisplayManager.reloadTable()
     }
     
-    func fillSuggestions(_ suggestions: [TelenavSuggestionResult]) {
+    func fillSuggestions(_ suggestions: [TelenavSuggestion]) {
         self.suggestionsDisplayManager.suggestions = suggestions
         self.suggestionsDisplayManager.reloadTable()
     }

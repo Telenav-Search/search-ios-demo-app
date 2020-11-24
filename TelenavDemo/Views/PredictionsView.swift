@@ -12,13 +12,13 @@ class PredictionsView: UIView {
 
     @IBOutlet var contentView: UIView!
 
-    var content = [TelenavPredictionWordResult]() {
+    var content = [TelenavPredictionWord]() {
         didSet {
             collectionView.reloadData()
         }
     }
     
-    var selectedWordCallback: ((TelenavPredictionWordResult) -> Void)?
+    var selectedWordCallback: ((TelenavPredictionWord) -> Void)?
     
     @IBOutlet weak var collectionView: SelfSizedCollectionView! {
         didSet {
