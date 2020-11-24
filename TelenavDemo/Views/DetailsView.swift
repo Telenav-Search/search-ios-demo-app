@@ -50,7 +50,8 @@ class DetailsView: UIView {
             content = [
                 DetailViewDisplayModel(fieldName: "Name", fieldValue: entity.place?.name ?? ""),
                 DetailViewDisplayModel(fieldName: "Address", fieldValue: entity.place?.address?.addressLines?.joined(separator: "\n") ?? ""),
-                DetailViewDisplayModel(fieldName: "Website", fieldValue: entity.place?.websites?.joined(separator: "\n") ?? "")
+                DetailViewDisplayModel(fieldName: "Website", fieldValue: entity.place?.websites?.joined(separator: "\n") ?? ""),
+                DetailViewDisplayModel(fieldName: "Phone numbers", fieldValue: entity.place?.phoneNumbers?.joined(separator: "\n") ?? "")
             ]
             
             if let distance = entity.formattedDistance {

@@ -162,7 +162,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         addSearchAsChild()
         
         NotificationCenter.default.addObserver(forName: Notification.Name("LocationChangedNotification"), object: nil, queue: .main) { [weak self] (notif) in
-
+            
             if let location = notif.userInfo?["location"] as? CLLocationCoordinate2D {
                 self?.fakeLocation = location
                 self?.currentLocation = location
@@ -172,10 +172,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     self?.currentLocation = realLoc
                 }
             }
-
-       }
+        }
     }
-    
     
     func configureLocationManager() {
         self.locationManager.requestAlwaysAuthorization()
@@ -240,8 +238,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
 
     private func toggleDetailView(visible: Bool) {
         detailsViewBottomConstraint?.constant = visible ? 0 : -(detailsView?.bounds.height ?? 220)
-        
         UIView.animate(withDuration: 0.3) {
+
             self.view.layoutIfNeeded()
         }
     }
@@ -435,9 +433,16 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
      }
     
     private func goToDetails(entityId: String, completion: ((TNEntity) -> Void)? = nil) {
-        fakeDetailsService.getDetails(id: entityId) { (telenavEntities, err) in
-
-            guard let detail = telenavEntities?.first else {
+        
+        let params = TNEntityParams(ids: [entityId])
+        
+        TNEntityCore.getEntityDetails(params: params) { [weak self] (entities, err) in
+            
+            guard let self = self else {
+                return
+            }
+            
+            guard let detail = entities?.first else {
                 return
             }
 

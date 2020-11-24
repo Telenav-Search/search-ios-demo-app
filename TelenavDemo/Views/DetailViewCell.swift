@@ -13,6 +13,8 @@ class DetailViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var detailTextView: UITextView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -26,6 +28,6 @@ class DetailViewCell: UITableViewCell {
     
     func fillDetail(_ detailInfo: DetailViewDisplayModel) {
         nameLabel.text = detailInfo.fieldName
-        titleLabel.text = detailInfo.fieldValue
+        detailTextView.text = detailInfo.fieldValue
     }
 }
