@@ -475,7 +475,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private func handleSearchResult(_ telenavSearch: TNEntitySearchResult?, isPaginated: Bool) {
         
         self.hasMoreSearchResults = telenavSearch?.hasMore ?? false
-    
+        
         if isPaginated {
             for res in telenavSearch?.results ?? [] {
         
@@ -488,6 +488,12 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         } else {
             self.searchContent = telenavSearch?.results ?? []
         }
+        
+        let sortedSearch = self.searchContent.sorted { (s1, s2) -> Bool in
+            s1.distance ?? 0 < s2.distance ?? 0
+        }
+        
+        self.searchContent = sortedSearch
         
         self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
                 
@@ -568,14 +574,10 @@ extension MapViewController: UITextFieldDelegate {
     private func addAnnotations(from searchResults: [TNEntity]) {
         
         mapView.removeAnnotations(self.currentAnnotations)
-        
-        let sortedSearch = searchResults.sorted { (s1, s2) -> Bool in
-            s1.distance ?? 0 < s2.distance ?? 0
-        }
-                
+              
         var annotations = [MKAnnotation]()
         
-        for (idx,res) in sortedSearch.enumerated() {
+        for (idx,res) in searchResults.enumerated() {
             let annotation = PlaceAnnotation(coordinate: CLLocationCoordinate2D(latitude: res.place?.address?.geoCoordinates?.latitude ?? 0, longitude: res.place?.address?.geoCoordinates?.longitude ?? 0), id: res.id!)
             annotation.title = res.place?.name
             annotation.number = idx + 1
@@ -652,6 +654,16 @@ extension MapViewController: SearchResultViewControllerDelegate {
     func didSelectResultItem(id: String) {
         backButton.isHidden = false
         goToDetails(entityId: id)
+        
+        if let ann = currentAnnotations.first(where: { (ann) -> Bool in
+            if let placeAnn = ann as? PlaceAnnotation, placeAnn.placeId == id {
+                return true
+            }
+            return false
+        }) {
+            
+            mapView.selectAnnotation(ann, animated: true)
+        }
     }
 
     func goBack() {
