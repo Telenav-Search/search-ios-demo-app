@@ -162,7 +162,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         addSearchAsChild()
         
         NotificationCenter.default.addObserver(forName: Notification.Name("LocationChangedNotification"), object: nil, queue: .main) { [weak self] (notif) in
-
+            
             if let location = notif.userInfo?["location"] as? CLLocationCoordinate2D {
                 self?.fakeLocation = location
                 self?.currentLocation = location
@@ -172,10 +172,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     self?.currentLocation = realLoc
                 }
             }
-
-       }
+        }
     }
-    
     
     func configureLocationManager() {
         self.locationManager.requestAlwaysAuthorization()
@@ -436,7 +434,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func goToDetails(entityId: String, completion: ((TNEntity) -> Void)? = nil) {
         
-        TNEntityCore.getEntityDetails(entitiesIds: [entityId]) { (entities, err) in
+        let params = TNEntityParams(ids: [entityId])
+        
+        TNEntityCore.getEntityDetails(params: params) { [weak self] (entities, err) in
+            
+            guard let self = self else {
+                return
+            }
+            
             guard let detail = entities?.first else {
                 return
             }
