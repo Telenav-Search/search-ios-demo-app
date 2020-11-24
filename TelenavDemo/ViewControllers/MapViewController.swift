@@ -75,7 +75,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         self.catalogVC.fillSuggestions(result)
                     }
                 }
-                
+                self.hidePredictionsView()
                 self.getPredictions(on: predictionWithWhitespace)
             }
         }
