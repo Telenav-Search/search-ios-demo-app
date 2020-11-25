@@ -71,23 +71,6 @@ class DetailsViewAnimator: NSObject {
         }
     }
 
-    @IBAction func didTapTripDetailsView(_ sender: UITapGestureRecognizer) {
-        
-        guard let position = detailsViewPosition else { return }
-        
-        switch position {
-        case .collapsed:
-            self.moveDetailsCard(toPosition: kStandrdDetailViewBottomConstrainValue)
-            self.detailsViewPosition = .standard
-        case .standard:
-            self.moveDetailsCard(toPosition: kExtendedDetailViewBottomConstrainValue)
-            self.detailsViewPosition = .extended
-        case .extended:
-            self.moveDetailsCard(toPosition: kStandrdDetailViewBottomConstrainValue)
-            self.detailsViewPosition = .standard
-        }
-    }
-    
     func moveDetailsCard(toPosition newHeigth: CGFloat) {
         
         bottomConstraint.constant = newHeigth
