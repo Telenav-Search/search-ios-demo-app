@@ -277,33 +277,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     // MARK: - Catalog Delegate
     
-    func goToChildCategory(id: String) {
+    func goToChildCategory(name: String) {
         searchTextField.resignFirstResponder()
         
         mapView.removeAnnotations(self.currentAnnotations)
         
         self.backButton.isHidden = false
         
-        goToDetails(entityId: id) { (entity) in
-            
-            guard let coord = entity.place?.address?.geoCoordinates, let id = entity.id else {
-                return
-            }
-            
-            let coordinates = CLLocationCoordinate2D(latitude: coord.latitude ?? 0, longitude: coord.longitude ?? 0)
-            
-            let annotation = PlaceAnnotation(coordinate: coordinates, id: id)
-            annotation.title = entity.place?.name ?? "Place name"
-            
-            self.currentAnnotations = [annotation]
-            
-            let region = self.mapView.regionThatFits(MKCoordinateRegion(center: coordinates, latitudinalMeters: 400, longitudinalMeters: 400))
-            
-            self.mapView.setRegion(region, animated: true)
-            self.mapView.addAnnotations(self.currentAnnotations)
-            
-            self.selectDetailOnMap(id: id)
-        }
+        startSearch(searchQuery: name)
     }
     
     private func selectDetailOnMap(id: String) {
@@ -458,7 +439,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.toggleDetailView(visible: true)
             
             self.catalogVisible = false
-        
+
             completion?(detail)
         }
     }

@@ -85,7 +85,7 @@ extension CatalogViewController: StaticCategoriesDisplayManagerDelegate {
 
 extension CatalogViewController: CategoriesDisplayManagerDelegate {
     
-    func goToChildCategory(id: String) {
-        delegate?.goToChildCategory(id: id)
+    func goToChildCategory(name: String) {
+        delegate?.goToChildCategory(name: name)
     }
 }
