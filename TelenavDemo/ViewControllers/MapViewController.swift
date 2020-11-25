@@ -30,14 +30,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    @IBOutlet weak var detailsView: DetailsView! {
-        didSet {
-            detailsView.layer.cornerRadius = 18
-            detailsView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        }
-    }
+    @IBOutlet weak var detailsView: DetailsView!
+//    {
+//        didSet {
+//            detailsView.layer.cornerRadius = 18
+//            detailsView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+//        }
+//    }
     
-    @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint! 
     
     @IBOutlet weak var predictionsView: PredictionsView! {
         didSet {
@@ -233,7 +234,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         var heightConstraint: CGFloat
         
         if searchVisible {
-            heightConstraint = self.searchContent.count > 1 ? mapContainerView.frame.height / 3 : 180
+            heightConstraint = self.searchContent.count > 0 ? mapContainerView.frame.height / 3.1 : 0
         } else {
             heightConstraint = 0
         }
@@ -246,6 +247,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         detailsViewBottomConstraint?.constant = visible ? 0 : -(detailsView?.bounds.height ?? 220)
         tabBarController?.tabBar.isHidden = visible
         
+        if visible {
+            view.bringSubviewToFront(detailsView)
+        } else {
+            view.sendSubviewToBack(detailsView)
+        }
         UIView.animate(withDuration: 0.3) {
 
             self.view.layoutIfNeeded()
@@ -750,3 +756,4 @@ extension MKCoordinateRegion {
         }
     }
 }
+

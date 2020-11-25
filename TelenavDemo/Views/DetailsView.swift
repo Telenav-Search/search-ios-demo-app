@@ -49,6 +49,20 @@ class DetailsView: UIView {
         contentView.frame = self.bounds
         contentView.isUserInteractionEnabled = true
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        contentView.backgroundColor = .clear
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.layer.masksToBounds = false
+        self.layer.cornerRadius = 18
+        self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.layer.cornerRadius).cgPath
+        self.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowRadius = 10.0
     }
     
     private var currentLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.78274, longitude: -122.43152)

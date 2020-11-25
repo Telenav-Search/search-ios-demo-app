@@ -15,7 +15,7 @@ enum DetailsViewPosition {
 }
 
 let kCollapsedDetailViewBottomConstrainValue: CGFloat = -344
-let kStandrdDetailViewBottomConstrainValue: CGFloat   = -235
+var kStandrdDetailViewBottomConstrainValue: CGFloat   = -235
 let kExtendedDetailViewBottomConstrainValue: CGFloat  = 0
 
 class DetailsViewAnimator: NSObject {
@@ -27,7 +27,14 @@ class DetailsViewAnimator: NSObject {
             self.initialBottomConstraintValue = bottomConstraint.constant
         }
     }
-    @IBOutlet weak var dtailsViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dtailsViewHeightConstraint: NSLayoutConstraint! {
+        didSet {
+            dtailsViewHeightConstraint.constant = UIScreen.main.bounds.height * 1.85/3
+            
+            kStandrdDetailViewBottomConstrainValue = (detailsView.tableView.frame.height + 60) - dtailsViewHeightConstraint.constant 
+            self.initialBottomConstraintValue = kStandrdDetailViewBottomConstrainValue
+        }
+    }
     
     var initialBottomConstraintValue: CGFloat!
     
