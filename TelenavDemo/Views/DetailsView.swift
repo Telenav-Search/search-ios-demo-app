@@ -12,12 +12,16 @@ import MapKit
 class DetailsView: UIView {
     
     @IBOutlet var contentView: UIView!
+    @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
             mapView.delegate = self
         }
     }
+    
+    @IBOutlet weak var ratingView: UIStackView!
+    @IBOutlet weak var ratingLabel: UILabel!
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -54,16 +58,37 @@ class DetailsView: UIView {
         
         self.currentLocation = currentCoordinate
         
+        if let rating = entity.facets?.rating?.first {
+            
+            let avgRating = rating.averageRating ?? 0
+            
+            ratingView.isHidden = false
+            ratingLabel.isHidden = false
+            ratingLabel.text = "Rating: \(avgRating)"
+            
+            for (idx,sb) in ratingView.arrangedSubviews.enumerated() {
+                if let imgView = sb as? UIImageView {
+                    if idx < Int(avgRating) {
+                        imgView.image = UIImage(systemName: "star.fill")
+                    } else {
+                        imgView.image = UIImage(systemName: "star")
+                    }
+                }
+            }
+        } else {
+            ratingView.isHidden = true
+            ratingLabel.isHidden = true
+        }
+        
         switch entity.type {
         case .address:
             break
         case .place:
             
             content = [
-                DetailViewDisplayModel(fieldName: "Name", fieldValue: entity.place?.name ?? ""),
                 DetailViewDisplayModel(fieldName: "Address", fieldValue: entity.place?.address?.addressLines?.joined(separator: "\n") ?? ""),
-                DetailViewDisplayModel(fieldName: "Website", fieldValue: entity.place?.websites?.joined(separator: "\n") ?? ""),
-                DetailViewDisplayModel(fieldName: "Phone numbers", fieldValue: entity.place?.phoneNumbers?.joined(separator: "\n") ?? "")
+                DetailViewDisplayModel(fieldName: "Website", fieldValue: entity.place?.websites?.joined(separator: "\n") ?? "Not added yet"),
+                DetailViewDisplayModel(fieldName: "Phone numbers", fieldValue: entity.place?.phoneNumbers?.joined(separator: "\n") ?? "Not added yet")
             ]
             
             if let distance = entity.formattedDistance {
@@ -79,11 +104,37 @@ class DetailsView: UIView {
                 self.showUserStaticRoute([pl])
             }
             
-            tableView.reloadData()
+            nameLabel.text = entity.place?.name
             
         case .none:
             break
         }
+        
+        if let openHours = entity.facets?.openHours?.regularOpenHours {
+                        
+            var openHoursArr = [String]()
+            
+            for period in openHours {
+                if let day = period.day, let timeFrom = period.openTime?.first?.from, let timeTo = period.openTime?.first?.to {
+                    
+                    let openHoursStr = "\(timeFrom)-\(timeTo)"
+                    let weekday = Calendar.current.weekdaySymbols[day - 1]
+                    
+                    let str = "\(weekday): \(openHoursStr)"
+                    openHoursArr.append(str)
+                }
+            }
+            
+            if openHoursArr.count > 0 {
+                let openHoursStr = openHoursArr.joined(separator: "\n")
+                
+                let openHoursCell = DetailViewDisplayModel(fieldName: "Open hours", fieldValue: openHoursStr)
+                
+                content.append(openHoursCell)
+            }
+        }
+    
+        tableView.reloadData()
     }
 }
 
@@ -151,7 +202,7 @@ extension DetailsView: MKMapViewDelegate {
         
         let polylineRenderer = MKPolylineRenderer(overlay: overlay)
         
-        polylineRenderer.strokeColor = UIColor.blue
+        polylineRenderer.strokeColor = UIColor.link
         polylineRenderer.lineWidth = 3
         
         return polylineRenderer
