@@ -12,29 +12,39 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailsView" customModule="TelenavDemo" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="AZ8-il-7qh"/>
+                <outlet property="mapView" destination="7eG-Ke-rnd" id="rSK-GL-3bU"/>
                 <outlet property="tableView" destination="hHP-gz-Jix" id="vpq-ZU-xzJ"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="220"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="484"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hHP-gz-Jix">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="220"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hHP-gz-Jix">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="250" id="9ct-C6-OXQ"/>
+                    </constraints>
                 </tableView>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7eG-Ke-rnd">
+                    <rect key="frame" x="16" y="250" width="382" height="234"/>
+                </mapView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="hHP-gz-Jix" secondAttribute="bottom" id="atM-6h-z3I"/>
+                <constraint firstItem="7eG-Ke-rnd" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="4er-KR-Gz2"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="7eG-Ke-rnd" secondAttribute="trailing" constant="16" id="NRa-0a-ZZH"/>
+                <constraint firstItem="7eG-Ke-rnd" firstAttribute="top" secondItem="hHP-gz-Jix" secondAttribute="bottom" id="SXG-0v-vZP"/>
                 <constraint firstItem="hHP-gz-Jix" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kDK-5H-MYA"/>
+                <constraint firstItem="7eG-Ke-rnd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="l1f-EV-qBS"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="hHP-gz-Jix" secondAttribute="trailing" id="oop-oj-s6d"/>
                 <constraint firstItem="hHP-gz-Jix" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ytW-NF-H3n"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="134.78260869565219" y="15.401785714285714"/>
+            <point key="canvasLocation" x="134.78260869565219" y="103.79464285714285"/>
         </view>
     </objects>
     <resources>

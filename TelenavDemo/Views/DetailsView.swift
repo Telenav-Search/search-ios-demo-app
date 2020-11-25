@@ -7,10 +7,17 @@
 
 import UIKit
 import TelenavEntitySDK
+import MapKit
 
 class DetailsView: UIView {
     
     @IBOutlet var contentView: UIView!
+    
+    @IBOutlet weak var mapView: MKMapView! {
+        didSet {
+            mapView.delegate = self
+        }
+    }
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -40,7 +47,12 @@ class DetailsView: UIView {
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
     
-    func fillEntity(_ entity: TNEntity) {
+    private var currentLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.78274, longitude: -122.43152)
+    private var entityLocation: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    
+    func fillEntity(_ entity: TNEntity, currentCoordinate: CLLocationCoordinate2D) {
+        
+        self.currentLocation = currentCoordinate
         
         switch entity.type {
         case .address:
@@ -56,6 +68,15 @@ class DetailsView: UIView {
             
             if let distance = entity.formattedDistance {
                 content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: distance))
+            }
+            
+            if let coordinates = entity.place?.address?.geoCoordinates {
+                
+                entityLocation = CLLocationCoordinate2D(latitude: coordinates.latitude ?? 0, longitude: coordinates.longitude ?? 0)
+                                
+                let pl = MKPolyline(coordinates: [currentLocation, entityLocation], count: 2)
+                
+                self.showUserStaticRoute([pl])
             }
             
             tableView.reloadData()
@@ -84,5 +105,55 @@ extension DetailsView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    func showUserStaticRoute(_ polilynes: [MKOverlay]) {
+        
+        removeUserStaticRoute()
+        
+        if polilynes.count == 0 {
+            return
+        }
+        
+        if let polilyne = polilynes.first {
+            zoom(to: polilyne as! MKPolyline, animated: true)
+        }
+        
+        let ann1 = MKPointAnnotation()
+        ann1.coordinate = currentLocation
+        let ann2 = MKPointAnnotation()
+        ann2.coordinate = entityLocation
+
+        mapView.addAnnotations([ann1, ann2])
+        mapView.addOverlays(polilynes)
+    }
+    
+    func removeUserStaticRoute() {
+        
+        for overlay in mapView.overlays {
+            
+            if let ov = overlay as? MKPolyline {
+                mapView.removeOverlay(ov)
+            }
+        }
+        
+        mapView.removeAnnotations(mapView.annotations)
+    }
+    
+    func zoom(to polyLine: MKPolyline, animated: Bool) {
+        self.mapView.setVisibleMapRect(polyLine.boundingMapRect, edgePadding: UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15), animated: true)
+    }
+}
+
+extension DetailsView: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        let polylineRenderer = MKPolylineRenderer(overlay: overlay)
+        
+        polylineRenderer.strokeColor = UIColor.blue
+        polylineRenderer.lineWidth = 3
+        
+        return polylineRenderer
     }
 }
