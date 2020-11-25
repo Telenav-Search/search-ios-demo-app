@@ -41,5 +41,24 @@ class SearchResultCell: UITableViewCell {
         } else {
             self.distanceLabel.isHidden = true
         }
+        
+        if let rating = item.facets?.rating?.first {
+            
+            let avgRating = rating.averageRating ?? 0
+            
+            ratingView.isHidden = false
+            
+            for (idx,sb) in ratingView.arrangedSubviews.enumerated() {
+                if let imgView = sb as? UIImageView {
+                    if idx < Int(avgRating) {
+                        imgView.image = UIImage(systemName: "star.fill")
+                    } else {
+                        imgView.image = UIImage(systemName: "star")
+                    }
+                }
+            }
+        } else {
+            ratingView.isHidden = true
+        }
     }
 }
