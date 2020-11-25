@@ -153,7 +153,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="X2S-tL-hB2">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="nIM-HT-hQe">
+                                <button key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="nIM-HT-hQe">
                                     <rect key="frame" x="0.0" y="224.5" width="414" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Back to static categories"/>
@@ -288,6 +288,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="nIM-HT-hQe" id="Llm-N4-hSP"/>
                         <outlet property="categoriesDisplayManager" destination="NFi-xC-fPi" id="mPu-j0-nkX"/>
                         <outlet property="staticCategoriesDisplayManager" destination="gaP-cM-rt8" id="AJm-mC-OVn"/>
                         <outlet property="suggestionsDisplayManager" destination="6RV-KH-DA7" id="tlr-TA-Xxl"/>

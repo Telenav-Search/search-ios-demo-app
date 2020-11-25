@@ -33,7 +33,7 @@ class CatalogViewController: UIViewController  {
             staticCategoriesDisplayManager.delegate = self
         }
     }
-     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.staticCategoriesDisplayManager.reloadTable()
@@ -42,6 +42,7 @@ class CatalogViewController: UIViewController  {
     func fillAllCategories(_ categories: [TelenavCategoryDisplayModel]) {
         self.categoriesDisplayManager.categories = categories
         self.categoriesDisplayManager.reloadTable()
+        backButton?.isHidden = false
     }
     
     func fillStaticCategories(_ categories: [TNEntityStaticCategory]) {
@@ -57,13 +58,15 @@ class CatalogViewController: UIViewController  {
         
         self.staticCategoriesDisplayManager.categories = catItems
         self.staticCategoriesDisplayManager.reloadTable()
+        backButton?.isHidden = true
     }
     
     func fillSuggestions(_ suggestions: [TelenavSuggestion]) {
         self.suggestionsDisplayManager.suggestions = suggestions
         self.suggestionsDisplayManager.reloadTable()
     }
- 
+    @IBOutlet weak var backButton: UIButton!
+    
     @IBAction func didClickReturnToMap(_ sender: Any) {
         delegate?.didReturnToMap()
     }
