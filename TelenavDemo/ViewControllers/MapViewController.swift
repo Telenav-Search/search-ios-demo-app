@@ -18,6 +18,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
+    @IBOutlet var detailsViewAnimator: DetailsViewAnimator!
+    
     @IBOutlet weak var backButton: UIButton!
     
     @IBOutlet weak var mapContainerView: UIView!
@@ -173,6 +175,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 }
             }
         }
+        
+        let panGesture = UIPanGestureRecognizer(target: self.detailsViewAnimator, action: #selector(DetailsViewAnimator.didDragDetailsView(_:)))
+        detailsView.addGestureRecognizer(panGesture)
     }
     
     func configureLocationManager() {
@@ -237,7 +242,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
 
     private func toggleDetailView(visible: Bool) {
+        
         detailsViewBottomConstraint?.constant = visible ? 0 : -(detailsView?.bounds.height ?? 220)
+        tabBarController?.tabBar.isHidden = visible
+        
         UIView.animate(withDuration: 0.3) {
 
             self.view.layoutIfNeeded()
@@ -446,7 +454,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 return
             }
 
-            self.detailsView.fillEntity(detail)
+            self.detailsView.fillEntity(detail, currentCoordinate: self.currentLocation ?? CLLocationCoordinate2D())
             self.toggleDetailView(visible: true)
             
             self.catalogVisible = false

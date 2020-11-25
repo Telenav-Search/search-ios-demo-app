@@ -7,10 +7,21 @@
 
 import UIKit
 import TelenavEntitySDK
+import MapKit
 
 class DetailsView: UIView {
     
     @IBOutlet var contentView: UIView!
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    @IBOutlet weak var mapView: MKMapView! {
+        didSet {
+            mapView.delegate = self
+        }
+    }
+    
+    @IBOutlet weak var ratingView: UIStackView!
+    @IBOutlet weak var ratingLabel: UILabel!
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -40,7 +51,34 @@ class DetailsView: UIView {
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     }
     
-    func fillEntity(_ entity: TNEntity) {
+    private var currentLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.78274, longitude: -122.43152)
+    private var entityLocation: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    
+    func fillEntity(_ entity: TNEntity, currentCoordinate: CLLocationCoordinate2D) {
+        
+        self.currentLocation = currentCoordinate
+        
+        if let rating = entity.facets?.rating?.first {
+            
+            let avgRating = rating.averageRating ?? 0
+            
+            ratingView.isHidden = false
+            ratingLabel.isHidden = false
+            ratingLabel.text = "Rating: \(avgRating)"
+            
+            for (idx,sb) in ratingView.arrangedSubviews.enumerated() {
+                if let imgView = sb as? UIImageView {
+                    if idx < Int(avgRating) {
+                        imgView.image = UIImage(systemName: "star.fill")
+                    } else {
+                        imgView.image = UIImage(systemName: "star")
+                    }
+                }
+            }
+        } else {
+            ratingView.isHidden = true
+            ratingLabel.isHidden = true
+        }
         
         switch entity.type {
         case .address:
@@ -48,21 +86,56 @@ class DetailsView: UIView {
         case .place:
             
             content = [
-                DetailViewDisplayModel(fieldName: "Name", fieldValue: entity.place?.name ?? ""),
                 DetailViewDisplayModel(fieldName: "Address", fieldValue: entity.place?.address?.addressLines?.joined(separator: "\n") ?? ""),
-                DetailViewDisplayModel(fieldName: "Website", fieldValue: entity.place?.websites?.joined(separator: "\n") ?? ""),
-                DetailViewDisplayModel(fieldName: "Phone numbers", fieldValue: entity.place?.phoneNumbers?.joined(separator: "\n") ?? "")
+                DetailViewDisplayModel(fieldName: "Website", fieldValue: entity.place?.websites?.joined(separator: "\n") ?? "Not added yet"),
+                DetailViewDisplayModel(fieldName: "Phone numbers", fieldValue: entity.place?.phoneNumbers?.joined(separator: "\n") ?? "Not added yet")
             ]
             
             if let distance = entity.formattedDistance {
                 content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: distance))
             }
             
-            tableView.reloadData()
+            if let coordinates = entity.place?.address?.geoCoordinates {
+                
+                entityLocation = CLLocationCoordinate2D(latitude: coordinates.latitude ?? 0, longitude: coordinates.longitude ?? 0)
+                                
+                let pl = MKPolyline(coordinates: [currentLocation, entityLocation], count: 2)
+                
+//                self.showUserStaticRoute([pl])
+                self.drawRoute()
+            }
+            
+            nameLabel.text = entity.place?.name
             
         case .none:
             break
         }
+        
+        if let openHours = entity.facets?.openHours?.regularOpenHours {
+                        
+            var openHoursArr = [String]()
+            
+            for period in openHours {
+                if let day = period.day, let timeFrom = period.openTime?.first?.from, let timeTo = period.openTime?.first?.to {
+                    
+                    let openHoursStr = "\(timeFrom)-\(timeTo)"
+                    let weekday = Calendar.current.weekdaySymbols[day - 1]
+                    
+                    let str = "\(weekday): \(openHoursStr)"
+                    openHoursArr.append(str)
+                }
+            }
+            
+            if openHoursArr.count > 0 {
+                let openHoursStr = openHoursArr.joined(separator: "\n")
+                
+                let openHoursCell = DetailViewDisplayModel(fieldName: "Open hours", fieldValue: openHoursStr)
+                
+                content.append(openHoursCell)
+            }
+        }
+    
+        tableView.reloadData()
     }
 }
 
@@ -84,5 +157,75 @@ extension DetailsView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    func drawRoute() {
+        
+        removeUserStaticRoute()
+        
+        let directionsRequest = MKDirections.Request()
+        var placemarks = [MKMapItem]()
+        for item in [currentLocation, entityLocation] {
+            let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude), addressDictionary: nil )
+            placemarks.append(MKMapItem(placemark: placemark))
+        }
+        directionsRequest.transportType = MKDirectionsTransportType.automobile
+        
+        for (k, item) in placemarks.enumerated() {
+            if k < (placemarks.count - 1) {
+                directionsRequest.source = item
+                directionsRequest.destination = (placemarks[k+1])
+                let directions = MKDirections(request: directionsRequest)
+                
+                directions.calculate { (res, err) in
+                    if err == nil {
+                        let route = res?.routes[0]
+                        
+                        if let polilyne = route?.polyline {
+                            self.zoom(to: polilyne, animated: true)
+                            
+                            self.mapView.addOverlays([polilyne])
+                        }
+                        
+                    }
+                }
+            }
+        }
+        
+        let ann1 = MKPointAnnotation()
+        ann1.coordinate = currentLocation
+        let ann2 = MKPointAnnotation()
+        ann2.coordinate = entityLocation
+
+        mapView.addAnnotations([ann1, ann2])
+    }
+    
+    func removeUserStaticRoute() {
+        
+        for overlay in mapView.overlays {
+            
+            if let ov = overlay as? MKPolyline {
+                mapView.removeOverlay(ov)
+            }
+        }
+        
+        mapView.removeAnnotations(mapView.annotations)
+    }
+    
+    func zoom(to polyLine: MKPolyline, animated: Bool) {
+        self.mapView.setVisibleMapRect(polyLine.boundingMapRect, edgePadding: UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15), animated: true)
+    }
+}
+
+extension DetailsView: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        let polylineRenderer = MKPolylineRenderer(overlay: overlay)
+        
+        polylineRenderer.strokeColor = UIColor.link
+        polylineRenderer.lineWidth = 3
+        
+        return polylineRenderer
     }
 }
