@@ -56,6 +56,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 }
                 
                 let predictionWithWhitespace = predictionWord + " "
+                var searchStr = predictionWithWhitespace
 
                 if var wordsArray = self.searchTextField.text?.components(separatedBy: CharacterSet.whitespaces) {
                     
@@ -66,8 +67,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                             wordsArray[lastWordIdx] = predictionWithWhitespace
                         }
                         
-                        let searchStr = wordsArray.joined(separator: " ")
-                        
+                        searchStr = wordsArray.joined(separator: " ")
                         self.searchTextField.text = searchStr
                         
                     }
@@ -78,7 +78,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     }
                 }
                 self.hidePredictionsView()
-                self.getPredictions(on: predictionWithWhitespace)
+                self.getPredictions(on: searchStr)
             }
         }
     }
