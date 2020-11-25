@@ -98,10 +98,7 @@ class DetailsView: UIView {
             if let coordinates = entity.place?.address?.geoCoordinates {
                 
                 entityLocation = CLLocationCoordinate2D(latitude: coordinates.latitude ?? 0, longitude: coordinates.longitude ?? 0)
-                                
-                let pl = MKPolyline(coordinates: [currentLocation, entityLocation], count: 2)
-                
-//                self.showUserStaticRoute([pl])
+                                                
                 self.drawRoute()
             }
             
