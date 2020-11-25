@@ -174,30 +174,34 @@ extension DetailsView: UITableViewDelegate, UITableViewDataSource {
         
         removeUserStaticRoute()
         
-        let directionsRequest = MKDirections.Request()
-        var placemarks = [MKMapItem]()
-        for item in [currentLocation, entityLocation] {
-            let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude), addressDictionary: nil )
-            placemarks.append(MKMapItem(placemark: placemark))
-        }
-        directionsRequest.transportType = MKDirectionsTransportType.automobile
-        
-        for (k, item) in placemarks.enumerated() {
-            if k < (placemarks.count - 1) {
-                directionsRequest.source = item
-                directionsRequest.destination = (placemarks[k+1])
-                let directions = MKDirections(request: directionsRequest)
-                
-                directions.calculate { (res, err) in
-                    if err == nil {
-                        let route = res?.routes[0]
-                        
-                        if let polilyne = route?.polyline {
-                            self.zoom(to: polilyne, animated: true)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let directionsRequest = MKDirections.Request()
+            var placemarks = [MKMapItem]()
+            for item in [self.currentLocation, self.entityLocation] {
+                let placemark = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude), addressDictionary: nil )
+                placemarks.append(MKMapItem(placemark: placemark))
+            }
+            directionsRequest.transportType = MKDirectionsTransportType.automobile
+            
+            for (k, item) in placemarks.enumerated() {
+                if k < (placemarks.count - 1) {
+                    directionsRequest.source = item
+                    directionsRequest.destination = (placemarks[k+1])
+                    let directions = MKDirections(request: directionsRequest)
+                    
+                    directions.calculate { (res, err) in
+                        if err == nil {
+                            let route = res?.routes[0]
                             
-                            self.mapView.addOverlays([polilyne])
+                            if let polilyne = route?.polyline {
+                                
+                                DispatchQueue.main.async {
+                                    self.zoom(to: polilyne, animated: true)
+                                    
+                                    self.mapView.addOverlays([polilyne])
+                                }
+                            }
                         }
-                        
                     }
                 }
             }
