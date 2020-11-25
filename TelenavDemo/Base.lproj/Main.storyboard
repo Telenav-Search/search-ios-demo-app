@@ -57,7 +57,7 @@
                                     <constraint firstAttribute="trailing" secondItem="pzA-GP-v7g" secondAttribute="trailing" id="mMK-nK-Fy5"/>
                                 </constraints>
                             </view>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type here to search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rqq-SL-795">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type here to search" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="rqq-SL-795">
                                 <rect key="frame" x="16" y="44" width="382" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="zDo-dy-WwQ"/>

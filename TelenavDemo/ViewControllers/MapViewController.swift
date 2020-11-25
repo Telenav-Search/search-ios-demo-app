@@ -566,6 +566,14 @@ extension MapViewController: UITextFieldDelegate {
         return true
     }
     
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        
+        self.catalogVC.categoriesDisplayManager.reloadTable()
+        self.hidePredictionsView()
+
+        return true
+    }
+    
     private func addAnnotations(from searchResults: [TNEntity]) {
         
         mapView.removeAnnotations(self.currentAnnotations)
