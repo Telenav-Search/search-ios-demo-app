@@ -116,7 +116,7 @@ class DetailsView: UIView {
             var openHoursArr = [String]()
             
             for period in openHours {
-                if let day = period.day, let timeFrom = period.openTime?.first?.from, let timeTo = period.openTime?.first?.to {
+                if let day = period.day, let timeFrom = period.openTime?.first?.timeFrom, let timeTo = period.openTime?.first?.timeTo {
                     
                     let openHoursStr = "\(timeFrom)-\(timeTo)"
                     let weekday = Calendar.current.weekdaySymbols[day - 1]
