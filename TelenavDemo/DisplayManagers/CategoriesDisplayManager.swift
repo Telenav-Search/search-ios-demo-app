@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CategoriesDisplayManagerDelegate: class {
-    func goToChildCategory(id: String)
+    func goToChildCategory(name: String)
 }
 
 class CategoriesDisplayManager: NSObject {
@@ -65,11 +65,11 @@ extension CategoriesDisplayManager: UITableViewDelegate {
             insertSubcategoriesOfCategory(category)
         } else {
             
-            guard let id = category.category.id else {
+            guard let catName = category.category.name else {
                 return
             }
             
-            delegate?.goToChildCategory(id: id)
+            delegate?.goToChildCategory(name: catName)
         }
     }
 
