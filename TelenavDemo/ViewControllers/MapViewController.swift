@@ -31,12 +31,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     @IBOutlet weak var detailsView: DetailsView!
-//    {
-//        didSet {
-//            detailsView.layer.cornerRadius = 18
-//            detailsView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-//        }
-//    }
+    
+    @IBOutlet weak var filtersButton: UIButton!
     
     @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint! 
     
@@ -279,6 +275,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         catalogVisible = true
         backButton.isHidden = true
         toggleDetailView(visible: false)
+    }
+    
+    @IBAction func didSelectFilters(_ sender: Any) {
+        
+        guard let vc: FiltersViewController = storyboard?.instantiateViewController(identifier: "FiltersViewController") else {
+            return
+        }
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - Catalog Delegate

@@ -36,3 +36,5 @@ class TelenavCategoryDisplayModel {
         self.catLevel = catLevel
     }
 }
+
+
