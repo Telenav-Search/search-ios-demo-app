@@ -36,7 +36,7 @@ class SearchResultViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
+
     func fillSearchResults(_ content: [TNEntity], resetPagination: Bool = false) {
         self.content = content
         

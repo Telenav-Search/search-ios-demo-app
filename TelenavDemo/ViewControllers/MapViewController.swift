@@ -75,7 +75,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     }
                 }
                 self.hidePredictionsView()
-                self.getPredictions(on: searchStr)
+                self.getPredictions(on: self.searchTextField.text ?? "")
             }
         }
     }
@@ -495,14 +495,21 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         self.searchContent = sortedSearch
         
-        self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
-                
-        self.heightAnchor.constant = self.setupSearchHeight()
-        self.searchResultsVC.fillSearchResults(self.searchContent, resetPagination: isPaginated == false)
-        self.searchVisible = true
-        self.catalogVisible = false
-        self.searchResultDisplaying = true
-        self.addAnnotations(from: self.searchContent)
+        if self.searchContent.count > 0 {
+            self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
+                    
+            self.heightAnchor.constant = self.setupSearchHeight()
+            self.searchResultsVC.fillSearchResults(self.searchContent, resetPagination: isPaginated == false)
+            self.searchVisible = true
+            self.catalogVisible = false
+            self.searchResultDisplaying = true
+            self.addAnnotations(from: self.searchContent)
+        } else {
+            
+            let alert = UIAlertController(title: "Warning", message: "Search result is empty for this category", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     private func getPredictions(on searchQuery: String) {
@@ -573,7 +580,7 @@ extension MapViewController: UITextFieldDelegate {
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         
-        self.catalogVC.categoriesDisplayManager.reloadTable()
+        self.catalogVC.staticCategoriesDisplayManager.reloadTable()
         self.hidePredictionsView()
 
         return true
