@@ -79,7 +79,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     }
                 }
                 self.hidePredictionsView()
-                self.getPredictions(on: searchStr)
+                self.getPredictions(on: self.searchTextField.text ?? "")
             }
         }
     }
