@@ -7,6 +7,7 @@
 
 import UIKit
 import TelenavEntitySDK
+import CoreLocation
 
 class FiltersViewController: UIViewController {
 
@@ -17,11 +18,34 @@ class FiltersViewController: UIViewController {
         }
     }
     
-    var content = [FiltersSectionObject]()
+    private var currentLocation = CLLocationCoordinate2D()
+    private var content = [FiltersSectionObject]()
+    private var categories = [TelenavCategoryDisplayModel]()
+    
+    func fillLocation(_ location: CLLocationCoordinate2D) {
+        self.currentLocation = location
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        TNEntityCore.getCategories { (categories, err) in
+            
+            guard let categories = categories else {
+                return
+            }
+
+            let cats = FakeCategoriesGenerator().mappedCats(categories)
+            self.categories = cats
+            
+            if let catSectionIdx = self.content.firstIndex { (sec) -> Bool in
+                sec.sectionType == .categorySection
+            } {
+                self.content[catSectionIdx].content = self.categories
+                self.filtersTableView.reloadSections(IndexSet(integer: catSectionIdx), with: .fade)
+            }
+        }
+        
         self.createInitialContent()
         // Do any additional setup after loading the view.
     }
@@ -73,7 +97,8 @@ extension FiltersViewController: UITableViewDataSource {
             guard let cell: CategoryFilterCell = tableView.dequeueReusableCell(withIdentifier: "CategoryFilterCell") as? CategoryFilterCell else {
                 return UITableViewCell()
             }
-                        
+            
+            cell.fillCategory(item as! TelenavCategoryDisplayModel)
             return cell
             
         case .brandRow:
@@ -127,6 +152,37 @@ extension FiltersViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+ 
+        var item = content[indexPath.section].content[indexPath.row]
+        
+        item.isSelected.toggle()
+    
+        content[indexPath.section].content[indexPath.row] = item
+        
+        switch item.itemType {
+        case .categoryRow:
+            
+            let categoryItem = item as! TelenavCategoryDisplayModel
+            
+//            if categoryItem.isSelected {
+                
+                guard let catId = categoryItem.category.id  else {
+                    return
+                }
+                
+                let discoverBrandParams = TNEntityDiscoverBrandParams(categoryId: catId, location: TNEntityGeoPoint(lat: self.currentLocation.latitude, lon: self.currentLocation.longitude))
+                
+                TNEntityCore.getDiscoverBrands(params: discoverBrandParams) { (brands, err) in
+                    
+                    print(brands)
+                }
+                
+//            } else {
+//
+//            }
+            
+        default:
+            break
+        }
     }
 }

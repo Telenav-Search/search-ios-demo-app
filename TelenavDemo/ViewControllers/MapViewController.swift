@@ -283,6 +283,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             return
         }
         
+        vc.fillLocation(self.currentLocation ?? CLLocationCoordinate2D())
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     

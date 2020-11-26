@@ -29,7 +29,7 @@ class EVFilterCell: UITableViewCell {
             
             if btn.isSelected {
                 btn.setTitleColor(.white, for: .selected)
-                btn.backgroundColor = .blue
+                btn.backgroundColor = .link
             } else {
                 btn.setTitleColor(.black, for: .normal)
                 btn.backgroundColor = .white
@@ -61,7 +61,7 @@ class EVFilterCell: UITableViewCell {
         
         if sender.isSelected {
             sender.setTitleColor(.white, for: .selected)
-            sender.backgroundColor = .blue
+            sender.backgroundColor = .link
         } else {
             sender.setTitleColor(.black, for: .normal)
             sender.backgroundColor = .white

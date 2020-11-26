@@ -13,8 +13,6 @@ class CategoryFilterCell: UITableViewCell {
     
     @IBOutlet weak var categoryLabel: UILabel!
     
-    @IBOutlet weak var radioButton: RadioButton!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,11 +21,18 @@ class CategoryFilterCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
-    }
-
-    @IBAction func didSelectCategory(_ sender: Any) {
-        
+        if selected {
+            accessoryType = .checkmark
+        } else {
+            accessoryType = .none
+        }
     }
     
+    func fillCategory(_ category: TelenavCategoryDisplayModel) {
+        categoryLabel.text = category.category.name
+    }
+    
+    @IBAction func didChangeExpandedState(_ sender: Any) {
+        
+    }
 }

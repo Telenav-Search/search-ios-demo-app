@@ -13,6 +13,11 @@ protocol FiltersItem {
     var isSelected: Bool { get set }
 }
 
+protocol EVFilterItem {
+    var evFilterType: EVFilterItemType { get }
+    var isSelected: Bool { get set }
+}
+
 enum FiltersItemType {
 
     case categoryRow
@@ -28,46 +33,10 @@ enum FiltersSectionType: String {
     case geoFiltersSection = "Select geo filter"
 }
 
-class FiltersSectionObject {
-    var sectionType: FiltersSectionType
-    var content: [FiltersItem]
-    
-    init(sectionType: FiltersSectionType, content: [FiltersItem]) {
-        self.sectionType = sectionType
-        self.content = content
-    }
-}
-
 enum EVFilterItemType {
     case chargerBrands
     case connectorTypes
     case powerFeeds
-}
-
-protocol EVFilterItem {
-    var evFilterType: EVFilterItemType { get }
-    var isSelected: Bool { get set }
-}
-
-class EVFilter: FiltersItem {
-  
-    var itemType: FiltersItemType {
-        return .evFilterRow
-    }
-    
-    var isSelected: Bool {
-        get {
-            return false
-        } set { }
-    }
-    
-    var evFilterTitle: String
-    var evFilterContent: [EVFilterItem]
-    
-    init(evFilterTitle: String, evFilterContent: [EVFilterItem]) {
-        self.evFilterTitle = evFilterTitle
-        self.evFilterContent = evFilterContent
-    }
 }
 
 enum ChargerBrand: String, EVFilterItem, CaseIterable {
@@ -177,13 +146,50 @@ enum PowerFeedLevels: Int, EVFilterItem, CaseIterable {
     }
 }
 
-extension TelenavCategoryDisplayModel: FiltersItem {
+
+class FiltersSectionObject {
+    var sectionType: FiltersSectionType
+    var content: [FiltersItem]
+    
+    init(sectionType: FiltersSectionType, content: [FiltersItem]) {
+        self.sectionType = sectionType
+        self.content = content
+    }
+}
+
+
+class EVFilter: FiltersItem {
+  
+    var itemType: FiltersItemType {
+        return .evFilterRow
+    }
     
     var isSelected: Bool {
         get {
             return false
+        } set {
+            
         }
-        set { }
+    }
+    
+    var evFilterTitle: String
+    var evFilterContent: [EVFilterItem]
+    
+    init(evFilterTitle: String, evFilterContent: [EVFilterItem]) {
+        self.evFilterTitle = evFilterTitle
+        self.evFilterContent = evFilterContent
+    }
+}
+
+extension TelenavCategoryDisplayModel: FiltersItem {
+    
+    var isSelected: Bool {
+        get {
+            return selected
+        }
+        set {
+            selected = newValue
+        }
     }
     
     var itemType: FiltersItemType {

@@ -624,37 +624,47 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="XLm-sU-ywP">
-                                    <rect key="frame" x="0.0" y="337.5" width="414" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="334" width="414" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryFilterCell" id="fIo-94-ywg" customClass="CategoryFilterCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryFilterCell" rowHeight="40" id="fIo-94-ywg" customClass="CategoryFilterCell" customModule="TelenavDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fIo-94-ywg" id="0uh-u5-BOi">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ArrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="dIE-dm-lwN">
-                                                    <rect key="frame" x="16" y="14" width="16" height="16"/>
+                                                    <rect key="frame" x="16" y="12" width="16" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="16" id="gP4-Eb-6u8"/>
                                                         <constraint firstAttribute="height" constant="16" id="qoB-ik-UtK"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EfA-Ai-yp2">
-                                                    <rect key="frame" x="42" y="11.5" width="70" height="20.5"/>
+                                                    <rect key="frame" x="42" y="10" width="70" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lek-hi-Wd7">
+                                                    <rect key="frame" x="1" y="0.0" width="38" height="40"/>
+                                                    <connections>
+                                                        <action selector="didChangeExpandedState:" destination="fIo-94-ywg" eventType="touchUpInside" id="2sj-G1-yFq"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="EfA-Ai-yp2" firstAttribute="leading" secondItem="lek-hi-Wd7" secondAttribute="trailing" constant="3" id="46Z-Lg-QX4"/>
                                                 <constraint firstItem="EfA-Ai-yp2" firstAttribute="leading" secondItem="dIE-dm-lwN" secondAttribute="trailing" constant="10" id="BL3-7i-MwB"/>
+                                                <constraint firstItem="lek-hi-Wd7" firstAttribute="leading" secondItem="0uh-u5-BOi" secondAttribute="leading" constant="1" id="ONb-tv-QDb"/>
                                                 <constraint firstItem="EfA-Ai-yp2" firstAttribute="centerY" secondItem="0uh-u5-BOi" secondAttribute="centerY" id="VNn-VQ-8QO"/>
                                                 <constraint firstItem="dIE-dm-lwN" firstAttribute="leading" secondItem="0uh-u5-BOi" secondAttribute="leading" constant="16" id="cd8-TI-Hzk"/>
                                                 <constraint firstItem="dIE-dm-lwN" firstAttribute="centerY" secondItem="0uh-u5-BOi" secondAttribute="centerY" id="dBi-fe-Kn5"/>
+                                                <constraint firstAttribute="bottom" secondItem="lek-hi-Wd7" secondAttribute="bottom" id="kcN-p5-cLr"/>
+                                                <constraint firstItem="lek-hi-Wd7" firstAttribute="top" secondItem="0uh-u5-BOi" secondAttribute="top" id="pGV-32-ZrG"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -663,7 +673,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BrandFilterCell" id="qdD-t7-FAa" customClass="BrandFilterCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="71.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="68" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qdD-t7-FAa" id="z1o-XY-3ji">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -683,7 +693,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="EVFilterCell" rowHeight="151" id="rHU-qg-Fxl" customClass="EVFilterCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="115" width="414" height="151"/>
+                                        <rect key="frame" x="0.0" y="111.5" width="414" height="151"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rHU-qg-Fxl" id="eT5-7p-uep">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="151"/>
@@ -714,7 +724,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GeoFilterCell" id="BVZ-N8-5iV" customClass="GeoFilterCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="266" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="262.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BVZ-N8-5iV" id="0Qb-7E-cK7">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
