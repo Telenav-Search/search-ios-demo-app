@@ -8,14 +8,16 @@
 import Foundation
 import TelenavEntitySDK
 
-protocol FiltersItem {
-    var itemType: FiltersItemType { get }
+protocol SelectableFilterItem {
     var isSelected: Bool { get set }
 }
 
-protocol EVFilterItem {
+protocol FiltersItem: SelectableFilterItem {
+    var itemType: FiltersItemType { get }
+}
+
+protocol EVFilterItem: SelectableFilterItem {
     var evFilterType: EVFilterItemType { get }
-    var isSelected: Bool { get set }
 }
 
 enum FiltersItemType {

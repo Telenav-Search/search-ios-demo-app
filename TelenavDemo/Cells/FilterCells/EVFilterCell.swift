@@ -18,8 +18,12 @@ class EVFilterCell: UITableViewCell {
         // Initialization code
     }
 
+    private var currentFilter: EVFilter?
+    
     func fillEVFilters(_ item: EVFilter) {
         itemTitleLabel.text = item.evFilterTitle
+        
+        self.currentFilter = item
         
         for (idx, elem) in item.evFilterContent.enumerated() {
             let btn = UIButton()
@@ -57,6 +61,13 @@ class EVFilterCell: UITableViewCell {
     }
     
     @objc private func didSelectElement(_ sender: UIButton) {
+        
+        guard let item = currentFilter else {
+            return
+        }
+        
+        item.evFilterContent[sender.tag].isSelected.toggle()
+        
         sender.isSelected.toggle()
         
         if sender.isSelected {

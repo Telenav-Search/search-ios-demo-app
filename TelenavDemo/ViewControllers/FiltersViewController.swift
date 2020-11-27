@@ -9,6 +9,10 @@ import UIKit
 import TelenavEntitySDK
 import CoreLocation
 
+protocol FiltersViewControllerDelegate: class {
+    func updateSelectedFilters(selectedFilters: [SelectableFilterItem])
+}
+
 class FiltersViewController: UIViewController {
 
     @IBOutlet weak var filtersTableView: UITableView! {
@@ -17,6 +21,8 @@ class FiltersViewController: UIViewController {
             filtersTableView.dataSource = self
         }
     }
+    
+    weak var delegate: FiltersViewControllerDelegate?
     
     private var currentLocation = CLLocationCoordinate2D()
     private var content = [FiltersSectionObject]()
@@ -38,9 +44,9 @@ class FiltersViewController: UIViewController {
             let cats = FakeCategoriesGenerator().mappedCats(categories)
             self.categories = cats
             
-            if let catSectionIdx = self.content.firstIndex { (sec) -> Bool in
+            if let catSectionIdx = self.content.firstIndex(where: { (sec) -> Bool in
                 sec.sectionType == .categorySection
-            } {
+            }) {
                 self.content[catSectionIdx].content = self.categories
                 self.filtersTableView.reloadSections(IndexSet(integer: catSectionIdx), with: .fade)
             }
@@ -49,7 +55,7 @@ class FiltersViewController: UIViewController {
         self.createInitialContent()
         // Do any additional setup after loading the view.
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -60,6 +66,25 @@ class FiltersViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        var selectedFilters = [SelectableFilterItem]()
+        
+        for sec in content {
+            for filter in sec.content {
+                if filter.isSelected {
+                    selectedFilters.append(filter)
+                } else if filter.itemType == .evFilterRow {
+                    let evFilter = (filter as! EVFilter)
+                    for subFilter in evFilter.evFilterContent {
+                        if subFilter.isSelected {
+                            selectedFilters.append(subFilter)
+                        }
+                    }
+                }
+            }
+        }
+        
+        delegate?.updateSelectedFilters(selectedFilters: selectedFilters)
     }
     
     func createInitialContent() {
@@ -183,15 +208,13 @@ extension FiltersViewController: UITableViewDelegate {
         var item = content[indexPath.section].content[indexPath.row]
         
         item.isSelected.toggle()
-    
-        content[indexPath.section].content[indexPath.row] = item
-        
+            
         switch item.itemType {
         case .categoryRow:
             
             let categoryItem = item as! TelenavCategoryDisplayModel
             
-//            if categoryItem.isSelected {
+            if categoryItem.isSelected {
                 
                 guard let catId = categoryItem.category.id  else {
                     return
@@ -204,12 +227,18 @@ extension FiltersViewController: UITableViewDelegate {
                     print(brands)
                 }
                 
-//            } else {
-//
-//            }
+            } else {
+
+            }
             
         default:
             break
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        var item = content[indexPath.section].content[indexPath.row]
+        
+        item.isSelected.toggle()
     }
 }
