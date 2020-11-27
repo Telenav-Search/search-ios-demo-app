@@ -66,13 +66,40 @@ class FiltersViewController: UIViewController {
         
         let categoriesSection = FiltersSectionObject(sectionType: .categorySection, content: [])
         
-        let chargerBrands = EVFilter(evFilterTitle: "Charger brands", evFilterContent: ChargerBrand.allCases)
-        let connectorTypes = EVFilter(evFilterTitle: "Connector types", evFilterContent: SupportedConnectorTypes.allCases)
-        let powerFeedLevels = EVFilter(evFilterTitle: "Power feed levels", evFilterContent: PowerFeedLevels.allCases)
+        var chargerBrands = [ChargerBrand]()
         
-        let evFilterSection = FiltersSectionObject(sectionType: .evFiltersSection, content: [chargerBrands, connectorTypes, powerFeedLevels])
+        for brand in ChargerBrandType.allCases {
+            chargerBrands.append(ChargerBrand(chargerBrandType: brand))
+        }
         
-        let geoFilterSection = FiltersSectionObject(sectionType: .geoFiltersSection, content: TNEntityGeoFilterType.allCases)
+        let chargerBrandFilter = EVFilter(evFilterTitle: "Charger brands", evFilterContent: chargerBrands)
+        
+        var connectors = [Connector]()
+        
+        for connectorType in SupportedConnectorType.allCases {
+            connectors.append(Connector(connectorType: connectorType))
+        }
+        
+        let connectorTypes = EVFilter(evFilterTitle: "Connector types", evFilterContent: connectors)
+        
+        var feedLevels = [PowerFeedLevel]()
+        
+        for level in PowerFeedLevelType.allCases {
+            feedLevels.append(PowerFeedLevel(level: level))
+        }
+        
+        let powerFeedLevels = EVFilter(evFilterTitle: "Power feed levels", evFilterContent: feedLevels)
+        
+        let evFilterSection = FiltersSectionObject(sectionType: .evFiltersSection, content: [chargerBrandFilter, connectorTypes, powerFeedLevels])
+        
+        var geoFilters = [TNEntityGeoFilterTypeDisplayModel]()
+        
+        for filter in TNEntityGeoFilterType.allCases {
+            geoFilters.append(TNEntityGeoFilterTypeDisplayModel(geoFilterType: filter))
+        }
+        
+        
+        let geoFilterSection = FiltersSectionObject(sectionType: .geoFiltersSection, content: geoFilters)
         
         self.content = [categoriesSection, evFilterSection, geoFilterSection]
     }
@@ -122,7 +149,7 @@ extension FiltersViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
               
-            cell.fillItem(item as! TNEntityGeoFilterType)
+            cell.fillItem(item as! TNEntityGeoFilterTypeDisplayModel)
             return cell
         }
     }

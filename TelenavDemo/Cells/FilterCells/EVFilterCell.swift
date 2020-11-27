@@ -37,11 +37,11 @@ class EVFilterCell: UITableViewCell {
             
             switch elem.evFilterType {
             case .chargerBrands:
-                btn.setTitle((elem as! ChargerBrand).rawValue, for: .normal)
+                btn.setTitle((elem as! ChargerBrand).chargerBrandType.rawValue, for: .normal)
             case .connectorTypes:
-                btn.setTitle((elem as! SupportedConnectorTypes).fullName, for: .normal)
+                btn.setTitle((elem as! Connector).connectorType.fullName, for: .normal)
             case .powerFeeds:
-                btn.setTitle((elem as! PowerFeedLevels).levelName, for: .normal)
+                btn.setTitle((elem as! PowerFeedLevel).level.levelName, for: .normal)
             }
             
             btn.frame = CGRect(x: 0, y: 0, width: itemsStackView.frame.width, height: 44)

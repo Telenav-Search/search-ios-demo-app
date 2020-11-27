@@ -27,7 +27,7 @@ class GeoFilterCell: UITableViewCell {
         }
     }
 
-    func fillItem(_ item: TNEntityGeoFilterType) {
-        filerTypeLabel.text = item.rawValue
+    func fillItem(_ item: TNEntityGeoFilterTypeDisplayModel) {
+        filerTypeLabel.text = item.geoFilterType.rawValue
     }
 }

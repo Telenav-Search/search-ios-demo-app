@@ -39,13 +39,15 @@ enum EVFilterItemType {
     case powerFeeds
 }
 
-enum ChargerBrand: String, EVFilterItem, CaseIterable {
+class ChargerBrand: EVFilterItem {
+    
+    var selected: Bool = false
     
     var isSelected: Bool {
         get {
-            return false
+            return selected
         } set {
-            
+            selected = newValue
         }
     }
     
@@ -53,26 +55,46 @@ enum ChargerBrand: String, EVFilterItem, CaseIterable {
         return .chargerBrands
     }
     
+    var chargerBrandType: ChargerBrandType
+    
+    init(chargerBrandType: ChargerBrandType) {
+        self.chargerBrandType = chargerBrandType
+    }
+}
+
+enum ChargerBrandType: String, CaseIterable {
+    
     case chargerPoint = "Chargepoint"
     
-    public static var allCases: [ChargerBrand] {
+    public static var allCases: [ChargerBrandType] {
         return [.chargerPoint]
     }
 }
 
-enum SupportedConnectorTypes: String, EVFilterItem, CaseIterable {
+class Connector: EVFilterItem {
     
+    var selected: Bool = false
+
     var isSelected: Bool {
         get {
-            return false
+            return selected
         } set {
-            
+            selected = newValue
         }
     }
     
     var evFilterType: EVFilterItemType {
         return .connectorTypes
     }
+    
+    var connectorType: SupportedConnectorType
+    
+    init( connectorType: SupportedConnectorType) {
+        self.connectorType = connectorType
+    }
+}
+
+enum SupportedConnectorType: String, CaseIterable {
     
     case J1772 = "30001"
     case SAECombo = "30002"
@@ -107,18 +129,20 @@ enum SupportedConnectorTypes: String, EVFilterItem, CaseIterable {
         }
     }
     
-    public static var allCases: [SupportedConnectorTypes] {
-        return [.J1772, .CHAdeMO, .NEMA, .NEMA1450, .PlugTypeF, .SAECombo, .Tesla, .Type2, .Type3]
+    public static var allCases: [SupportedConnectorType] {
+        return [.CHAdeMO, .J1772, .NEMA, .NEMA1450, .PlugTypeF, .SAECombo, .Tesla, .Type2]
     }
 }
 
-enum PowerFeedLevels: Int, EVFilterItem, CaseIterable {
-  
+class PowerFeedLevel: EVFilterItem {
+
+    var selected: Bool = false
+    
     var isSelected: Bool {
         get {
-            return false
+            return selected
         } set {
-            
+            selected = newValue
         }
     }
     
@@ -126,6 +150,15 @@ enum PowerFeedLevels: Int, EVFilterItem, CaseIterable {
         return .powerFeeds
     }
     
+    var level: PowerFeedLevelType
+    
+    init(level: PowerFeedLevelType) {
+        self.level = level
+    }
+}
+
+enum PowerFeedLevelType: Int, CaseIterable {
+ 
     case one = 1
     case two = 2
     case five = 5
@@ -141,7 +174,7 @@ enum PowerFeedLevels: Int, EVFilterItem, CaseIterable {
         }
     }
     
-    public static var allCases: [PowerFeedLevels] {
+    static public var allCases: [PowerFeedLevelType] {
         return [.one, .two, .five]
     }
 }
@@ -157,7 +190,6 @@ class FiltersSectionObject {
     }
 }
 
-
 class EVFilter: FiltersItem {
   
     var itemType: FiltersItemType {
@@ -165,11 +197,8 @@ class EVFilter: FiltersItem {
     }
     
     var isSelected: Bool {
-        get {
-            return false
-        } set {
-            
-        }
+        get { return false }
+        set { }
     }
     
     var evFilterTitle: String
@@ -197,21 +226,33 @@ extension TelenavCategoryDisplayModel: FiltersItem {
     }
 }
 
-extension TNEntityGeoFilterType: FiltersItem, CaseIterable {
-  
-    var isSelected: Bool {
-        get {
-            return false
-        }
-        set { }
-    }
-
+class TNEntityGeoFilterTypeDisplayModel: FiltersItem {
+    
     var itemType: FiltersItemType {
         return .geoFilterRow
     }
+    
+    var selected: Bool = false
+    
+    var isSelected: Bool {
+        get {
+            return selected
+        }
+        set {
+            selected = newValue
+        }
+    }
+    
+    var geoFilterType: TNEntityGeoFilterType
+    
+    init(geoFilterType: TNEntityGeoFilterType) {
+        self.geoFilterType = geoFilterType
+    }
+}
+
+extension TNEntityGeoFilterType: CaseIterable {
     
     public static var allCases: [TNEntityGeoFilterType] {
         return [.bbox, .corridor, .poligon, .radius]
     }
 }
-
