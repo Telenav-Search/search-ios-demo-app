@@ -84,7 +84,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     let locationManager = CLLocationManager()
     
     let fakeCategoriesService = FakeCategoriesGenerator()
-    let fakeDetailsService = FakeDetailsGenerator()
     
     private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 1, qosClass: .userInitiated)
     
@@ -124,6 +123,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private var searchResultDisplaying: Bool = false
     private var searchQuery: String?
     private var hasMoreSearchResults: Bool = false
+    
+    private var selectedFilters = [SelectableFilterItem]()
     
     lazy var catalogVC: CatalogViewController = {
         let vc = storyboard!.instantiateViewController(withIdentifier: "CatalogViewController") as! CatalogViewController
@@ -284,6 +285,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
         
         vc.fillLocation(self.currentLocation ?? CLLocationCoordinate2D())
+        vc.delegate = self
         
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -463,9 +465,107 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         self.searchQuery = searchQuery
         
+        var searchFilter: TNEntityFilter?
+        
+        if selectedFilters.count > 0 {
+            
+            let tnFilter = TNEntityFilter()
+
+            for f in selectedFilters {
+                if let filter = f as? FiltersItem {
+                    
+                    switch filter.itemType {
+                    case .categoryRow:
+                        
+                        let categoryFilter = filter as! TelenavCategoryDisplayModel
+                        
+                        guard let id = categoryFilter.category.id else {
+                            return
+                        }
+                        
+                        if tnFilter.categoryFilter == nil {
+                            tnFilter.categoryFilter = TNEntityCategoryFilter()
+                        }
+                        
+                        if tnFilter.categoryFilter?.categories.contains(id) == false {
+                            tnFilter.categoryFilter?.categories.append(id)
+                        }
+                        
+                    case .brandRow:
+                        break
+                        
+                    case .evFilterRow:
+                        break
+                    case .geoFilterRow:
+                        let geoFilter = filter as! TNEntityGeoFilterTypeDisplayModel
+                        
+                        if tnFilter.geoFilter == nil {
+                            tnFilter.geoFilter = TNEntityGeoFilter()
+                        }
+                        
+                        tnFilter.geoFilter?.type = geoFilter.geoFilterType
+                    }
+                    
+                } else if let filter = f as? EVFilterItem {
+                    switch filter.evFilterType {
+                    case .chargerBrands:
+                        
+                        let chargerBrand = filter as! ChargerBrand
+                        
+                        if tnFilter.evFilter == nil {
+                            tnFilter.evFilter = TNEntityEvFilter()
+                        }
+                        
+                        if tnFilter.evFilter?.chargerBrands == nil {
+                            tnFilter.evFilter?.chargerBrands = []
+                        }
+                        
+                        if tnFilter.evFilter?.chargerBrands?.contains(chargerBrand.chargerBrandType.rawValue) == false {
+                            
+                            tnFilter.evFilter?.chargerBrands?.append(chargerBrand.chargerBrandType.rawValue)
+                        }
+                        
+                    case .connectorTypes:
+                        let connectorType = filter as! Connector
+                        
+                        if tnFilter.evFilter == nil {
+                            tnFilter.evFilter = TNEntityEvFilter()
+                        }
+                        
+                        if tnFilter.evFilter?.connectorTypes == nil {
+                            tnFilter.evFilter?.connectorTypes = []
+                        }
+                        
+                        if tnFilter.evFilter?.connectorTypes?.contains(connectorType.connectorType.rawValue) == false {
+                            
+                            tnFilter.evFilter?.connectorTypes?.append(connectorType.connectorType.rawValue)
+                        }
+                        
+                    case .powerFeeds:
+                        let powerFeed = filter as! PowerFeedLevel
+                        
+                        if tnFilter.evFilter == nil {
+                            tnFilter.evFilter = TNEntityEvFilter()
+                        }
+                        
+                        if tnFilter.evFilter?.powerFeedLevels == nil {
+                            tnFilter.evFilter?.powerFeedLevels = []
+                        }
+                        
+                        if tnFilter.evFilter?.powerFeedLevels?.contains(powerFeed.level.rawValue) == false {
+                            
+                            tnFilter.evFilter?.powerFeedLevels?.append(powerFeed.level.rawValue)
+                        }
+                    }
+                }
+            }
+            
+            searchFilter = tnFilter
+        }
+        
         let searchParams = TNEntitySearchParams(searchQuery: searchQuery,
                                                location: TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
-                                               filters: nil,
+                                               filters: searchFilter,
                                                searchOptionsIntent: TNEntitySearchOptionIntent.around,
                                                showAddressLines: false)
         
@@ -779,3 +879,9 @@ extension MKCoordinateRegion {
     }
 }
 
+extension MapViewController: FiltersViewControllerDelegate {
+    
+    func updateSelectedFilters(selectedFilters: [SelectableFilterItem]) {
+        self.selectedFilters = selectedFilters
+    }
+}
