@@ -258,3 +258,28 @@ extension TNEntityGeoFilterType: CaseIterable {
         return [.bbox, .corridor, .poligon, .radius]
     }
 }
+
+class BrandDisplayModel: FiltersItem {
+
+    var itemType: FiltersItemType {
+        return .brandRow
+    }
+    
+    var isSelected: Bool {
+        get {
+            return selected
+        }
+        set {
+            selected = newValue
+        }
+    }
+    
+    var brand: TNEntityBrand
+    
+    var selected: Bool = false
+    
+    init(brand: TNEntityBrand, selected: Bool = false) {
+        self.brand = brand
+        self.selected = selected
+    }
+}

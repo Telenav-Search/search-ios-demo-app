@@ -13,6 +13,11 @@ class CategoryFilterCell: UITableViewCell {
     
     @IBOutlet weak var categoryLabel: UILabel!
     
+    @IBOutlet weak var mainImageLeadingConstraint: NSLayoutConstraint!
+    var expandedStateChanged: ((TelenavCategoryDisplayModel) -> Void)?
+    
+    private var category: TelenavCategoryDisplayModel?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -30,9 +35,27 @@ class CategoryFilterCell: UITableViewCell {
     
     func fillCategory(_ category: TelenavCategoryDisplayModel) {
         categoryLabel.text = category.category.name
+        self.category = category
+        
+        if let img = UIImage(named: category.imgName) {
+            stateImgView.image = img
+        } else if let img = UIImage(systemName: category.imgName) {
+            stateImgView.image = img
+        }
+        
+        if category.catLevel > 0 {
+            mainImageLeadingConstraint.constant = CGFloat(15 * category.catLevel)
+        } else {
+            mainImageLeadingConstraint.constant = 10
+        }
     }
     
     @IBAction func didChangeExpandedState(_ sender: Any) {
         
+        guard let category = self.category else {
+            return
+        }
+        
+        expandedStateChanged?(category)
     }
 }

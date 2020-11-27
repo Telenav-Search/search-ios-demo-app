@@ -14,10 +14,19 @@ class BrandFilterCell: UITableViewCell {
         // Initialization code
     }
 
+    @IBOutlet weak var brandLabel: UILabel!
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+        if selected {
+            accessoryType = .checkmark
+        } else {
+            accessoryType = .none
+        }
     }
 
+    func fillBrand(_ brand: BrandDisplayModel) {
+        self.brandLabel.text = brand.brand.brandName
+    }
 }
