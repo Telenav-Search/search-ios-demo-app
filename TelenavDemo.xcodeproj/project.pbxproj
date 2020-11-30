@@ -80,10 +80,24 @@
 		C54C0579255E9C150002CE83 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C0577255E9C150002CE83 /* SearchResultViewController.swift */; };
 		C54C057B255E9C750002CE83 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C057A255E9C750002CE83 /* SearchResultCell.swift */; };
 		C54C057C255E9C750002CE83 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54C057A255E9C750002CE83 /* SearchResultCell.swift */; };
+		C54F0AF4256FCBD20035E63D /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F0AF3256FCBD20035E63D /* FiltersViewController.swift */; };
+		C54F0AF5256FCBD20035E63D /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F0AF3256FCBD20035E63D /* FiltersViewController.swift */; };
+		C54F0AF7256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F0AF6256FD5920035E63D /* SearchFiltersDisplayModel.swift */; };
+		C54F0AF8256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C54F0AF6256FD5920035E63D /* SearchFiltersDisplayModel.swift */; };
 		C587D6B9256BBCC3004D9114 /* CoordinateSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C587D6B8256BBCC3004D9114 /* CoordinateSettingsController.swift */; };
 		C587D6BA256BBCC3004D9114 /* CoordinateSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C587D6B8256BBCC3004D9114 /* CoordinateSettingsController.swift */; };
 		C59A997B256E6B9B00809EF2 /* DetailsViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59A997A256E6B9B00809EF2 /* DetailsViewAnimator.swift */; };
 		C59A997C256E6B9B00809EF2 /* DetailsViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59A997A256E6B9B00809EF2 /* DetailsViewAnimator.swift */; };
+		C5D330E6256FDB7D008BFC36 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D330E5256FDB7D008BFC36 /* RadioButton.swift */; };
+		C5D330E9256FDE7E008BFC36 /* CategoryFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D330E8256FDE7E008BFC36 /* CategoryFilterCell.swift */; };
+		C5D330EA256FDE7E008BFC36 /* CategoryFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D330E8256FDE7E008BFC36 /* CategoryFilterCell.swift */; };
+		C5D330EC256FDE8D008BFC36 /* BrandFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D330EB256FDE8D008BFC36 /* BrandFilterCell.swift */; };
+		C5D330ED256FDE8D008BFC36 /* BrandFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D330EB256FDE8D008BFC36 /* BrandFilterCell.swift */; };
+		C5D330EF256FDE9F008BFC36 /* GeoFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D330EE256FDE9F008BFC36 /* GeoFilterCell.swift */; };
+		C5D330F0256FDE9F008BFC36 /* GeoFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D330EE256FDE9F008BFC36 /* GeoFilterCell.swift */; };
+		C5D330F2256FDEAC008BFC36 /* EVFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D330F1256FDEAC008BFC36 /* EVFilterCell.swift */; };
+		C5D330F3256FDEAC008BFC36 /* EVFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D330F1256FDEAC008BFC36 /* EVFilterCell.swift */; };
+		C5D330F4256FDFC8008BFC36 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D330E5256FDB7D008BFC36 /* RadioButton.swift */; };
 		C5FD76B62564220A00E6D780 /* PredictionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76B52564220A00E6D780 /* PredictionsView.swift */; };
 		C5FD76B72564220A00E6D780 /* PredictionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76B52564220A00E6D780 /* PredictionsView.swift */; };
 		C5FD76BA2564221300E6D780 /* PredictionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5FD76B92564221300E6D780 /* PredictionsView.xib */; };
@@ -173,10 +187,17 @@
 		C54C0573255E967A0002CE83 /* StaticCategoryDisplayModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticCategoryDisplayModels.swift; sourceTree = "<group>"; };
 		C54C0577255E9C150002CE83 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		C54C057A255E9C750002CE83 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		C54F0AF3256FCBD20035E63D /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
+		C54F0AF6256FD5920035E63D /* SearchFiltersDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFiltersDisplayModel.swift; sourceTree = "<group>"; };
 		C587D57A25680287004D9114 /* TelenavEntitySDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TelenavEntitySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C587D595256803A8004D9114 /* TelenavSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TelenavSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C587D6B8256BBCC3004D9114 /* CoordinateSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateSettingsController.swift; sourceTree = "<group>"; };
 		C59A997A256E6B9B00809EF2 /* DetailsViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewAnimator.swift; sourceTree = "<group>"; };
+		C5D330E5256FDB7D008BFC36 /* RadioButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
+		C5D330E8256FDE7E008BFC36 /* CategoryFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFilterCell.swift; sourceTree = "<group>"; };
+		C5D330EB256FDE8D008BFC36 /* BrandFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandFilterCell.swift; sourceTree = "<group>"; };
+		C5D330EE256FDE9F008BFC36 /* GeoFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoFilterCell.swift; sourceTree = "<group>"; };
+		C5D330F1256FDEAC008BFC36 /* EVFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EVFilterCell.swift; sourceTree = "<group>"; };
 		C5FD76B52564220A00E6D780 /* PredictionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionsView.swift; sourceTree = "<group>"; };
 		C5FD76B92564221300E6D780 /* PredictionsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PredictionsView.xib; sourceTree = "<group>"; };
 		C5FD76BC2564230700E6D780 /* PredictionWordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionWordCell.swift; sourceTree = "<group>"; };
@@ -304,9 +325,11 @@
 		C5432C7E255D53E9008D8088 /* DisplayModels */ = {
 			isa = PBXGroup;
 			children = (
+				C5D330E5256FDB7D008BFC36 /* RadioButton.swift */,
 				C5432C7F255D540B008D8088 /* TelenavCategoryDisplayModel.swift */,
 				C54C0563255DA26E0002CE83 /* DetailViewDisplayModel.swift */,
 				C54C0573255E967A0002CE83 /* StaticCategoryDisplayModels.swift */,
+				C54F0AF6256FD5920035E63D /* SearchFiltersDisplayModel.swift */,
 			);
 			path = DisplayModels;
 			sourceTree = "<group>";
@@ -314,6 +337,7 @@
 		C5432CB0255D7715008D8088 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				C5D330E7256FDE4A008BFC36 /* FilterCells */,
 				06608B06254C549400DF38C3 /* CatalogBaseCell.swift */,
 				C5432CB1255D7730008D8088 /* SuggesstionCell.swift */,
 				C54C0570255E93EC0002CE83 /* StaticCatalogCell.swift */,
@@ -373,8 +397,20 @@
 				C54C0577255E9C150002CE83 /* SearchResultViewController.swift */,
 				C587D6B8256BBCC3004D9114 /* CoordinateSettingsController.swift */,
 				C59A997A256E6B9B00809EF2 /* DetailsViewAnimator.swift */,
+				C54F0AF3256FCBD20035E63D /* FiltersViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		C5D330E7256FDE4A008BFC36 /* FilterCells */ = {
+			isa = PBXGroup;
+			children = (
+				C5D330E8256FDE7E008BFC36 /* CategoryFilterCell.swift */,
+				C5D330EB256FDE8D008BFC36 /* BrandFilterCell.swift */,
+				C5D330EE256FDE9F008BFC36 /* GeoFilterCell.swift */,
+				C5D330F1256FDEAC008BFC36 /* EVFilterCell.swift */,
+			);
+			path = FilterCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -547,8 +583,11 @@
 				C528633125628B00007B67C6 /* PlaceAnnotationView.swift in Sources */,
 				C5432CB7255D77D2008D8088 /* SuggestionsDisplayManager.swift in Sources */,
 				C5432CB3255D7730008D8088 /* SuggesstionCell.swift in Sources */,
+				C5D330F3256FDEAC008BFC36 /* EVFilterCell.swift in Sources */,
 				C5432CBA255D77E1008D8088 /* CategoriesDisplayManager.swift in Sources */,
+				C5D330EA256FDE7E008BFC36 /* CategoryFilterCell.swift in Sources */,
 				C54C0552255D942D0002CE83 /* FakeDetailsGenerator.swift in Sources */,
+				C54F0AF5256FCBD20035E63D /* FiltersViewController.swift in Sources */,
 				C5FD76CD25653CE100E6D780 /* SelfSizedCollectionView.swift in Sources */,
 				C54C056E255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
 				C5432C81255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
@@ -558,6 +597,7 @@
 				C59A997C256E6B9B00809EF2 /* DetailsViewAnimator.swift in Sources */,
 				06608B08254C549400DF38C3 /* CatalogBaseCell.swift in Sources */,
 				06029954254AD18A003D760A /* MapViewController.swift in Sources */,
+				C5D330F0256FDE9F008BFC36 /* GeoFilterCell.swift in Sources */,
 				06029955254AD18A003D760A /* AppDelegate.swift in Sources */,
 				C54C0572255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
 				C509FC3D255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */,
@@ -568,9 +608,12 @@
 				C587D6BA256BBCC3004D9114 /* CoordinateSettingsController.swift in Sources */,
 				C5FD76B72564220A00E6D780 /* PredictionsView.swift in Sources */,
 				06CC38AD255933AF00345A0E /* ObjcExample.m in Sources */,
+				C54F0AF8256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */,
 				06029956254AD18A003D760A /* SceneDelegate.swift in Sources */,
+				C5D330F4256FDFC8008BFC36 /* RadioButton.swift in Sources */,
 				C54C057C255E9C750002CE83 /* SearchResultCell.swift in Sources */,
 				C54C0565255DA26E0002CE83 /* DetailViewDisplayModel.swift in Sources */,
+				C5D330ED256FDE8D008BFC36 /* BrandFilterCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,6 +621,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5D330E6256FDB7D008BFC36 /* RadioButton.swift in Sources */,
 				C54C0574255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */,
 				C509FC35255EADB300C1EE56 /* FakeSearchGenerator.swift in Sources */,
 				C54C0578255E9C150002CE83 /* SearchResultViewController.swift in Sources */,
@@ -586,15 +630,19 @@
 				C5432CB2255D7730008D8088 /* SuggesstionCell.swift in Sources */,
 				C5432CB9255D77E1008D8088 /* CategoriesDisplayManager.swift in Sources */,
 				C54C0551255D942D0002CE83 /* FakeDetailsGenerator.swift in Sources */,
+				C54F0AF4256FCBD20035E63D /* FiltersViewController.swift in Sources */,
 				C5FD76CC25653CA800E6D780 /* SelfSizedCollectionView.swift in Sources */,
+				C5D330EF256FDE9F008BFC36 /* GeoFilterCell.swift in Sources */,
 				C54C056D255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
 				C5432C80255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
 				06608B01254C4AF800DF38C3 /* CatalogViewController.swift in Sources */,
 				C5432C5E255D3F4D008D8088 /* FakeCategoriesGenerator.swift in Sources */,
 				C5432CC0255D7C87008D8088 /* FakeSuggestionsGenerator.swift in Sources */,
 				C59A997B256E6B9B00809EF2 /* DetailsViewAnimator.swift in Sources */,
+				C5D330F2256FDEAC008BFC36 /* EVFilterCell.swift in Sources */,
 				06608B07254C549400DF38C3 /* CatalogBaseCell.swift in Sources */,
 				06751B06253D8D09001F6B11 /* MapViewController.swift in Sources */,
+				C5D330E9256FDE7E008BFC36 /* CategoryFilterCell.swift in Sources */,
 				06751B02253D8D09001F6B11 /* AppDelegate.swift in Sources */,
 				C54C0571255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
 				C509FC3C255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */,
@@ -605,7 +653,9 @@
 				C587D6B9256BBCC3004D9114 /* CoordinateSettingsController.swift in Sources */,
 				C5FD76B62564220A00E6D780 /* PredictionsView.swift in Sources */,
 				06CC38AC255933AF00345A0E /* ObjcExample.m in Sources */,
+				C54F0AF7256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */,
 				06751B04253D8D09001F6B11 /* SceneDelegate.swift in Sources */,
+				C5D330EC256FDE8D008BFC36 /* BrandFilterCell.swift in Sources */,
 				C54C057B255E9C750002CE83 /* SearchResultCell.swift in Sources */,
 				C54C0564255DA26E0002CE83 /* DetailViewDisplayModel.swift in Sources */,
 			);

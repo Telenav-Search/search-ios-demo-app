@@ -31,8 +31,12 @@ class TelenavCategoryDisplayModel {
         return image
     }
     
+    var selected: Bool = false
+    
     init(category: TNEntityCategory, catLevel: Int) {
         self.category = category
         self.catLevel = catLevel
     }
 }
+
+
