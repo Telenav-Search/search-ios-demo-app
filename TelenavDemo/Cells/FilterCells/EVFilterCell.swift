@@ -23,13 +23,16 @@ class EVFilterCell: UITableViewCell {
     func fillEVFilters(_ item: EVFilter) {
         itemTitleLabel.text = item.evFilterTitle
         
-        self.currentFilter = item
+        for view in itemsStackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
         
+        self.currentFilter = item
         for (idx, elem) in item.evFilterContent.enumerated() {
             let btn = UIButton()
             
             btn.layer.cornerRadius = 9
-            btn.tag = idx
+            btn.tag = idx + 1
             
             if btn.isSelected {
                 btn.setTitleColor(.white, for: .selected)
@@ -53,10 +56,13 @@ class EVFilterCell: UITableViewCell {
             btn.addTarget(self, action: #selector(didSelectElement), for: .touchUpInside)
             
             if itemsStackView.arrangedSubviews.contains(where: { (v) -> Bool in
-                v.tag == idx
+                v.tag == idx + 1
             }) == false {
                 itemsStackView.addArrangedSubview(btn)
             }
+            
+            btn.isSelected = item.evFilterContent[idx].isSelected
+            toggleSelectedState(btn)
         }
     }
     
@@ -66,16 +72,20 @@ class EVFilterCell: UITableViewCell {
             return
         }
         
-        item.evFilterContent[sender.tag].isSelected.toggle()
+        item.evFilterContent[sender.tag - 1].isSelected.toggle()
         
         sender.isSelected.toggle()
         
-        if sender.isSelected {
-            sender.setTitleColor(.white, for: .selected)
-            sender.backgroundColor = .link
+        toggleSelectedState(sender)
+     }
+    
+    func toggleSelectedState(_ button: UIButton) {
+        if button.isSelected {
+            button.setTitleColor(.white, for: .selected)
+            button.backgroundColor = .link
         } else {
-            sender.setTitleColor(.black, for: .normal)
-            sender.backgroundColor = .white
+            button.setTitleColor(.black, for: .normal)
+            button.backgroundColor = .white
         }
     }
 }
