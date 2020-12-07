@@ -568,6 +568,21 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                                                searchOptionsIntent: TNEntitySearchOptionIntent.around,
                                                showAddressLines: false)
         
+//        Two different variants to use builder below:
+//        TNEntityCore.buildSearch { (result, err) in
+//
+//        }.limit(10).query("food").location(TNEntityGeoPoint(lat: 0, lon: 0)).build().executeSearch()
+//
+//        TNEntityCore.search(searchParams:
+//                                TNEntitySearchQueryBuilder()
+//                                .limit(10)
+//                                .query("food")
+//                                .location(TNEntityGeoPoint(lat: 0, lon: 0))
+//                                .build()) { (telenavSearch, err) in
+//            self.handleSearchResult(telenavSearch, isPaginated: false)
+//        }
+
+        
         TNEntityCore.search(searchParams: searchParams) { (telenavSearch, err) in
             self.handleSearchResult(telenavSearch, isPaginated: false)
         }
@@ -758,10 +773,9 @@ extension MapViewController: UITextFieldDelegate {
 extension MapViewController: SearchResultViewControllerDelegate {
     
     func loadMoreSearchResults() {
-                
-        if self.hasMoreSearchResults {
-            
-            TNEntityCore.search(pageContext: self.searchPaginationContext) { (searchRes, err) in
+        
+        if let context = searchPaginationContext, self.hasMoreSearchResults {
+            TNEntityCore.search(searchParams: TNEntitySearchQueryBuilder().pageContext(context).build() ) { (searchRes, err) in
                 self.handleSearchResult(searchRes, isPaginated: true)
             }
         }
