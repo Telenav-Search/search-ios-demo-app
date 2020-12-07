@@ -256,11 +256,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     private func setupSDK() {
-        TNEntityCore.setHost("http://restapidev.telenav.com/entity/v5/")
-        
-        let skdOptions = TNEntitySDKOptions(apiKey: "3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f", deviceId: nil, userId: nil, locale: Locale.current.languageCode)
-        
-        TNEntityCore.setApiOptions(skdOptions)
+        let sdkOptions = TNEntitySDKOptions(apiKey: "3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f", deviceId: nil, userId: nil, locale: Locale.current.languageCode)
+        sdkOptions.cloudEndPoint = "http://restapidev.telenav.com/entity/v5/"
+      
+        TNEntityCore.setApiOptions(sdkOptions)
     }
     
     // MARK: - Actions
