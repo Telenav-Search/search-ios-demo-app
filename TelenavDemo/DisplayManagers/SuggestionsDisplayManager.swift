@@ -10,11 +10,12 @@ import TelenavEntitySDK
 
 protocol SuggestionsDisplayManagerDelegate: class {
     func didSelectSuggestion(id: String)
+    func didSelectQuery(_ query: String)
 }
 
 class SuggestionsDisplayManager: NSObject {
 
-    var suggestions: [TelenavSuggestion] = []
+    var suggestions: [TNEntitySuggestion] = []
     
     weak var delegate: SuggestionsDisplayManagerDelegate?
     
@@ -75,10 +76,12 @@ extension SuggestionsDisplayManager: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        guard let suggestionId = suggestions[indexPath.row].id else {
-            return
+        if let suggestionId = suggestions[indexPath.row].id {
+            delegate?.didSelectSuggestion(id: suggestionId)
+        } else if let query = suggestions[indexPath.row].formattedLabel,
+                  suggestions[indexPath.row].type == "QUERY" {
+            delegate?.didSelectQuery(query)
         }
         
-        delegate?.didSelectSuggestion(id: suggestionId)
     }
 }

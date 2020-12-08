@@ -15,7 +15,8 @@ import Foundation
         return imgName
     }
     
-    public init(name: String) {
+    public init(name: String, id: String) {
         self.name = name
+        self.id = id
     }
 }

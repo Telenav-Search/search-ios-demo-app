@@ -61,7 +61,7 @@ class CatalogViewController: UIViewController  {
         backButton?.isHidden = true
     }
     
-    func fillSuggestions(_ suggestions: [TelenavSuggestion]) {
+    func fillSuggestions(_ suggestions: [TNEntitySuggestion]) {
         self.suggestionsDisplayManager.suggestions = suggestions
         self.suggestionsDisplayManager.reloadTable()
     }
@@ -73,6 +73,9 @@ class CatalogViewController: UIViewController  {
 }
 
 extension CatalogViewController: SuggestionsDisplayManagerDelegate {
+    func didSelectQuery(_ query: String) {
+        delegate?.didSelectQuery(query)
+    }
     
     func didSelectSuggestion(id: String) {
         delegate?.didSelectSuggestion(id: id)

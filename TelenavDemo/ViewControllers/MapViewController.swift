@@ -353,6 +353,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
+    func didSelectQuery(_ query: String) {
+        searchTextField.resignFirstResponder()
+        startSearch(searchQuery: query)
+    }
+    
     func didReturnToMap() {
         catalogVisible = true
         backButton.isHidden = true
@@ -366,7 +371,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         switch item.cellType {
         case .categoryItem:
             
-            startSearch(searchQuery: (item as? StaticCategoryDisplayModel)?.staticCategory.name ?? "")
+            let filter = TelenavCategoryDisplayModel(category: TNEntityCategory(childNodes: nil, id: (item as? StaticCategoryDisplayModel)?.staticCategory.id, name: nil), catLevel: 0)
+            startSearch(searchQuery: "", filterItems: [filter])
             self.backButton.isHidden = false
             
         case .moreItem:
@@ -458,7 +464,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    private func startSearch(searchQuery: String) {
+    private func startSearch(searchQuery: String, filterItems: [SelectableFilterItem]? = nil) {
         
         resetSearch()
         
@@ -466,11 +472,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         var searchFilter: TNEntityFilter?
         
-        if selectedFilters.count > 0 {
+        if let filterItems = filterItems, filterItems.count > 0 {
             
             let tnFilter = TNEntityFilter()
 
-            for f in selectedFilters {
+            for f in filterItems {
                 if let filter = f as? FiltersItem {
                     
                     switch filter.itemType {
@@ -709,11 +715,14 @@ extension MapViewController: UITextFieldDelegate {
         var annotations = [MKAnnotation]()
         
         for (idx,res) in searchResults.enumerated() {
-            let annotation = PlaceAnnotation(coordinate: CLLocationCoordinate2D(latitude: res.place?.address?.geoCoordinates?.latitude ?? 0, longitude: res.place?.address?.geoCoordinates?.longitude ?? 0), id: res.id!)
-            annotation.title = res.place?.name
-            annotation.number = idx + 1
-            
-            annotations.append(annotation)
+            if let coords = res.place?.address?.geoCoordinates ?? res.address?.geoCoordinates,
+               let identifier = res.id {
+                let annotation = PlaceAnnotation(coordinate: CLLocationCoordinate2D(latitude: coords.latitude ?? 0, longitude: coords.longitude ?? 0), id: identifier)
+                annotation.title = res.place?.name ?? res.address?.formattedAddress
+                annotation.number = idx + 1
+                
+                annotations.append(annotation)
+            }
         }
         
         if let currentLocation = currentLocation {
@@ -738,7 +747,7 @@ extension MapViewController: UITextFieldDelegate {
         mapView.addAnnotations(annotations)
     }
     
-    private func getSuggestions(text: String, comletion: @escaping ([TelenavSuggestion]) -> Void) {
+    private func getSuggestions(text: String, comletion: @escaping ([TNEntitySuggestion]) -> Void) {
         
         let location = TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
         
@@ -797,6 +806,7 @@ extension MapViewController: SearchResultViewControllerDelegate {
     }
 
     func goBack() {
+        self.toggleDetailView(visible: false)
         searchVisible = false
         catalogVisible = true
         backButton.isHidden = true

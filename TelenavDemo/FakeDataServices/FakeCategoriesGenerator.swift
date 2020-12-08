@@ -59,16 +59,16 @@ class FakeCategoriesGenerator {
     }
     
     private var staticCategories: [TNEntityStaticCategory] {
-        let food = TNEntityStaticCategory(name: "Food")
-        let coffee = TNEntityStaticCategory(name: "Coffee")
-        let groccery = TNEntityStaticCategory(name: "Grocery")
-        let shopping = TNEntityStaticCategory(name: "Shopping")
-        let parking = TNEntityStaticCategory(name: "Parking")
-        let banksAtms = TNEntityStaticCategory(name: "Banks/ATMs")
-        let hotels = TNEntityStaticCategory(name: "Hotels/Motels")
-        let attractions = TNEntityStaticCategory(name: "Attractions")
-        let fuel = TNEntityStaticCategory(name: "Fuel")
-        let electricVehicleCharge = TNEntityStaticCategory(name: "Electric Vehicle Charge station")
+        let food = TNEntityStaticCategory(name: "Food", id: "2040")
+        let coffee = TNEntityStaticCategory(name: "Coffee", id: "241")
+        let groccery = TNEntityStaticCategory(name: "Grocery", id: "221")
+        let shopping = TNEntityStaticCategory(name: "Shopping", id: "4090")
+        let parking = TNEntityStaticCategory(name: "Parking", id: "600")
+        let banksAtms = TNEntityStaticCategory(name: "Banks/ATMs", id: "374")
+        let hotels = TNEntityStaticCategory(name: "Hotels/Motels", id: "595")
+        let attractions = TNEntityStaticCategory(name: "Attractions", id: "605")
+        let fuel = TNEntityStaticCategory(name: "Fuel", id: "811")
+        let electricVehicleCharge = TNEntityStaticCategory(name: "Electric Vehicle Charge station", id: "771")
         
         return [food, coffee, groccery, shopping, parking, banksAtms, hotels, attractions, fuel, electricVehicleCharge]
     }
