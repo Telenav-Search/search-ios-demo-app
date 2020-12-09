@@ -109,12 +109,12 @@ class DetailsView: UIView {
                 content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: distance))
             }
             
-            if let coordinates = entity.place?.address?.geoCoordinates {
-                
-                entityLocation = CLLocationCoordinate2D(latitude: coordinates.latitude ?? 0, longitude: coordinates.longitude ?? 0)
-                                                
-                self.drawRoute()
-            }
+//            if let coordinates = entity.place?.address?.geoCoordinates {
+//                
+//                entityLocation = CLLocationCoordinate2D(latitude: coordinates.latitude ?? 0, longitude: coordinates.longitude ?? 0)
+//                                                
+//                self.drawRoute()
+//            }
             
             nameLabel.text = entity.place?.name
             

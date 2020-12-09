@@ -34,9 +34,22 @@ class SearchResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.view.layer.masksToBounds = false
+        self.view.layer.cornerRadius = 18
+        self.view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        self.view.layer.shadowColor = UIColor.black.cgColor
+        self.view.layer.shadowPath = UIBezierPath(roundedRect: self.view.bounds,
+                                                  cornerRadius: self.view.layer.cornerRadius).cgPath
+        self.view.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        self.view.layer.shadowOpacity = 0.5
+        self.view.layer.shadowRadius = 10.0
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
+    }
+    
     func fillSearchResults(_ content: [TNEntity], resetPagination: Bool = false) {
         self.content = content
         

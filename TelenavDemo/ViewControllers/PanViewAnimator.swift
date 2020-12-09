@@ -7,20 +7,16 @@
 
 import UIKit
 
-enum DetailsViewPosition {
+enum PanViewPosition {
     
-    case collapsed
     case standard
     case extended
 }
 
-let kCollapsedDetailViewBottomConstrainValue: CGFloat = -344
-var kStandrdDetailViewBottomConstrainValue: CGFloat   = -235
 let kExtendedDetailViewBottomConstrainValue: CGFloat  = 0
 
-class DetailsViewAnimator: NSObject {
+class PanViewAnimator: NSObject {
 
-    @IBOutlet weak var detailsView: DetailsView!
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint! {
         didSet {
@@ -31,16 +27,18 @@ class DetailsViewAnimator: NSObject {
         didSet {
             dtailsViewHeightConstraint.constant = UIScreen.main.bounds.height * 1.85/3
             
-            kStandrdDetailViewBottomConstrainValue = (detailsView.tableView.frame.height + 60) - dtailsViewHeightConstraint.constant 
-            self.initialBottomConstraintValue = kStandrdDetailViewBottomConstrainValue
+            standrdDetailViewBottomConstrainValue = 260 - dtailsViewHeightConstraint.constant
+            self.initialBottomConstraintValue = standrdDetailViewBottomConstrainValue
         }
     }
     
+    var standrdDetailViewBottomConstrainValue: CGFloat   = -235
+
     var initialBottomConstraintValue: CGFloat!
     
-    var detailsViewPosition: DetailsViewPosition?
+    var detailsViewPosition: PanViewPosition?
     
-    @objc func didDragDetailsView(_ sender: UIPanGestureRecognizer) {
+    @objc func didDragMainView(_ sender: UIPanGestureRecognizer) {
         
             let point: CGPoint = sender.translation(in: self.view)
             
@@ -67,12 +65,12 @@ class DetailsViewAnimator: NSObject {
                 
                 let velocity = sender.velocity(in: view)
                 
-                if newHeight < kExtendedDetailViewBottomConstrainValue && newHeight > kStandrdDetailViewBottomConstrainValue && velocity.y < 0 {
+                if newHeight < kExtendedDetailViewBottomConstrainValue && newHeight > standrdDetailViewBottomConstrainValue && velocity.y < 0 {
                     moveDetailsCard(toPosition: kExtendedDetailViewBottomConstrainValue)
                     self.detailsViewPosition = .extended
                 }
                 else if velocity.y > 0 {
-                    moveDetailsCard(toPosition: kStandrdDetailViewBottomConstrainValue)
+                    moveDetailsCard(toPosition: standrdDetailViewBottomConstrainValue)
                     self.detailsViewPosition = .standard
             }
         }

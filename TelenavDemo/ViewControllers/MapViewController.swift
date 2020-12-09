@@ -18,8 +18,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    @IBOutlet var detailsViewAnimator: DetailsViewAnimator!
-    
+    @IBOutlet var detailsViewAnimator: PanViewAnimator!
+    @IBOutlet var searchResultViewAnimator: PanViewAnimator!
+ 
     @IBOutlet weak var backButton: UIButton!
     
     @IBOutlet weak var mapContainerView: UIView!
@@ -29,6 +30,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             mapView.showsUserLocation = true
         }
     }
+    @IBOutlet weak var searchQueryLabel: UILabel!
     
     @IBOutlet weak var detailsView: DetailsView!
     
@@ -98,12 +100,17 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     var searchVisible = false {
         didSet {
             searchResultsVC.view.isHidden = !searchVisible
+            searchTextField.isHidden = searchVisible
+            searchQueryLabel.isHidden = !searchVisible
+            filtersButton.isHidden = searchVisible
+            backButton.isHidden = !searchVisible
             
             for sbv in searchResultsVC.view.subviews {
                 sbv.isHidden = !searchVisible
             }
             
             heightAnchor.constant = setupSearchHeight()
+            searchResultViewAnimator.bottomConstraint.constant = 0
             
             mapContainerView.layoutIfNeeded()
             view.layoutIfNeeded()
@@ -156,11 +163,12 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.catalogVC.fillStaticCategories(categories)
         }
         
-        toggleDetailView(visible: false)
         configureLocationManager()
         addChildView()
         addSearchAsChild()
-        
+        detailsView.superview?.bringSubviewToFront(detailsView)
+        toggleDetailView(visible: false)
+
         NotificationCenter.default.addObserver(forName: Notification.Name("LocationChangedNotification"), object: nil, queue: .main) { [weak self] (notif) in
             
             if let location = notif.userInfo?["location"] as? CLLocationCoordinate2D {
@@ -174,8 +182,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             }
         }
         
-        let panGesture = UIPanGestureRecognizer(target: self.detailsViewAnimator, action: #selector(DetailsViewAnimator.didDragDetailsView(_:)))
+        let panGesture = UIPanGestureRecognizer(target: self.detailsViewAnimator, action: #selector(PanViewAnimator.didDragMainView(_:)))
         detailsView.addGestureRecognizer(panGesture)
+        
+        let panGesture2 = UIPanGestureRecognizer(target: self.searchResultViewAnimator, action: #selector(PanViewAnimator.didDragMainView(_:)))
+        searchResultsVC.view.addGestureRecognizer(panGesture2)
     }
     
     func configureLocationManager() {
@@ -206,24 +217,33 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     func addSearchAsChild() {
         addChild(searchResultsVC)
-        view.addSubview(searchResultsVC.view)
-        view.bringSubviewToFront(searchResultsVC.view)
+        mapContainerView.addSubview(searchResultsVC.view)
+        mapContainerView.bringSubviewToFront(searchResultsVC.view)
         
         searchResultsVC.view.translatesAutoresizingMaskIntoConstraints = false
         setupSearchConstraints()
         
-        searchResultsVC.view.backgroundColor = .red
+        searchResultViewAnimator.view = searchResultsVC.view
+        searchResultsVC.view.isHidden = true
     }
     
     private func setupSearchConstraints() {
         
-        searchResultsVC.view.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-            
         heightAnchor = searchResultsVC.view.heightAnchor.constraint(equalToConstant: setupSearchHeight())
         heightAnchor.isActive = true
         
+        let bottomVal = -400 + 35 + tabBarController!.tabBar.frame.size.height
+        let bottom = mapContainerView.bottomAnchor.constraint(equalTo: searchResultsVC.view.bottomAnchor,
+                                                                  constant: bottomVal)
+        bottom.isActive = true
+            
         searchResultsVC.view.leftAnchor.constraint(equalTo: mapContainerView.leftAnchor).isActive = true
         searchResultsVC.view.rightAnchor.constraint(equalTo: mapContainerView.rightAnchor).isActive = true
+        
+        searchResultViewAnimator.bottomConstraint = bottom
+        searchResultViewAnimator.dtailsViewHeightConstraint = heightAnchor
+        searchResultViewAnimator.standrdDetailViewBottomConstrainValue = bottomVal
+        searchResultViewAnimator.initialBottomConstraintValue = bottomVal
     }
     
     private func setupSearchHeight() -> CGFloat {
@@ -231,7 +251,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         var heightConstraint: CGFloat
         
         if searchVisible {
-            heightConstraint = self.searchContent.count > 0 ? mapContainerView.frame.height / 3.1 : 0
+            heightConstraint = self.searchContent.count > 0 ? 400 : 0
         } else {
             heightConstraint = 0
         }
@@ -240,6 +260,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
 
     private func toggleDetailView(visible: Bool) {
+        heightAnchor.constant = visible ? 0 : 400
         
         detailsViewBottomConstraint?.constant = visible ? 0 : -(detailsView?.bounds.height ?? 220)
         tabBarController?.tabBar.isHidden = visible
@@ -271,10 +292,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     @IBAction func didClickBack(_ sender: Any) {
-        
-        catalogVisible = true
-        backButton.isHidden = true
-        toggleDetailView(visible: false)
+        goBack()
     }
     
     @IBAction func didSelectFilters(_ sender: Any) {
@@ -371,9 +389,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         switch item.cellType {
         case .categoryItem:
             
+            self.backButton.isHidden = false
             let filter = TelenavCategoryDisplayModel(category: TNEntityCategory(childNodes: nil, id: (item as? StaticCategoryDisplayModel)?.staticCategory.id, name: nil), catLevel: 0)
             startSearch(searchQuery: "", filterItems: [filter])
-            self.backButton.isHidden = false
+            searchQueryLabel.text = (item as? StaticCategoryDisplayModel)?.staticCategory.name
             
         case .moreItem:
             
@@ -465,11 +484,13 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     private func startSearch(searchQuery: String, filterItems: [SelectableFilterItem]? = nil) {
-        
+ 
         resetSearch()
-        
+        searchQueryLabel.text = searchQuery
+ 
         self.searchQuery = searchQuery
-        
+        self.backButton.isHidden = true
+
         var searchFilter: TNEntityFilter?
         
         if let filterItems = filterItems, filterItems.count > 0 {
@@ -616,7 +637,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
         
         self.searchContent = sortedSearch
-        
+
         if self.searchContent.count > 0 {
             self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
                     
@@ -645,7 +666,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             if let predictions = prediction?.results {
                 
                 self.predictionsView.content = predictions
-                self.predictionsView.isHidden = false
+                if !self.searchVisible {
+                    self.predictionsView.isHidden = false
+                }
                 self.mapContainerView.bringSubviewToFront(self.predictionsView)
             } else {
                 self.hidePredictionsView()
@@ -669,6 +692,7 @@ extension MapViewController: UITextFieldDelegate {
         startSearch(searchQuery: searchQuery)
         
         textField.resignFirstResponder()
+        predictionsView.isHidden = true
         return true
     }
 
@@ -817,7 +841,7 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
        
-        if let placeAnn = view.annotation as? PlaceAnnotation {
+        if (view.annotation as? PlaceAnnotation) != nil {
             
             view.isSelected = true
         }
