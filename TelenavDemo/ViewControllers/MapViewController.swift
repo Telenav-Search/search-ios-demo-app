@@ -104,6 +104,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             searchQueryLabel.isHidden = !searchVisible
             filtersButton.isHidden = searchVisible
             backButton.isHidden = !searchVisible
+            predictionsView.isHidden = searchVisible
             
             for sbv in searchResultsVC.view.subviews {
                 sbv.isHidden = !searchVisible
@@ -262,7 +263,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private func toggleDetailView(visible: Bool) {
         heightAnchor.constant = visible ? 0 : 400
         
-        detailsViewBottomConstraint?.constant = visible ? 0 : -(detailsView?.bounds.height ?? 220)
+        detailsViewBottomConstraint?.constant = visible ? 0 : -300
         tabBarController?.tabBar.isHidden = visible
         
         if visible {
@@ -343,30 +344,38 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     func didSelectSuggestion(id: String) {
-        
+        searchVisible = true
+        searchResultsVC.view.isHidden = true
         searchTextField.resignFirstResponder()
         
         mapView.removeAnnotations(self.currentAnnotations)
         
         goToDetails(entityId: id) { (entity) in
-            
-            guard let coord = entity.place?.address?.geoCoordinates, let id = entity.id else {
+            guard let coord = entity.place?.address?.geoCoordinates ?? entity.address?.geoCoordinates,
+                  let id = entity.id,
+                  let name = entity.place?.name ?? entity.address?.formattedAddress
+            else {
                 return
             }
+
+            self.searchQueryLabel.text = name
             
             let coordinates = CLLocationCoordinate2D(latitude: coord.latitude ?? 0, longitude: coord.longitude ?? 0)
-            
+     
             let annotation = PlaceAnnotation(coordinate: coordinates, id: id)
-            annotation.title = entity.place?.name ?? "Place name"
+            annotation.title = name
             
             self.currentAnnotations = [annotation]
             
-            let region = self.mapView.regionThatFits(MKCoordinateRegion(center: coordinates, latitudinalMeters: 200, longitudinalMeters: 200))
+            let region = self.mapView.regionThatFits(MKCoordinateRegion(center: coordinates, latitudinalMeters: 400, longitudinalMeters: 200))
             
             self.mapView.setRegion(region, animated: true)
             self.mapView.addAnnotations(self.currentAnnotations)
             self.backButton.isHidden = false
             
+            let padding = UIEdgeInsets.init(top: 50, left: 50, bottom: 300, right: 50)
+            self.mapView.setVisibleMapRect(region.mapRect, edgePadding: padding, animated: true)
+     
             self.selectDetailOnMap(id: id)
         }
     }
@@ -705,8 +714,9 @@ extension MapViewController: UITextFieldDelegate {
             DispatchQueue.main.async {
                 
                 if resultText.isEmpty {
-                    self.catalogVC.categoriesDisplayManager.reloadTable()
+                    self.catalogVC.staticCategoriesDisplayManager.reloadTable()
                     self.hidePredictionsView()
+                    self.catalogVisible = true
                 }
                 
                 else {
@@ -714,8 +724,9 @@ extension MapViewController: UITextFieldDelegate {
                     self.getPredictions(on: resultText)
                     
                     self.getSuggestions(text: resultText) { (result) in
-                        
-                        self.catalogVC.fillSuggestions(result)
+                        if !self.searchTextField.text!.isEmpty {
+                            self.catalogVC.fillSuggestions(result)
+                        }
                     }
                 }
             }
@@ -765,7 +776,7 @@ extension MapViewController: UITextFieldDelegate {
             
         mapView.setRegion(region, animated: true)
         
-        let padding = UIEdgeInsets.init(top: 100, left: 50, bottom: 50, right: 200)
+        let padding = UIEdgeInsets.init(top: 50, left: 50, bottom: 400, right: 50)
         mapView.setVisibleMapRect(region.mapRect, edgePadding: padding, animated: true)
         
         mapView.addAnnotations(annotations)

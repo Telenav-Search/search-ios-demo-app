@@ -25,7 +25,7 @@ class PanViewAnimator: NSObject {
     }
     @IBOutlet weak var dtailsViewHeightConstraint: NSLayoutConstraint! {
         didSet {
-            dtailsViewHeightConstraint.constant = UIScreen.main.bounds.height * 1.85/3
+            dtailsViewHeightConstraint.constant = UIScreen.main.bounds.height * 1.85/4
             
             standrdDetailViewBottomConstrainValue = 260 - dtailsViewHeightConstraint.constant
             self.initialBottomConstraintValue = standrdDetailViewBottomConstrainValue

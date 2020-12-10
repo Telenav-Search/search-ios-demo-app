@@ -47,7 +47,6 @@ class SearchResultViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
     }
     
     func fillSearchResults(_ content: [TNEntity], resetPagination: Bool = false) {
@@ -56,8 +55,10 @@ class SearchResultViewController: UIViewController {
         if resetPagination == true {
             self.lastDisplayedIndexPath = nil
         }
-        
-        tableView.reloadData()
+        tableView.setContentOffset(CGPoint(x: 0, y: -tableView.adjustedContentInset.top), animated: false)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.tableView.reloadData()
+        }
     }
 
     @IBAction func didClickBack(_ sender: Any) {

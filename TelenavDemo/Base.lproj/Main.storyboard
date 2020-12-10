@@ -35,11 +35,11 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pzA-GP-v7g" customClass="DetailsView" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="567" width="414" height="485"/>
+                                        <rect key="frame" x="0.0" y="817" width="414" height="300"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="485" id="95s-uj-wHd"/>
+                                            <constraint firstAttribute="height" constant="300" id="95s-uj-wHd"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -50,7 +50,7 @@
                                     <constraint firstItem="koQ-v2-zDU" firstAttribute="top" secondItem="WIn-Qv-FkV" secondAttribute="top" constant="8" id="JIv-CS-gJy"/>
                                     <constraint firstItem="pzA-GP-v7g" firstAttribute="leading" secondItem="WIn-Qv-FkV" secondAttribute="leading" id="K0S-1a-fII"/>
                                     <constraint firstItem="koQ-v2-zDU" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="WIn-Qv-FkV" secondAttribute="trailing" constant="-16" id="Kuy-dw-M6p"/>
-                                    <constraint firstAttribute="bottom" secondItem="pzA-GP-v7g" secondAttribute="bottom" constant="-235" id="RcD-Qy-qc4"/>
+                                    <constraint firstAttribute="bottom" secondItem="pzA-GP-v7g" secondAttribute="bottom" constant="-300" id="RcD-Qy-qc4"/>
                                     <constraint firstAttribute="bottom" secondItem="lZ1-5J-ZmU" secondAttribute="bottom" id="bgo-ON-uBK"/>
                                     <constraint firstItem="lZ1-5J-ZmU" firstAttribute="top" secondItem="WIn-Qv-FkV" secondAttribute="top" id="jOX-Gx-puw"/>
                                     <constraint firstAttribute="trailing" secondItem="lZ1-5J-ZmU" secondAttribute="trailing" id="laO-bL-K1w"/>
