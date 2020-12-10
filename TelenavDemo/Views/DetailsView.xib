@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="AZ8-il-7qh"/>
                 <outlet property="nameLabel" destination="UWI-aR-WPv" id="LhW-Kw-Xzw"/>
+                <outlet property="ratingImage" destination="z3T-Ew-uGM" id="6Z9-pT-qOU"/>
                 <outlet property="ratingLabel" destination="F48-DV-tax" id="xeQ-6g-jca"/>
                 <outlet property="ratingView" destination="omx-e1-fAV" id="sbT-F3-cEY"/>
                 <outlet property="tableView" destination="hHP-gz-Jix" id="vpq-ZU-xzJ"/>
@@ -36,20 +37,8 @@
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="omx-e1-fAV">
                     <rect key="frame" x="354" y="12" width="50" height="30"/>
                     <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="z3T-Ew-uGM">
-                            <rect key="frame" x="0.0" y="-0.5" width="10" height="30"/>
-                        </imageView>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Fb0-iz-bow">
-                            <rect key="frame" x="10" y="-0.5" width="10" height="30"/>
-                        </imageView>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Nz4-7L-Kir">
-                            <rect key="frame" x="20" y="-0.5" width="10" height="30"/>
-                        </imageView>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="zVt-8I-RxW">
-                            <rect key="frame" x="30" y="-0.5" width="10" height="30"/>
-                        </imageView>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="bog-CG-EkR">
-                            <rect key="frame" x="40" y="-0.5" width="10" height="30"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="large_0" translatesAutoresizingMaskIntoConstraints="NO" id="z3T-Ew-uGM">
+                            <rect key="frame" x="0.0" y="0.0" width="50" height="30"/>
                         </imageView>
                     </subviews>
                     <constraints>
@@ -84,8 +73,7 @@
         </view>
     </objects>
     <resources>
-        <image name="star" catalog="system" width="128" height="116"/>
-        <image name="star.fill" catalog="system" width="128" height="116"/>
+        <image name="large_0" width="132" height="24"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

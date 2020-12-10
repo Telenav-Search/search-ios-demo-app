@@ -15,7 +15,7 @@ class SearchResultCell: UITableViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
 
     @IBOutlet weak var ratingView: UIStackView!
-    @IBOutlet var starViews: [UIImageView]!
+    @IBOutlet weak var starView: UIImageView!
     
     @IBOutlet weak var addressLabel: UILabel!
     
@@ -53,15 +53,12 @@ class SearchResultCell: UITableViewCell {
             
             ratingView.isHidden = false
             
-            for (idx,sb) in ratingView.arrangedSubviews.enumerated() {
-                if let imgView = sb as? UIImageView {
-                    if idx < Int(avgRating) {
-                        imgView.image = UIImage(systemName: "star.fill")
-                    } else {
-                        imgView.image = UIImage(systemName: "star")
-                    }
-                }
+            var rem = ""
+            if avgRating.truncatingRemainder(dividingBy: 1) > 0 {
+                rem = "_half"
             }
+            
+            starView.image = UIImage(named: "large_\(Int(avgRating))\(rem)")
         } else {
             ratingView.isHidden = true
         }

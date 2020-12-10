@@ -252,7 +252,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         var heightConstraint: CGFloat
         
         if searchVisible {
-            heightConstraint = self.searchContent.count > 0 ? 400 : 0
+            heightConstraint = 400
         } else {
             heightConstraint = 0
         }
@@ -709,6 +709,7 @@ extension MapViewController: UITextFieldDelegate {
                 if resultText.isEmpty {
                     self.catalogVC.staticCategoriesDisplayManager.reloadTable()
                     self.hidePredictionsView()
+                    self.predictionsView.content = []
                     self.catalogVisible = true
                 }
                 
@@ -732,6 +733,7 @@ extension MapViewController: UITextFieldDelegate {
         
         self.catalogVC.staticCategoriesDisplayManager.reloadTable()
         self.hidePredictionsView()
+        self.predictionsView.content = []
 
         return true
     }
@@ -799,7 +801,7 @@ extension MapViewController: UITextFieldDelegate {
     private func hidePredictionsView() {
         predictionsView.isHidden = true
     }
-    
+
     private func resetSearch() {
         self.searchQuery = nil
         self.searchPaginationContext = nil
@@ -840,6 +842,7 @@ extension MapViewController: SearchResultViewControllerDelegate {
             self.toggleDetailView(visible: false)
             searchVisible = false
             catalogVisible = true
+            predictionsView.isHidden = true
             backButton.isHidden = true
         }
     }

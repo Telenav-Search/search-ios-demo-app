@@ -76,9 +76,7 @@ extension SearchResultViewController: UITableViewDataSource {
         guard let cell: SearchResultCell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell") as? SearchResultCell else {
             return UITableViewCell()
         }
-        
         cell.fillSearchResultItem(content[indexPath.row], itemNumber: indexPath.row + 1)
-        
         return cell
     }
     

@@ -406,22 +406,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="uWl-y8-GnL">
-                                                    <rect key="frame" x="16" y="68" width="110" height="30"/>
+                                                    <rect key="frame" x="16" y="68" width="132" height="30"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="tAW-tT-buv">
-                                                            <rect key="frame" x="0.0" y="-0.5" width="22" height="30"/>
-                                                        </imageView>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6fi-2P-6x8">
-                                                            <rect key="frame" x="22" y="-0.5" width="22" height="30"/>
-                                                        </imageView>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="oDr-eV-Wkl">
-                                                            <rect key="frame" x="44" y="-0.5" width="22" height="30"/>
-                                                        </imageView>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="8im-EG-fas">
-                                                            <rect key="frame" x="66" y="-0.5" width="22" height="30"/>
-                                                        </imageView>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="CG2-Zx-ZaG">
-                                                            <rect key="frame" x="88" y="-0.5" width="22" height="30"/>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="large_0" translatesAutoresizingMaskIntoConstraints="NO" id="tAW-tT-buv">
+                                                            <rect key="frame" x="0.0" y="0.0" width="132" height="30"/>
                                                         </imageView>
                                                     </subviews>
                                                     <constraints>
@@ -455,11 +443,7 @@
                                             <outlet property="nameLabel" destination="3oK-08-ZDf" id="81O-h4-ab9"/>
                                             <outlet property="numberLabel" destination="oJn-eC-pI9" id="5af-bb-uUD"/>
                                             <outlet property="ratingView" destination="uWl-y8-GnL" id="DJJ-gJ-IhP"/>
-                                            <outletCollection property="starViews" destination="tAW-tT-buv" collectionClass="NSMutableArray" id="OtS-Hp-haR"/>
-                                            <outletCollection property="starViews" destination="6fi-2P-6x8" collectionClass="NSMutableArray" id="0AB-DN-hiH"/>
-                                            <outletCollection property="starViews" destination="oDr-eV-Wkl" collectionClass="NSMutableArray" id="N0v-Il-EgL"/>
-                                            <outletCollection property="starViews" destination="8im-EG-fas" collectionClass="NSMutableArray" id="ElV-Ka-6fu"/>
-                                            <outletCollection property="starViews" destination="CG2-Zx-ZaG" collectionClass="NSMutableArray" id="iXp-LD-IgJ"/>
+                                            <outlet property="starView" destination="tAW-tT-buv" id="yeg-Za-Qws"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -512,6 +496,7 @@
                             <constraint firstItem="28j-wC-fqa" firstAttribute="leading" secondItem="PmU-Jd-eUi" secondAttribute="leading" id="4wB-Ox-PAA"/>
                             <constraint firstItem="PmU-Jd-eUi" firstAttribute="trailing" secondItem="gP9-be-Ypl" secondAttribute="trailing" id="8k9-vE-spG"/>
                             <constraint firstItem="gP9-be-Ypl" firstAttribute="top" secondItem="PmU-Jd-eUi" secondAttribute="top" constant="30" id="NKd-yo-axS"/>
+                            <constraint firstItem="PmU-Jd-eUi" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="gP9-be-Ypl" secondAttribute="bottom" constant="5" id="O4Z-IW-vfe"/>
                             <constraint firstItem="PmU-Jd-eUi" firstAttribute="bottom" secondItem="28j-wC-fqa" secondAttribute="bottom" id="cE0-bj-yI2"/>
                             <constraint firstItem="PmU-Jd-eUi" firstAttribute="trailing" secondItem="28j-wC-fqa" secondAttribute="trailing" id="dtE-FX-GqL"/>
                             <constraint firstItem="gP9-be-Ypl" firstAttribute="leading" secondItem="PmU-Jd-eUi" secondAttribute="leading" id="foY-aN-UFj"/>
@@ -842,11 +827,10 @@
         <image name="arrow.left" catalog="system" width="128" height="98"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
+        <image name="large_0" width="132" height="24"/>
         <image name="map" catalog="system" width="128" height="110"/>
         <image name="map.fill" catalog="system" width="128" height="110"/>
-        <image name="star" catalog="system" width="128" height="116"/>
         <image name="star.circle" catalog="system" width="128" height="121"/>
-        <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

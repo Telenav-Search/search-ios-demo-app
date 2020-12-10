@@ -18,8 +18,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="347" height="70"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mnj-80-mhP">
-                        <rect key="frame" x="16" y="11.5" width="80" height="47"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mnj-80-mhP">
+                        <rect key="frame" x="16" y="-3.5" width="80" height="17"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="fmO-YG-1nO"/>
                         </constraints>
@@ -44,13 +44,13 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="cno-3p-cRH" secondAttribute="trailing" constant="10" id="41Y-4W-XCR"/>
+                    <constraint firstItem="Mnj-80-mhP" firstAttribute="firstBaseline" secondItem="qZx-ye-Ma7" secondAttribute="firstBaseline" id="7x4-cB-Gcp"/>
                     <constraint firstItem="cno-3p-cRH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="B0Q-IE-6tq"/>
                     <constraint firstAttribute="bottom" secondItem="cno-3p-cRH" secondAttribute="bottom" constant="10" id="Ebf-sY-jyO"/>
                     <constraint firstItem="cno-3p-cRH" firstAttribute="leading" secondItem="Mnj-80-mhP" secondAttribute="trailing" constant="15" id="NjD-p7-K6V"/>
                     <constraint firstItem="qZx-ye-Ma7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="RIM-Jb-aDG"/>
                     <constraint firstAttribute="bottom" secondItem="qZx-ye-Ma7" secondAttribute="bottom" id="Yyx-1B-bZm"/>
-                    <constraint firstItem="Mnj-80-mhP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11.5" id="ZPH-Ke-qen"/>
-                    <constraint firstAttribute="bottom" secondItem="Mnj-80-mhP" secondAttribute="bottom" constant="11.5" id="aiD-iW-pSn"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Mnj-80-mhP" secondAttribute="bottom" constant="5" id="i6a-00-Ead"/>
                     <constraint firstItem="Mnj-80-mhP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="s3C-2l-Xi7"/>
                     <constraint firstItem="cno-3p-cRH" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vSg-Eb-8I6"/>
                     <constraint firstAttribute="trailing" secondItem="qZx-ye-Ma7" secondAttribute="trailing" id="y0K-cI-iJZ"/>

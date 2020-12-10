@@ -22,6 +22,7 @@ class DetailsView: UIView {
     
     @IBOutlet weak var ratingView: UIStackView!
     @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var ratingImage: UIImageView!
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -80,15 +81,13 @@ class DetailsView: UIView {
             ratingLabel.isHidden = false
             ratingLabel.text = "Rating: \(avgRating)"
             
-            for (idx,sb) in ratingView.arrangedSubviews.enumerated() {
-                if let imgView = sb as? UIImageView {
-                    if idx < Int(avgRating) {
-                        imgView.image = UIImage(systemName: "star.fill")
-                    } else {
-                        imgView.image = UIImage(systemName: "star")
-                    }
-                }
+            var rem = ""
+            if avgRating.truncatingRemainder(dividingBy: 1) > 0 {
+                rem = "_half"
             }
+            
+            ratingImage.image = UIImage(named: "large_\(Int(avgRating))\(rem)")
+
         } else {
             ratingView.isHidden = true
             ratingLabel.isHidden = true
