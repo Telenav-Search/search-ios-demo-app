@@ -16,12 +16,13 @@ class StaticCategoriesDisplayManager: NSObject {
     
     var categories = [StaticCategoryCellItem]()
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView?
     
     weak var delegate: StaticCategoriesDisplayManagerDelegate?
     
     func reloadTable() {
-                
+        tableView?.contentInset = .zero
+
         if (tableView?.delegate is StaticCategoriesDisplayManager) == false {
             tableView?.delegate = self
         }

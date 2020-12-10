@@ -20,20 +20,19 @@ class SuggestionsDisplayManager: NSObject {
     weak var delegate: SuggestionsDisplayManagerDelegate?
     
     func reloadTable() {
-        
-        if (tableView.delegate is SuggestionsDisplayManager) == false {
-            tableView.delegate = self
+        if (tableView?.delegate is SuggestionsDisplayManager) == false {
+            tableView?.delegate = self
         }
         
-        if (tableView.dataSource is SuggestionsDisplayManager) == false {
-            tableView.dataSource = self
+        if (tableView?.dataSource is SuggestionsDisplayManager) == false {
+            tableView?.dataSource = self
         }
         
-        tableView.reloadData()
+        tableView?.reloadData()
 
     }
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView?
 }
 
 extension SuggestionsDisplayManager: UITableViewDataSource {
@@ -56,6 +55,21 @@ extension SuggestionsDisplayManager: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Suggestions"
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+        let myLabel = UILabel()
+        myLabel.frame = CGRect(x: 20, y: 8, width: 320, height: 20)
+        myLabel.font = UIFont.systemFont(ofSize: 14)
+        myLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+        myLabel.backgroundColor = UIColor.clear
+        
+        let headerView = UIView()
+        headerView.addSubview(myLabel)
+        headerView.backgroundColor = UIColor.systemGray6
+        
+        return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

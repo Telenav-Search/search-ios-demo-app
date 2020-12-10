@@ -88,9 +88,6 @@ class FiltersViewController: UIViewController {
     }
     
     func createInitialContent() {
-        
-        let categoriesSection = FiltersSectionObject(sectionType: .categorySection, content: [])
-        
         var chargerBrands = [ChargerBrand]()
         
         for brand in ChargerBrandType.allCases {
@@ -122,11 +119,8 @@ class FiltersViewController: UIViewController {
         for filter in TNEntityGeoFilterType.allCases {
             geoFilters.append(TNEntityGeoFilterTypeDisplayModel(geoFilterType: filter))
         }
-        
-        
-        let geoFilterSection = FiltersSectionObject(sectionType: .geoFiltersSection, content: geoFilters)
-        
-        self.content = [categoriesSection, evFilterSection, geoFilterSection]
+                
+        self.content = [evFilterSection]
     }
 }
 

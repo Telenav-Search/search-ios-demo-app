@@ -404,7 +404,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             searchQueryLabel.text = (item as? StaticCategoryDisplayModel)?.staticCategory.name
             
         case .moreItem:
-            
+            backButton.isHidden = false
             TNEntityCore.getCategories { (categories, err) in
 
                 guard let categories = categories else {
@@ -646,22 +646,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
         
         self.searchContent = sortedSearch
-
-        if self.searchContent.count > 0 {
-            self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
-                    
-            self.heightAnchor.constant = self.setupSearchHeight()
-            self.searchResultsVC.fillSearchResults(self.searchContent, resetPagination: isPaginated == false)
-            self.searchVisible = true
-            self.catalogVisible = false
-            self.searchResultDisplaying = true
-            self.addAnnotations(from: self.searchContent)
-        } else {
-            
-            let alert = UIAlertController(title: "Warning", message: "Search result is empty for this category", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in }))
-            self.present(alert, animated: true, completion: nil)
-        }
+        
+        self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
+        
+        self.heightAnchor.constant = self.setupSearchHeight()
+        self.searchResultsVC.fillSearchResults(self.searchContent, resetPagination: isPaginated == false)
+        self.searchVisible = true
+        self.catalogVisible = false
+        self.searchResultDisplaying = true
+        self.addAnnotations(from: self.searchContent)
     }
     
     private func getPredictions(on searchQuery: String) {
@@ -841,10 +834,14 @@ extension MapViewController: SearchResultViewControllerDelegate {
     }
 
     func goBack() {
-        self.toggleDetailView(visible: false)
-        searchVisible = false
-        catalogVisible = true
-        backButton.isHidden = true
+        if catalogVisible {
+            didReturnToMap()
+        } else {
+            self.toggleDetailView(visible: false)
+            searchVisible = false
+            catalogVisible = true
+            backButton.isHidden = true
+        }
     }
 }
 

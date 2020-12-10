@@ -20,19 +20,20 @@ class CategoriesDisplayManager: NSObject {
     var idxPath = [IndexPath]()
     
     func reloadTable() {
-                
-        if (tableView.delegate is CategoriesDisplayManager) == false {
-            tableView.delegate = self
+        tableView?.contentInset = .zero
+
+        if (tableView?.delegate is CategoriesDisplayManager) == false {
+            tableView?.delegate = self
         }
         
-        if (tableView.dataSource is CategoriesDisplayManager) == false {
-            tableView.dataSource = nil
-            tableView.dataSource = self
-            tableView.reloadData()
+        if (tableView?.dataSource is CategoriesDisplayManager) == false {
+            tableView?.dataSource = nil
+            tableView?.dataSource = self
+            tableView?.reloadData()
         }
     }
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView?
 }
 
 extension CategoriesDisplayManager: UITableViewDataSource {
@@ -99,7 +100,7 @@ extension CategoriesDisplayManager: UITableViewDelegate {
             
             categories.removeSubrange(firstIdx...lastIdx)
             
-            tableView.deleteRows(at: idxPathsToRemove, with: .fade)
+            tableView?.deleteRows(at: idxPathsToRemove, with: .fade)
             
         } else {
             
@@ -118,11 +119,11 @@ extension CategoriesDisplayManager: UITableViewDelegate {
                 idxPathsToInsert.append(IndexPath(row: i, section: 0))
             }
             
-            tableView.insertRows(at: idxPathsToInsert, with: .fade)
+            tableView?.insertRows(at: idxPathsToInsert, with: .fade)
         }
     
         category.isExpanded.toggle()
-        tableView.reloadRows(at: [IndexPath(row: idxOfSelectedCat, section: 0)], with: .fade)
+        tableView?.reloadRows(at: [IndexPath(row: idxOfSelectedCat, section: 0)], with: .fade)
     }
 
     func findNodesForCollapsing(for cat: TelenavCategoryDisplayModel) -> [IndexPath] {

@@ -96,6 +96,13 @@ class DetailsView: UIView {
         
         switch entity.type {
         case .address:
+            content = [
+                DetailViewDisplayModel(fieldName: "Address", fieldValue: entity.address?.addressLines?.joined(separator: "\n") ?? ""),
+                DetailViewDisplayModel(fieldName: "Locality", fieldValue: entity.address?.locality ?? ""),
+                DetailViewDisplayModel(fieldName: "Cross street", fieldValue: entity.address?.crossStreet?.formattedName ?? "")
+            ]
+            nameLabel.text = entity.address?.formattedAddress
+
             break
         case .place:
             
@@ -105,9 +112,6 @@ class DetailsView: UIView {
                 DetailViewDisplayModel(fieldName: "Phone numbers", fieldValue: entity.place?.phoneNumbers?.joined(separator: "\n") ?? "Not added yet")
             ]
             
-            if let distance = entity.formattedDistance {
-                content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: distance))
-            }
             
 //            if let coordinates = entity.place?.address?.geoCoordinates {
 //                
@@ -122,6 +126,10 @@ class DetailsView: UIView {
             break
         }
         
+        if let distance = entity.formattedDistance {
+            content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: distance))
+        }
+
         if let openHours = entity.facets?.openHours?.regularOpenHours {
                         
             var openHoursArr = [String]()

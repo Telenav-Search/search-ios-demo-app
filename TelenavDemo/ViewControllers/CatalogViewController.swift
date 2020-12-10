@@ -46,7 +46,6 @@ class CatalogViewController: UIViewController  {
     }
     
     func fillStaticCategories(_ categories: [TNEntityStaticCategory]) {
-        
         var catItems = [StaticCategoryCellItem]()
         
         for category in categories {

@@ -31,6 +31,8 @@ class SearchResultViewController: UIViewController {
     
     weak var delegate: SearchResultViewControllerDelegate?
     
+    @IBOutlet weak var noResultsView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,13 +47,11 @@ class SearchResultViewController: UIViewController {
         self.view.layer.shadowRadius = 10.0
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     func fillSearchResults(_ content: [TNEntity], resetPagination: Bool = false) {
         self.content = content
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() ) {
+            self.noResultsView.isHidden = content.count != 0
+        }
         if resetPagination == true {
             self.lastDisplayedIndexPath = nil
         }
