@@ -604,20 +604,12 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                                                searchOptionsIntent: TNEntitySearchOptionIntent.around,
                                                showAddressLines: false)
         
-//        Two different variants to use builder below:
-//        TNEntityCore.buildSearch { (result, err) in
-//
-//        }.limit(10).query("food").location(TNEntityGeoPoint(lat: 0, lon: 0)).build().executeSearch()
-//
-//        TNEntityCore.search(searchParams:
-//                                TNEntitySearchQueryBuilder()
-//                                .limit(10)
-//                                .query("food")
-//                                .location(TNEntityGeoPoint(lat: 0, lon: 0))
-//                                .build()) { (telenavSearch, err) in
-//            self.handleSearchResult(telenavSearch, isPaginated: false)
-//        }
-
+//        Alternative variant of building searchParams
+//        let searchParams = TNEntitySearchQueryBuilder()
+//            .limit(10)
+//            .query("food")
+//            .location(TNEntityGeoPoint(lat: 0, lon: 0))
+//            .build()
         
         TNEntityCore.search(searchParams: searchParams) { (telenavSearch, err) in
             self.handleSearchResult(telenavSearch, isPaginated: false)

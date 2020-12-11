@@ -18,9 +18,6 @@
     [TNEntityCore searchWithSearchParams:params completion:^(TNEntitySearchResult * _Nullable res, NSError * _Nullable err) {
         
     }];
-    [[[[[TNEntityCore buildSearchWithCompletion:^(TNEntitySearchResult * _Nullable res, NSError * _Nullable err) {
-            
-        }] query:@"food"] location:[TNEntityGeoPoint pointWithLat:0 lon:0]] build] executeSearch];
 }
 
 @end
