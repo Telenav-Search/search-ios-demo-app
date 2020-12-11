@@ -322,11 +322,14 @@ extension FiltersViewController: UITableViewDelegate {
             
             if categoryItem.isSelected {
                 
-                guard let catId = categoryItem.category.id  else {
+                guard categoryItem.category.id != nil  else {
                     return
                 }
                 
-                let discoverBrandParams = TNEntityDiscoverBrandParams(categoryId: "241", location: TNEntityGeoPoint(lat: self.currentLocation.latitude, lon: self.currentLocation.longitude))
+                let discoverBrandParams = TNEntityDiscoverBrandQueryBuilder()
+                    .categoryId("241")
+                    .location(TNEntityGeoPoint(lat: self.currentLocation.latitude, lon: self.currentLocation.longitude))
+                    .build()
                 
                 TNEntityCore.getDiscoverBrands(params: discoverBrandParams) { (brands, err) in
                     
