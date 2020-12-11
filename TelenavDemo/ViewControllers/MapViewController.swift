@@ -653,7 +653,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         let location = TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
         
-        let params = TNEntityPredictionWordParams(searchQuery: searchQuery, location: location)
+        let params = TNEntityPredictionWordQueryBuilder()
+            .searchQuery(searchQuery)
+            .location(location)
+            .build()
     
         TNEntityCore.getWordPredictions(params: params) { (prediction, err) in
             
