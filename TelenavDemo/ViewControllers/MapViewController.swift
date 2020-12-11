@@ -471,7 +471,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func goToDetails(entityId: String, completion: ((TNEntity) -> Void)? = nil) {
         
-        let params = TNEntityParams(ids: [entityId])
+        let params = TNEntityQueryBuilder().ids([entityId]).build()
         
         TNEntityCore.getEntityDetails(params: params) { [weak self] (entities, err) in
             
