@@ -146,6 +146,12 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         return vc
     }()
     
+    lazy var filtersVC: FiltersViewController = {
+        let vc = storyboard!.instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
+        vc.delegate = self
+        return vc
+    }()
+    
     // MARK: - View management
     
     override func viewDidLoad() {
@@ -297,15 +303,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     @IBAction func didSelectFilters(_ sender: Any) {
+        filtersVC.fillLocation(self.currentLocation ?? CLLocationCoordinate2D())
         
-        guard let vc: FiltersViewController = storyboard?.instantiateViewController(identifier: "FiltersViewController") else {
-            return
-        }
-        
-        vc.fillLocation(self.currentLocation ?? CLLocationCoordinate2D())
-        vc.delegate = self
-        
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(filtersVC, animated: true)
     }
     
     // MARK: - Catalog Delegate
@@ -317,7 +317,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         self.backButton.isHidden = false
         
-        startSearch(searchQuery: name)
+        startSearch(searchQuery: name, filterItems: selectedFilters)
     }
     
     private func selectDetailOnMap(id: String) {
@@ -382,7 +382,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     func didSelectQuery(_ query: String) {
         searchTextField.resignFirstResponder()
-        startSearch(searchQuery: query)
+        startSearch(searchQuery: query, filterItems: selectedFilters)
     }
     
     func didReturnToMap() {
@@ -400,7 +400,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             
             self.backButton.isHidden = false
             let filter = TelenavCategoryDisplayModel(category: TNEntityCategory(childNodes: nil, id: (item as? StaticCategoryDisplayModel)?.staticCategory.id, name: nil), catLevel: 0)
-            startSearch(searchQuery: "", filterItems: [filter])
+            
+            startSearch(searchQuery: "", filterItems: selectedFilters + [filter])
             searchQueryLabel.text = (item as? StaticCategoryDisplayModel)?.staticCategory.name
             
         case .moreItem:
@@ -686,7 +687,7 @@ extension MapViewController: UITextFieldDelegate {
             return false
         }
         
-        startSearch(searchQuery: searchQuery)
+        startSearch(searchQuery: searchQuery, filterItems: selectedFilters)
         
         textField.resignFirstResponder()
         predictionsView.isHidden = true
