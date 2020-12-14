@@ -120,9 +120,7 @@ class DetailsView: UIView {
 //            }
             
             nameLabel.text = entity.place?.name
-            
-        case .none:
-            break
+        
         }
         
         if let distance = entity.formattedDistance {

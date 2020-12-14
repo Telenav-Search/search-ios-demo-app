@@ -12,11 +12,19 @@
 @implementation ObjcExample
 
 - (void)test {
-    
-//    TNEntitySearchParams *params = [[[[TNEntitySearchQueryBuilder new] query:@"food"] location:[TNEntityGeoPoint pointWithLat:0 lon:0] ] build];
+//
+//    TNEntitySearchParams *params = [TNEntitySearchParams new];
+//    params.searchQuery = @"food";
+//    params.location = [TNEntityGeoPoint pointWithLat:-37 lon:122];
+//    params.showAddressLines = YES;
+//    params.searchOptionsIntent = TNEntitySearchOptionIntentAround;
 //
 //    [TNEntityCore searchWithSearchParams:params completion:^(TNEntitySearchResult * _Nullable res, NSError * _Nullable err) {
-//
+//        for (TNEntity *entity in res.results) {
+//            if (entity.type == TNEntityTypePlace) {
+//                NSLog(@"%@", entity.place.name);
+//            }
+//        }
 //    }];
     
 //    TNEntityPredictionWordParams *params = [[TNEntityPredictionWordParams alloc]
