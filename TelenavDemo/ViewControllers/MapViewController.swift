@@ -407,7 +407,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             backButton.isHidden = false
             TNEntityCore.getCategories { (categories, err) in
 
-                guard let categories = categories else {
+                guard let categories = categories?.results else {
                     return
                 }
 
@@ -479,7 +479,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 return
             }
             
-            guard let detail = entities?.first else {
+            guard let detail = entities?.results?.first else {
                 return
             }
 

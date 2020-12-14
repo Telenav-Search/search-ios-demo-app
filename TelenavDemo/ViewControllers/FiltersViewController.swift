@@ -37,7 +37,7 @@ class FiltersViewController: UIViewController {
 
         TNEntityCore.getCategories { (categories, err) in
             
-            guard let categories = categories else {
+            guard let categories = categories?.results else {
                 return
             }
 
@@ -335,7 +335,7 @@ extension FiltersViewController: UITableViewDelegate {
                     
                     var convBrands = [BrandDisplayModel]()
                     
-                    for brand in brands ?? [] {
+                    for brand in brands?.results ?? [] {
                         let br = BrandDisplayModel(brand: brand)
                         convBrands.append(br)
                     }

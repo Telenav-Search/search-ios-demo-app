@@ -43,6 +43,32 @@
 //        NSLog(@"%@", res);
 //    }];
     
+//    [TNEntityCore getCategoriesWithCompletion:^(TNEntityCategoryResult * _Nullable response, NSError * _Nullable err) {
+//            NSLog(response.results);
+//    }];
+//
+//    TNEntityDiscoverCategoryParams *params = [TNEntityDiscoverCategoryParams new];
+//    params.location = [[TNEntityGeoPoint alloc] initWithLat:37 lon:-121];
+//    params.categoryId = @"1";
+//    params.limit = 5;
+//
+//    [TNEntityCore getDiscoverCategoriesWithParams:params completion:^(TNEntityCategoryResult * _Nullable response, NSError * _Nullable err) {
+//        for (TNEntityCategory *cat in response.results) {
+//            NSLog(@"%@", cat.name);
+//        }
+//    }];
+//
+//    TNEntityDiscoverBrandParams *params = [TNEntityDiscoverBrandParams new];
+//    params.location = [[TNEntityGeoPoint alloc] initWithLat:37 lon:-121];
+//    params.categoryId = @"1";
+//    params.limit = 5;
+//
+//    [TNEntityCore getDiscoverBrandsWithParams:params completion:^(TNEntityBrandResult * _Nullable response, NSError * _Nullable err) {
+//        for (TNEntityBrand *brand in response.results) {
+//            NSLog(@"%@", brand.brandName);
+//        }
+//    }];
+
 }
 
 @end
