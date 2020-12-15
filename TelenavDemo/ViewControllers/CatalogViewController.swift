@@ -9,7 +9,7 @@ import UIKit
 import TelenavEntitySDK
 
 protocol CatalogViewControllerDelegate: SuggestionsDisplayManagerDelegate, StaticCategoriesDisplayManagerDelegate, CategoriesDisplayManagerDelegate {
-    func didReturnToMap()
+    func didReturnToStaticCategories()
 }
 
 class CatalogViewController: UIViewController  {
@@ -64,7 +64,7 @@ class CatalogViewController: UIViewController  {
     }
     
     @IBAction func didClickReturnToMap(_ sender: Any) {
-        delegate?.didReturnToMap()
+        delegate?.didReturnToStaticCategories()
     }
 }
 

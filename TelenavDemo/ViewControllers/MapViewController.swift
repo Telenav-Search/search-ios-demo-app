@@ -95,6 +95,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     var showingSubCatalog = false
+    var showingMap = false
     
     var heightAnchor: NSLayoutConstraint!
     
@@ -386,7 +387,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         startSearch(searchQuery: query, filterItems: selectedFilters)
     }
     
-    func didReturnToMap() {
+    func didReturnToStaticCategories() {
         catalogVisible = true
         backButton.isHidden = true
         catalogVC.fillStaticCategories(self.staticCategories)
@@ -622,6 +623,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private func handleSearchResult(_ telenavSearch: TNEntitySearchResult?, isPaginated: Bool) {
         
         self.hasMoreSearchResults = telenavSearch?.hasMore ?? false
+        self.showingMap = true
         
         if isPaginated {
             for res in telenavSearch?.results ?? [] {
@@ -643,6 +645,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         self.searchVisible = true
         self.catalogVisible = false
         self.searchResultDisplaying = true
+        self.backButton.isHidden = false
         self.addAnnotations(from: self.searchContent)
     }
     
@@ -828,16 +831,21 @@ extension MapViewController: SearchResultViewControllerDelegate {
     }
 
     func goBack() {
-        if catalogVisible {
-            didReturnToMap()
-        } else {
+        if showingSubCatalog && !showingMap {
+            didReturnToStaticCategories()
+            showingSubCatalog = false
+            showingMap = false
+        }
+        
+        if showingMap {
             self.toggleDetailView(visible: false)
             searchVisible = false
             catalogVisible = true
             predictionsView.isHidden = true
             backButton.isHidden = !showingSubCatalog
+            
+            showingMap = false
         }
-        showingSubCatalog = false
     }
 }
 
