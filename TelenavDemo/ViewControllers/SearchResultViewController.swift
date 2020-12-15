@@ -53,9 +53,9 @@ class SearchResultViewController: UIViewController {
             self.noResultsView.isHidden = content.count != 0
         }
         if resetPagination == true {
+            tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 0), at: .top, animated: false)
             self.lastDisplayedIndexPath = nil
         }
-        tableView.setContentOffset(CGPoint(x: 0, y: -tableView.adjustedContentInset.top), animated: false)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.tableView.reloadData()
         }
