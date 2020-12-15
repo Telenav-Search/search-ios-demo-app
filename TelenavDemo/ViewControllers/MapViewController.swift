@@ -633,13 +633,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         } else {
             self.searchContent = telenavSearch?.results ?? []
         }
-        
-        let sortedSearch = self.searchContent.sorted { (s1, s2) -> Bool in
-            s1.distance ?? 0 < s2.distance ?? 0
-        }
-        
-        self.searchContent = sortedSearch
-        
+
         self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
         
         self.heightAnchor.constant = self.setupSearchHeight()
@@ -839,7 +833,7 @@ extension MapViewController: SearchResultViewControllerDelegate {
             searchVisible = false
             catalogVisible = true
             predictionsView.isHidden = true
-            backButton.isHidden = true
+            backButton.isHidden = catalogVC.view.isHidden
         }
     }
 }
