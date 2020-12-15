@@ -94,6 +94,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             catalogVC.view.isHidden = !catalogVisible
         }
     }
+    var showingSubCatalog = false
     
     var heightAnchor: NSLayoutConstraint!
     
@@ -416,6 +417,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 
                 self.catalogVC.fillAllCategories(cats)
                 self.catalogVisible = true
+                self.showingSubCatalog = true
             }
         }
     }
@@ -833,8 +835,9 @@ extension MapViewController: SearchResultViewControllerDelegate {
             searchVisible = false
             catalogVisible = true
             predictionsView.isHidden = true
-            backButton.isHidden = catalogVC.view.isHidden
+            backButton.isHidden = !showingSubCatalog
         }
+        showingSubCatalog = false
     }
 }
 
