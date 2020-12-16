@@ -96,7 +96,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     var showingSubCatalog = false
     var showingMap = false
-    
+    var showingDetail = false
+  
     var heightAnchor: NSLayoutConstraint!
     
     var searchVisible = false {
@@ -491,7 +492,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.toggleDetailView(visible: true)
             
             self.catalogVisible = false
-
+            self.showingDetail = true
+            
             completion?(detail)
         }
     }
@@ -829,22 +831,43 @@ extension MapViewController: SearchResultViewControllerDelegate {
             mapView.selectAnnotation(ann, animated: true)
         }
     }
+    
+    func showOnlyMainScreen() {
+        didReturnToStaticCategories()
+        showingSubCatalog = false
+        showingMap = false
+    }
+    
+    func showOnlyCatalog() {
+        self.toggleDetailView(visible: false)
+        searchVisible = false
+        catalogVisible = true
+        predictionsView.isHidden = true
+        backButton.isHidden = !showingSubCatalog
+        
+        showingMap = false
+    }
+    
+    func hideDetail() {
+        self.toggleDetailView(visible: false)
+        showingDetail = false
+    }
 
     func goBack() {
-        if showingSubCatalog && !showingMap {
-            didReturnToStaticCategories()
-            showingSubCatalog = false
-            showingMap = false
+        if showingSubCatalog && !showingMap && !showingDetail {
+            showOnlyMainScreen()
         }
         
-        if showingMap {
-            self.toggleDetailView(visible: false)
-            searchVisible = false
-            catalogVisible = true
-            predictionsView.isHidden = true
-            backButton.isHidden = !showingSubCatalog
+        if showingMap && !showingDetail {
+            showOnlyCatalog()
+        }
+        
+        if showingDetail {
+            hideDetail()
             
-            showingMap = false
+            if !showingMap {
+                showOnlyCatalog()
+            }
         }
     }
 }
@@ -873,6 +896,7 @@ extension MapViewController: MKMapViewDelegate {
             let placeAnn = view.annotation as! PlaceAnnotation
             
             goToDetails(entityId: placeAnn.placeId)
+            showingMap = currentAnnotations.count > 1
         }
     }
     
