@@ -68,7 +68,7 @@ class FakeCategoriesGenerator {
         let hotels = TNEntityStaticCategory(name: "Hotels/Motels", id: "595")
         let attractions = TNEntityStaticCategory(name: "Attractions", id: "605")
         let fuel = TNEntityStaticCategory(name: "Fuel", id: "811")
-        let electricVehicleCharge = TNEntityStaticCategory(name: "Electric Vehicle Charge station", id: "771")
+        let electricVehicleCharge = TNEntityStaticCategory(name: "EV Charge station", id: "771")
         
         return [food, coffee, groccery, shopping, parking, banksAtms, hotels, attractions, fuel, electricVehicleCharge]
     }

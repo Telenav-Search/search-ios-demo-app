@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 
-class CoordinateSettingsController: UIViewController {
+class CoordinateSettingsController: UIViewController, FiltersViewControllerDelegate {
 
     @IBOutlet weak var lngTextField: UITextField!
     @IBOutlet weak var latTextField: UITextField!
@@ -16,8 +16,19 @@ class CoordinateSettingsController: UIViewController {
     @IBOutlet weak var realLocSwitch: UISwitch!
     @IBOutlet weak var inputSwitch: UISwitch!
     
+    @IBOutlet weak var filterSwitch: UISwitch!
+    
+    weak var delegate: FiltersViewControllerDelegate?
+
+    lazy var filtersVC: FiltersViewController = {
+        let vc = storyboard!.instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
+        vc.delegate = self
+        return vc
+    }()
+    
     var location: CLLocationCoordinate2D?
     var defaults = UserDefaults.standard
+    var selectedFilters: [SelectableFilterItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +53,10 @@ class CoordinateSettingsController: UIViewController {
         }
     }
 
+    @IBAction func showFilterAction(_ sender: Any) {
+        navigationController?.pushViewController(filtersVC, animated: true)
+    }
+    
     @IBAction func cupertinoLocSwitchStateChange(_ sender: UISwitch) {
         realLocSwitch.isOn = !cupertinoLocSwitch.isOn
         inputSwitch.isOn = !cupertinoLocSwitch.isOn
@@ -115,6 +130,21 @@ class CoordinateSettingsController: UIViewController {
         }
         
         return false
+    }
+    
+    func updateSelectedFilters(selectedFilters: [SelectableFilterItem]) {
+        self.selectedFilters = selectedFilters
+        if filterSwitch.isOn {
+            delegate?.updateSelectedFilters(selectedFilters: selectedFilters)
+        }
+    }
+
+    @IBAction func filterSwitchChange(_ sender: Any) {
+        if filterSwitch.isOn {
+            delegate?.updateSelectedFilters(selectedFilters: selectedFilters)
+        } else {
+            delegate?.updateSelectedFilters(selectedFilters: [])
+        }
     }
 }
 

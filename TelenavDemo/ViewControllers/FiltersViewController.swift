@@ -9,7 +9,7 @@ import UIKit
 import TelenavEntitySDK
 import CoreLocation
 
-protocol FiltersViewControllerDelegate: class {
+@objc protocol FiltersViewControllerDelegate: class {
     func updateSelectedFilters(selectedFilters: [SelectableFilterItem])
 }
 
@@ -22,9 +22,9 @@ class FiltersViewController: UIViewController {
         }
     }
     
-    weak var delegate: FiltersViewControllerDelegate?
+    @IBOutlet weak var delegate: FiltersViewControllerDelegate?
     
-    private var currentLocation = CLLocationCoordinate2D()
+    private var currentLocation: CLLocationCoordinate2D?
     private var content = [FiltersSectionObject]()
     private var categories = [TelenavCategoryDisplayModel]()
     
@@ -328,7 +328,7 @@ extension FiltersViewController: UITableViewDelegate {
                 
                 let discoverBrandParams = TNEntityDiscoverBrandQueryBuilder()
                     .categoryId("241")
-                    .location(TNEntityGeoPoint(lat: self.currentLocation.latitude, lon: self.currentLocation.longitude))
+                    .location(TNEntityGeoPoint(lat: self.currentLocation?.latitude ?? 0, lon: self.currentLocation?.longitude ?? 0))
                     .build()
                 
                 TNEntityCore.getDiscoverBrands(params: discoverBrandParams) { (brands, err) in

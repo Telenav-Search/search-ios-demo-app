@@ -34,8 +34,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     @IBOutlet weak var detailsView: DetailsView!
     
-    @IBOutlet weak var filtersButton: UIButton!
-    
     @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint! 
     
     @IBOutlet weak var predictionsView: PredictionsView! {
@@ -105,7 +103,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             searchResultsVC.view.isHidden = !searchVisible
             searchTextField.isHidden = searchVisible
             searchQueryLabel.isHidden = !searchVisible
-            filtersButton.isHidden = searchVisible
             backButton.isHidden = !searchVisible
             predictionsView.isHidden = searchVisible
             
@@ -148,12 +145,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         vc.delegate = self
         return vc
     }()
-    
-    lazy var filtersVC: FiltersViewController = {
-        let vc = storyboard!.instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
-        vc.delegate = self
-        return vc
-    }()
+
     
     // MARK: - View management
     
@@ -304,13 +296,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     @IBAction func didClickBack(_ sender: Any) {
         goBack()
     }
-    
-    @IBAction func didSelectFilters(_ sender: Any) {
-        filtersVC.fillLocation(self.currentLocation ?? CLLocationCoordinate2D())
-        
-        navigationController?.pushViewController(filtersVC, animated: true)
-    }
-    
+
     // MARK: - Catalog Delegate
     
     func goToChildCategory(name: String) {
@@ -320,7 +306,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         self.backButton.isHidden = false
         
-        startSearch(searchQuery: name, filterItems: selectedFilters)
+        startSearch(searchQuery: name)
     }
     
     private func selectDetailOnMap(id: String) {
@@ -385,7 +371,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     func didSelectQuery(_ query: String) {
         searchTextField.resignFirstResponder()
-        startSearch(searchQuery: query, filterItems: selectedFilters)
+        startSearch(searchQuery: query)
     }
     
     func didReturnToStaticCategories() {
@@ -402,9 +388,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         case .categoryItem:
             
             self.backButton.isHidden = false
-            let filter = TelenavCategoryDisplayModel(category: TNEntityCategory(childNodes: nil, id: (item as? StaticCategoryDisplayModel)?.staticCategory.id, name: nil), catLevel: 0)
+            let filter = TelenavCategoryDisplayModel(category: TNEntityCategory(childNodes: nil, id: (item as? StaticCategoryDisplayModel)?.staticCategory.id, name: nil),
+                                                     catLevel: 0)
             
-            startSearch(searchQuery: "", filterItems: selectedFilters + [filter])
+            var finalFilters: [SelectableFilterItem] = [filter]
+            if filter.category.id == "771" {
+                finalFilters = selectedFilters + [filter]
+            }
+            startSearch(searchQuery: "", filterItems: finalFilters)
             searchQueryLabel.text = (item as? StaticCategoryDisplayModel)?.staticCategory.name
             
         case .moreItem:
@@ -444,6 +435,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.currentLocation = fakeLocation
         } else {
             self.currentLocation = locValue
+        }
+        if let nav = self.tabBarController?.viewControllers?[1] as? UINavigationController,
+           let vc = nav.topViewController as? CoordinateSettingsController {
+            vc.delegate = self
         }
 //        setPinUsingMKPointAnnotation(location: locValue)
     }
@@ -688,7 +683,7 @@ extension MapViewController: UITextFieldDelegate {
             return false
         }
         
-        startSearch(searchQuery: searchQuery, filterItems: selectedFilters)
+        startSearch(searchQuery: searchQuery)
         
         textField.resignFirstResponder()
         predictionsView.isHidden = true

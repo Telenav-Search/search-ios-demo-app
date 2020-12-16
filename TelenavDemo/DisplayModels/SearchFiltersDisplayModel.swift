@@ -8,7 +8,7 @@
 import Foundation
 import TelenavEntitySDK
 
-protocol SelectableFilterItem {
+@objc protocol SelectableFilterItem {
     var isSelected: Bool { get set }
 }
 
