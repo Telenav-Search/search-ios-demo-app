@@ -12,6 +12,13 @@ import TelenavEntitySDK
     var isSelected: Bool { get set }
 }
 
+extension TNEntityBBoxGeoFilter: SelectableFilterItem {
+    var isSelected: Bool {
+        get { return true }
+        set { }
+    }
+}
+
 protocol FiltersItem: SelectableFilterItem {
     var itemType: FiltersItemType { get }
 }

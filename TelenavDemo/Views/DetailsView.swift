@@ -165,6 +165,7 @@ class DetailsView: UIView {
         }
     
         tableView.reloadData()
+        tableView.flashScrollIndicators()
     }
 }
 

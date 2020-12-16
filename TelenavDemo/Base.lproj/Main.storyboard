@@ -98,6 +98,16 @@
                                     <constraint firstAttribute="height" constant="35" id="hZg-ux-vXw"/>
                                 </constraints>
                             </stackView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pVb-pw-Ask">
+                                <rect key="frame" x="96.5" y="764" width="221" height="32"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
+                                <state key="normal" title="Redo Search in This Area"/>
+                                <connections>
+                                    <action selector="redoSearchButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o55-ih-uyM"/>
+                                </connections>
+                            </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K8f-1z-X8O">
                                 <rect key="frame" x="186.5" y="44" width="41.5" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -112,6 +122,8 @@
                             <constraint firstItem="u3T-ko-VYq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5Qd-By-XS6"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="u3T-ko-VYq" secondAttribute="trailing" constant="10" id="AA7-Lk-zn7"/>
                             <constraint firstItem="WIn-Qv-FkV" firstAttribute="top" secondItem="u3T-ko-VYq" secondAttribute="bottom" id="Jtj-pj-hdt"/>
+                            <constraint firstItem="pVb-pw-Ask" firstAttribute="bottom" secondItem="WIn-Qv-FkV" secondAttribute="bottom" priority="250" constant="-100" id="Q1s-uf-CVM"/>
+                            <constraint firstItem="pVb-pw-Ask" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="cVH-3T-KBI"/>
                             <constraint firstItem="K8f-1z-X8O" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="kmP-ZV-p4n"/>
                             <constraint firstItem="WIn-Qv-FkV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="kqV-D4-fi4"/>
                             <constraint firstItem="WIn-Qv-FkV" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="nro-Qc-x8i"/>
@@ -130,6 +142,7 @@
                         <outlet property="mapContainerView" destination="WIn-Qv-FkV" id="5hk-hK-Yi4"/>
                         <outlet property="mapView" destination="lZ1-5J-ZmU" id="tmL-c7-yWf"/>
                         <outlet property="predictionsView" destination="koQ-v2-zDU" id="Rm4-Tf-rc0"/>
+                        <outlet property="redoSearchButton" destination="pVb-pw-Ask" id="cBe-uT-ldX"/>
                         <outlet property="searchQueryLabel" destination="K8f-1z-X8O" id="JoR-b7-4ez"/>
                         <outlet property="searchResultViewAnimator" destination="1aL-6Y-92H" id="xxQ-Gl-geP"/>
                         <outlet property="searchTextField" destination="rqq-SL-795" id="glJ-nR-PPY"/>
@@ -627,6 +640,12 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tIO-ZR-meL">
+                                <rect key="frame" x="20" y="106" width="66" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="4E5-dJ-5YW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -644,6 +663,7 @@
                             <constraint firstItem="uQ2-pL-Gjn" firstAttribute="top" secondItem="Xi4-MS-ZcC" secondAttribute="bottom" constant="26.5" id="KBU-J4-h6g"/>
                             <constraint firstItem="esm-1m-SRL" firstAttribute="leading" secondItem="a1D-e1-tgf" secondAttribute="trailing" constant="8.5" id="Kbu-5Y-o4j"/>
                             <constraint firstItem="Hyr-De-sT3" firstAttribute="leading" secondItem="uQ2-pL-Gjn" secondAttribute="trailing" constant="8.5" id="QOj-zS-b6c"/>
+                            <constraint firstItem="tIO-ZR-meL" firstAttribute="top" secondItem="4E5-dJ-5YW" secondAttribute="top" constant="18" id="XZS-fd-NHX"/>
                             <constraint firstItem="vLS-8f-Yiz" firstAttribute="top" secondItem="Czo-68-Yzp" secondAttribute="bottom" constant="23.5" id="XuQ-Pb-PDz"/>
                             <constraint firstItem="QWD-2M-iqJ" firstAttribute="trailing" secondItem="Hyr-De-sT3" secondAttribute="trailing" id="Y8G-ag-1Fl"/>
                             <constraint firstItem="QWD-2M-iqJ" firstAttribute="leading" secondItem="Dgp-eu-RGi" secondAttribute="trailing" constant="8.5" id="YzS-fT-Eee"/>
@@ -652,6 +672,7 @@
                             <constraint firstItem="4O3-rI-YYn" firstAttribute="trailing" secondItem="2Bd-SW-Mj1" secondAttribute="trailing" id="e8Z-h5-lRF"/>
                             <constraint firstItem="2Bd-SW-Mj1" firstAttribute="leading" secondItem="Xi4-MS-ZcC" secondAttribute="trailing" constant="8.5" id="hvq-yu-S3Z"/>
                             <constraint firstItem="a1D-e1-tgf" firstAttribute="leading" secondItem="4E5-dJ-5YW" secondAttribute="leading" constant="10" id="lQQ-mj-HOr"/>
+                            <constraint firstItem="tIO-ZR-meL" firstAttribute="leading" secondItem="Czo-68-Yzp" secondAttribute="leading" id="nOg-m0-YWe"/>
                             <constraint firstItem="Hyr-De-sT3" firstAttribute="centerY" secondItem="uQ2-pL-Gjn" secondAttribute="centerY" id="tjp-JG-6b5"/>
                             <constraint firstItem="esm-1m-SRL" firstAttribute="trailing" secondItem="QWD-2M-iqJ" secondAttribute="trailing" id="yu5-UU-l9U"/>
                         </constraints>
@@ -664,6 +685,7 @@
                         <outlet property="latTextField" destination="3yg-1A-gtk" id="bYO-mk-lgi"/>
                         <outlet property="lngTextField" destination="AQn-58-fsC" id="Vea-qI-hYc"/>
                         <outlet property="realLocSwitch" destination="Hyr-De-sT3" id="zcZ-9o-LuS"/>
+                        <outlet property="versionLabel" destination="tIO-ZR-meL" id="2WC-aW-GWA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2oZ-7E-aaI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

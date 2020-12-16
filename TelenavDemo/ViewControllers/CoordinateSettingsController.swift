@@ -18,6 +18,8 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
     
     @IBOutlet weak var filterSwitch: UISwitch!
     
+    @IBOutlet weak var versionLabel: UILabel!
+    
     weak var delegate: FiltersViewControllerDelegate?
 
     lazy var filtersVC: FiltersViewController = {
@@ -51,6 +53,11 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
         } else if inputSwitch.isOn {
             inputLocSwitchStateChange(inputSwitch)
         }
+        
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let bundle = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        
+        versionLabel.text = "Version: " + (version ?? "Unknown") + " (\((bundle ?? "Unknown")))"
     }
 
     @IBAction func showFilterAction(_ sender: Any) {
@@ -59,7 +66,7 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
     
     @IBAction func cupertinoLocSwitchStateChange(_ sender: UISwitch) {
         realLocSwitch.isOn = !cupertinoLocSwitch.isOn
-        inputSwitch.isOn = !cupertinoLocSwitch.isOn
+        inputSwitch.isOn = false
         if cupertinoLocSwitch.isOn {
             location = CLLocationCoordinate2D(latitude: 37.78074, longitude: -122.43052)
             postLocationNotif()
@@ -71,7 +78,7 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
     
     @IBAction func realLocSwitchStateChange(_ sender: UISwitch) {
         cupertinoLocSwitch.isOn = !realLocSwitch.isOn
-        inputSwitch.isOn = !realLocSwitch.isOn
+        inputSwitch.isOn = false
         if realLocSwitch.isOn {
             location = nil
             postLocationNotif()
@@ -89,17 +96,24 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
             return
         }
         
-        location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-        
-        postLocationNotif()
-        realLocSwitch.isOn = false
-        cupertinoLocSwitch.isOn = false
-        
-        defaults.set(latTextField.text, forKey: "lat")
-        defaults.set(lngTextField.text, forKey: "lng")
-        defaults.set(cupertinoLocSwitch.isOn, forKey: "cupertino_loc_switch")
-        defaults.set(realLocSwitch.isOn, forKey: "real_loc_switch")
-        defaults.set(inputSwitch.isOn, forKey: "input_loc_switch")
+        if inputSwitch.isOn {
+            location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+            
+            postLocationNotif()
+
+            realLocSwitch.isOn = false
+            cupertinoLocSwitch.isOn = false
+                
+            defaults.set(latTextField.text, forKey: "lat")
+            defaults.set(lngTextField.text, forKey: "lng")
+            defaults.set(cupertinoLocSwitch.isOn, forKey: "cupertino_loc_switch")
+            defaults.set(realLocSwitch.isOn, forKey: "real_loc_switch")
+            defaults.set(inputSwitch.isOn, forKey: "input_loc_switch")
+        } else {
+            cupertinoLocSwitch.isOn = false
+            realLocSwitch.isOn = true
+            realLocSwitchStateChange(realLocSwitch)
+        }
     }
     
     private func postLocationNotif() {

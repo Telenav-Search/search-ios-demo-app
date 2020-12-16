@@ -22,6 +22,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     @IBOutlet var searchResultViewAnimator: PanViewAnimator!
  
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var redoSearchButton: UIButton!
     
     @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var mapView: MKMapView! {
@@ -106,6 +107,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             searchQueryLabel.isHidden = !searchVisible
             backButton.isHidden = !searchVisible
             predictionsView.isHidden = searchVisible
+            redoSearchButton.isHidden = !searchVisible
             
             for sbv in searchResultsVC.view.subviews {
                 sbv.isHidden = !searchVisible
@@ -195,6 +197,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         let swipe2 = UISwipeGestureRecognizer(target: self, action: #selector(swipeDetailRight))
         swipe2.direction = .right
         detailsView.addGestureRecognizer(swipe2)
+        
+        redoSearchButton.layer.cornerRadius = 4
+        redoSearchButton.layer.borderWidth = 1
+        redoSearchButton.layer.borderColor = UIColor.systemBlue.cgColor
     }
     
     func findAnnIndex(id: String) -> Int {
@@ -287,6 +293,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         searchResultViewAnimator.dtailsViewHeightConstraint = heightAnchor
         searchResultViewAnimator.standrdDetailViewBottomConstrainValue = bottomVal
         searchResultViewAnimator.initialBottomConstraintValue = bottomVal
+        
+        redoSearchButton.bottomAnchor.constraint(equalTo: searchResultsVC.view.topAnchor, constant: -10).isActive = true
     }
     
     private func setupSearchHeight() -> CGFloat {
@@ -304,7 +312,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
 
     private func toggleDetailView(visible: Bool) {
         heightAnchor.constant = visible ? 0 : 400
-        
+        if visible {
+            redoSearchButton.isHidden = true
+        } else if showingMap {
+            redoSearchButton.isHidden = false
+        }
         detailsViewBottomConstraint?.constant = visible ? 0 : -300
         tabBarController?.tabBar.isHidden = visible
         
@@ -327,6 +339,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     // MARK: - Actions
+    
+    @IBAction func redoSearchButton(_ sender: Any) {
+        let filter = TNEntityBBoxGeoFilter()
+        let rect = mapView.region
+        filter.bbox.bottomLeft = TNEntityGeoPoint(lat: rect.southWest.latitude, lon: rect.southWest.longitude)
+        filter.bbox.topRight = TNEntityGeoPoint(lat: rect.northEast.latitude, lon: rect.northEast.longitude)
+        
+        startSearch(searchQuery: lastSearchQuery, filterItems: (lastFilterItems ?? []) + [filter])
+    }
     
     @IBAction func didTapOnMap(_ sender: Any) {
         
@@ -538,8 +559,13 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
+    var lastSearchQuery: String = ""
+    var lastFilterItems: [SelectableFilterItem]?
+  
     private func startSearch(searchQuery: String, filterItems: [SelectableFilterItem]? = nil) {
- 
+        lastFilterItems = filterItems
+        lastSearchQuery = searchQuery
+        
         resetSearch()
         searchQueryLabel.text = searchQuery
  
@@ -638,6 +664,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                             tnFilter.evFilter?.powerFeedLevels?.append(powerFeed.level.rawValue)
                         }
                     }
+                } else if let filter = f as? TNEntityBBoxGeoFilter {
+                    tnFilter.geoFilter = filter
                 }
             }
             
@@ -646,6 +674,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         let searchParams = TNEntitySearchParams(searchQuery: searchQuery,
                                                location: TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
+                                               limit: 20,
                                                filters: searchFilter,
                                                searchOptionsIntent: TNEntitySearchOptionIntent.around,
                                                showAddressLines: false)
@@ -849,12 +878,12 @@ extension MapViewController: UITextFieldDelegate {
 extension MapViewController: SearchResultViewControllerDelegate {
     
     func loadMoreSearchResults() {
-        
-        if let context = searchPaginationContext, self.hasMoreSearchResults {
-            TNEntityCore.search(searchParams: TNEntitySearchQueryBuilder().pageContext(context).build() ) { (searchRes, err) in
-                self.handleSearchResult(searchRes, isPaginated: true)
-            }
-        }
+        return; // turn off pagination
+//        if let context = searchPaginationContext, self.hasMoreSearchResults {
+//            TNEntityCore.search(searchParams: TNEntitySearchQueryBuilder().pageContext(context).build() ) { (searchRes, err) in
+//                self.handleSearchResult(searchRes, isPaginated: true)
+//            }
+//        }
     }
    
     func didSelectResultItem(id: String, distance: String?) {
@@ -1009,3 +1038,23 @@ extension MapViewController: FiltersViewControllerDelegate {
         self.selectedFilters = selectedFilters
     }
 }
+
+extension MKCoordinateRegion {
+    var northWest: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: center.latitude + span.latitudeDelta  / 2,
+                                      longitude: center.longitude - span.longitudeDelta / 2)
+    }
+    var northEast: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: center.latitude + span.latitudeDelta  / 2,
+                                      longitude: center.longitude + span.longitudeDelta / 2)
+    }
+    var southWest: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: center.latitude - span.latitudeDelta  / 2,
+                                      longitude: center.longitude - span.longitudeDelta / 2)
+    }
+    var southEast: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: center.latitude - span.latitudeDelta  / 2,
+                                      longitude: center.longitude + span.longitudeDelta / 2)
+    }
+}
+
