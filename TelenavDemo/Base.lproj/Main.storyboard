@@ -515,16 +515,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set custom location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czo-68-Yzp">
-                                <rect key="frame" x="38" y="247.5" width="151" height="20.5"/>
+                                <rect key="frame" x="20" y="224.5" width="151" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="21" translatesAutoresizingMaskIntoConstraints="NO" id="vLS-8f-Yiz">
-                                <rect key="frame" x="38" y="291.5" width="356" height="89"/>
+                                <rect key="frame" x="20" y="268.5" width="374" height="89"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="48" translatesAutoresizingMaskIntoConstraints="NO" id="4O3-rI-YYn">
-                                        <rect key="frame" x="0.0" y="0.0" width="356" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latitude:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFx-59-iwe">
                                                 <rect key="frame" x="0.0" y="0.0" width="67" height="34"/>
@@ -533,14 +533,14 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="lat" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3yg-1A-gtk">
-                                                <rect key="frame" x="115" y="0.0" width="241" height="34"/>
+                                                <rect key="frame" x="115" y="0.0" width="259" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="location"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="cVg-fw-H9I">
-                                        <rect key="frame" x="0.0" y="55" width="356" height="34"/>
+                                        <rect key="frame" x="0.0" y="55" width="374" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longitude:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mkk-7Y-F0e">
                                                 <rect key="frame" x="0.0" y="0.0" width="81" height="34"/>
@@ -549,7 +549,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="lng" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AQn-58-fsC">
-                                                <rect key="frame" x="116" y="0.0" width="240" height="34"/>
+                                                <rect key="frame" x="116" y="0.0" width="258" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="location"/>
                                             </textField>
@@ -557,15 +557,8 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Agd-lS-rPP">
-                                <rect key="frame" x="38" y="403.5" width="40" height="30"/>
-                                <state key="normal" title="Apply"/>
-                                <connections>
-                                    <action selector="didClickApplyLocation:" destination="aZK-zB-Mjo" eventType="touchUpInside" id="Yl3-KN-ZfS"/>
-                                </connections>
-                            </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2Bd-SW-Mj1">
-                                <rect key="frame" x="319" y="112" width="49" height="31"/>
+                                <rect key="frame" x="347" y="112" width="49" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="47" id="P1L-eE-9k0"/>
                                 </constraints>
@@ -573,8 +566,8 @@
                                     <action selector="cupertinoLocSwitchStateChange:" destination="aZK-zB-Mjo" eventType="valueChanged" id="Jy9-IY-2gm"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Cupertino, San Francisco location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xi4-MS-ZcC">
-                                <rect key="frame" x="20" y="117" width="290.5" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use Cupertino, San Francisco location" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xi4-MS-ZcC">
+                                <rect key="frame" x="20" y="117" width="318.5" height="20.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20.5" id="fs0-MX-LUh"/>
                                 </constraints>
@@ -583,7 +576,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use real device location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQ2-pL-Gjn">
-                                <rect key="frame" x="129.5" y="164" width="181" height="20.5"/>
+                                <rect key="frame" x="157.5" y="164" width="181" height="20.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20.5" id="PFd-Ca-ws4"/>
                                 </constraints>
@@ -592,12 +585,30 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hyr-De-sT3">
-                                <rect key="frame" x="319" y="159" width="49" height="31"/>
+                                <rect key="frame" x="347" y="159" width="49" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="47" id="dRR-ic-Fhs"/>
                                 </constraints>
                                 <connections>
                                     <action selector="realLocSwitchStateChange:" destination="aZK-zB-Mjo" eventType="valueChanged" id="a6O-sf-pmc"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use input coordinates" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dgp-eu-RGi">
+                                <rect key="frame" x="171.5" y="388.5" width="167" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20.5" id="VJ6-ZP-ywb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QWD-2M-iqJ">
+                                <rect key="frame" x="347" y="383" width="49" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="OIs-gT-p8v"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="inputLocSwitchStateChange:" destination="aZK-zB-Mjo" eventType="valueChanged" id="k3E-Ew-ADL"/>
                                 </connections>
                             </switch>
                         </subviews>
@@ -606,26 +617,28 @@
                         <constraints>
                             <constraint firstItem="Xi4-MS-ZcC" firstAttribute="leading" secondItem="4E5-dJ-5YW" secondAttribute="leading" constant="20" id="4RI-Ko-M35"/>
                             <constraint firstItem="Xi4-MS-ZcC" firstAttribute="top" secondItem="4E5-dJ-5YW" secondAttribute="top" constant="73" id="4jW-p7-hFe"/>
-                            <constraint firstItem="Agd-lS-rPP" firstAttribute="leading" secondItem="4E5-dJ-5YW" secondAttribute="leading" constant="38" id="617-ae-6z8"/>
-                            <constraint firstItem="4E5-dJ-5YW" firstAttribute="trailing" secondItem="2Bd-SW-Mj1" secondAttribute="trailing" constant="48" id="7IC-td-hhw"/>
-                            <constraint firstItem="4E5-dJ-5YW" firstAttribute="trailing" secondItem="vLS-8f-Yiz" secondAttribute="trailing" constant="20" id="CHY-C6-bRd"/>
-                            <constraint firstItem="Czo-68-Yzp" firstAttribute="top" secondItem="uQ2-pL-Gjn" secondAttribute="bottom" constant="63" id="FM3-27-kVN"/>
-                            <constraint firstItem="Czo-68-Yzp" firstAttribute="leading" secondItem="4E5-dJ-5YW" secondAttribute="leading" constant="38" id="Fw3-N8-NPJ"/>
+                            <constraint firstItem="4E5-dJ-5YW" firstAttribute="trailing" secondItem="2Bd-SW-Mj1" secondAttribute="trailing" constant="20" id="7IC-td-hhw"/>
+                            <constraint firstItem="Czo-68-Yzp" firstAttribute="leading" secondItem="Xi4-MS-ZcC" secondAttribute="leading" id="Coh-yP-gWr"/>
+                            <constraint firstItem="Czo-68-Yzp" firstAttribute="top" secondItem="uQ2-pL-Gjn" secondAttribute="bottom" constant="40" id="FM3-27-kVN"/>
                             <constraint firstItem="Hyr-De-sT3" firstAttribute="leading" secondItem="2Bd-SW-Mj1" secondAttribute="leading" id="GAf-2z-5AB"/>
                             <constraint firstItem="2Bd-SW-Mj1" firstAttribute="centerY" secondItem="Xi4-MS-ZcC" secondAttribute="centerY" id="GjR-Wj-Qng"/>
+                            <constraint firstItem="QWD-2M-iqJ" firstAttribute="centerY" secondItem="Dgp-eu-RGi" secondAttribute="centerY" id="I5j-mh-G27"/>
                             <constraint firstItem="uQ2-pL-Gjn" firstAttribute="top" secondItem="Xi4-MS-ZcC" secondAttribute="bottom" constant="26.5" id="KBU-J4-h6g"/>
                             <constraint firstItem="Hyr-De-sT3" firstAttribute="leading" secondItem="uQ2-pL-Gjn" secondAttribute="trailing" constant="8.5" id="QOj-zS-b6c"/>
                             <constraint firstItem="vLS-8f-Yiz" firstAttribute="top" secondItem="Czo-68-Yzp" secondAttribute="bottom" constant="23.5" id="XuQ-Pb-PDz"/>
-                            <constraint firstItem="Agd-lS-rPP" firstAttribute="top" secondItem="vLS-8f-Yiz" secondAttribute="bottom" constant="23" id="gml-1g-ZPL"/>
+                            <constraint firstItem="QWD-2M-iqJ" firstAttribute="trailing" secondItem="Hyr-De-sT3" secondAttribute="trailing" id="Y8G-ag-1Fl"/>
+                            <constraint firstItem="QWD-2M-iqJ" firstAttribute="leading" secondItem="Dgp-eu-RGi" secondAttribute="trailing" constant="8.5" id="YzS-fT-Eee"/>
+                            <constraint firstItem="4O3-rI-YYn" firstAttribute="leading" secondItem="Czo-68-Yzp" secondAttribute="leading" id="Zmd-eK-X10"/>
+                            <constraint firstItem="QWD-2M-iqJ" firstAttribute="top" secondItem="AQn-58-fsC" secondAttribute="bottom" constant="25.5" id="dKP-gp-kI2"/>
+                            <constraint firstItem="4O3-rI-YYn" firstAttribute="trailing" secondItem="2Bd-SW-Mj1" secondAttribute="trailing" id="e8Z-h5-lRF"/>
                             <constraint firstItem="2Bd-SW-Mj1" firstAttribute="leading" secondItem="Xi4-MS-ZcC" secondAttribute="trailing" constant="8.5" id="hvq-yu-S3Z"/>
-                            <constraint firstItem="vLS-8f-Yiz" firstAttribute="leading" secondItem="4E5-dJ-5YW" secondAttribute="leading" constant="38" id="tfF-Ro-BOm"/>
                             <constraint firstItem="Hyr-De-sT3" firstAttribute="centerY" secondItem="uQ2-pL-Gjn" secondAttribute="centerY" id="tjp-JG-6b5"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" image="gearshape" catalog="system" selectedImage="gearshape.fill" id="gSy-ic-q9K"/>
                     <connections>
-                        <outlet property="applyBtn" destination="Agd-lS-rPP" id="8b3-2A-SGZ"/>
                         <outlet property="cupertinoLocSwitch" destination="2Bd-SW-Mj1" id="y7m-pk-SXv"/>
+                        <outlet property="inputSwitch" destination="QWD-2M-iqJ" id="qmw-jF-oZn"/>
                         <outlet property="latTextField" destination="3yg-1A-gtk" id="bYO-mk-lgi"/>
                         <outlet property="lngTextField" destination="AQn-58-fsC" id="Vea-qI-hYc"/>
                         <outlet property="realLocSwitch" destination="Hyr-De-sT3" id="zcZ-9o-LuS"/>

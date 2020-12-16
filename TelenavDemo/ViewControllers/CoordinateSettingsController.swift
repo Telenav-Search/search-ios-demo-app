@@ -12,38 +12,65 @@ class CoordinateSettingsController: UIViewController {
 
     @IBOutlet weak var lngTextField: UITextField!
     @IBOutlet weak var latTextField: UITextField!
-    @IBOutlet weak var applyBtn: UIButton!
     @IBOutlet weak var cupertinoLocSwitch: UISwitch!
     @IBOutlet weak var realLocSwitch: UISwitch!
+    @IBOutlet weak var inputSwitch: UISwitch!
     
     var location: CLLocationCoordinate2D?
+    var defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         lngTextField.delegate = self
         latTextField.delegate = self
+        
+        latTextField.text = defaults.string(forKey: "lat")
+        lngTextField.text = defaults.string(forKey: "lng")
+        
+        inputSwitch.isEnabled = checkApplyButtonEnabled(for: lngTextField.text) && checkApplyButtonEnabled(for: latTextField.text)
+
+        cupertinoLocSwitch.isOn = defaults.bool(forKey: "cupertino_loc_switch")
+        realLocSwitch.isOn = defaults.bool(forKey: "real_loc_switch")
+        inputSwitch.isOn = defaults.bool(forKey: "input_loc_switch")
+        if cupertinoLocSwitch.isOn {
+            cupertinoLocSwitchStateChange(cupertinoLocSwitch)
+        } else if realLocSwitch.isOn {
+            realLocSwitchStateChange(realLocSwitch)
+        } else if inputSwitch.isOn {
+            inputLocSwitchStateChange(inputSwitch)
+        }
     }
 
     @IBAction func cupertinoLocSwitchStateChange(_ sender: UISwitch) {
         realLocSwitch.isOn = !cupertinoLocSwitch.isOn
+        inputSwitch.isOn = !cupertinoLocSwitch.isOn
         if cupertinoLocSwitch.isOn {
-            location = CLLocationCoordinate2D(latitude: 37.78274, longitude: -122.43152)
+            location = CLLocationCoordinate2D(latitude: 37.78074, longitude: -122.43052)
             postLocationNotif()
         }
+        defaults.set(cupertinoLocSwitch.isOn, forKey: "cupertino_loc_switch")
+        defaults.set(realLocSwitch.isOn, forKey: "real_loc_switch")
+        defaults.set(inputSwitch.isOn, forKey: "input_loc_switch")
     }
     
     @IBAction func realLocSwitchStateChange(_ sender: UISwitch) {
         cupertinoLocSwitch.isOn = !realLocSwitch.isOn
+        inputSwitch.isOn = !realLocSwitch.isOn
         if realLocSwitch.isOn {
             location = nil
             postLocationNotif()
         }
+        defaults.set(cupertinoLocSwitch.isOn, forKey: "cupertino_loc_switch")
+        defaults.set(realLocSwitch.isOn, forKey: "real_loc_switch")
+        defaults.set(inputSwitch.isOn, forKey: "input_loc_switch")
     }
     
-    @IBAction func didClickApplyLocation(_ sender: Any) {
+    @IBAction func inputLocSwitchStateChange(_ sender: UISwitch) {
         
         guard let lat = Double(latTextField.text ?? ""), let lng = Double(lngTextField.text ?? "") else {
+            inputSwitch.isOn = false
+            realLocSwitchStateChange(realLocSwitch)
             return
         }
         
@@ -52,6 +79,12 @@ class CoordinateSettingsController: UIViewController {
         postLocationNotif()
         realLocSwitch.isOn = false
         cupertinoLocSwitch.isOn = false
+        
+        defaults.set(latTextField.text, forKey: "lat")
+        defaults.set(lngTextField.text, forKey: "lng")
+        defaults.set(cupertinoLocSwitch.isOn, forKey: "cupertino_loc_switch")
+        defaults.set(realLocSwitch.isOn, forKey: "real_loc_switch")
+        defaults.set(inputSwitch.isOn, forKey: "input_loc_switch")
     }
     
     private func postLocationNotif() {
@@ -71,16 +104,12 @@ class CoordinateSettingsController: UIViewController {
         view.endEditing(true)
     }
     
-    private func checkApplyButtonEnabled() -> Bool {
-        
-        guard let lng = lngTextField.text, let lat = latTextField.text else {
+    private func checkApplyButtonEnabled(for string: String?) -> Bool {
+        guard let string = string else {
             return false
         }
-        
-        if lng.count > 0 && lng.contains(where: { (char) -> Bool in
-            char.isNumber
-        }) && lat.count > 0 && lat.contains(where: { (char) -> Bool in
-            char.isNumber
+        if string.count > 0 && !string.contains(where: { (char) -> Bool in
+            !char.isNumber && char != "-"
         }) {
             return true
         }
@@ -92,9 +121,45 @@ class CoordinateSettingsController: UIViewController {
 extension CoordinateSettingsController: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string == "\n" {
+            return false
+        }
         
-        applyBtn.isEnabled = checkApplyButtonEnabled()
+        let lat = latTextField == textField ?
+            latTextField.text!.replacingCharacters(in: Range(range, in: latTextField.text!)!,
+                                                  with: string)
+            : latTextField.text
+        let lon = lngTextField == textField ?
+            lngTextField.text!.replacingCharacters(in: Range(range, in: lngTextField.text!)!,
+                                                  with: string)
+            : lngTextField.text
+        var enabled = checkApplyButtonEnabled(for: lat) && checkApplyButtonEnabled(for: lon)
         
+        if let lon = lon, let lat = lat,
+           let latNumer = Double(lat),
+           let lngNumber = Double(lon),
+           !(-90...90).contains(latNumer) || !(-180...180).contains(lngNumber) {
+            enabled = false
+        }
+        
+        inputSwitch.isEnabled = enabled
+        if !enabled {
+            realLocSwitchStateChange(realLocSwitch)
+            inputSwitch.isOn = false
+        }
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        defaults.set(latTextField.text, forKey: "lat")
+        defaults.set(lngTextField.text, forKey: "lng")
+        
+        guard let lat = Double(latTextField.text ?? ""),
+              let lng = Double(lngTextField.text ?? ""),
+              inputSwitch.isOn else {
+            return
+        }
+        location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+        postLocationNotif()
     }
 }
