@@ -73,8 +73,8 @@ extension CatalogViewController: SuggestionsDisplayManagerDelegate {
         delegate?.didSelectQuery(query)
     }
     
-    func didSelectSuggestion(id: String) {
-        delegate?.didSelectSuggestion(id: id)
+    func didSelectSuggestion(id: String, distance: String?) {
+        delegate?.didSelectSuggestion(id: id, distance: distance)
     }
 }
 

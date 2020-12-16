@@ -33,6 +33,7 @@ class DetailsView: UIView {
     }
     
     var content = [DetailViewDisplayModel]()
+    var ratingLink: URL?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,6 +52,15 @@ class DetailsView: UIView {
         contentView.isUserInteractionEnabled = true
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         contentView.backgroundColor = .clear
+        
+        let gest = UITapGestureRecognizer(target: self, action: #selector(tapRatingAction))
+        ratingView.addGestureRecognizer(gest)
+    }
+    
+    @objc func tapRatingAction() {
+        if let url = ratingLink {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
     override func layoutSubviews() {
@@ -69,17 +79,20 @@ class DetailsView: UIView {
     private var currentLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.78274, longitude: -122.43152)
     private var entityLocation: CLLocationCoordinate2D = CLLocationCoordinate2D()
     
-    func fillEntity(_ entity: TNEntity, currentCoordinate: CLLocationCoordinate2D) {
+    func fillEntity(_ entity: TNEntity, currentCoordinate: CLLocationCoordinate2D, distanceText: String? = nil) {
         
         self.currentLocation = currentCoordinate
         
-        if let rating = entity.facets?.rating?.first {
+        if let rating = entity.facets?.rating?.first, let count = rating.totalCount {
+            if let str = rating.url {
+                ratingLink = URL(string: str)
+            }
             
             let avgRating = rating.averageRating ?? 0
             
             ratingView.isHidden = false
             ratingLabel.isHidden = false
-            ratingLabel.text = "Rating: \(avgRating)"
+            ratingLabel.text = "Reviews: \(count)"
             
             var rem = ""
             if avgRating.truncatingRemainder(dividingBy: 1) > 0 {
@@ -97,8 +110,6 @@ class DetailsView: UIView {
         case .address:
             content = [
                 DetailViewDisplayModel(fieldName: "Address", fieldValue: entity.address?.addressLines?.joined(separator: "\n") ?? ""),
-                DetailViewDisplayModel(fieldName: "Locality", fieldValue: entity.address?.locality ?? ""),
-                DetailViewDisplayModel(fieldName: "Cross street", fieldValue: entity.address?.crossStreet?.formattedName ?? "")
             ]
             nameLabel.text = entity.address?.formattedAddress
 
@@ -125,6 +136,8 @@ class DetailsView: UIView {
         
         if let distance = entity.formattedDistance {
             content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: distance))
+        } else if let distanceText = distanceText {
+            content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: distanceText))
         }
 
         if let openHours = entity.facets?.openHours?.regularOpenHours {

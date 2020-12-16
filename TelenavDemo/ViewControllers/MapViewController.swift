@@ -373,14 +373,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    func didSelectSuggestion(id: String) {
+    func didSelectSuggestion(id: String, distance: String?) {
         searchVisible = true
         searchResultsVC.view.isHidden = true
         searchTextField.resignFirstResponder()
         
         mapView.removeAnnotations(self.currentAnnotations)
         
-        goToDetails(entityId: id) { (entity) in
+        goToDetails(entityId: id, distance: distance) { (entity) in
             guard let coord = entity.place?.address?.geoCoordinates ?? entity.address?.geoCoordinates,
                   let id = entity.id,
                   let name = entity.place?.name ?? entity.address?.formattedAddress
@@ -405,7 +405,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             
             let padding = UIEdgeInsets.init(top: 50, left: 50, bottom: 300, right: 50)
             self.mapView.setVisibleMapRect(region.mapRect, edgePadding: padding, animated: true)
-     
+            self.mapView.selectAnnotation(annotation, animated: false)
+            
             self.selectDetailOnMap(id: id)
         }
     }
@@ -510,7 +511,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
          return region
      }
     
-    private func goToDetails(entityId: String, completion: ((TNEntity) -> Void)? = nil) {
+    private func goToDetails(entityId: String, distance: String? = nil, completion: ((TNEntity) -> Void)? = nil) {
         
         let params = TNEntityQueryBuilder().ids([entityId]).build()
         
@@ -525,7 +526,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             }
 
             self.currentDetailID = entityId
-            self.detailsView.fillEntity(detail, currentCoordinate: self.currentLocation ?? CLLocationCoordinate2D())
+            self.detailsView.fillEntity(detail,
+                                        currentCoordinate: self.currentLocation ?? CLLocationCoordinate2D(),
+                                        distanceText: distance)
             self.toggleDetailView(visible: true)
             
             self.catalogVisible = false
@@ -854,9 +857,10 @@ extension MapViewController: SearchResultViewControllerDelegate {
         }
     }
    
-    func didSelectResultItem(id: String) {
+    func didSelectResultItem(id: String, distance: String?) {
         backButton.isHidden = false
-        goToDetails(entityId: id)
+        
+        goToDetails(entityId: id, distance: distance)
         
         if let ann = currentAnnotations.first(where: { (ann) -> Bool in
             if let placeAnn = ann as? PlaceAnnotation, placeAnn.placeId == id {

@@ -10,7 +10,7 @@ import TelenavEntitySDK
 
 protocol SearchResultViewControllerDelegate: class {
     func goBack()
-    func didSelectResultItem(id: String)
+    func didSelectResultItem(id: String, distance: String?)
     func loadMoreSearchResults()
 }
 
@@ -111,6 +111,6 @@ extension SearchResultViewController: UITableViewDelegate {
             return
         }
         
-        delegate?.didSelectResultItem(id: id)
+        delegate?.didSelectResultItem(id: id, distance: item.formattedDistance)
     }
 }
