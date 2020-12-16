@@ -80,6 +80,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
+    var currentDetailID: String = ""
     
     let locationManager = CLLocationManager()
     
@@ -184,13 +185,53 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             }
         }
         
-        let panGesture = UIPanGestureRecognizer(target: self.detailsViewAnimator, action: #selector(PanViewAnimator.didDragMainView(_:)))
-        detailsView.addGestureRecognizer(panGesture)
-        
         let panGesture2 = UIPanGestureRecognizer(target: self.searchResultViewAnimator, action: #selector(PanViewAnimator.didDragMainView(_:)))
         searchResultsVC.view.addGestureRecognizer(panGesture2)
+        
+        let swipe1 = UISwipeGestureRecognizer(target: self, action: #selector(swipeDetailLeft))
+        swipe1.direction = .left
+        detailsView.addGestureRecognizer(swipe1)
+     
+        let swipe2 = UISwipeGestureRecognizer(target: self, action: #selector(swipeDetailRight))
+        swipe2.direction = .right
+        detailsView.addGestureRecognizer(swipe2)
     }
     
+    func findAnnIndex(id: String) -> Int {
+        for (idx, ann) in currentAnnotations.enumerated() {
+            if let ann = ann as? PlaceAnnotation, ann.placeId == id {
+                return idx
+            }
+        }
+        return NSNotFound
+    }
+    
+    @objc func swipeDetailRight() {
+        var newIdx = findAnnIndex(id: currentDetailID) - 1
+        if newIdx == NSNotFound {
+            return
+        }
+        if newIdx < 0 {
+            newIdx = 0
+        }
+        if let ann = currentAnnotations[newIdx] as? PlaceAnnotation {
+            goToDetails(entityId: ann.placeId)
+        }
+    }
+    
+    @objc func swipeDetailLeft() {
+        var newIdx = findAnnIndex(id: currentDetailID) + 1
+        if newIdx == NSNotFound {
+            return
+        }
+        if newIdx >= currentAnnotations.count {
+            newIdx = currentAnnotations.count - 1
+        }
+        if let ann = currentAnnotations[newIdx] as? PlaceAnnotation {
+            goToDetails(entityId: ann.placeId)
+        }
+    }
+
     func configureLocationManager() {
         self.locationManager.requestAlwaysAuthorization()
 
@@ -483,6 +524,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 return
             }
 
+            self.currentDetailID = entityId
             self.detailsView.fillEntity(detail, currentCoordinate: self.currentLocation ?? CLLocationCoordinate2D())
             self.toggleDetailView(visible: true)
             
