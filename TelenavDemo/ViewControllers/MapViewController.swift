@@ -19,7 +19,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     @IBOutlet var detailsViewAnimator: PanViewAnimator!
-    @IBOutlet var searchResultViewAnimator: PanViewAnimator!
+    @IBOutlet var searchResultViewAnimator: SearchPanAnimator!
  
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var redoSearchButton: UIButton!
@@ -114,8 +114,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             }
             
             heightAnchor.constant = setupSearchHeight()
-            searchResultViewAnimator.bottomConstraint.constant = 0
-            
+            searchResultViewAnimator.middleHeight = setupSearchHeight()
+            searchResultViewAnimator.bottomConstraint.constant = searchVisible ? 0 : -setupSearchHeight()
+            searchResultViewAnimator.bottomMin = 30 + tabBarController!.tabBar.bounds.height - setupSearchHeight()
             mapContainerView.layoutIfNeeded()
             view.layoutIfNeeded()
         }
@@ -290,11 +291,13 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         searchResultsVC.view.rightAnchor.constraint(equalTo: mapContainerView.rightAnchor).isActive = true
         
         searchResultViewAnimator.bottomConstraint = bottom
-        searchResultViewAnimator.dtailsViewHeightConstraint = heightAnchor
-        searchResultViewAnimator.standrdDetailViewBottomConstrainValue = bottomVal
-        searchResultViewAnimator.initialBottomConstraintValue = bottomVal
-        
-        redoSearchButton.bottomAnchor.constraint(equalTo: searchResultsVC.view.topAnchor, constant: -10).isActive = true
+        searchResultViewAnimator.heightConstraint = heightAnchor
+        searchResultViewAnimator.middleHeight = heightAnchor.constant
+        searchResultViewAnimator.maxHeight = self.view.bounds.size.height - self.tabBarController!.tabBar.bounds.height
+
+        let constr = redoSearchButton.bottomAnchor.constraint(equalTo: searchResultsVC.view.topAnchor, constant: -10)
+        constr.priority = UILayoutPriority.defaultHigh
+        constr.isActive = true
     }
     
     private func setupSearchHeight() -> CGFloat {
@@ -312,6 +315,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
 
     private func toggleDetailView(visible: Bool) {
         heightAnchor.constant = visible ? 0 : 400
+        searchResultViewAnimator.middleHeight = heightAnchor.constant
+        
         if visible {
             redoSearchButton.isHidden = true
         } else if showingMap {
@@ -713,6 +718,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         self.searchPaginationContext = telenavSearch?.paginationContext?.nextPageContext
         
         self.heightAnchor.constant = self.setupSearchHeight()
+        searchResultViewAnimator.middleHeight = heightAnchor.constant
         self.searchResultsVC.fillSearchResults(self.searchContent, resetPagination: isPaginated == false)
         self.searchVisible = true
         self.catalogVisible = false

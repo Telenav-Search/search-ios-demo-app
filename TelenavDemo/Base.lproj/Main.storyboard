@@ -58,6 +58,16 @@
                                     <constraint firstAttribute="trailing" secondItem="koQ-v2-zDU" secondAttribute="trailing" constant="16" placeholder="YES" id="vbH-0S-L4U"/>
                                 </constraints>
                             </view>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pVb-pw-Ask">
+                                <rect key="frame" x="96.5" y="764" width="221" height="32"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
+                                <state key="normal" title="Redo Search in This Area"/>
+                                <connections>
+                                    <action selector="redoSearchButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o55-ih-uyM"/>
+                                </connections>
+                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u3T-ko-VYq">
                                 <rect key="frame" x="0.0" y="44" width="404" height="35"/>
                                 <subviews>
@@ -98,16 +108,6 @@
                                     <constraint firstAttribute="height" constant="35" id="hZg-ux-vXw"/>
                                 </constraints>
                             </stackView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pVb-pw-Ask">
-                                <rect key="frame" x="96.5" y="764" width="221" height="32"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
-                                <state key="normal" title="Redo Search in This Area"/>
-                                <connections>
-                                    <action selector="redoSearchButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o55-ih-uyM"/>
-                                </connections>
-                            </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K8f-1z-X8O">
                                 <rect key="frame" x="186.5" y="44" width="41.5" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -131,6 +131,7 @@
                             <constraint firstItem="u3T-ko-VYq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="pvK-e8-OKI"/>
                             <constraint firstItem="WIn-Qv-FkV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="t6Y-sr-bGK"/>
                             <constraint firstItem="K8f-1z-X8O" firstAttribute="top" secondItem="u3T-ko-VYq" secondAttribute="top" id="wbO-b2-KCs"/>
+                            <constraint firstItem="pVb-pw-Ask" firstAttribute="top" relation="greaterThanOrEqual" secondItem="rqq-SL-795" secondAttribute="top" id="wiJ-eT-81z"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vf2-qL-dQN"/>
@@ -144,7 +145,7 @@
                         <outlet property="predictionsView" destination="koQ-v2-zDU" id="Rm4-Tf-rc0"/>
                         <outlet property="redoSearchButton" destination="pVb-pw-Ask" id="cBe-uT-ldX"/>
                         <outlet property="searchQueryLabel" destination="K8f-1z-X8O" id="JoR-b7-4ez"/>
-                        <outlet property="searchResultViewAnimator" destination="1aL-6Y-92H" id="xxQ-Gl-geP"/>
+                        <outlet property="searchResultViewAnimator" destination="1aL-6Y-92H" id="mkd-iT-6Rh"/>
                         <outlet property="searchTextField" destination="rqq-SL-795" id="glJ-nR-PPY"/>
                     </connections>
                 </viewController>
@@ -161,7 +162,7 @@
                         <outlet property="view" destination="8bC-Xf-vdC" id="iMK-3m-0rn"/>
                     </connections>
                 </customObject>
-                <customObject id="1aL-6Y-92H" userLabel="Search Res Pan View Animator" customClass="PanViewAnimator" customModule="TelenavDemo" customModuleProvider="target"/>
+                <customObject id="1aL-6Y-92H" userLabel="Search Res Pan View Animator" customClass="SearchPanAnimator" customModule="TelenavDemo" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="1286.9565217391305" y="-82.366071428571431"/>
         </scene>
