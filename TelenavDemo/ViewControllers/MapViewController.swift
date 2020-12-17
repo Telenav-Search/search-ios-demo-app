@@ -396,6 +396,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     func didSelectSuggestion(id: String, distance: String?) {
         searchVisible = true
+        redoSearchButton.isHidden = true
         searchResultsVC.view.isHidden = true
         searchTextField.resignFirstResponder()
         
