@@ -188,19 +188,37 @@ class DetailsView: UIView {
         if let available = parking.spacesAvailable {
             content.append(DetailViewDisplayModel(fieldName: "Spaces available", fieldValue: "\(available)"))
         }
+        if let calculatedRates = parking.pricing?.calculatedRates {
+            let value = calculatedRates.reduce("") { (result, rate) in
+                
+                guard let amount = rate.amount else {
+                    return result
+                }
+                var text = "\(rate.symbol ?? "") \(amount)"
+                if let unit = rate.unit {
+                    text = text.appending(" / \(unit)")
+                }
+                if result.count > 0 {
+                    return "\(result)\n\(text)"
+                } else {
+                    return "\(text)"
+                }
+            }
+            content.append(DetailViewDisplayModel(fieldName: "Price", fieldValue: value))
+        }
         if let rateCards = parking.pricing?.rateCard {
             let value = rateCards.reduce("") { result, rateCard in
                 
                 if let text = rateCard.text?.joined(separator: "\n") {
                     if result.count > 0 {
-                        return "\(text)"
-                    } else {
                         return "\(result)\n\(text)"
+                    } else {
+                        return "\(text)"
                     }
                 }
                 return result
             }
-            content.append(DetailViewDisplayModel(fieldName: "Pricing", fieldValue: value))
+            content.append(DetailViewDisplayModel(fieldName: "Rate card", fieldValue: value))
         }
         return content
     }
