@@ -122,6 +122,15 @@ class DetailsView: UIView {
                 DetailViewDisplayModel(fieldName: "Phone numbers", fieldValue: entity.place?.phoneNumbers?.joined(separator: "\n") ?? "Not added yet")
             ]
             
+            if let place = entity.place, let categories = place.categories {
+                if categories.filter { category -> Bool in
+                    return category.id == "611" || category.id == "612"
+                }.count > 0 {
+                    if let parkingContent = parkingContet(entity: entity) {
+                        content.append(contentsOf: parkingContent)
+                    }
+                }
+            }
             
 //            if let coordinates = entity.place?.address?.geoCoordinates {
 //                
@@ -166,6 +175,34 @@ class DetailsView: UIView {
     
         tableView.reloadData()
         tableView.flashScrollIndicators()
+    }
+    
+    private func parkingContet(entity: TNEntity) -> [DetailViewDisplayModel]?  {
+        guard let parking = entity.facets?.parking else {
+            return nil
+        }
+        var content = [DetailViewDisplayModel]()
+        if let total = parking.spacesTotal {
+            content.append(DetailViewDisplayModel(fieldName: "Spaces total", fieldValue: "\(total)"))
+        }
+        if let available = parking.spacesAvailable {
+            content.append(DetailViewDisplayModel(fieldName: "Spaces available", fieldValue: "\(available)"))
+        }
+        if let rateCards = parking.pricing?.rateCard {
+            let value = rateCards.reduce("") { result, rateCard in
+                
+                if let text = rateCard.text?.joined(separator: "\n") {
+                    if result.count > 0 {
+                        return "\(text)"
+                    } else {
+                        return "\(result)\n\(text)"
+                    }
+                }
+                return result
+            }
+            content.append(DetailViewDisplayModel(fieldName: "Pricing", fieldValue: value))
+        }
+        return content
     }
 }
 

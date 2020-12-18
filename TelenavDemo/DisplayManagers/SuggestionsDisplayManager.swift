@@ -9,7 +9,7 @@ import UIKit
 import TelenavEntitySDK
 
 protocol SuggestionsDisplayManagerDelegate: class {
-    func didSelectSuggestion(id: String, distance: String?)
+    func didSelectSuggestion(entity: TNEntity, distance: String?)
     func didSelectQuery(_ query: String)
 }
 
@@ -90,8 +90,9 @@ extension SuggestionsDisplayManager: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if let suggestionId = suggestions[indexPath.row].id {
-            delegate?.didSelectSuggestion(id: suggestionId, distance: suggestions[indexPath.row].entity?.formattedDistance)
+        if let _ = suggestions[indexPath.row].id,
+           let entity = suggestions[indexPath.row].entity {
+            delegate?.didSelectSuggestion(entity: entity, distance: entity.formattedDistance)
         } else if let query = suggestions[indexPath.row].formattedLabel,
                   suggestions[indexPath.row].type == "QUERY" {
             delegate?.didSelectQuery(query)
