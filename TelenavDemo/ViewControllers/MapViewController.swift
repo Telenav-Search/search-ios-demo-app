@@ -230,7 +230,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             newIdx = 0
         }
         if let ann = currentAnnotations[newIdx] as? PlaceAnnotation {
-            goToDetails(entityId: ann.placeId)
+            goToDetails(placeAnnotation: ann)
         }
     }
     
@@ -243,7 +243,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             newIdx = currentAnnotations.count - 1
         }
         if let ann = currentAnnotations[newIdx] as? PlaceAnnotation {
-            goToDetails(entityId: ann.placeId)
+            goToDetails(placeAnnotation: ann)
         }
     }
 
@@ -407,15 +407,17 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    func didSelectSuggestion(id: String, distance: String?) {
+    func didSelectSuggestion(entity: TNEntity, distance: String?) {
         searchVisible = true
         redoSearchButton.isHidden = true
         searchResultsVC.view.isHidden = true
         searchTextField.resignFirstResponder()
         
         mapView.removeAnnotations(self.currentAnnotations)
-        
-        goToDetails(entityId: id, distance: distance) { (entity) in
+        guard let annotation = annotationFromEntity(entity: entity) else {
+            return
+        }
+        goToDetails(placeAnnotation: annotation, distance: distance) { (entity) in
             guard let coord = entity.place?.address?.geoCoordinates ?? entity.address?.geoCoordinates,
                   let id = entity.id,
                   let name = entity.place?.name ?? entity.address?.formattedAddress
@@ -424,24 +426,23 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             }
 
             self.searchQueryLabel.text = name
-            
-            let coordinates = CLLocationCoordinate2D(latitude: coord.latitude ?? 0, longitude: coord.longitude ?? 0)
-     
-            let annotation = PlaceAnnotation(coordinate: coordinates, id: id)
-            annotation.title = name
-            
+
+            guard let updatedAnnotation = self.annotationFromEntity(entity: entity) else {
+                return
+            }
+
             self.currentAnnotations = [annotation]
-            
-            let region = self.mapView.regionThatFits(MKCoordinateRegion(center: coordinates, latitudinalMeters: 400, longitudinalMeters: 200))
-            
+
+            let region = self.mapView.regionThatFits(MKCoordinateRegion(center: updatedAnnotation.coordinate, latitudinalMeters: 400, longitudinalMeters: 200))
+
             self.mapView.setRegion(region, animated: true)
             self.mapView.addAnnotations(self.currentAnnotations)
             self.backButton.isHidden = false
-            
+
             let padding = UIEdgeInsets.init(top: 50, left: 50, bottom: 300, right: 50)
             self.mapView.setVisibleMapRect(region.mapRect, edgePadding: padding, animated: true)
             self.mapView.selectAnnotation(annotation, animated: false)
-            
+
             self.selectDetailOnMap(id: id)
         }
     }
@@ -546,9 +547,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
          return region
      }
     
-    private func goToDetails(entityId: String, distance: String? = nil, completion: ((TNEntity) -> Void)? = nil) {
+    private func goToDetails(placeAnnotation: PlaceAnnotation, distance: String? = nil, completion: ((TNEntity) -> Void)? = nil) {
         
-        let params = TNEntityQueryBuilder().ids([entityId]).build()
+        var builder = TNEntityQueryBuilder().ids([placeAnnotation.placeId])
+        
+        if let categories = placeAnnotation.categories, categories.contains("612") || categories.contains("611") {
+            builder = addFacetsForParking(builder: builder)
+        }
+        
+        let params = builder.build()
         
         TNEntityCore.getEntityDetails(params: params) { [weak self] (entities, err) in
             
@@ -560,7 +567,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 return
             }
 
-            self.currentDetailID = entityId
+            self.currentDetailID = placeAnnotation.placeId
             self.detailsView.fillEntity(detail,
                                         currentCoordinate: self.currentLocation ?? CLLocationCoordinate2D(),
                                         distanceText: distance)
@@ -586,6 +593,42 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         self.searchQuery = searchQuery
         self.backButton.isHidden = true
 
+        let searchFilter = filterFrom(filterItems: filterItems)
+        
+        let searchParams = TNEntitySearchParams(searchQuery: searchQuery,
+                                               location: TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
+                                               limit: 20,
+                                               filters: searchFilter,
+                                               searchOptionsIntent: TNEntitySearchOptionIntent.around,
+                                               showAddressLines: false)
+        
+//        Alternative variant of building searchParams
+//        let searchParams = TNEntitySearchQueryBuilder()
+//            .limit(10)
+//            .query("food")
+//            .location(TNEntityGeoPoint(lat: 0, lon: 0))
+//            .build()
+        
+        TNEntityCore.search(searchParams: searchParams) { (telenavSearch, err) in
+            self.handleSearchResult(telenavSearch, isPaginated: false)
+        }
+    }
+    
+    private func addFacetsForParking(builder: TNEntityQueryBuilder) -> TNEntityQueryBuilder {
+        let parkingParams = TNEntityParkingParameters()
+        parkingParams.duration = 60
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+        
+        let date = formatter.string(from: Date())
+        
+        parkingParams.entryTime = date
+        let facetParams = TNEntityFacetParameters(parkingParams: parkingParams)
+        return builder.facetParams(facetParams)
+    }
+    
+    private func filterFrom(filterItems: [SelectableFilterItem]?) -> TNEntityFilter? {
         var searchFilter: TNEntityFilter?
         
         if let filterItems = filterItems, filterItems.count > 0 {
@@ -601,7 +644,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let categoryFilter = filter as! TelenavCategoryDisplayModel
                         
                         guard let id = categoryFilter.category.id else {
-                            return
+                            return nil
                         }
                         
                         if tnFilter.categoryFilter == nil {
@@ -685,24 +728,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             
             searchFilter = tnFilter
         }
-        
-        let searchParams = TNEntitySearchParams(searchQuery: searchQuery,
-                                               location: TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
-                                               limit: 20,
-                                               filters: searchFilter,
-                                               searchOptionsIntent: TNEntitySearchOptionIntent.around,
-                                               showAddressLines: false)
-        
-//        Alternative variant of building searchParams
-//        let searchParams = TNEntitySearchQueryBuilder()
-//            .limit(10)
-//            .query("food")
-//            .location(TNEntityGeoPoint(lat: 0, lon: 0))
-//            .build()
-        
-        TNEntityCore.search(searchParams: searchParams) { (telenavSearch, err) in
-            self.handleSearchResult(telenavSearch, isPaginated: false)
-        }
+        return searchFilter
     }
     
     private func handleSearchResult(_ telenavSearch: TNEntitySearchResult?, isPaginated: Bool) {
@@ -819,6 +845,18 @@ extension MapViewController: UITextFieldDelegate {
         return true
     }
     
+    private func annotationFromEntity(entity: TNEntity) -> PlaceAnnotation? {
+        if let coords = entity.place?.address?.geoCoordinates ?? entity.address?.geoCoordinates,
+           let identifier = entity.id {
+            let coordinate = CLLocationCoordinate2D(latitude: coords.latitude ?? 0, longitude: coords.longitude ?? 0)
+            let categories = entity.place?.categories?.compactMap { $0.id }
+            let annotation = PlaceAnnotation(coordinate: coordinate , id: identifier, categories: categories)
+            annotation.title = entity.place?.name ?? entity.address?.formattedAddress
+            return annotation
+        }
+        return nil
+    }
+    
     private func addAnnotations(from searchResults: [TNEntity]) {
         
         mapView.removeAnnotations(self.currentAnnotations)
@@ -826,12 +864,8 @@ extension MapViewController: UITextFieldDelegate {
         var annotations = [MKAnnotation]()
         
         for (idx,res) in searchResults.enumerated() {
-            if let coords = res.place?.address?.geoCoordinates ?? res.address?.geoCoordinates,
-               let identifier = res.id {
-                let annotation = PlaceAnnotation(coordinate: CLLocationCoordinate2D(latitude: coords.latitude ?? 0, longitude: coords.longitude ?? 0), id: identifier)
-                annotation.title = res.place?.name ?? res.address?.formattedAddress
+            if let annotation = annotationFromEntity(entity: res) {
                 annotation.number = idx + 1
-                
                 annotations.append(annotation)
             }
         }
@@ -901,18 +935,22 @@ extension MapViewController: SearchResultViewControllerDelegate {
 //        }
     }
    
-    func didSelectResultItem(id: String, distance: String?) {
+    func didSelectResultItem(entity: TNEntity, distance: String?) {
         backButton.isHidden = false
         
-        goToDetails(entityId: id, distance: distance)
+        guard let annotation = annotationFromEntity(entity: entity) else {
+            return
+        }
         
+        goToDetails(placeAnnotation: annotation, distance: distance)
+
         if let ann = currentAnnotations.first(where: { (ann) -> Bool in
-            if let placeAnn = ann as? PlaceAnnotation, placeAnn.placeId == id {
+            if let placeAnn = ann as? PlaceAnnotation, placeAnn.placeId == annotation.placeId {
                 return true
             }
             return false
         }) {
-            
+
             mapView.selectAnnotation(ann, animated: true)
         }
     }
@@ -980,7 +1018,7 @@ extension MapViewController: MKMapViewDelegate {
         if view.annotation is PlaceAnnotation {
             let placeAnn = view.annotation as! PlaceAnnotation
             
-            goToDetails(entityId: placeAnn.placeId)
+            goToDetails(placeAnnotation: placeAnn)
             showingMap = currentAnnotations.count > 1
         }
     }
