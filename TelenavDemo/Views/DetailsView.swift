@@ -123,9 +123,9 @@ class DetailsView: UIView {
             ]
             
             if let place = entity.place, let categories = place.categories {
-                if categories.filter { category -> Bool in
+                if categories.filter({ category -> Bool in
                     return category.id == "611" || category.id == "612"
-                }.count > 0 {
+                }).count > 0 {
                     if let parkingContent = parkingContet(entity: entity) {
                         content.append(contentsOf: parkingContent)
                     }
