@@ -148,6 +148,31 @@ class DetailsView: UIView {
         } else if let distanceText = distanceText {
             content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: distanceText))
         }
+        
+        if let connectors = entity.facets?.evConnectors?.connectors {
+            for conn in connectors {
+                var connectorText = ""
+                if let number = conn.connectorNumber, let name = conn.connectorType?.name,
+                   let brandName = conn.chargerBrand?.brandName {
+                    connectorText.append("\(name) (\(number) stations)\n")
+                    
+                    let connCell = DetailViewDisplayModel(fieldName: "\(brandName)", fieldValue: connectorText)
+                    content.append(connCell)
+                }
+            }
+        }
+        
+        if let nearby = entity.facets?.nearby?.nearbyCategories {
+            var text = ""
+            for cat in nearby {
+                if let catName = cat.category?.name,
+                   let dist = cat.distance {
+                    text.append("\(catName) - \(dist)\n")
+                }
+            }
+            let cell = DetailViewDisplayModel(fieldName: "Nearby", fieldValue: text)
+            content.append(cell)
+        }
 
         if let openHours = entity.facets?.openHours?.regularOpenHours {
                         

@@ -18,6 +18,7 @@ class SearchResultCell: UITableViewCell {
     @IBOutlet weak var starView: UIImageView!
     
     @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,6 +46,14 @@ class SearchResultCell: UITableViewCell {
         } else if let address = item.address {
             self.nameLabel.text = address.formattedAddress
             self.addressLabel.text = address.addressLines?.joined(separator: "\n")
+        }
+        
+        if let prices = item.facets?.priceInfo?.priceDetails, prices.count > 0,
+           let symbol = prices[0].symbol, let amount = prices[0].amount, let unit = prices[0].unit {
+            
+            priceLabel.text = "\(symbol) \(String(format: "%.3f", amount)) / \(unit)"
+        } else {
+            priceLabel.text = ""
         }
        
         if let rating = item.facets?.rating?.first {

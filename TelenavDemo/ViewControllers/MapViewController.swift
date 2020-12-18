@@ -205,8 +205,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         if let viewControllers = tabBarController?.viewControllers {
             for navVC in viewControllers {
-                if let navVC = navVC as? UINavigationController {
-                    let _ = navVC.topViewController?.view
+                if let navVC = navVC as? UINavigationController,
+                   let coordVC = navVC.topViewController as? CoordinateSettingsController {
+                    let _ = coordVC.view
+                    coordVC.delegate = self
                 }
             }
         }
@@ -549,7 +551,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func goToDetails(placeAnnotation: PlaceAnnotation, distance: String? = nil, completion: ((TNEntity) -> Void)? = nil) {
         
-        var builder = TNEntityQueryBuilder().ids([placeAnnotation.placeId])
+        var builder = TNEntityQueryBuilder().ids([placeAnnotation.placeId]).detailOptions(TNEntityDetailOptions(detailLevel: .full, showAddressLines: true))
         
         if let categories = placeAnnotation.categories, categories.contains("612") || categories.contains("611") {
             builder = addFacetsForParking(builder: builder)
@@ -584,7 +586,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     var lastFilterItems: [SelectableFilterItem]?
   
     private func startSearch(searchQuery: String, filterItems: [SelectableFilterItem]? = nil) {
-        lastFilterItems = filterItems
+        lastFilterItems = []
+        if let filterItems = filterItems {
+            for filter in filterItems {
+                if filter is TNEntityBBoxGeoFilter == false {
+                    lastFilterItems?.append(filter)
+                }
+            }
+        }
         lastSearchQuery = searchQuery
         
         resetSearch()
