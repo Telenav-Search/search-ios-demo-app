@@ -202,6 +202,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         redoSearchButton.layer.cornerRadius = 4
         redoSearchButton.layer.borderWidth = 1
         redoSearchButton.layer.borderColor = UIColor.systemBlue.cgColor
+        
+        if let viewControllers = tabBarController?.viewControllers {
+            for navVC in viewControllers {
+                if let navVC = navVC as? UINavigationController {
+                    let _ = navVC.topViewController?.view
+                }
+            }
+        }
     }
     
     func findAnnIndex(id: String) -> Int {
