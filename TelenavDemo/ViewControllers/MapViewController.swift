@@ -115,7 +115,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             
             heightAnchor.constant = setupSearchHeight()
             searchResultViewAnimator.middleHeight = setupSearchHeight()
-            searchResultViewAnimator.bottomConstraint.constant = searchVisible ? 0 : -setupSearchHeight()
+            searchResultViewAnimator.bottomConstraint.constant = searchVisible ? (tabBarController?.tabBar.frame.size.height ?? CGFloat(0)) : -setupSearchHeight()
             searchResultViewAnimator.bottomMin = 30 + tabBarController!.tabBar.bounds.height - setupSearchHeight()
             mapContainerView.layoutIfNeeded()
             view.layoutIfNeeded()
@@ -155,7 +155,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         setupSDK()
         
         fakeCategoriesService.getStaticCategories { (staticCats, err) in
@@ -292,7 +291,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         heightAnchor = searchResultsVC.view.heightAnchor.constraint(equalToConstant: setupSearchHeight())
         heightAnchor.isActive = true
         
-        let bottomVal = -400 + 35 + tabBarController!.tabBar.frame.size.height
+        let bottomVal = -400 + 0 + tabBarController!.tabBar.frame.size.height
         let bottom = mapContainerView.bottomAnchor.constraint(equalTo: searchResultsVC.view.bottomAnchor,
                                                                   constant: bottomVal)
         bottom.isActive = true

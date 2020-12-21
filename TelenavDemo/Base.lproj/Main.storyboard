@@ -170,6 +170,7 @@
         <scene sceneID="mWz-R3-Byq">
             <objects>
                 <tabBarController id="3tG-fG-gxy" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ZmW-gr-yCx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -505,6 +506,7 @@
                             <constraint firstItem="PmU-Jd-eUi" firstAttribute="trailing" secondItem="hha-pH-fVw" secondAttribute="trailing" id="xVs-8B-1c2"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <connections>
                         <outlet property="noResultsView" destination="gP9-be-Ypl" id="qCr-Cw-lnJ"/>
                         <outlet property="tableView" destination="28j-wC-fqa" id="Ngv-8n-uv1"/>
@@ -863,7 +865,7 @@
         <!--Map-->
         <scene sceneID="Zf5-Iu-Fa5">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="Opn-Ue-gLw" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="Opn-Ue-gLw" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" image="map" catalog="system" selectedImage="map.fill" id="BwK-pI-jXe"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="q7k-dJ-M2o">
