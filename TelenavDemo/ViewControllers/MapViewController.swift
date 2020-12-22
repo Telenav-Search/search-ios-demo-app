@@ -351,12 +351,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     // MARK: - Actions
     
     @IBAction func redoSearchButton(_ sender: Any) {
+        let queryTitle = searchQueryLabel.text
         let filter = TNEntityBBoxGeoFilter()
         let rect = mapView.region
         filter.bbox.bottomLeft = TNEntityGeoPoint(lat: rect.southWest.latitude, lon: rect.southWest.longitude)
         filter.bbox.topRight = TNEntityGeoPoint(lat: rect.northEast.latitude, lon: rect.northEast.longitude)
         
         startSearch(searchQuery: lastSearchQuery, filterItems: (lastFilterItems ?? []) + [filter])
+        searchQueryLabel.text = queryTitle
     }
     
     @IBAction func didTapOnMap(_ sender: Any) {
@@ -460,18 +462,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         switch item.cellType {
         case .categoryItem:
-            
-            self.backButton.isHidden = false
-            let filter = TelenavCategoryDisplayModel(category: TNEntityCategory(childNodes: nil, id: (item as? StaticCategoryDisplayModel)?.staticCategory.id, name: nil),
-                                                     catLevel: 0)
-            
-            var finalFilters: [SelectableFilterItem] = [filter]
-            if filter.category.id == "771" {
-                finalFilters = selectedFilters + [filter]
+            guard let model = item as? StaticCategoryDisplayModel else {
+                return
             }
-            startSearch(searchQuery: "", filterItems: finalFilters)
-            searchQueryLabel.text = (item as? StaticCategoryDisplayModel)?.staticCategory.name
-            
+            self.searchByCategory(categoryModel: model)
         case .moreItem:
             backButton.isHidden = false
             TNEntityCore.getCategories { (categories, err) in
@@ -576,17 +570,29 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
+    // MARK: - Search
+    
     var lastSearchQuery: String = ""
     var lastFilterItems: [SelectableFilterItem]?
+    
+    private func searchByCategory(categoryModel: StaticCategoryDisplayModel) {
+        self.backButton.isHidden = false
+        let filter = TelenavCategoryDisplayModel(category: TNEntityCategory(childNodes: nil, id: categoryModel.staticCategory.id, name: categoryModel.staticCategory.name),
+                                                 catLevel: 0)
+        
+        var finalFilters: [SelectableFilterItem] = [filter]
+        if filter.category.id == "771" {
+            finalFilters = selectedFilters + [filter]
+        }
+        startSearch(searchQuery: "", filterItems: finalFilters)
+        searchQueryLabel.text = categoryModel.staticCategory.name
+    }
   
     private func startSearch(searchQuery: String, filterItems: [SelectableFilterItem]? = nil) {
         lastFilterItems = []
+        
         if let filterItems = filterItems {
-            for filter in filterItems {
-                if filter is TNEntityBBoxGeoFilter == false {
-                    lastFilterItems?.append(filter)
-                }
-            }
+            lastFilterItems?.append(contentsOf: filterItems.filter({ $0 is TNEntityBBoxGeoFilter == false}))
         }
         lastSearchQuery = searchQuery
         
