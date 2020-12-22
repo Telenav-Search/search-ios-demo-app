@@ -39,45 +39,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     @IBOutlet weak var predictionsView: PredictionsView! {
         didSet {
-            predictionsView.backgroundColor = .clear
-            predictionsView.layer.cornerRadius = 9
-            predictionsView.layer.masksToBounds = true
-            
-            predictionsView.selectedWordCallback = { [weak self] word in
-                
-                guard let self = self else {
-                    return
-                }
-                
-                guard let predictionWord = word.predictWord else {
-                    return
-                }
-                
-                let predictionWithWhitespace = predictionWord + " "
-                var searchStr = predictionWithWhitespace
-
-                if var wordsArray = self.searchTextField.text?.components(separatedBy: CharacterSet.whitespaces) {
-                    
-                    if wordsArray.last?.isEmpty == true {
-                        self.searchTextField.text?.append(predictionWithWhitespace)
-                    } else {
-                        if let lastWord = wordsArray.last, let lastWordIdx = wordsArray.lastIndex(of: lastWord) {
-                            wordsArray[lastWordIdx] = predictionWithWhitespace
-                        }
-                        
-                        searchStr = wordsArray.joined(separator: " ")
-                        self.searchTextField.text = searchStr
-                        
-                    }
-                
-                    self.getSuggestions(text: wordsArray.joined(separator: " ")) { (result) in
-                        
-                        self.catalogVC.fillSuggestions(result)
-                    }
-                }
-                self.hidePredictionsView()
-                self.getPredictions(on: self.searchTextField.text ?? "")
-            }
+            self.updatePredictionsView()
         }
     }
     
@@ -138,6 +100,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private var selectedFilters = [SelectableFilterItem]()
     
+    private let searchHeight: CGFloat = 400
+    
     lazy var catalogVC: CatalogViewController = {
         let vc = storyboard!.instantiateViewController(withIdentifier: "CatalogViewController") as! CatalogViewController
         vc.delegate = self
@@ -150,6 +114,47 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         return vc
     }()
 
+    func updatePredictionsView() {
+        predictionsView.backgroundColor = .clear
+        predictionsView.layer.cornerRadius = 9
+        predictionsView.layer.masksToBounds = true
+        
+        predictionsView.selectedWordCallback = { [weak self] word in
+            
+            guard let self = self else {
+                return
+            }
+            
+            guard let predictionWord = word.predictWord else {
+                return
+            }
+            
+            let predictionWithWhitespace = predictionWord + " "
+            var searchStr = predictionWithWhitespace
+
+            if var wordsArray = self.searchTextField.text?.components(separatedBy: CharacterSet.whitespaces) {
+                
+                if wordsArray.last?.isEmpty == true {
+                    self.searchTextField.text?.append(predictionWithWhitespace)
+                } else {
+                    if let lastWord = wordsArray.last, let lastWordIdx = wordsArray.lastIndex(of: lastWord) {
+                        wordsArray[lastWordIdx] = predictionWithWhitespace
+                    }
+                    
+                    searchStr = wordsArray.joined(separator: " ")
+                    self.searchTextField.text = searchStr
+                    
+                }
+            
+                self.getSuggestions(text: wordsArray.joined(separator: " ")) { (result) in
+                    
+                    self.catalogVC.fillSuggestions(result)
+                }
+            }
+            self.hidePredictionsView()
+            self.getPredictions(on: self.searchTextField.text ?? "")
+        }
+    }
     
     // MARK: - View management
     
@@ -291,7 +296,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         heightAnchor = searchResultsVC.view.heightAnchor.constraint(equalToConstant: setupSearchHeight())
         heightAnchor.isActive = true
         
-        let bottomVal = -400 + 0 + tabBarController!.tabBar.frame.size.height
+        let bottomVal = -searchHeight + tabBarController!.tabBar.frame.size.height
         let bottom = mapContainerView.bottomAnchor.constraint(equalTo: searchResultsVC.view.bottomAnchor,
                                                                   constant: bottomVal)
         bottom.isActive = true
@@ -310,20 +315,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     private func setupSearchHeight() -> CGFloat {
-        
-        var heightConstraint: CGFloat
-        
-        if searchVisible {
-            heightConstraint = 400
-        } else {
-            heightConstraint = 0
-        }
-    
-        return heightConstraint
+        return searchVisible ? searchHeight : 0
     }
 
     private func toggleDetailView(visible: Bool) {
-        heightAnchor.constant = visible ? 0 : 400
+        heightAnchor.constant = visible ? 0 : searchHeight
         searchResultViewAnimator.middleHeight = heightAnchor.constant
         
         if visible {
@@ -419,8 +415,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             return
         }
         goToDetails(placeAnnotation: annotation, distance: distance) { (entity) in
-            guard let coord = entity.place?.address?.geoCoordinates ?? entity.address?.geoCoordinates,
-                  let id = entity.id,
+            guard let id = entity.id,
                   let name = entity.place?.name ?? entity.address?.formattedAddress
             else {
                 return
