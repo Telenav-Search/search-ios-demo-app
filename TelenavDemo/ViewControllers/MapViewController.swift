@@ -345,9 +345,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func setupSDK() {
         let sdkOptions = TNEntitySDKOptions(apiKey: "3aba881b-f452-4f53-99de-7397dce2b59b", apiSecret: "bd112f9b-a368-4869-bca6-351e5c4c9e4f", deviceId: nil, userId: nil, locale: Locale.current.languageCode)
-        sdkOptions.cloudEndPoint = "http://restapidev.telenav.com/entity/v5/"
+        sdkOptions.cloudEndPoint = "http://restapidev.telenav.com/"
       
-        TNEntityCore.setApiOptions(sdkOptions)
+        TNEntityClient.initialize(sdkOptions)
     }
     
     // MARK: - Actions
@@ -470,7 +470,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.searchByCategory(categoryModel: model)
         case .moreItem:
             backButton.isHidden = false
-            TNEntityCore.getCategories { (categories, err) in
+            TNEntityClient.getCategories { (categories, err) in
 
                 guard let categories = categories?.results else {
                     return
@@ -549,7 +549,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         let params = builder.build()
         
-        TNEntityCore.getEntityDetails(params: params) { [weak self] (entities, err) in
+        TNEntityClient.getEntityDetail(params: params) { [weak self] (entities, err) in
             
             guard let self = self else {
                 return
@@ -620,7 +620,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
 //            .location(TNEntityGeoPoint(lat: 0, lon: 0))
 //            .build()
         
-        TNEntityCore.search(searchParams: searchParams) { (telenavSearch, err) in
+        TNEntityClient.search(searchParams: searchParams) { (telenavSearch, err) in
             self.handleSearchResult(telenavSearch, isPaginated: false)
         }
     }
@@ -639,12 +639,12 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         return builder.facetParams(facetParams)
     }
     
-    private func filterFrom(filterItems: [SelectableFilterItem]?) -> TNEntityFilter? {
-        var searchFilter: TNEntityFilter?
+    private func filterFrom(filterItems: [SelectableFilterItem]?) -> TNEntitySearchFilter? {
+        var searchFilter: TNEntitySearchFilter?
         
         if let filterItems = filterItems, filterItems.count > 0 {
             
-            let tnFilter = TNEntityFilter()
+            let tnFilter = TNEntitySearchFilter()
 
             for f in filterItems {
                 if let filter = f as? FiltersItem {
@@ -659,7 +659,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         }
                         
                         if tnFilter.categoryFilter == nil {
-                            tnFilter.categoryFilter = TNEntityCategoryFilter()
+                            tnFilter.categoryFilter = TNEntitySearchCategoryFilter()
                         }
                         
                         if tnFilter.categoryFilter?.categories.contains(id) == false {
@@ -675,7 +675,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let geoFilter = filter as! TNEntityGeoFilterTypeDisplayModel
                         
                         if tnFilter.geoFilter == nil {
-                            tnFilter.geoFilter = TNEntityGeoFilter()
+                            tnFilter.geoFilter = TNEntitySearchGeoFilter()
                         }
                         
                         tnFilter.geoFilter?.type = geoFilter.geoFilterType
@@ -688,7 +688,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let chargerBrand = filter as! ChargerBrand
                         
                         if tnFilter.evFilter == nil {
-                            tnFilter.evFilter = TNEntityEvFilter()
+                            tnFilter.evFilter = TNEntitySearchEvFilter()
                         }
                         
                         if tnFilter.evFilter?.chargerBrands == nil {
@@ -704,7 +704,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let connectorType = filter as! Connector
                         
                         if tnFilter.evFilter == nil {
-                            tnFilter.evFilter = TNEntityEvFilter()
+                            tnFilter.evFilter = TNEntitySearchEvFilter()
                         }
                         
                         if tnFilter.evFilter?.connectorTypes == nil {
@@ -720,7 +720,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let powerFeed = filter as! PowerFeedLevel
                         
                         if tnFilter.evFilter == nil {
-                            tnFilter.evFilter = TNEntityEvFilter()
+                            tnFilter.evFilter = TNEntitySearchEvFilter()
                         }
                         
                         if tnFilter.evFilter?.powerFeedLevels == nil {
@@ -776,12 +776,12 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         let location = TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
         
-        let params = TNEntityPredictionWordQueryBuilder()
+        let params = TNEntityWordPredictionQueryBuilder()
             .searchQuery(searchQuery)
             .location(location)
             .build()
     
-        TNEntityCore.getWordPredictions(params: params) { (prediction, err) in
+        TNEntityClient.getWordPredictions(params: params) { (prediction, err) in
             
             if let predictions = prediction?.results {
                 
@@ -909,7 +909,7 @@ extension MapViewController: UITextFieldDelegate {
         
         let params = TNEntitySuggestionParams(searchQuery: text, location: location, includeEntity: true)
         
-        TNEntityCore.getSuggestions(params: params) { (suggestions, err) in
+        TNEntityClient.getSuggestions(params: params) { (suggestions, err) in
             
             guard let suggestions = suggestions?.results else {
                 if let err = err {

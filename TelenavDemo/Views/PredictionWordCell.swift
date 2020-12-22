@@ -17,7 +17,7 @@ class PredictionWordCell: UICollectionViewCell {
         // Initialization code
     }
     
-    func fillPrediction(word: TelenavPredictionWord) {
+    func fillPrediction(word: TNWordPrediction) {
         self.predictionLabel.text = word.predictWord
     }
 }

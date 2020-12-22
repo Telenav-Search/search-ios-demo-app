@@ -35,7 +35,7 @@ class FiltersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        TNEntityCore.getCategories { (categories, err) in
+        TNEntityClient.getCategories { (categories, err) in
             
             guard let categories = categories?.results else {
                 return
@@ -116,7 +116,7 @@ class FiltersViewController: UIViewController {
         
         var geoFilters = [TNEntityGeoFilterTypeDisplayModel]()
         
-        for filter in TNEntityGeoFilterType.allCases {
+        for filter in TNEntitySearchGeoFilterType.allCases {
             geoFilters.append(TNEntityGeoFilterTypeDisplayModel(geoFilterType: filter))
         }
                 
@@ -331,7 +331,7 @@ extension FiltersViewController: UITableViewDelegate {
                     .location(TNEntityGeoPoint(lat: self.currentLocation?.latitude ?? 0, lon: self.currentLocation?.longitude ?? 0))
                     .build()
                 
-                TNEntityCore.getDiscoverBrands(params: discoverBrandParams) { (brands, err) in
+                TNEntityClient.getDiscoverBrands(params: discoverBrandParams) { (brands, err) in
                     
                     var convBrands = [BrandDisplayModel]()
                     

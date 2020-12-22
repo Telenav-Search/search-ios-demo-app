@@ -268,16 +268,16 @@ class TNEntityGeoFilterTypeDisplayModel: FiltersItem {
         }
     }
     
-    var geoFilterType: TNEntityGeoFilterType
+    var geoFilterType: TNEntitySearchGeoFilterType
     
-    init(geoFilterType: TNEntityGeoFilterType) {
+    init(geoFilterType: TNEntitySearchGeoFilterType) {
         self.geoFilterType = geoFilterType
     }
 }
 
-extension TNEntityGeoFilterType: CaseIterable {
+extension TNEntitySearchGeoFilterType: CaseIterable {
     
-    public static var allCases: [TNEntityGeoFilterType] {
+    public static var allCases: [TNEntitySearchGeoFilterType] {
         return [.bbox, .corridor, .poligon, .radius]
     }
 }
