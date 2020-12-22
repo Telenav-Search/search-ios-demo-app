@@ -149,6 +149,12 @@ class DetailsView: UIView {
             content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: distanceText))
         }
         
+        if let prices = entity.facets?.priceInfo?.priceDetails, prices.count > 0,
+           let symbol = prices[0].symbol, let amount = prices[0].amount {
+            content.append( DetailViewDisplayModel(fieldName: "Prices",
+                                                   fieldValue: "\(symbol) \(String(format: "%.3f", amount)) / \(prices[0].unit ?? "gal")"))
+        }
+        
         if let connectors = entity.facets?.evConnectors?.connectors {
             for conn in connectors {
                 var connectorText = ""
@@ -165,12 +171,11 @@ class DetailsView: UIView {
         if let nearby = entity.facets?.nearby?.nearbyCategories {
             var text = ""
             for cat in nearby {
-                if let catName = cat.category?.name,
-                   let dist = cat.distance {
-                    text.append("\(catName) - \(dist)\n")
+                if let catName = cat.category?.name {
+                    text.append("\(catName)\n")
                 }
             }
-            let cell = DetailViewDisplayModel(fieldName: "Nearby", fieldValue: text)
+            let cell = DetailViewDisplayModel(fieldName: "Nearby Amenities", fieldValue: text)
             content.append(cell)
         }
 

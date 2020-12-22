@@ -236,6 +236,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             newIdx = 0
         }
         if let ann = currentAnnotations[newIdx] as? PlaceAnnotation {
+            mapView.selectAnnotation(ann, animated: true)
             goToDetails(placeAnnotation: ann)
         }
     }
@@ -249,6 +250,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             newIdx = currentAnnotations.count - 1
         }
         if let ann = currentAnnotations[newIdx] as? PlaceAnnotation {
+            mapView.selectAnnotation(ann, animated: true)
             goToDetails(placeAnnotation: ann)
         }
     }

@@ -138,7 +138,7 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
             return false
         }
         if string.count > 0 && !string.contains(where: { (char) -> Bool in
-            !char.isNumber && char != "-"
+            !char.isNumber && char != "-" && char != "."
         }) {
             return true
         }

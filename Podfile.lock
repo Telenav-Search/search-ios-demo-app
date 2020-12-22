@@ -4,18 +4,20 @@ PODS:
     - Alamofire (~> 5.2)
 
 DEPENDENCIES:
-  - TelenavEntitySDK (~> 0.1.9)
+  - TelenavEntitySDK (from `../`)
 
 SPEC REPOS:
-  https://telenav.jfrog.io/artifactory/api/pods/telenav-cocoapods:
-    - TelenavEntitySDK
   trunk:
     - Alamofire
 
+EXTERNAL SOURCES:
+  TelenavEntitySDK:
+    :path: "../"
+
 SPEC CHECKSUMS:
   Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
-  TelenavEntitySDK: 1c326c16514d0f22b17f175667e0436bd5868a96
+  TelenavEntitySDK: 25748f72d4b46c54eeef97142dcdb2706cb369c4
 
-PODFILE CHECKSUM: d607aa01d5490646c3f52f9e6b260ce239a081a9
+PODFILE CHECKSUM: ab33a9fcf05ba5ac9e8c8c3226138b003e8bfa62
 
 COCOAPODS: 1.10.0

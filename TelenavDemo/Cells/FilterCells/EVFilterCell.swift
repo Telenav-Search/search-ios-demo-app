@@ -44,7 +44,7 @@ class EVFilterCell: UITableViewCell {
             
             switch elem.evFilterType {
             case .chargerBrands:
-                btn.setTitle((elem as! ChargerBrand).chargerBrandType.rawValue, for: .normal)
+                btn.setTitle((elem as! ChargerBrand).chargerBrandType.fullName, for: .normal)
             case .connectorTypes:
                 btn.setTitle((elem as! Connector).connectorType.fullName, for: .normal)
             case .powerFeeds:

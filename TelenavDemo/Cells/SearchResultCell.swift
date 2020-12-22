@@ -20,6 +20,8 @@ class SearchResultCell: UITableViewCell {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     
+    @IBOutlet weak var ratingNumber: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -68,6 +70,12 @@ class SearchResultCell: UITableViewCell {
             }
             
             starView.image = UIImage(named: "large_\(Int(avgRating))\(rem)")
+            
+            if let reviewsNum = rating.totalCount {
+                ratingNumber.text = "(\(reviewsNum))"
+            } else {
+                ratingNumber.text = ""
+            }
         } else {
             ratingView.isHidden = true
         }

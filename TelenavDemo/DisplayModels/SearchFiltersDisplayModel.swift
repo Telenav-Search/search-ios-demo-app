@@ -73,10 +73,26 @@ class ChargerBrand: EVFilterItem {
 
 enum ChargerBrandType: String, CaseIterable {
     
-    case chargerPoint = "Chargepoint"
+    case chargerPoint = "99100001"
+    case blink = "99100002"
+    case evgo = "99100003"
+    case electrifyAmerica = "99100010"
+
+    var fullName: String {
+        switch self {
+        case .blink:
+            return "Blink"
+        case .evgo:
+            return "eVgo"
+        case .chargerPoint:
+            return "Chargepoint"
+        case .electrifyAmerica:
+            return "ElectrifyAmerica"
+        }
+    }
     
     public static var allCases: [ChargerBrandType] {
-        return [.chargerPoint]
+        return [.chargerPoint, .blink, .evgo, .electrifyAmerica]
     }
 }
 
