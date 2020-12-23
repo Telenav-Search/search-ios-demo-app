@@ -12,7 +12,7 @@ import Foundation
     public var name: String?
     public var img: String? {
         let imgName = name?.replacingOccurrences(of: "/", with: "", options: .caseInsensitive)
-        return imgName
+        return "ic_\(imgName?.lowercased() ?? "")"
     }
     
     public init(name: String, id: String) {

@@ -35,7 +35,7 @@ class StaticCatalogCell: UITableViewCell {
             
         case .moreItem:
             catTitleLabel.text = "More"
-            mainImgView.image = UIImage(named: "More")
+            mainImgView.image = UIImage(named: "ic_more")
         }
         
     }
