@@ -145,7 +145,7 @@
 		060298EC254AC88E003D760A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		06029908254AC956003D760A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		06029966254AD18A003D760A /* TelenavDemoInternal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelenavDemoInternal.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		06029967254AD18A003D760A /* TelenavDemo copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "TelenavDemo copy-Info.plist"; path = "/Users/ezaderiy/work/search-ios-sdk/search-ios-demo-app/TelenavDemo copy-Info.plist"; sourceTree = "<absolute>"; };
+		06029967254AD18A003D760A /* TelenavDemo copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TelenavDemo copy-Info.plist"; sourceTree = SOURCE_ROOT; };
 		0633EB09256BDBB800692591 /* TelenavEntitySDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TelenavEntitySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0633EB0D256BDC0C00692591 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0633EB0F256BDC1B00692591 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };

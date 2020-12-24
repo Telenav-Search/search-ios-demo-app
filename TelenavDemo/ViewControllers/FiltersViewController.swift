@@ -311,7 +311,7 @@ extension FiltersViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
  
-        var item = content[indexPath.section].content[indexPath.row]
+        let item = content[indexPath.section].content[indexPath.row]
         
         item.isSelected.toggle()
             
@@ -371,7 +371,7 @@ extension FiltersViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        var item = content[indexPath.section].content[indexPath.row]
+        let item = content[indexPath.section].content[indexPath.row]
         
         item.isSelected.toggle()
     }
