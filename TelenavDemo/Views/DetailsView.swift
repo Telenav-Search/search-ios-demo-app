@@ -226,7 +226,7 @@ class DetailsView: UIView {
                 }
                 var text = "\(rate.symbol ?? "") \(amount)"
                 if let unit = rate.unit {
-                    text = text.appending(" / \(unit)")
+                    text = text.appending(" / \(unit) minutes")
                 }
                 if result.count > 0 {
                     return "\(result)\n\(text)"
