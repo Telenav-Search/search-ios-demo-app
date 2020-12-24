@@ -149,10 +149,12 @@ class DetailsView: UIView {
             content.append( DetailViewDisplayModel(fieldName: "Distance", fieldValue: distanceText))
         }
         
-        if let prices = entity.facets?.priceInfo?.priceDetails, prices.count > 0,
-           let symbol = prices[0].symbol, let amount = prices[0].amount {
-            content.append( DetailViewDisplayModel(fieldName: "Prices",
-                                                   fieldValue: "\(symbol) \(String(format: "%.3f", amount)) / \(prices[0].unit ?? "gal")"))
+        if let prices = entity.facets?.priceInfo?.priceDetails {
+            if prices.count > 0 {
+                let pricesContent = pricesDetailsContent(prices: prices)
+                content.append( pricesContent)
+            }
+            
         }
         
         if let connectors = entity.facets?.evConnectors?.connectors {
@@ -205,6 +207,19 @@ class DetailsView: UIView {
     
         tableView.reloadData()
         tableView.flashScrollIndicators()
+    }
+    
+    private func pricesDetailsContent(prices: [TNEntityPrice]) -> DetailViewDisplayModel {
+        let value = prices.reduce("") { (result, price) in
+            let priceStr = "\(price.symbol ?? "") \(String(format: "%.3f", price.amount ?? 0)) / \(price.unit ?? "gal")"
+            let text = price.label != nil ? "\(price.label ?? ""): \(priceStr)" : priceStr
+            if result.count > 0 {
+                return "\(result)\n\(text)"
+            } else {
+                return "\(text)"
+            }
+        }
+        return DetailViewDisplayModel(fieldName: "Prices", fieldValue: value)
     }
     
     private func parkingContet(entity: TNEntity) -> [DetailViewDisplayModel]?  {
