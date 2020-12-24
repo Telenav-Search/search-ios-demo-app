@@ -56,9 +56,7 @@ class SearchResultViewController: UIViewController {
             tableView.scrollToRow(at: IndexPath(row: NSNotFound, section: 0), at: .top, animated: false)
             self.lastDisplayedIndexPath = nil
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.tableView.reloadData()
-        }
+        self.tableView.reloadData()
     }
 
     @IBAction func didClickBack(_ sender: Any) {
