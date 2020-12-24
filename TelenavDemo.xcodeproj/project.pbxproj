@@ -33,6 +33,8 @@
 		068E59A6257E780400910EC0 /* TNEntityStaticCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068E59A0257E75B300910EC0 /* TNEntityStaticCategory.swift */; };
 		06CC38AC255933AF00345A0E /* ObjcExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CC38AB255933AF00345A0E /* ObjcExample.m */; };
 		06CC38AD255933AF00345A0E /* ObjcExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CC38AB255933AF00345A0E /* ObjcExample.m */; };
+		65DE8405259492FD009721D0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 65DE8408259492FD009721D0 /* Localizable.stringsdict */; };
+		65DE8406259492FD009721D0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 65DE8408259492FD009721D0 /* Localizable.stringsdict */; };
 		76F9B02BC396D2907843C7D6 /* Pods_TelenavDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */; };
 		C509FC35255EADB300C1EE56 /* FakeSearchGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC34255EADB300C1EE56 /* FakeSearchGenerator.swift */; };
 		C509FC36255EADB300C1EE56 /* FakeSearchGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC34255EADB300C1EE56 /* FakeSearchGenerator.swift */; };
@@ -168,6 +170,7 @@
 		06CC38AB255933AF00345A0E /* ObjcExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjcExample.m; sourceTree = "<group>"; };
 		082EF80066CCD2C5121F6427 /* Pods-TelenavDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.release.xcconfig"; sourceTree = "<group>"; };
 		4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelenavDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		65DE8407259492FD009721D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		8295D5FDA6BB1F6BAD5A43E6 /* Pods-TelenavDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		C509FC34255EADB300C1EE56 /* FakeSearchGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeSearchGenerator.swift; sourceTree = "<group>"; };
 		C509FC38255EADE600C1EE56 /* FakeSearchResults.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FakeSearchResults.json; sourceTree = "<group>"; };
@@ -248,6 +251,7 @@
 				06CC38A8255933AE00345A0E /* TelenavDemo-Bridging-Header.h */,
 				06029967254AD18A003D760A /* TelenavDemo copy-Info.plist */,
 				06751B0F253D8D0A001F6B11 /* Info.plist */,
+				65DE8408259492FD009721D0 /* Localizable.stringsdict */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";
@@ -511,6 +515,7 @@
 				C5FD76C12564230700E6D780 /* PredictionWordCell.xib in Resources */,
 				0602995C254AD18A003D760A /* LaunchScreen.storyboard in Resources */,
 				C54C055C255D9CE90002CE83 /* DetailsView.xib in Resources */,
+				65DE8406259492FD009721D0 /* Localizable.stringsdict in Resources */,
 				C5432CBE255D7C24008D8088 /* FakeSuggestions.json in Resources */,
 				C5FD76BB2564221300E6D780 /* PredictionsView.xib in Resources */,
 				0602995D254AD18A003D760A /* Assets.xcassets in Resources */,
@@ -529,6 +534,7 @@
 				C5FD76C02564230700E6D780 /* PredictionWordCell.xib in Resources */,
 				06751B0E253D8D0A001F6B11 /* LaunchScreen.storyboard in Resources */,
 				C54C055B255D9CE90002CE83 /* DetailsView.xib in Resources */,
+				65DE8405259492FD009721D0 /* Localizable.stringsdict in Resources */,
 				C5432CBD255D7C24008D8088 /* FakeSuggestions.json in Resources */,
 				C5FD76BA2564221300E6D780 /* PredictionsView.xib in Resources */,
 				06751B0B253D8D0A001F6B11 /* Assets.xcassets in Resources */,
@@ -692,6 +698,14 @@
 				06751B0D253D8D0A001F6B11 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		65DE8408259492FD009721D0 /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				65DE8407259492FD009721D0 /* en */,
+			);
+			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

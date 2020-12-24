@@ -158,16 +158,8 @@ class DetailsView: UIView {
         }
         
         if let connectors = entity.facets?.evConnectors?.connectors {
-            for conn in connectors {
-                var connectorText = ""
-                if let number = conn.connectorNumber, let name = conn.connectorType?.name,
-                   let brandName = conn.chargerBrand?.brandName {
-                    connectorText.append("\(name) (\(number) stations)\n")
-                    
-                    let connCell = DetailViewDisplayModel(fieldName: "\(brandName)", fieldValue: connectorText)
-                    content.append(connCell)
-                }
-            }
+            let connectorsDetails = connectorsContent(connectors: connectors)
+            content.append(connectorsDetails)
         }
         
         if let nearby = entity.facets?.nearby?.nearbyCategories {
@@ -207,6 +199,25 @@ class DetailsView: UIView {
     
         tableView.reloadData()
         tableView.flashScrollIndicators()
+    }
+    
+    private func connectorsContent(connectors: [TNEntityConnector]) -> DetailViewDisplayModel {
+        
+        let value = connectors.reduce("") { (result, connector) in
+            if let number = connector.connectorNumber,
+               let name = connector.connectorType?.name {
+                
+                let numberOfStations = String(format: NSLocalizedString("NumberOfStations", comment: ""), number)
+                let text = "\(name) (\(numberOfStations))"
+                if result.count > 0 {
+                    return "\(result)\n\(text)"
+                } else {
+                    return "\(text)"
+                }
+            }
+            return "\(result)"
+        }
+        return DetailViewDisplayModel(fieldName: "Connectors", fieldValue: value)
     }
     
     private func pricesDetailsContent(prices: [TNEntityPrice]) -> DetailViewDisplayModel {
