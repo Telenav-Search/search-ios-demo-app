@@ -610,13 +610,13 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         self.backButton.isHidden = true
 
         let searchFilter = filterFrom(filterItems: filterItems)
+        let searchOptions = TNEntitySearchOptions(intent: .around, showAddressLines: false)
         
         let searchParams = TNEntitySearchParams(searchQuery: searchQuery,
                                                location: TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
                                                limit: 20,
                                                filters: searchFilter,
-                                               searchOptionsIntent: TNEntitySearchOptionIntent.around,
-                                               showAddressLines: false)
+                                               searchOptions: searchOptions)
         
 //        Alternative variant of building searchParams
 //        let searchParams = TNEntitySearchQueryBuilder()
