@@ -13,7 +13,8 @@ class SearchResultCell: UITableViewCell {
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
-
+    @IBOutlet weak var categoryLabel: UILabel!
+    
     @IBOutlet weak var ratingView: UIStackView!
     @IBOutlet weak var starView: UIImageView!
     
@@ -35,6 +36,7 @@ class SearchResultCell: UITableViewCell {
 
     func fillSearchResultItem(_ item: TNEntity, itemNumber: Int) {
         self.numberLabel.text = "\(itemNumber)."
+        categoryLabel.text = item.place?.categories?.first?.name
         if let distance = item.formattedDistance {
             self.distanceLabel.text = distance
             self.distanceLabel.isHidden = false

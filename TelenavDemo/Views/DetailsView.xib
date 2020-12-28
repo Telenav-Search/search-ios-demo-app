@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailsView" customModule="TelenavDemo" customModuleProvider="target">
             <connections>
+                <outlet property="categoryLabel" destination="t7t-2O-lKK" id="FC3-eh-HUw"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="AZ8-il-7qh"/>
                 <outlet property="nameLabel" destination="UWI-aR-WPv" id="LhW-Kw-Xzw"/>
                 <outlet property="ratingImage" destination="z3T-Ew-uGM" id="6Z9-pT-qOU"/>
@@ -52,21 +53,31 @@
                     <color key="textColor" systemColor="secondaryLabelColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t7t-2O-lKK" userLabel="Category Label">
+                    <rect key="frame" x="20" y="41" width="35.5" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="t7t-2O-lKK" firstAttribute="top" secondItem="UWI-aR-WPv" secondAttribute="bottom" constant="2" id="2ne-Ni-MZY"/>
                 <constraint firstItem="omx-e1-fAV" firstAttribute="leading" secondItem="UWI-aR-WPv" secondAttribute="trailing" constant="10" id="6eC-So-1GK"/>
                 <constraint firstItem="F48-DV-tax" firstAttribute="top" secondItem="omx-e1-fAV" secondAttribute="bottom" constant="-1" id="B2R-F3-aTO"/>
+                <constraint firstItem="hHP-gz-Jix" firstAttribute="top" secondItem="t7t-2O-lKK" secondAttribute="bottom" constant="2" id="HUC-ee-K9k"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="hHP-gz-Jix" secondAttribute="bottom" id="ZS9-aP-DXR"/>
                 <constraint firstAttribute="trailing" secondItem="omx-e1-fAV" secondAttribute="trailing" constant="10" id="Zyj-fK-I9d"/>
                 <constraint firstAttribute="trailing" secondItem="F48-DV-tax" secondAttribute="trailing" constant="10" id="bpC-Md-CFA"/>
                 <constraint firstItem="UWI-aR-WPv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="cDL-ga-32W"/>
                 <constraint firstItem="hHP-gz-Jix" firstAttribute="top" secondItem="UWI-aR-WPv" secondAttribute="bottom" constant="21" id="fWG-ZO-pnj"/>
                 <constraint firstItem="hHP-gz-Jix" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kDK-5H-MYA"/>
+                <constraint firstItem="F48-DV-tax" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="t7t-2O-lKK" secondAttribute="trailing" constant="20" id="nnH-cL-dvF"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="hHP-gz-Jix" secondAttribute="trailing" id="oop-oj-s6d"/>
                 <constraint firstItem="omx-e1-fAV" firstAttribute="centerY" secondItem="UWI-aR-WPv" secondAttribute="centerY" id="t3F-vB-Hj4"/>
                 <constraint firstItem="UWI-aR-WPv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="w8z-Zl-1C9"/>
+                <constraint firstItem="t7t-2O-lKK" firstAttribute="leading" secondItem="UWI-aR-WPv" secondAttribute="leading" id="x8o-lZ-P5j"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="134.78260869565219" y="103.79464285714285"/>

@@ -13,6 +13,7 @@ class DetailsView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var categoryLabel: UILabel!
     
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
@@ -112,6 +113,7 @@ class DetailsView: UIView {
                 DetailViewDisplayModel(fieldName: "Address", fieldValue: entity.address?.addressLines?.joined(separator: "\n") ?? ""),
             ]
             nameLabel.text = entity.address?.formattedAddress
+            categoryLabel.isHidden = true
 
             break
         case .place:
@@ -140,7 +142,8 @@ class DetailsView: UIView {
 //            }
             
             nameLabel.text = entity.place?.name
-        
+            categoryLabel.isHidden = false
+            categoryLabel.text = entity.place?.categories?.first?.name
         }
         
         if let distance = entity.formattedDistance {
