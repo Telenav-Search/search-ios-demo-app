@@ -278,7 +278,7 @@ class TNEntityGeoFilterTypeDisplayModel: FiltersItem {
 extension TNEntitySearchGeoFilterType: CaseIterable {
     
     public static var allCases: [TNEntitySearchGeoFilterType] {
-        return [.bbox, .corridor, .poligon, .radius]
+        return [.bbox, .corridor, .polygon, .radius]
     }
 }
 
