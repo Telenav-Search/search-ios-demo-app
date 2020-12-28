@@ -346,7 +346,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private func setupSDK() {
         
         do {
-            let sdkOptions = try TNEntitySDKOptionsQueryBuilder()
+            let sdkOptions = try TNEntitySDKOptionsBuilder()
                     .apiKey("3aba881b-f452-4f53-99de-7397dce2b59b")
                     .apiSecret("bd112f9b-a368-4869-bca6-351e5c4c9e4f")
                     .locale(Locale.current.languageCode)
