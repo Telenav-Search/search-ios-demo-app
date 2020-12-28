@@ -555,7 +555,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             builder = addFacetsForParking(builder: builder)
         }
         
-        let params = builder.build()
+        let params: TNEntityDetailParams
+        do {
+            try params = builder.build()
+        } catch  {
+            if let err = error as? TNEntityError {
+                print(err.message ?? "")
+            }
+            return
+        }
         
         TNEntityClient.getEntityDetail(params: params) { [weak self] (entities, err) in
             
