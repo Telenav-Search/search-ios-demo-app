@@ -650,7 +650,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         let date = formatter.string(from: Date())
         
-        parkingParams.entryTime = date
+        parkingParams.entryTime = Date()
         let facetParams = TNEntityFacetParameters(parkingParams: parkingParams)
         return builder.facetParams(facetParams)
     }
