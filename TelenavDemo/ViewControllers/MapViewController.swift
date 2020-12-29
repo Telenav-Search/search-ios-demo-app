@@ -644,13 +644,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private func addFacetsForParking(builder: TNEntityDetailParamsBuilder) -> TNEntityDetailParamsBuilder {
         let parkingParams = TNEntityParkingParameters()
         parkingParams.duration = 60
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
-        
-        let date = formatter.string(from: Date())
-        
         parkingParams.entryTime = Date()
+        
         let facetParams = TNEntityFacetParameters(parkingParams: parkingParams)
         return builder.facetParams(facetParams)
     }
