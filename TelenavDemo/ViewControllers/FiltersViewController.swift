@@ -328,7 +328,7 @@ extension FiltersViewController: UITableViewDelegate {
                 
                 let discoverBrandParams: TNEntityDiscoverBrandParams
                 do {
-                    try discoverBrandParams = TNEntityDiscoverBrandQueryBuilder()
+                    try discoverBrandParams = TNEntityDiscoverBrandBuilder()
                     .categoryId("241")
                     .location(TNEntityGeoPoint(lat: self.currentLocation?.latitude ?? 0, lon: self.currentLocation?.longitude ?? 0))
                     .build()

@@ -549,7 +549,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     private func goToDetails(placeAnnotation: PlaceAnnotation, distance: String? = nil, completion: ((TNEntity) -> Void)? = nil) {
         
-        var builder = TNEntityQueryBuilder().ids([placeAnnotation.placeId]).detailOptions(TNEntityDetailOptions(detailLevel: .full, showAddressLines: true))
+        var builder = TNEntityDetailParamsBuilder().ids([placeAnnotation.placeId]).detailOptions(TNEntityDetailOptions(detailLevel: .full, showAddressLines: true))
         
         if let categories = placeAnnotation.categories, categories.contains("612") || categories.contains("611") {
             builder = addFacetsForParking(builder: builder)
@@ -641,7 +641,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    private func addFacetsForParking(builder: TNEntityQueryBuilder) -> TNEntityQueryBuilder {
+    private func addFacetsForParking(builder: TNEntityDetailParamsBuilder) -> TNEntityDetailParamsBuilder {
         let parkingParams = TNEntityParkingParameters()
         parkingParams.duration = 60
         
@@ -794,7 +794,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         var params: TNEntityWordPredictionParams!
         do {
-            params = try TNEntityWordPredictionQueryBuilder()
+            params = try TNEntityWordPredictionParamBuilder()
                 .searchQuery(searchQuery)
                 .location(location)
                 .build()
