@@ -623,18 +623,22 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         let searchFilter = filterFrom(filterItems: filterItems)
         let searchOptions = TNEntitySearchOptions(intent: .around, showAddressLines: false)
         
-        let searchParams = TNEntitySearchParams(searchQuery: searchQuery,
-                                               location: TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0),
-                                               limit: 20,
-                                               filters: searchFilter,
-                                               searchOptions: searchOptions)
+        let paramsBuilder = TNEntitySearchParamsBuilder()
+            .limit(20)
+            .location(TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0,
+                                       lon: currentLocation?.longitude ?? 0))
+            .filters(searchFilter)
+            .searchOptions(searchOptions)
         
-//        Alternative variant of building searchParams
-//        let searchParams = TNEntitySearchQueryBuilder()
-//            .limit(10)
-//            .query("food")
-//            .location(TNEntityGeoPoint(lat: 0, lon: 0))
-//            .build()
+        var searchParams: TNEntitySearchParams
+        do {
+            searchParams = try paramsBuilder.build()
+        } catch {
+            if let err = error as? TNEntityError {
+                print(err.message ?? "Error: \(err.status)")
+            }
+            return
+        }
         
         TNEntityClient.search(searchParams: searchParams) { (telenavSearch, err) in
             self.handleSearchResult(telenavSearch, isPaginated: false)
