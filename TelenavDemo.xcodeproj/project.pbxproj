@@ -33,6 +33,8 @@
 		068E59A6257E780400910EC0 /* TNEntityStaticCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068E59A0257E75B300910EC0 /* TNEntityStaticCategory.swift */; };
 		06CC38AC255933AF00345A0E /* ObjcExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CC38AB255933AF00345A0E /* ObjcExample.m */; };
 		06CC38AD255933AF00345A0E /* ObjcExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CC38AB255933AF00345A0E /* ObjcExample.m */; };
+		654E6A0A259CBADD0059BFB3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06608B09254C598C00DF38C3 /* MapKit.framework */; };
+		654E6A0B259CBAE40059BFB3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06608B0B254C599100DF38C3 /* CoreLocation.framework */; };
 		65DE8405259492FD009721D0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 65DE8408259492FD009721D0 /* Localizable.stringsdict */; };
 		65DE8406259492FD009721D0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 65DE8408259492FD009721D0 /* Localizable.stringsdict */; };
 		76F9B02BC396D2907843C7D6 /* Pods_TelenavDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */; };
@@ -230,6 +232,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				654E6A0B259CBAE40059BFB3 /* CoreLocation.framework in Frameworks */,
+				654E6A0A259CBADD0059BFB3 /* MapKit.framework in Frameworks */,
 				76F9B02BC396D2907843C7D6 /* Pods_TelenavDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -896,6 +900,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 98RVTKNYNW;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -907,7 +912,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.thumbtack.TelenavDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -926,6 +931,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = NSL6KMD9K6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -937,7 +943,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lineate.TelenavDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

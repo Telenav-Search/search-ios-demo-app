@@ -576,6 +576,11 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             }
 
             self.currentDetailID = placeAnnotation.placeId
+            if detail.distance == nil {
+                if let distance = self.calculateDistanceForDetails(detail: detail) {
+                    detail.distance = distance
+                }
+            }
             self.detailsView.fillEntity(detail,
                                         currentCoordinate: self.currentLocation ?? CLLocationCoordinate2D(),
                                         distanceText: distance)
@@ -586,6 +591,20 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             
             completion?(detail)
         }
+    }
+    
+    func calculateDistanceForDetails(detail: TNEntity) -> Double? {
+        if let currentLocation = currentLocation,
+           let placeCoordinates = detail.place?.address?.geoCoordinates,
+           let placeLatitude = placeCoordinates.latitude,
+           let placeLongitude = placeCoordinates.longitude {
+            
+            let myLocation = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+            let placeLocation = CLLocation(latitude: placeLatitude, longitude: placeLongitude)
+            let distanceInMeters = myLocation.distance(from: placeLocation)
+            return distanceInMeters
+        }
+        return nil
     }
     
     // MARK: - Search
