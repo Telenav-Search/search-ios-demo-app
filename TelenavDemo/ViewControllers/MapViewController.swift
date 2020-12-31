@@ -595,7 +595,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     func calculateDistanceForDetails(detail: TNEntity) -> Double? {
         if let currentLocation = currentLocation,
-           let placeCoordinates = detail.place?.address?.geoCoordinates,
+           let placeCoordinates = detail.type == .place ? detail.place?.address?.geoCoordinates : detail.address?.geoCoordinates,
            let placeLatitude = placeCoordinates.latitude,
            let placeLongitude = placeCoordinates.longitude {
             
