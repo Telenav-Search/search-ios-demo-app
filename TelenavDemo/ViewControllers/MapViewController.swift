@@ -644,6 +644,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         let paramsBuilder = TNEntitySearchParamsBuilder()
             .limit(20)
+            .query(searchQuery)
             .location(TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0,
                                        lon: currentLocation?.longitude ?? 0))
             .filters(searchFilter)
