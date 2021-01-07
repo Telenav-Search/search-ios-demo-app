@@ -347,10 +347,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         do {
             let sdkOptions = try TNEntitySDKOptionsBuilder()
-                    .apiKey("3aba881b-f452-4f53-99de-7397dce2b59b")
-                    .apiSecret("bd112f9b-a368-4869-bca6-351e5c4c9e4f")
+                    .apiKey("7bd512e0-16bc-4a45-9bc9-09377ee8a913")
+                    .apiSecret("89e872bc-1529-4c9f-857c-c32febbf7f5a")
                     .locale(Locale.current.languageCode)
-                    .cloudEndPoint(cloudEndPoint: "http://restapidev.telenav.com/")
+                    .cloudEndPoint(cloudEndPoint: "https://restapistage.telenav.com")
                     .build()
             TNEntityClient.initialize(sdkOptions)
             } catch {
