@@ -47,7 +47,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     let locationManager = CLLocationManager()
     
-    let fakeCategoriesService = FakeCategoriesGenerator()
+    let staticCategoriesService = StaticCategoriesGenerator()
     
     private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 1, qosClass: .userInitiated)
     
@@ -162,7 +162,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         super.viewDidLoad()
         setupSDK()
         
-        fakeCategoriesService.getStaticCategories { (staticCats, err) in
+        staticCategoriesService.getStaticCategories { (staticCats, err) in
             
             guard let categories = staticCats else {
                 return
@@ -484,7 +484,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                     return
                 }
 
-                let cats = self.fakeCategoriesService.mappedCats(categories)
+                let cats = self.staticCategoriesService.displayModelsFor(categories: categories)
                 
                 self.catalogVC.fillAllCategories(cats)
                 self.catalogVisible = true
