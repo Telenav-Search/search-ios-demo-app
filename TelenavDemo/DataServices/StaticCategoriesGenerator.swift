@@ -8,7 +8,7 @@
 import Foundation
 import TelenavEntitySDK
 
-class FakeCategoriesGenerator {
+class StaticCategoriesGenerator {
     
     func getStaticCategories(completion: @escaping ([TNEntityStaticCategory]?, Error?) -> Void) {
         
@@ -19,27 +19,19 @@ class FakeCategoriesGenerator {
         
         let categories = getCategoriesFromFakeJSON()
         
-        let cats = mappedCats(categories)
+        let cats = displayModelsFor(categories: categories)
         
         completion(cats, nil)
     }
     
-    func mappedCats(_ categories: [TNEntityCategory]) -> [TelenavCategoryDisplayModel] {
+    func displayModelsFor(categories: [TNEntityCategory]) -> [TelenavCategoryDisplayModel] {
         
-        var dispCats = [TelenavCategoryDisplayModel]()
-        
-        for cat in categories {
-            let dispCategory = TelenavCategoryDisplayModel(category: cat, catLevel: 0)
-            
-            dispCats.append(dispCategory)
-        }
-        
-        return dispCats
+        return categories.map { TelenavCategoryDisplayModel(category: $0, catLevel: 0) }
     }
     
     private func getCategoriesFromFakeJSON() -> [TNEntityCategory] {
         
-        guard let categoriesJSONURL = Bundle.main.url(forResource: "FakeCategories", withExtension: "json") else {
+        guard let categoriesJSONURL = Bundle.main.url(forResource: "StaticCategories", withExtension: "json") else {
             return []
         }
                 

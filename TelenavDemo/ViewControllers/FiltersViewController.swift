@@ -41,7 +41,7 @@ class FiltersViewController: UIViewController {
                 return
             }
 
-            let cats = FakeCategoriesGenerator().mappedCats(categories)
+            let cats = StaticCategoriesGenerator().displayModelsFor(categories: categories)
             self.categories = cats
             
             if let catSectionIdx = self.content.firstIndex(where: { (sec) -> Bool in
