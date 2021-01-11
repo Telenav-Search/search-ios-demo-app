@@ -265,20 +265,16 @@ class DetailsView: UIView {
             }
             content.append(DetailViewDisplayModel(fieldName: "Price", fieldValue: value))
         }
-        if let rateCards = parking.pricing?.rateCard {
-            let value = rateCards.reduce("") { result, rateCard in
-                
-                if let text = rateCard.text?.joined(separator: "\n") {
-                    if result.count > 0 {
-                        return "\(result)\n\(text)"
-                    } else {
-                        return "\(text)"
-                    }
+
+            var strRateCard = "";
+            if let rateCards = parking.pricing?.rateCard?.text {
+                for rateCard in rateCards {
+                    strRateCard.append(rateCard)
+                    strRateCard.append("\n")
                 }
-                return result
+                content.append(DetailViewDisplayModel(fieldName: "Rate card", fieldValue: strRateCard))
             }
-            content.append(DetailViewDisplayModel(fieldName: "Rate card", fieldValue: value))
-        }
+        
         return content
     }
 }
