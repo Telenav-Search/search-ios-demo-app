@@ -343,19 +343,40 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
+    // MARK: - SDK Setup
+    
     private func setupSDK() {
-        
-        do {
-            let sdkOptions = try TNEntitySDKOptionsBuilder()
-                    .apiKey("7bd512e0-16bc-4a45-9bc9-09377ee8a913")
-                    .apiSecret("89e872bc-1529-4c9f-857c-c32febbf7f5a")
-                    .locale(Locale.current.languageCode)
-                    .cloudEndPoint(cloudEndPoint: "https://restapistage.telenav.com")
-                    .build()
-            TNEntityClient.initialize(sdkOptions)
-            } catch {
-                print("Incorrect SDK options")
-            }
+        let settings = readSettingsFromcConfig()
+        if let settings = settings,
+           let key = settings["apiKey"],
+           let secret = settings["apiSecret"],
+           let endpoint = settings["cloudEndPoint"] {
+            do {
+                let sdkOptions = try TNEntitySDKOptionsBuilder()
+                        .apiKey(key)
+                        .apiSecret(secret)
+                        .locale(Locale.current.languageCode)
+                        .cloudEndPoint(cloudEndPoint: endpoint)
+                        .build()
+                TNEntityClient.initialize(sdkOptions)
+                } catch {
+                    print("Incorrect SDK options")
+                }
+        }
+        else {
+            print("Can't read SDKConfig.plist")
+        }
+    }
+    
+    private func readSettingsFromcConfig() -> [String: String]? {
+        guard let path = Bundle.main.path(forResource: "SDKConfig", ofType: "plist") else { return nil
+        }
+        let url = URL(fileURLWithPath: path)
+        let data = try! Data(contentsOf: url)
+        guard let plist = try! PropertyListSerialization.propertyList(from: data, options: .mutableContainers, format: nil) as? [String:String] else {
+            return nil
+        }
+        return plist
     }
     
     // MARK: - Actions
