@@ -49,7 +49,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     let staticCategoriesService = StaticCategoriesGenerator()
     
-    private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 1, qosClass: .userInitiated)
+    private var throttler = Throttler(throttlingInterval: 1, maxInterval: 0, qosClass: .userInitiated)
     
     var catalogVisible = true {
         didSet {
