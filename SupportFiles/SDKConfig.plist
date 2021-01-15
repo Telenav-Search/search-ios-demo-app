@@ -2,11 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>apiKey</key>
-    <string>3aba881b-f452-4f53-99de-7397dce2b59b</string>
-    <key>apiSecret</key>
-    <string>bd112f9b-a368-4869-bca6-351e5c4c9e4f</string>
-    <key>cloudEndPoint</key>
-    <string>http://restapidev.telenav.com</string>
+	<key>apiKey</key>
+	<string>{TELENAV API KEY}</string>
+	<key>apiSecret</key>
+	<string>{TELENAV API SECRET}</string>
+	<key>cloudEndPoint</key>
+	<string>{TELENAV CLOUD ENDPOINT}</string>
 </dict>
 </plist>
