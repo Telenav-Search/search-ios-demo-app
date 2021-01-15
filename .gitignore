@@ -24,5 +24,6 @@ DerivedData
 
 # Bundler
 .bundle
+Podfile.lock
 
 
