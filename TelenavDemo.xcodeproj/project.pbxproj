@@ -37,7 +37,6 @@
 		657A0F2625AEB2FD00275DA0 /* SDKConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 657A0F2425AEB2FD00275DA0 /* SDKConfig.plist */; };
 		65DE8405259492FD009721D0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 65DE8408259492FD009721D0 /* Localizable.stringsdict */; };
 		65DE8406259492FD009721D0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 65DE8408259492FD009721D0 /* Localizable.stringsdict */; };
-		76F9B02BC396D2907843C7D6 /* Pods_TelenavDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */; };
 		C509FC3C255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */; };
 		C509FC3D255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */; };
 		C528633025628B00007B67C6 /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C528632F25628B00007B67C6 /* PlaceAnnotationView.swift */; };
@@ -104,6 +103,7 @@
 		C5FD76C12564230700E6D780 /* PredictionWordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */; };
 		C5FD76CC25653CA800E6D780 /* SelfSizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */; };
 		C5FD76CD25653CE100E6D780 /* SelfSizedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */; };
+		F65BCB3F7B2C8599B153A766 /* Pods_TelenavDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFA831CC459D28F4A78EC9D /* Pods_TelenavDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -155,11 +155,11 @@
 		0681BB4D257F8F8800724FE3 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
 		068E59A0257E75B300910EC0 /* TNEntityStaticCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNEntityStaticCategory.swift; sourceTree = "<group>"; };
 		06CC38A8255933AE00345A0E /* TelenavDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TelenavDemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		082EF80066CCD2C5121F6427 /* Pods-TelenavDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.release.xcconfig"; sourceTree = "<group>"; };
-		4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelenavDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0ECB2B2AFA2C6A74B8674350 /* Pods-TelenavDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.release.xcconfig"; sourceTree = "<group>"; };
+		3EFA831CC459D28F4A78EC9D /* Pods_TelenavDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelenavDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		657A0F2425AEB2FD00275DA0 /* SDKConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SDKConfig.plist; sourceTree = "<group>"; };
 		65DE8407259492FD009721D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
-		8295D5FDA6BB1F6BAD5A43E6 /* Pods-TelenavDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		93F747A42E8FF78AEB9586DE /* Pods-TelenavDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		C528632F25628B00007B67C6 /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
 		C5432C5D255D3F4D008D8088 /* StaticCategoriesGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticCategoriesGenerator.swift; sourceTree = "<group>"; };
@@ -214,7 +214,7 @@
 			files = (
 				654E6A0B259CBAE40059BFB3 /* CoreLocation.framework in Frameworks */,
 				654E6A0A259CBADD0059BFB3 /* MapKit.framework in Frameworks */,
-				76F9B02BC396D2907843C7D6 /* Pods_TelenavDemo.framework in Frameworks */,
+				F65BCB3F7B2C8599B153A766 /* Pods_TelenavDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,7 +286,7 @@
 				06029908254AC956003D760A /* Alamofire.framework */,
 				060298EC254AC88E003D760A /* Alamofire.framework */,
 				060298D5254AC743003D760A /* Alamofire.framework */,
-				4AEA94133B0BBF41CBA2D190 /* Pods_TelenavDemo.framework */,
+				3EFA831CC459D28F4A78EC9D /* Pods_TelenavDemo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -294,8 +294,8 @@
 		207E6E8773F10079223920AE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8295D5FDA6BB1F6BAD5A43E6 /* Pods-TelenavDemo.debug.xcconfig */,
-				082EF80066CCD2C5121F6427 /* Pods-TelenavDemo.release.xcconfig */,
+				93F747A42E8FF78AEB9586DE /* Pods-TelenavDemo.debug.xcconfig */,
+				0ECB2B2AFA2C6A74B8674350 /* Pods-TelenavDemo.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -412,12 +412,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06751B12253D8D0A001F6B11 /* Build configuration list for PBXNativeTarget "TelenavDemo" */;
 			buildPhases = (
-				2B9D9A4D4C1AC899A4D27F8E /* [CP] Check Pods Manifest.lock */,
+				579F900AB4AACEDC22FDDD60 /* [CP] Check Pods Manifest.lock */,
 				06751AFA253D8D09001F6B11 /* Sources */,
 				06751AFB253D8D09001F6B11 /* Frameworks */,
 				06751AFC253D8D09001F6B11 /* Resources */,
 				06DCC28D253D9A4E0075423F /* Embed Frameworks */,
-				7B195D18C5C1EEEE4CF81B2E /* [CP] Embed Pods Frameworks */,
+				AF54A368F9C25D6DC0A0460A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -503,7 +503,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2B9D9A4D4C1AC899A4D27F8E /* [CP] Check Pods Manifest.lock */ = {
+		579F900AB4AACEDC22FDDD60 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -525,7 +525,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7B195D18C5C1EEEE4CF81B2E /* [CP] Embed Pods Frameworks */ = {
+		AF54A368F9C25D6DC0A0460A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -840,7 +840,7 @@
 		};
 		06751B13253D8D0A001F6B11 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8295D5FDA6BB1F6BAD5A43E6 /* Pods-TelenavDemo.debug.xcconfig */;
+			baseConfigurationReference = 93F747A42E8FF78AEB9586DE /* Pods-TelenavDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -870,7 +870,7 @@
 		};
 		06751B14253D8D0A001F6B11 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 082EF80066CCD2C5121F6427 /* Pods-TelenavDemo.release.xcconfig */;
+			baseConfigurationReference = 0ECB2B2AFA2C6A74B8674350 /* Pods-TelenavDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
