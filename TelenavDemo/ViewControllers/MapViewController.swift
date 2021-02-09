@@ -672,7 +672,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             .searchOptions(searchOptions)
             .build()
         
-        TNEntityClient.search(searchParams: searchParams) { (telenavSearch, err) in
+        TNEntityClient.search(params: searchParams) { (telenavSearch, err) in
             self.handleSearchResult(telenavSearch, isPaginated: false)
         }
     }
@@ -825,7 +825,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         
         var params: TNEntityWordPredictionParams!
         do {
-            params = try TNEntityWordPredictionParamBuilder()
+            params = try TNEntityWordPredictionParamsBuilder()
                 .searchQuery(searchQuery)
                 .location(location)
                 .build()
