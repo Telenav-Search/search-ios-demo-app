@@ -116,7 +116,7 @@ class FiltersViewController: UIViewController {
         
         var geoFilters = [TNEntityGeoFilterTypeDisplayModel]()
         
-        for filter in TNEntitySearchGeoFilterType.allCases {
+        for filter in TNEntityGeoFilterType.allCases {
             geoFilters.append(TNEntityGeoFilterTypeDisplayModel(geoFilterType: filter))
         }
                 
