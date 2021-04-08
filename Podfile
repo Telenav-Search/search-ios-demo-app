@@ -11,7 +11,16 @@ target 'TelenavDemo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   
-  pod 'TelenavEntitySDK', '1.0.0-beta.2' #, :path => '../'
+  pod 'TelenavEntitySDK', '1.0.0' #, :path => '../'
+  pod 'TelenavSDKDataCollector', :path => '../'
   # Pods for TelenavDemo
 
+end
+
+target 'TelenavDemoInternal' do
+  use_frameworks!
+  
+  pod 'TelenavEntitySDK', '1.0.0' #, :path => '../'
+  pod 'TelenavSDKDataCollector', :path => '../'
+  
 end

@@ -7,6 +7,7 @@
 
 import UIKit
 import TelenavEntitySDK
+import TelenavSDKDataCollector
 import Alamofire
 import MapKit
 
@@ -161,6 +162,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSDK()
+        setupCollectorSDK()
         
         staticCategoriesService.getStaticCategories { (staticCats, err) in
             
@@ -356,7 +358,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         .apiKey(key)
                         .apiSecret(secret)
                         .locale(Locale.current.languageCode)
-                        .cloudEndPoint(cloudEndPoint: endpoint)
+                        .cloudEndPoint(endpoint)
                         .build()
                 TNEntityClient.initialize(sdkOptions)
                 } catch {
@@ -366,6 +368,38 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         else {
             print("Can't read SDKConfig.plist")
         }
+    }
+    
+    private func setupCollectorSDK() {
+        let settings = readSettingsFromcConfig()
+        if let settings = settings,
+           let key = settings["apiKey"],
+           let secret = settings["apiSecret"],
+           let options = TNDataCollerctorSDKOptionsBuilder()
+            .apiKey(key)
+            .apiSecret(secret)
+            .cloudEndPoint("https://sync4nastg.telenav.com")
+            .appInfo(name: "sensor_data_demo", version: "1.0.0")
+            .userId("")
+            .deviceGuid("")
+            .build() {
+            TNLogging.logLevel = .debug
+            TNDataCollectorService.initialize(sdkOptions: options)
+            
+            if let event = TNFavoriteEventBuilder()
+                .actionType(TNFavoriteEventActionType.delete)
+                .entityId("test_event").build() {
+                TNDataCollectorService.sharedClient?.send(event: event)
+            }
+               
+    
+            
+            
+            
+        } else {
+            print("Can't read SDKConfig.plist")
+        }
+        
     }
     
     private func readSettingsFromcConfig() -> [String: String]? {
@@ -722,7 +756,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let geoFilter = filter as! TNEntityGeoFilterTypeDisplayModel
                         
                         if tnFilter.geoFilter == nil {
-                            tnFilter.geoFilter = TNEntitySearchGeoFilter()
+                            tnFilter.geoFilter = TNEntityGeoFilter()
                         }
                         
                         tnFilter.geoFilter?.type = geoFilter.geoFilterType
@@ -735,7 +769,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let chargerBrand = filter as! ChargerBrand
                         
                         if tnFilter.evFilter == nil {
-                            tnFilter.evFilter = TNEntitySearchEvFilter()
+                            tnFilter.evFilter = TNEntityEvFilter()
                         }
                         
                         if tnFilter.evFilter?.chargerBrands == nil {
@@ -751,7 +785,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let connectorType = filter as! Connector
                         
                         if tnFilter.evFilter == nil {
-                            tnFilter.evFilter = TNEntitySearchEvFilter()
+                            tnFilter.evFilter = TNEntityEvFilter()
                         }
                         
                         if tnFilter.evFilter?.connectorTypes == nil {
@@ -767,7 +801,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let powerFeed = filter as! PowerFeedLevel
                         
                         if tnFilter.evFilter == nil {
-                            tnFilter.evFilter = TNEntitySearchEvFilter()
+                            tnFilter.evFilter = TNEntityEvFilter()
                         }
                         
                         if tnFilter.evFilter?.powerFeedLevels == nil {
