@@ -391,11 +391,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 .entityId("test_event").build() {
                 TNDataCollectorService.sharedClient?.send(event: event)
             }
-               
-    
-            
-            
-            
         } else {
             print("Can't read SDKConfig.plist")
         }

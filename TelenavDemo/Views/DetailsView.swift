@@ -7,12 +7,14 @@
 
 import UIKit
 import TelenavEntitySDK
+import TelenavSDKDataCollector
 import MapKit
 
 class DetailsView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var categoryLabel: UILabel!
     
     @IBOutlet weak var mapView: MKMapView! {
@@ -33,6 +35,8 @@ class DetailsView: UIView {
         }
     }
     
+    var entityId: String?
+    var isFavorite = false
     var content = [DetailViewDisplayModel]()
     var ratingLink: URL?
     
@@ -82,6 +86,7 @@ class DetailsView: UIView {
     
     func fillEntity(_ entity: TNEntity, currentCoordinate: CLLocationCoordinate2D, distanceText: String? = nil) {
         
+        self.entityId = entity.id
         self.currentLocation = currentCoordinate
         
         if let rating = entity.facets?.rating?.first, let count = rating.totalCount {
@@ -276,6 +281,43 @@ class DetailsView: UIView {
             }
         
         return content
+    }
+}
+
+extension DetailsView {
+    
+    @IBAction func toggleFavorite() {
+        if isFavorite {
+            unsetFavorite()
+        } else {
+            setFavorite()
+        }
+        isFavorite = !isFavorite
+        updateFavoriteButton()
+    }
+    
+    func setFavorite() {
+        if let entityId = entityId,let event = TNFavoriteEventBuilder()
+            .actionType(TNFavoriteEventActionType.add)
+            .entityId(entityId).build() {
+            TNDataCollectorService.sharedClient?.send(event: event)
+        }
+    }
+    
+    func unsetFavorite() {
+        if let entityId = entityId,let event = TNFavoriteEventBuilder()
+            .actionType(TNFavoriteEventActionType.delete)
+            .entityId(entityId).build() {
+            TNDataCollectorService.sharedClient?.send(event: event)
+        }
+    }
+    
+    func updateFavoriteButton() {
+        if isFavorite {
+            favoriteButton.setImage(UIImage(named: "starFilled"), for: .normal)
+        } else {
+            favoriteButton.setImage(UIImage(named: "star"), for: .normal)
+        }
     }
 }
 

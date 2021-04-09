@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="categoryLabel" destination="t7t-2O-lKK" id="FC3-eh-HUw"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="AZ8-il-7qh"/>
+                <outlet property="favoriteButton" destination="7Kp-Iw-ojN" id="jt3-O0-L0n"/>
                 <outlet property="nameLabel" destination="UWI-aR-WPv" id="LhW-Kw-Xzw"/>
                 <outlet property="ratingImage" destination="z3T-Ew-uGM" id="6Z9-pT-qOU"/>
                 <outlet property="ratingLabel" destination="F48-DV-tax" id="xeQ-6g-jca"/>
@@ -30,11 +31,22 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UWI-aR-WPv">
-                    <rect key="frame" x="20" y="15" width="324" height="24"/>
+                    <rect key="frame" x="20" y="15" width="54" height="24"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Kp-Iw-ojN" userLabel="Favorite Button">
+                    <rect key="frame" x="80" y="16" width="22" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="22" id="bwY-Fh-QxZ"/>
+                        <constraint firstAttribute="height" constant="22" id="duw-xJ-2GK"/>
+                    </constraints>
+                    <state key="normal" image="star"/>
+                    <connections>
+                        <action selector="toggleFavorite" destination="-1" eventType="touchUpInside" id="sGs-sE-0fa"/>
+                    </connections>
+                </button>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="omx-e1-fAV">
                     <rect key="frame" x="354" y="12" width="50" height="30"/>
                     <subviews>
@@ -64,17 +76,19 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="t7t-2O-lKK" firstAttribute="top" secondItem="UWI-aR-WPv" secondAttribute="bottom" constant="2" id="2ne-Ni-MZY"/>
-                <constraint firstItem="omx-e1-fAV" firstAttribute="leading" secondItem="UWI-aR-WPv" secondAttribute="trailing" constant="10" id="6eC-So-1GK"/>
                 <constraint firstItem="F48-DV-tax" firstAttribute="top" secondItem="omx-e1-fAV" secondAttribute="bottom" constant="-1" id="B2R-F3-aTO"/>
                 <constraint firstItem="hHP-gz-Jix" firstAttribute="top" secondItem="t7t-2O-lKK" secondAttribute="bottom" constant="2" id="HUC-ee-K9k"/>
+                <constraint firstItem="7Kp-Iw-ojN" firstAttribute="leading" secondItem="UWI-aR-WPv" secondAttribute="trailing" constant="6" id="VuZ-yD-HVb"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="hHP-gz-Jix" secondAttribute="bottom" id="ZS9-aP-DXR"/>
                 <constraint firstAttribute="trailing" secondItem="omx-e1-fAV" secondAttribute="trailing" constant="10" id="Zyj-fK-I9d"/>
+                <constraint firstItem="7Kp-Iw-ojN" firstAttribute="centerY" secondItem="UWI-aR-WPv" secondAttribute="centerY" id="bAF-5z-6xA"/>
                 <constraint firstAttribute="trailing" secondItem="F48-DV-tax" secondAttribute="trailing" constant="10" id="bpC-Md-CFA"/>
                 <constraint firstItem="UWI-aR-WPv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="cDL-ga-32W"/>
                 <constraint firstItem="hHP-gz-Jix" firstAttribute="top" secondItem="UWI-aR-WPv" secondAttribute="bottom" constant="21" id="fWG-ZO-pnj"/>
                 <constraint firstItem="hHP-gz-Jix" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kDK-5H-MYA"/>
                 <constraint firstItem="F48-DV-tax" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="t7t-2O-lKK" secondAttribute="trailing" constant="20" id="nnH-cL-dvF"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="hHP-gz-Jix" secondAttribute="trailing" id="oop-oj-s6d"/>
+                <constraint firstItem="omx-e1-fAV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="7Kp-Iw-ojN" secondAttribute="trailing" constant="4" id="rVX-qP-HvH"/>
                 <constraint firstItem="omx-e1-fAV" firstAttribute="centerY" secondItem="UWI-aR-WPv" secondAttribute="centerY" id="t3F-vB-Hj4"/>
                 <constraint firstItem="UWI-aR-WPv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="w8z-Zl-1C9"/>
                 <constraint firstItem="t7t-2O-lKK" firstAttribute="leading" secondItem="UWI-aR-WPv" secondAttribute="leading" id="x8o-lZ-P5j"/>
@@ -85,6 +99,7 @@
     </objects>
     <resources>
         <image name="large_0" width="132" height="24"/>
+        <image name="star" width="512" height="512"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
