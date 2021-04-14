@@ -380,8 +380,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             .apiSecret(secret)
             .cloudEndPoint("https://sync4nastg.telenav.com")
             .appInfo(name: "sensor_data_demo", version: "1.0.0")
-            .userId("")
-            .deviceGuid("")
+            .userId("DemoApp_user")
+            .deviceGuid("test_app_from_ios")
             .build() {
             TNLogging.logLevel = .debug
             TNDataCollectorService.initialize(sdkOptions: options)

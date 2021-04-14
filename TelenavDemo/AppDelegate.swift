@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import TelenavSDKDataCollector
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
