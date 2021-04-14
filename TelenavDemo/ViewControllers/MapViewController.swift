@@ -387,7 +387,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             TNDataCollectorService.initialize(sdkOptions: options)
             
             if let event = TNFavoriteEventBuilder()
-                .actionType(TNFavoriteEventActionType.delete)
+                .action(TNFavoriteEventActionType.delete)
                 .entityId("test_event").build() {
                 TNDataCollectorService.sharedClient?.send(event: event)
             }
