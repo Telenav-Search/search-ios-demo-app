@@ -298,7 +298,7 @@ extension DetailsView {
     
     func setFavorite() {
         if let entityId = entityId,let event = TNFavoriteEventBuilder()
-            .actionType(TNFavoriteEventActionType.add)
+            .action(TNFavoriteEventActionType.add)
             .entityId(entityId).build() {
             TNDataCollectorService.sharedClient?.send(event: event)
         }
@@ -306,7 +306,7 @@ extension DetailsView {
     
     func unsetFavorite() {
         if let entityId = entityId,let event = TNFavoriteEventBuilder()
-            .actionType(TNFavoriteEventActionType.delete)
+            .action(TNFavoriteEventActionType.delete)
             .entityId(entityId).build() {
             TNDataCollectorService.sharedClient?.send(event: event)
         }
