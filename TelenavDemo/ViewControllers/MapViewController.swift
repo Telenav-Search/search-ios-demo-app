@@ -8,6 +8,7 @@
 import UIKit
 import TelenavEntitySDK
 import TelenavSDKDataCollector
+import TelenavDataSourceCenter
 import Alamofire
 import MapKit
 
@@ -394,7 +395,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         } else {
             print("Can't read SDKConfig.plist")
         }
-        
+        if let client = TNDataCollectorService.sharedClient {
+            TNDataSourceCenter.initialize(dataCollectorClient: client)
+        }
     }
     
     private func readSettingsFromcConfig() -> [String: String]? {
