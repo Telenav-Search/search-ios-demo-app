@@ -221,6 +221,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
+    deinit {
+        unsubscribeFromFavorites()
+    }
+    
     func findAnnIndex(id: String) -> Int {
         for (idx, ann) in currentAnnotations.enumerated() {
             if let ann = ann as? PlaceAnnotation, ann.placeId == id {
@@ -370,6 +374,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             print("Can't read SDKConfig.plist")
         }
     }
+   
     
     private func setupCollectorSDK() {
         let settings = readSettingsFromcConfig()
@@ -392,12 +397,45 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 .entityId("test_event").build() {
                 TNDataCollectorService.sharedClient?.send(event: event)
             }
+            
+            subscribeToFavorites()
         } else {
             print("Can't read SDKConfig.plist")
         }
         if let client = TNDataCollectorService.sharedClient {
             TNDataSourceCenter.initialize(dataCollectorClient: client)
         }
+    }
+    
+    private func unsubscribeFromFavorites() {
+        let client = TNDataCollectorService.sharedClient
+        client?.unsubscribe(consumerWithName: "MapViewController",
+                            forEventTypes: TNEventType.Favorite.values)
+    }
+    
+    private func subscribeToFavorites() {
+        let client = TNDataCollectorService.sharedClient
+        client?.subscribe(consumerWithName: "MapViewController",
+                          forEventTypes: TNEventType.Favorite.values,
+                          withCallBack: { [weak self] (event) in
+            var message = ""
+            if let e = event as? TNFavoriteEvent {
+                var (action, preposition) = ("added", "to")
+                if e.action == .delete {
+                    action = "deleted"
+                    preposition = "from"
+                }
+                message = "User \(action) entity \(preposition) favorites\n ID: \(e.entityId)"
+            }
+            let subscribeAlert = UIAlertController(
+                title: "MapViewController subscribed to all Favorite events",
+                message: "Event happened: \(message)",
+                preferredStyle: .alert)
+            subscribeAlert.addAction(UIAlertAction(title: "Done", style:.default, handler: nil))
+            DispatchQueue.main.async {
+                self?.present(subscribeAlert, animated: true, completion: nil)
+            }
+        })
     }
     
     private func readSettingsFromcConfig() -> [String: String]? {
