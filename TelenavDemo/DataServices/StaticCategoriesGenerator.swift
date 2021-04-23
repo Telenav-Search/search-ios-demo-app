@@ -51,7 +51,7 @@ class StaticCategoriesGenerator {
     }
     
     private var staticCategories: [TNEntityStaticCategory] {
-        let food = TNEntityStaticCategory(name: "Food", id: "2040")
+        let food = TNEntityStaticCategory(name: "Food", id: "2041")
         let coffee = TNEntityStaticCategory(name: "Coffee", id: "241")
         let groccery = TNEntityStaticCategory(name: "Grocery", id: "221")
         let shopping = TNEntityStaticCategory(name: "Shopping", id: "4090")

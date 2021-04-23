@@ -356,7 +356,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         .apiKey(key)
                         .apiSecret(secret)
                         .locale(Locale.current.languageCode)
-                        .cloudEndPoint(cloudEndPoint: endpoint)
+                        .cloudEndPoint(endpoint)
                         .build()
                 TNEntityClient.initialize(sdkOptions)
                 } catch {
@@ -722,7 +722,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let geoFilter = filter as! TNEntityGeoFilterTypeDisplayModel
                         
                         if tnFilter.geoFilter == nil {
-                            tnFilter.geoFilter = TNEntitySearchGeoFilter()
+                            tnFilter.geoFilter = TNEntityGeoFilter()
                         }
                         
                         tnFilter.geoFilter?.type = geoFilter.geoFilterType
@@ -735,7 +735,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let chargerBrand = filter as! ChargerBrand
                         
                         if tnFilter.evFilter == nil {
-                            tnFilter.evFilter = TNEntitySearchEvFilter()
+                            tnFilter.evFilter = TNEntityEvFilter()
                         }
                         
                         if tnFilter.evFilter?.chargerBrands == nil {
@@ -751,7 +751,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let connectorType = filter as! Connector
                         
                         if tnFilter.evFilter == nil {
-                            tnFilter.evFilter = TNEntitySearchEvFilter()
+                            tnFilter.evFilter = TNEntityEvFilter()
                         }
                         
                         if tnFilter.evFilter?.connectorTypes == nil {
@@ -767,7 +767,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                         let powerFeed = filter as! PowerFeedLevel
                         
                         if tnFilter.evFilter == nil {
-                            tnFilter.evFilter = TNEntitySearchEvFilter()
+                            tnFilter.evFilter = TNEntityEvFilter()
                         }
                         
                         if tnFilter.evFilter?.powerFeedLevels == nil {
