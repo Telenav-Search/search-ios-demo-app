@@ -404,6 +404,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
         if let client = TNDataCollectorService.sharedClient {
             TNDataSourceCenter.initialize(dataCollectorClient: client)
+            TNDataSourceCenter.sharedInstance?.start()
         }
     }
     
