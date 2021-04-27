@@ -33,6 +33,10 @@
 		654E6A0B259CBAE40059BFB3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06608B0B254C599100DF38C3 /* CoreLocation.framework */; };
 		657A0F2525AEB2FD00275DA0 /* SDKConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 657A0F2425AEB2FD00275DA0 /* SDKConfig.plist */; };
 		657A0F2625AEB2FD00275DA0 /* SDKConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 657A0F2425AEB2FD00275DA0 /* SDKConfig.plist */; };
+		6594B9532637C9B8006A80A4 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6594B9522637C9B8006A80A4 /* EventsViewController.swift */; };
+		6594B9542637C9B8006A80A4 /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6594B9522637C9B8006A80A4 /* EventsViewController.swift */; };
+		6594B9572637CED8006A80A4 /* AccelerationEventDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6594B9562637CED8006A80A4 /* AccelerationEventDataView.swift */; };
+		6594B9582637CED8006A80A4 /* AccelerationEventDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6594B9562637CED8006A80A4 /* AccelerationEventDataView.swift */; };
 		65DE8405259492FD009721D0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 65DE8408259492FD009721D0 /* Localizable.stringsdict */; };
 		65DE8406259492FD009721D0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 65DE8408259492FD009721D0 /* Localizable.stringsdict */; };
 		C11FC432F46748C3BD5CB137 /* Pods_TelenavDemoInternal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CA2798DE7D14D98E68B5A28 /* Pods_TelenavDemoInternal.framework */; };
@@ -147,6 +151,8 @@
 		1CA2798DE7D14D98E68B5A28 /* Pods_TelenavDemoInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelenavDemoInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EFA831CC459D28F4A78EC9D /* Pods_TelenavDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelenavDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		657A0F2425AEB2FD00275DA0 /* SDKConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SDKConfig.plist; sourceTree = "<group>"; };
+		6594B9522637C9B8006A80A4 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
+		6594B9562637CED8006A80A4 /* AccelerationEventDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelerationEventDataView.swift; sourceTree = "<group>"; };
 		65DE8407259492FD009721D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		93F747A42E8FF78AEB9586DE /* Pods-TelenavDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		9F221E3B22970E10491F0D7C /* Pods-TelenavDemoInternal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemoInternal.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemoInternal/Pods-TelenavDemoInternal.release.xcconfig"; sourceTree = "<group>"; };
@@ -352,6 +358,7 @@
 				C5FD76BC2564230700E6D780 /* PredictionWordCell.swift */,
 				C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */,
 				C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */,
+				6594B9562637CED8006A80A4 /* AccelerationEventDataView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -366,6 +373,7 @@
 				C59A997A256E6B9B00809EF2 /* PanViewAnimator.swift */,
 				C54F0AF3256FCBD20035E63D /* FiltersViewController.swift */,
 				06545AC2258B9B11002F9165 /* SearchPanAnimator.swift */,
+				6594B9522637C9B8006A80A4 /* EventsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -600,6 +608,7 @@
 				C5432C5F255D3F4D008D8088 /* StaticCategoriesGenerator.swift in Sources */,
 				C59A997C256E6B9B00809EF2 /* PanViewAnimator.swift in Sources */,
 				06608B08254C549400DF38C3 /* CatalogBaseCell.swift in Sources */,
+				6594B9542637C9B8006A80A4 /* EventsViewController.swift in Sources */,
 				06029954254AD18A003D760A /* MapViewController.swift in Sources */,
 				C5D330F0256FDE9F008BFC36 /* GeoFilterCell.swift in Sources */,
 				06029955254AD18A003D760A /* AppDelegate.swift in Sources */,
@@ -613,6 +622,7 @@
 				C587D6BA256BBCC3004D9114 /* CoordinateSettingsController.swift in Sources */,
 				C5FD76B72564220A00E6D780 /* PredictionsView.swift in Sources */,
 				C54F0AF8256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */,
+				6594B9582637CED8006A80A4 /* AccelerationEventDataView.swift in Sources */,
 				06029956254AD18A003D760A /* SceneDelegate.swift in Sources */,
 				C5D330F4256FDFC8008BFC36 /* RadioButton.swift in Sources */,
 				C54C057C255E9C750002CE83 /* SearchResultCell.swift in Sources */,
@@ -642,6 +652,7 @@
 				C5432C5E255D3F4D008D8088 /* StaticCategoriesGenerator.swift in Sources */,
 				C59A997B256E6B9B00809EF2 /* PanViewAnimator.swift in Sources */,
 				C5D330F2256FDEAC008BFC36 /* EVFilterCell.swift in Sources */,
+				6594B9532637C9B8006A80A4 /* EventsViewController.swift in Sources */,
 				06608B07254C549400DF38C3 /* CatalogBaseCell.swift in Sources */,
 				06751B06253D8D09001F6B11 /* MapViewController.swift in Sources */,
 				C5D330E9256FDE7E008BFC36 /* CategoryFilterCell.swift in Sources */,
@@ -655,6 +666,7 @@
 				C5FD76BE2564230700E6D780 /* PredictionWordCell.swift in Sources */,
 				C587D6B9256BBCC3004D9114 /* CoordinateSettingsController.swift in Sources */,
 				C5FD76B62564220A00E6D780 /* PredictionsView.swift in Sources */,
+				6594B9572637CED8006A80A4 /* AccelerationEventDataView.swift in Sources */,
 				C54F0AF7256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */,
 				06751B04253D8D09001F6B11 /* SceneDelegate.swift in Sources */,
 				C5D330EC256FDE8D008BFC36 /* BrandFilterCell.swift in Sources */,
@@ -701,7 +713,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = NSL6KMD9K6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -732,7 +744,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = NSL6KMD9K6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
