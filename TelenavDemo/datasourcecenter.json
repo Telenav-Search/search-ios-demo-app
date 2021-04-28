@@ -5,6 +5,11 @@
         "package_class_name": "TNIOSDataSource",
         "package_name": "gpsPackage",
         "collect_level": "medium"
+      },
+      {
+        "package_class_name": "TNIOSDataSource",
+        "package_name": "basePackage",
+        "collect_level": "low"
       }
     ],
     "comments": "Both 'package_name' and 'collect_level' case sensitive and 'collect_level' only accept 'low', 'medium', and 'high' with case insensitive"
