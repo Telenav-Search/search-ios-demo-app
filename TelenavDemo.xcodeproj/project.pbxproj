@@ -39,6 +39,8 @@
 		6594B9582637CED8006A80A4 /* AccelerationEventDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6594B9562637CED8006A80A4 /* AccelerationEventDataView.swift */; };
 		65DE8405259492FD009721D0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 65DE8408259492FD009721D0 /* Localizable.stringsdict */; };
 		65DE8406259492FD009721D0 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 65DE8408259492FD009721D0 /* Localizable.stringsdict */; };
+		65E2AE4D263951AA00EA5858 /* datasourcecenter.json in Resources */ = {isa = PBXBuildFile; fileRef = 65E2AE4C263951AA00EA5858 /* datasourcecenter.json */; };
+		65E2AE4E263951AA00EA5858 /* datasourcecenter.json in Resources */ = {isa = PBXBuildFile; fileRef = 65E2AE4C263951AA00EA5858 /* datasourcecenter.json */; };
 		C11FC432F46748C3BD5CB137 /* Pods_TelenavDemoInternal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CA2798DE7D14D98E68B5A28 /* Pods_TelenavDemoInternal.framework */; };
 		C509FC3C255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */; };
 		C509FC3D255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */; };
@@ -154,6 +156,7 @@
 		6594B9522637C9B8006A80A4 /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		6594B9562637CED8006A80A4 /* AccelerationEventDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelerationEventDataView.swift; sourceTree = "<group>"; };
 		65DE8407259492FD009721D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		65E2AE4C263951AA00EA5858 /* datasourcecenter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = datasourcecenter.json; sourceTree = "<group>"; };
 		93F747A42E8FF78AEB9586DE /* Pods-TelenavDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		9F221E3B22970E10491F0D7C /* Pods-TelenavDemoInternal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemoInternal.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemoInternal/Pods-TelenavDemoInternal.release.xcconfig"; sourceTree = "<group>"; };
 		AB6FCC67D0C88F1DBF91AE85 /* Pods-TelenavDemoInternal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemoInternal.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemoInternal/Pods-TelenavDemoInternal.debug.xcconfig"; sourceTree = "<group>"; };
@@ -264,6 +267,7 @@
 				C5432C7E255D53E9008D8088 /* DisplayModels */,
 				06751B07253D8D09001F6B11 /* Main.storyboard */,
 				06751B0A253D8D0A001F6B11 /* Assets.xcassets */,
+				65E2AE4C263951AA00EA5858 /* datasourcecenter.json */,
 				06751B0C253D8D0A001F6B11 /* LaunchScreen.storyboard */,
 			);
 			path = TelenavDemo;
@@ -482,6 +486,7 @@
 				C5FD76BB2564221300E6D780 /* PredictionsView.xib in Resources */,
 				0602995D254AD18A003D760A /* Assets.xcassets in Resources */,
 				0602995E254AD18A003D760A /* Main.storyboard in Resources */,
+				65E2AE4E263951AA00EA5858 /* datasourcecenter.json in Resources */,
 				C5432C63255D4127008D8088 /* StaticCategories.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -499,6 +504,7 @@
 				C5FD76BA2564221300E6D780 /* PredictionsView.xib in Resources */,
 				06751B0B253D8D0A001F6B11 /* Assets.xcassets in Resources */,
 				06751B09253D8D09001F6B11 /* Main.storyboard in Resources */,
+				65E2AE4D263951AA00EA5858 /* datasourcecenter.json in Resources */,
 				C5432C62255D4127008D8088 /* StaticCategories.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

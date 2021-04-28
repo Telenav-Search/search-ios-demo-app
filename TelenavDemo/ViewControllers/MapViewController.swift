@@ -403,7 +403,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             print("Can't read SDKConfig.plist")
         }
         if let client = TNDataCollectorService.sharedClient {
-            TNDataSourceCenter.initialize(dataCollectorClient: client)
+            TNDataSourceCenter.initialize(dataCollectorClient: client, configFileName: "datasourcecenter")
             TNDataSourceCenter.sharedInstance?.start()
         }
     }

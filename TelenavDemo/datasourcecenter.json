@@ -1,0 +1,12 @@
+{
+  "datasource_center": {
+    "load_package": [
+      {
+        "package_class_name": "TNIOSDataSource",
+        "package_name": "gpsPackage",
+        "collect_level": "medium"
+      }
+    ],
+    "comments": "Both 'package_name' and 'collect_level' case sensitive and 'collect_level' only accept 'low', 'medium', and 'high' with case insensitive"
+  }
+}
