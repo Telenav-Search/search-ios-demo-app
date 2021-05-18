@@ -381,7 +381,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         if let settings = settings,
            let key = settings["apiKey"],
            let secret = settings["apiSecret"],
-           let options = TNDataCollerctorSDKOptionsBuilder()
+           let options = TNDataCollectorSDKOptionsBuilder()
             .apiKey(key)
             .apiSecret(secret)
             .cloudEndPoint("https://sync4nastg.telenav.com")
