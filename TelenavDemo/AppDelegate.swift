@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import VividNavigationSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
