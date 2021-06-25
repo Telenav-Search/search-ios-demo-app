@@ -114,6 +114,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         return vc
     }()
 
+    internal var routeFromAnnotation: RouteCreationAnnotation?
+    internal var routeToAnnotation: RouteCreationAnnotation?
+    
     func updatePredictionsView() {
         predictionsView.backgroundColor = .clear
         predictionsView.layer.cornerRadius = 9
@@ -216,6 +219,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 }
             }
         }
+        addLongTapGestureRecognizer()
     }
     
     func findAnnIndex(id: String) -> Int {
@@ -1089,10 +1093,14 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is PlaceAnnotation else { return nil }
-        
-        let customAnnotationView = self.customAnnotationView(in: mapView, for: annotation)
-        return customAnnotationView
+        if annotation is PlaceAnnotation {
+            let customAnnotationView = self.customAnnotationView(in: mapView, for: annotation)
+            return customAnnotationView
+        }
+        if annotation is RouteCreationAnnotation {
+            return getRouteCreationAnnotationView(forAnnotation: annotation)
+        }
+        return nil
     }
     
     func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
