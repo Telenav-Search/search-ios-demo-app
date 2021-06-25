@@ -9,11 +9,12 @@ source 'https://cdn.cocoapods.org/'
 platform :ios, '12.0'
 
 target 'TelenavDemo' do
-  # Comment the next line if you don't want to use dynamic frameworks
+
+  pod 'VividNavigationSDK', '0.0.1-beta2.3'
+  
   use_frameworks!
   
   pod 'TelenavEntitySDK', '1.0.0' #, :path => '../'
-  pod 'VividNavigationSDK', "0.0.1-beta1.1"
   # Pods for TelenavDemo
 
 end

@@ -5,6 +5,7 @@
 For running on physical device developer need to have correct Provisioning Profile and Signing Certificate.
 
 1. Do `pod repo-art update telenav-cocoapods` if necessary
+1. Do `pod repo-art update telenav-cocoapods-preprod-local`
 1. Do `pod install`
 1. Modify the configuration file `SDKConfig.plist`, fill the correct `ApiKey/ApiSecret/CloudEndpoint`.
 1. Run target TelenavDemo
