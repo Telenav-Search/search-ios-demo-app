@@ -7,6 +7,8 @@
 
 import UIKit
 import MapKit
+import VividNavigationSDK
+
 
 extension MapViewController {
     
@@ -39,6 +41,7 @@ extension MapViewController {
                                     annotation.title = "Route from this point"
                                     annotation.subtitle = message
                                     self?.mapView.addAnnotation(annotation)
+                                    self?.createRouteIfPossible()
         }))
         ac.addAction(UIAlertAction(title: "To here",
                                    style: .default,
@@ -50,6 +53,7 @@ extension MapViewController {
                                     annotation.title = "Route to this point"
                                     annotation.subtitle = message
                                     self?.mapView.addAnnotation(annotation)
+                                    self?.createRouteIfPossible()
         }))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(ac, animated: true)
@@ -88,6 +92,69 @@ extension MapViewController {
         }
         if let annotation = annotationForRemoving {
             mapView.removeAnnotation(annotation)
+        }
+    }
+    
+    func createRouteIfPossible() {
+        if routeFromAnnotation != nil && routeToAnnotation != nil {
+            createRoute()
+        }
+    }
+    
+    func createRoute() {
+        if let startCoord = routeFromAnnotation?.coordinate,
+           let endCoord = routeToAnnotation?.coordinate {
+            let origin = VNGeoLocation(latitude: startCoord.latitude,
+                                       longitude: startCoord.longitude)
+            let destination = VNGeoLocation(latitude: endCoord.latitude,
+                                       longitude: endCoord.longitude)
+            let request = VNRouteRequest.builder()?
+                .setOrigin(origin)
+                .setDestination(destination)
+                .build()
+            let service = VNSDK.sharedInstance.sharedDirectionService()
+            let task = service?.createRouteCalculationTask(request, mode: true)
+            let activity = showActivityIndicator()
+            task?.runAsync({ [weak self] rslt, error  in
+                self?.hideActivityIndicator(activity: activity)
+                if let error = error {
+                    self?.showErrorAlert(error: error)
+                    return
+                }
+                print("<|" + (rslt?.serializeToString())! ?? "" + "|>")
+                let routes = rslt?.routes ?? Array()
+                
+                let legs  = (routes.last?.legs)!
+                
+                let steps = (legs.last?.steps)!
+                
+                let edges = (steps.last?.edges)!
+
+            })
+        }
+    }
+    
+    func showActivityIndicator() -> UIActivityIndicatorView {
+        let activity = UIActivityIndicatorView(style: .large)
+        activity.frame = mapView.bounds
+        mapView.addSubview(activity)
+        activity.startAnimating()
+        return activity
+    }
+    
+    func hideActivityIndicator(activity: UIActivityIndicatorView) {
+        OperationQueue.main.addOperation {
+            activity.removeFromSuperview()
+        }
+    }
+    
+    func showErrorAlert(error: Error) {
+        OperationQueue.main.addOperation { [weak self] in
+            let ac = UIAlertController(title: "An error occured while route calculating",
+                                       message: error.localizedDescription,
+                                       preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Close", style: .cancel))
+            self?.present(ac, animated: true)
         }
     }
 }

@@ -12,7 +12,15 @@ import VividNavigationSDK
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        if let options = VNSDKOptions.builder()
+            .apiKey("e48ee2f9-5c2c-41e9-b0d7-167d8ad47870")
+            .apiSecret("ce7e333a-e168-4fbb-bb5a-ac5a0fb28eac")
+            .cloudEndPoint("https://apinastg.telenav.com/")
+            .build() {
+            VNSDK.sharedInstance.initialize(with: options)
+        }
+        
         return true
     }
 
