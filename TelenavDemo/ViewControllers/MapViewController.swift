@@ -116,6 +116,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
 
     internal var routeFromAnnotation: RouteCreationAnnotation?
     internal var routeToAnnotation: RouteCreationAnnotation?
+    internal var createRouteActionSheet: UIAlertController?
     
     func updatePredictionsView() {
         predictionsView.backgroundColor = .clear
@@ -1110,6 +1111,15 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         searchResultDisplaying = false
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor
+                    overlay: MKOverlay) -> MKOverlayRenderer {
+
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.blue.withAlphaComponent(0.3)
+        renderer.lineWidth = 5
+        return renderer
     }
     
     private func customAnnotationView(in mapView: MKMapView, for annotation: MKAnnotation) -> PlaceAnnotationView {

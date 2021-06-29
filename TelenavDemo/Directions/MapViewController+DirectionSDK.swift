@@ -9,9 +9,7 @@ import UIKit
 import MapKit
 import VividNavigationSDK
 
-
 extension MapViewController {
-    
     
     func addLongTapGestureRecognizer () {
         let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(addRoutePointAnnotation(longGesture:)))
@@ -28,35 +26,48 @@ extension MapViewController {
     
     func showRouteOptionsAlert(withAnnotation annotation: RouteCreationAnnotation) {
         let message = "\(String(format: "%.4f", annotation.coordinate.latitude)), \(String(format: "%.4f", annotation.coordinate.longitude))"
-        let ac = UIAlertController(title: "Do you want to make a route?",
+        let title = "Do you want to make a route?"
+        createRouteActionSheet = UIAlertController(title: title,
                                    message: message,
                                    preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "From here",
-                                   style: .default,
-                                   handler: { [weak self] (action) in
-                                    if let oldFromAnnotation = self?.routeFromAnnotation {
-                                        self?.mapView.removeAnnotation(oldFromAnnotation)
-                                    }
-                                    self?.routeFromAnnotation = annotation
-                                    annotation.title = "Route from this point"
-                                    annotation.subtitle = message
-                                    self?.mapView.addAnnotation(annotation)
-                                    self?.createRouteIfPossible()
-        }))
-        ac.addAction(UIAlertAction(title: "To here",
-                                   style: .default,
-                                   handler: { [weak self] (action) in
-                                    if let oldToAnnotation = self?.routeToAnnotation {
-                                        self?.mapView.removeAnnotation(oldToAnnotation)
-                                    }
-                                    self?.routeToAnnotation = annotation
-                                    annotation.title = "Route to this point"
-                                    annotation.subtitle = message
-                                    self?.mapView.addAnnotation(annotation)
-                                    self?.createRouteIfPossible()
-        }))
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        present(ac, animated: true)
+        let fromAction = UIAlertAction(title: "From here",
+                                       style: .default,
+                                       handler: {
+            [weak self] (action) in
+                if let oldFromAnnotation = self?.routeFromAnnotation {
+                    self?.mapView.removeAnnotation(oldFromAnnotation)
+                }
+                self?.routeFromAnnotation = annotation
+                annotation.title = "Route from this point"
+                annotation.subtitle = message
+                self?.mapView.addAnnotation(annotation)
+                self?.createRouteIfPossible()
+                self?.createRouteActionSheet?.dismiss(animated: false, completion: nil)
+            })
+        createRouteActionSheet?.addAction(fromAction)
+        let toAction = UIAlertAction(title: "To here",
+                                     style: .default,
+                                     handler: {
+            [weak self] (action) in
+                if let oldToAnnotation = self?.routeToAnnotation {
+                  self?.mapView.removeAnnotation(oldToAnnotation)
+                }
+                self?.routeToAnnotation = annotation
+                annotation.title = "Route to this point"
+                annotation.subtitle = message
+                self?.mapView.addAnnotation(annotation)
+                self?.mapView.reloadInputViews()
+                self?.createRouteIfPossible()
+                self?.createRouteActionSheet?.dismiss(animated: false, completion: nil)
+        })
+        createRouteActionSheet?.addAction(toAction)
+        createRouteActionSheet?.addAction(UIAlertAction(title: "Cancel",
+                                                        style: .cancel))
+        
+        if let actionSheet = createRouteActionSheet,
+           !actionSheet.isBeingPresented {
+            present(actionSheet, animated: true)
+        }
     }
     
     func getRouteCreationAnnotationView(forAnnotation annotation: MKAnnotation) -> MKAnnotationView {
@@ -96,41 +107,65 @@ extension MapViewController {
     }
     
     func createRouteIfPossible() {
-        if routeFromAnnotation != nil && routeToAnnotation != nil {
-            createRoute()
+        if let request = createRouteRequest() {
+            let service = VNSDK.sharedInstance.sharedDirectionService()
+            let task = service?.createRouteCalculationTask(request, mode: true)
+            let activity = showActivityIndicator()
+            task?.runAsync({ [weak self] response, error  in
+                guard error == nil,
+                      let routes = response?.routes,
+                      routes.count > 0 else {
+                    self?.hideActivityIndicator(activity: activity)
+                    self?.showCalculationErrorAlert(error: error)
+                    return
+                }
+                if let mainRoute = routes.first,
+                   let coordinates = self?.generateCoordinates(forRoute: mainRoute) {
+                    self?.showRoute(coordinates: coordinates)
+                }
+                self?.hideActivityIndicator(activity: activity)
+            })
         }
     }
     
-    func createRoute() {
+    func createRouteRequest() -> VNRouteRequest? {
         if let startCoord = routeFromAnnotation?.coordinate,
            let endCoord = routeToAnnotation?.coordinate {
             let origin = VNGeoLocation(latitude: startCoord.latitude,
                                        longitude: startCoord.longitude)
             let destination = VNGeoLocation(latitude: endCoord.latitude,
                                        longitude: endCoord.longitude)
-            let request = VNRouteRequest.builder()?
+            return VNRouteRequest.builder()?
                 .setOrigin(origin)
                 .setDestination(destination)
                 .build()
-            let service = VNSDK.sharedInstance.sharedDirectionService()
-            let task = service?.createRouteCalculationTask(request, mode: true)
-            let activity = showActivityIndicator()
-            task?.runAsync({ [weak self] rslt, error  in
-                self?.hideActivityIndicator(activity: activity)
-                if let error = error {
-                    self?.showErrorAlert(error: error)
-                    return
+        }
+        return nil
+    }
+    
+    func generateCoordinates(forRoute route: VNRoute) -> [CLLocationCoordinate2D] {
+        var coordinates = [CLLocationCoordinate2D]()
+        for leg in route.legs {
+            for step in leg.steps {
+                for edge in step.edges {
+                    for point in edge.geometry {
+                        coordinates.append(point.coordinate)
+                    }
                 }
-                print("<|" + (rslt?.serializeToString())! ?? "" + "|>")
-                let routes = rslt?.routes ?? Array()
-                
-                let legs  = (routes.last?.legs)!
-                
-                let steps = (legs.last?.steps)!
-                
-                let edges = (steps.last?.edges)!
-
-            })
+            }
+        }
+        return coordinates
+    }
+    
+    func showRoute(coordinates: [CLLocationCoordinate2D]) {
+        OperationQueue.main.addOperation { [weak self] in
+            let count = coordinates.count
+            guard count >= 2 else {
+                return
+            }
+            let polyline = MKPolyline(coordinates: coordinates,
+                                      count: count)
+            self?.mapView.addOverlay(polyline)
         }
     }
     
@@ -148,10 +183,12 @@ extension MapViewController {
         }
     }
     
-    func showErrorAlert(error: Error) {
+    func showCalculationErrorAlert(error: Error?) {
         OperationQueue.main.addOperation { [weak self] in
-            let ac = UIAlertController(title: "An error occured while route calculating",
-                                       message: error.localizedDescription,
+            let message = error?.localizedDescription ?? "No routes"
+            let title = "An error occured while route calculating"
+            let ac = UIAlertController(title: title,
+                                       message: message,
                                        preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Close", style: .cancel))
             self?.present(ac, animated: true)
