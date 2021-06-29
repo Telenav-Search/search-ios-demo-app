@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>apiKey</key>
-	<string>{TELENAV API KEY}</string>
+	<string>7bd512e0-16bc-4a45-9bc9-09377ee8a913</string>
 	<key>apiSecret</key>
-	<string>{TELENAV API SECRET}</string>
+	<string>89e872bc-1529-4c9f-857c-c32febbf7f5a</string>
 	<key>cloudEndPoint</key>
-	<string>{TELENAV CLOUD ENDPOINT}</string>
+	<string>https://restapistage.telenav.com</string>
 </dict>
 </plist>
