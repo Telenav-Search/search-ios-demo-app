@@ -108,8 +108,8 @@ extension MapViewController {
     
     func createRouteIfPossible() {
         if let request = createRouteRequest() {
-            let service = VNSDK.sharedInstance.sharedDirectionService()
-            let task = service?.createRouteCalculationTask(request, mode: true)
+            let client = VNDirectionClient.factory().build()
+            let task = client?.createRouteCalculationTask(request)
             let activity = showActivityIndicator()
             task?.runAsync({ [weak self] response, error  in
                 guard error == nil,
