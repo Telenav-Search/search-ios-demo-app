@@ -13,7 +13,7 @@ extension MapViewController {
     
     func addLongTapGestureRecognizer () {
         let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(addRoutePointAnnotation(longGesture:)))
-        recognizer.minimumPressDuration = 1
+        recognizer.minimumPressDuration = 0.5
         mapView.addGestureRecognizer(recognizer)
     }
     
@@ -104,6 +104,11 @@ extension MapViewController {
         if let annotation = annotationForRemoving {
             mapView.removeAnnotation(annotation)
         }
+        routesScrollView.setRoutes(routes: [], withDelegate: self)
+        routesScrollView.isHidden = true
+        if let overlay = routePolyline {
+            mapView.removeOverlay(overlay)
+        }
     }
     
     func createRouteIfPossible() {
@@ -122,7 +127,7 @@ extension MapViewController {
                 if let mainRoute = routes.first,
                    let coordinates = self?.generateCoordinates(forRoute: mainRoute) {
                     self?.showRoute(coordinates: coordinates)
-                    self?.showRoutesScroll(routes: [mainRoute, mainRoute, mainRoute, mainRoute])
+                    self?.showRoutesScroll(routes: routes)
                 }
                 self?.hideActivityIndicator(activity: activity)
             })
@@ -229,7 +234,7 @@ extension MapViewController: RoutePreviewDelegate {
     }
     
     func routePreview(_ preview: RoutePreview, didTapInfoForRoute route: VNRoute?) {
-
+        //TODO: show manuvers
         
     }
 }

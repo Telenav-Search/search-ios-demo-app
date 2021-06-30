@@ -53,9 +53,9 @@ class RoutesScrollView: UIScrollView {
         let width = 140
         var x = space
         for preview in routePreviews {
-            preview.frame = CGRect(x: x, y: 2*space,
+            preview.frame = CGRect(x: x, y: space,
                                    width: width,
-                                   height: Int(bounds.height)-3*space)
+                                   height: Int(bounds.height)-2*space)
             x = x + width + 2*space
         }
         let rect = CGRect(x: 0, y: 0, width: x, height: Int(bounds.height))
