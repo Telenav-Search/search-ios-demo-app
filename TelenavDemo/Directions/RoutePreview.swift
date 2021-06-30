@@ -9,12 +9,23 @@ import Foundation
 import UIKit
 import VividNavigationSDK
 
+protocol RoutePreviewDelegate: AnyObject {
+    func routePreview(_ preview: RoutePreview, didSelectedRoute route: VNRoute?)
+    func routePreview(_ preview: RoutePreview, didTapInfoForRoute route: VNRoute?)
+}
+
 class RoutePreview: UIView {
     
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
-    internal var isSelected = false
+    internal var isSelected = false {
+        didSet {
+            updateSelectionColor()
+        }
+    }
+    
+    weak var delegate: RoutePreviewDelegate?
     
     class func instanceFromNib() -> RoutePreview {
         let preview = UINib(nibName: "RoutePreview",
@@ -23,14 +34,17 @@ class RoutePreview: UIView {
                          options: nil)[0] as! RoutePreview
         preview.layer.cornerRadius = 5;
         preview.layer.masksToBounds = true;
+        preview.updateSelectionColor()
         return preview
     }
     
     
     @IBAction func onPreview(_ sender: Any) {
+        delegate?.routePreview(self, didSelectedRoute: route)
     }
     
     @IBAction func onInfoButton(_ sender: Any) {
+        delegate?.routePreview(self, didTapInfoForRoute: route)
     }
     
     var route: VNRoute? {
@@ -42,13 +56,13 @@ class RoutePreview: UIView {
         }
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    func updateSelectionColor() {
         if isSelected {
             backgroundColor = UIColor(red: 0, green: 0, blue: 20, alpha: 0.2)
         } else {
             backgroundColor = .white
         }
+        setNeedsLayout()
+        setNeedsDisplay()
     }
-    
 }

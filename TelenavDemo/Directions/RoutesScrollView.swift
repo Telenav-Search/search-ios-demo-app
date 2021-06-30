@@ -24,21 +24,31 @@ class RoutesScrollView: UIScrollView {
         routePreviews = []
     }
     
-    func setRoutes(routes: [VNRoute]) {
+    weak var previewDelegate: RoutePreviewDelegate?
+    
+    func setRoutes(routes: [VNRoute], withDelegate previewDelegate: RoutePreviewDelegate) {
         removeAllRoutes()
         for route in routes {
             let preview = RoutePreview.instanceFromNib()
             routePreviews.append(preview)
             previewsContentView?.addSubview(preview)
             preview.route = route
+            preview.delegate = self
+            self.previewDelegate = previewDelegate
         }
         setNeedsDisplay()
         setNeedsLayout()
     }
     
+    func selectFirstRoute () {
+        if let preview = routePreviews.first {
+            preview.isSelected = true
+        }
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.backgroundColor = UIColor(white: 1, alpha: 0.4)
+        backgroundColor = UIColor(white: 1, alpha: 0.5)
         let space = 10
         let width = 140
         var x = space
@@ -51,5 +61,21 @@ class RoutesScrollView: UIScrollView {
         let rect = CGRect(x: 0, y: 0, width: x, height: Int(bounds.height))
         previewsContentView?.frame = rect
         contentSize = rect.size
+    }
+}
+
+extension RoutesScrollView: RoutePreviewDelegate {
+    
+    func routePreview(_ selectedPreview: RoutePreview, didSelectedRoute route: VNRoute?) {
+        for preview in routePreviews {
+            preview.isSelected = false
+        }
+        selectedPreview.isSelected = true
+        previewDelegate?.routePreview(selectedPreview, didSelectedRoute: route)
+    }
+    
+    func routePreview(_ preview: RoutePreview, didTapInfoForRoute route: VNRoute?) {
+       
+        previewDelegate?.routePreview(preview, didTapInfoForRoute: route)
     }
 }

@@ -122,7 +122,7 @@ extension MapViewController {
                 if let mainRoute = routes.first,
                    let coordinates = self?.generateCoordinates(forRoute: mainRoute) {
                     self?.showRoute(coordinates: coordinates)
-                    self?.showRoutesScroll(routes: routes)
+                    self?.showRoutesScroll(routes: [mainRoute, mainRoute, mainRoute, mainRoute])
                 }
                 self?.hideActivityIndicator(activity: activity)
             })
@@ -203,8 +203,12 @@ extension MapViewController {
     
     func showRoutesScroll(routes: [VNRoute]) {
         OperationQueue.main.addOperation { [weak self] in
-            self?.routesScrollView.isHidden = false
-            self?.routesScrollView.setRoutes(routes: routes)
+            if let controller = self {
+                controller.routesScrollView.isHidden = false
+                controller.routesScrollView.setRoutes(routes: routes,
+                                                      withDelegate: controller)
+                controller.routesScrollView.selectFirstRoute()
+            }
         }
     }
     
@@ -212,5 +216,20 @@ extension MapViewController {
         let coordinates = generateCoordinates(forRoute: route)
         showRoute(coordinates: coordinates)
         searchVisible = false
+    }
+}
+
+extension MapViewController: RoutePreviewDelegate {
+    
+    func routePreview(_ preview: RoutePreview, didSelectedRoute route: VNRoute?) {
+        if let route = route {
+            let coordinates = generateCoordinates(forRoute: route)
+            showRoute(coordinates: coordinates)
+        }
+    }
+    
+    func routePreview(_ preview: RoutePreview, didTapInfoForRoute route: VNRoute?) {
+
+        
     }
 }
