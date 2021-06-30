@@ -122,6 +122,7 @@ extension MapViewController {
                 if let mainRoute = routes.first,
                    let coordinates = self?.generateCoordinates(forRoute: mainRoute) {
                     self?.showRoute(coordinates: coordinates)
+                    self?.showRoutesScroll(routes: routes)
                 }
                 self?.hideActivityIndicator(activity: activity)
             })
@@ -163,9 +164,14 @@ extension MapViewController {
             guard count >= 2 else {
                 return
             }
-            let polyline = MKPolyline(coordinates: coordinates,
-                                      count: count)
-            self?.mapView.addOverlay(polyline)
+            if let overlay = self?.routePolyline {
+                self?.mapView.removeOverlay(overlay)
+            }
+            self?.routePolyline = MKPolyline(coordinates: coordinates,
+                                             count: count)
+            if let overlay = self?.routePolyline {
+                self?.mapView.addOverlay(overlay)
+            }
         }
     }
     
@@ -193,5 +199,18 @@ extension MapViewController {
             ac.addAction(UIAlertAction(title: "Close", style: .cancel))
             self?.present(ac, animated: true)
         }
+    }
+    
+    func showRoutesScroll(routes: [VNRoute]) {
+        OperationQueue.main.addOperation { [weak self] in
+            self?.routesScrollView.isHidden = false
+            self?.routesScrollView.setRoutes(routes: routes)
+        }
+    }
+    
+    func didSelectRoute(route: VNRoute) {
+        let coordinates = generateCoordinates(forRoute: route)
+        showRoute(coordinates: coordinates)
+        searchVisible = false
     }
 }

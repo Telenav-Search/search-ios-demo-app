@@ -106,6 +106,9 @@
 		F65BCB3F7B2C8599B153A766 /* Pods_TelenavDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EFA831CC459D28F4A78EC9D /* Pods_TelenavDemo.framework */; };
 		F713FBFF2689C17F00E873F2 /* RouteCreationAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F713FBFD2689C17F00E873F2 /* RouteCreationAnnotation.swift */; };
 		F713FC002689C17F00E873F2 /* MapViewController+DirectionSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = F713FBFE2689C17F00E873F2 /* MapViewController+DirectionSDK.swift */; };
+		F782217D268CBD950085C437 /* RoutesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782217C268CBD950085C437 /* RoutesScrollView.swift */; };
+		F782217F268CBE6F0085C437 /* RoutePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782217E268CBE6F0085C437 /* RoutePreview.swift */; };
+		F7822181268CC0150085C437 /* RoutePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7822180268CC0150085C437 /* RoutePreview.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -199,6 +202,9 @@
 		C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizedCollectionView.swift; sourceTree = "<group>"; };
 		F713FBFD2689C17F00E873F2 /* RouteCreationAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteCreationAnnotation.swift; sourceTree = "<group>"; };
 		F713FBFE2689C17F00E873F2 /* MapViewController+DirectionSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MapViewController+DirectionSDK.swift"; sourceTree = "<group>"; };
+		F782217C268CBD950085C437 /* RoutesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesScrollView.swift; sourceTree = "<group>"; };
+		F782217E268CBE6F0085C437 /* RoutePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreview.swift; sourceTree = "<group>"; };
+		F7822180268CC0150085C437 /* RoutePreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoutePreview.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,6 +403,9 @@
 			children = (
 				F713FBFD2689C17F00E873F2 /* RouteCreationAnnotation.swift */,
 				F713FBFE2689C17F00E873F2 /* MapViewController+DirectionSDK.swift */,
+				F782217C268CBD950085C437 /* RoutesScrollView.swift */,
+				F782217E268CBE6F0085C437 /* RoutePreview.swift */,
+				F7822180268CC0150085C437 /* RoutePreview.xib */,
 			);
 			path = Directions;
 			sourceTree = "<group>";
@@ -508,6 +517,7 @@
 				C54C055B255D9CE90002CE83 /* DetailsView.xib in Resources */,
 				65DE8405259492FD009721D0 /* Localizable.stringsdict in Resources */,
 				C5FD76BA2564221300E6D780 /* PredictionsView.xib in Resources */,
+				F7822181268CC0150085C437 /* RoutePreview.xib in Resources */,
 				06751B0B253D8D0A001F6B11 /* Assets.xcassets in Resources */,
 				06751B09253D8D09001F6B11 /* Main.storyboard in Resources */,
 				C5432C62255D4127008D8088 /* StaticCategories.json in Resources */,
@@ -610,6 +620,7 @@
 				06545AC3258B9B12002F9165 /* SearchPanAnimator.swift in Sources */,
 				C54C0578255E9C150002CE83 /* SearchResultViewController.swift in Sources */,
 				F713FBFF2689C17F00E873F2 /* RouteCreationAnnotation.swift in Sources */,
+				F782217F268CBE6F0085C437 /* RoutePreview.swift in Sources */,
 				C528633025628B00007B67C6 /* PlaceAnnotationView.swift in Sources */,
 				C5432CB6255D77D2008D8088 /* SuggestionsDisplayManager.swift in Sources */,
 				C5432CB2255D7730008D8088 /* SuggesstionCell.swift in Sources */,
@@ -640,6 +651,7 @@
 				C54F0AF7256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */,
 				06751B04253D8D09001F6B11 /* SceneDelegate.swift in Sources */,
 				C5D330EC256FDE8D008BFC36 /* BrandFilterCell.swift in Sources */,
+				F782217D268CBD950085C437 /* RoutesScrollView.swift in Sources */,
 				C54C057B255E9C750002CE83 /* SearchResultCell.swift in Sources */,
 				C54C0564255DA26E0002CE83 /* DetailViewDisplayModel.swift in Sources */,
 			);

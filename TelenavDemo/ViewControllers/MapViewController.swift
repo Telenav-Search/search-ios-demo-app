@@ -117,6 +117,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     internal var routeFromAnnotation: RouteCreationAnnotation?
     internal var routeToAnnotation: RouteCreationAnnotation?
     internal var createRouteActionSheet: UIAlertController?
+    internal var routePolyline: MKPolyline?
+    @IBOutlet weak var routesScrollView: RoutesScrollView!
+    
     
     func updatePredictionsView() {
         predictionsView.backgroundColor = .clear

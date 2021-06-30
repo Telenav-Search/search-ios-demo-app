@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3tG-fG-gxy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3tG-fG-gxy">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -42,6 +42,23 @@
                                             <constraint firstAttribute="height" constant="300" id="95s-uj-wHd"/>
                                         </constraints>
                                     </view>
+                                    <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QP6-qj-jdW" customClass="RoutesScrollView" customModule="TelenavDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
+                                        <subviews>
+                                            <view tag="1001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bV4-1U-Txm">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                        </subviews>
+                                        <viewLayoutGuide key="safeArea" id="pGh-ZJ-ntq"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="86" id="GNe-1f-BVk"/>
+                                            <constraint firstItem="pGh-ZJ-ntq" firstAttribute="trailing" secondItem="bV4-1U-Txm" secondAttribute="trailing" id="Gr2-qd-mtk"/>
+                                            <constraint firstItem="bV4-1U-Txm" firstAttribute="leading" secondItem="pGh-ZJ-ntq" secondAttribute="leading" id="NKW-fv-5zE"/>
+                                            <constraint firstItem="pGh-ZJ-ntq" firstAttribute="bottom" secondItem="bV4-1U-Txm" secondAttribute="bottom" id="dri-Lg-SQG"/>
+                                            <constraint firstItem="bV4-1U-Txm" firstAttribute="top" secondItem="pGh-ZJ-ntq" secondAttribute="top" id="ri1-R7-VYc"/>
+                                        </constraints>
+                                    </scrollView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -50,8 +67,11 @@
                                     <constraint firstItem="koQ-v2-zDU" firstAttribute="top" secondItem="WIn-Qv-FkV" secondAttribute="top" constant="8" id="JIv-CS-gJy"/>
                                     <constraint firstItem="pzA-GP-v7g" firstAttribute="leading" secondItem="WIn-Qv-FkV" secondAttribute="leading" id="K0S-1a-fII"/>
                                     <constraint firstItem="koQ-v2-zDU" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="WIn-Qv-FkV" secondAttribute="trailing" constant="-16" id="Kuy-dw-M6p"/>
+                                    <constraint firstItem="QP6-qj-jdW" firstAttribute="trailing" secondItem="lZ1-5J-ZmU" secondAttribute="trailing" id="Mt9-SD-flB"/>
                                     <constraint firstAttribute="bottom" secondItem="pzA-GP-v7g" secondAttribute="bottom" constant="-300" id="RcD-Qy-qc4"/>
                                     <constraint firstAttribute="bottom" secondItem="lZ1-5J-ZmU" secondAttribute="bottom" id="bgo-ON-uBK"/>
+                                    <constraint firstItem="QP6-qj-jdW" firstAttribute="leading" secondItem="lZ1-5J-ZmU" secondAttribute="leading" id="dgz-iu-Br6"/>
+                                    <constraint firstItem="QP6-qj-jdW" firstAttribute="top" secondItem="lZ1-5J-ZmU" secondAttribute="top" id="fHk-kn-ara"/>
                                     <constraint firstItem="lZ1-5J-ZmU" firstAttribute="top" secondItem="WIn-Qv-FkV" secondAttribute="top" id="jOX-Gx-puw"/>
                                     <constraint firstAttribute="trailing" secondItem="lZ1-5J-ZmU" secondAttribute="trailing" id="laO-bL-K1w"/>
                                     <constraint firstAttribute="trailing" secondItem="pzA-GP-v7g" secondAttribute="trailing" id="mMK-nK-Fy5"/>
@@ -144,6 +164,7 @@
                         <outlet property="mapView" destination="lZ1-5J-ZmU" id="tmL-c7-yWf"/>
                         <outlet property="predictionsView" destination="koQ-v2-zDU" id="Rm4-Tf-rc0"/>
                         <outlet property="redoSearchButton" destination="pVb-pw-Ask" id="cBe-uT-ldX"/>
+                        <outlet property="routesScrollView" destination="QP6-qj-jdW" id="vlB-4Y-6F3"/>
                         <outlet property="searchQueryLabel" destination="K8f-1z-X8O" id="JoR-b7-4ez"/>
                         <outlet property="searchResultViewAnimator" destination="1aL-6Y-92H" id="mkd-iT-6Rh"/>
                         <outlet property="searchTextField" destination="rqq-SL-795" id="glJ-nR-PPY"/>
@@ -197,7 +218,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CatalogBaseCell" id="Kd6-db-Nah" customClass="CatalogBaseCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="45.5"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="45.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Kd6-db-Nah" id="q0u-1f-xca">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="45.5"/>
@@ -235,7 +256,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SuggesstionCell" rowHeight="77" id="cvE-EW-rSW" customClass="SuggesstionCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="73.5" width="414" height="77"/>
+                                        <rect key="frame" x="0.0" y="70" width="414" height="77"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cvE-EW-rSW" id="qmQ-OM-0YV">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="77"/>
@@ -272,7 +293,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StaticCatalogCell" rowHeight="46" id="LVQ-h8-vbF" customClass="StaticCatalogCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="150.5" width="414" height="46"/>
+                                        <rect key="frame" x="0.0" y="147" width="414" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LVQ-h8-vbF" id="2F9-nY-9hJ">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="46"/>
@@ -358,13 +379,13 @@
                                 <rect key="frame" x="0.0" y="74" width="414" height="788"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="v8Q-Rl-kad">
-                                    <rect key="frame" x="0.0" y="184" width="414" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="177.00000034679067" width="414" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SearchResultCell" rowHeight="128" id="IAi-6v-WFS" customClass="SearchResultCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="128"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="128"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IAi-6v-WFS" id="pwn-qH-h7i">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="128"/>
@@ -749,13 +770,13 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="XLm-sU-ywP">
-                                    <rect key="frame" x="0.0" y="334" width="414" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="327.00000034679067" width="414" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryFilterCell" rowHeight="40" id="fIo-94-ywg" customClass="CategoryFilterCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="40"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fIo-94-ywg" id="0uh-u5-BOi">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
@@ -799,7 +820,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BrandFilterCell" id="qdD-t7-FAa" customClass="BrandFilterCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="68" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="64.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qdD-t7-FAa" id="z1o-XY-3ji">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -822,7 +843,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="EVFilterCell" rowHeight="151" id="rHU-qg-Fxl" customClass="EVFilterCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="111.5" width="414" height="151"/>
+                                        <rect key="frame" x="0.0" y="108" width="414" height="151"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rHU-qg-Fxl" id="eT5-7p-uep">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="151"/>
@@ -853,7 +874,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GeoFilterCell" id="BVZ-N8-5iV" customClass="GeoFilterCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="262.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="259" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BVZ-N8-5iV" id="0Qb-7E-cK7">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
