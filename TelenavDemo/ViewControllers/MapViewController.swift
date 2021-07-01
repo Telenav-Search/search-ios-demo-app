@@ -224,6 +224,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             }
         }
         addLongTapGestureRecognizer()
+        handleDetailsViewRouteButtons()
     }
     
     func findAnnIndex(id: String) -> Int {

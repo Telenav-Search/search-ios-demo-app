@@ -49,7 +49,7 @@ class RoutesScrollView: UIScrollView {
     override func layoutSubviews() {
         super.layoutSubviews()
         backgroundColor = UIColor(white: 1, alpha: 0.5)
-        let space = 10
+        let space = 15
         let width = 140
         var x = space
         for preview in routePreviews {

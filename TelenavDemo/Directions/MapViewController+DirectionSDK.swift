@@ -8,8 +8,39 @@
 import UIKit
 import MapKit
 import VividNavigationSDK
+import TelenavEntitySDK
 
 extension MapViewController {
+    
+    func handleDetailsViewRouteButtons() {
+        detailsView.fromThisPointButton.addTarget(self, action: #selector(onDetailsViewFromButton), for: .touchUpInside)
+        detailsView.toThisPointButton.addTarget(self, action: #selector(onDetailsViewToButton), for: .touchUpInside)
+    }
+    
+    func coordinatesFromDetailView() -> CLLocationCoordinate2D? {
+        if let point = detailsView.entity?.place?.address?.navCoordinates,
+           let lat = point.latitude, let lon = point.longitude {
+            return CLLocationCoordinate2D(latitude:lat,
+                                          longitude:lon)
+        }
+        return nil
+    }
+    
+    @objc func onDetailsViewFromButton() {
+        if let coordinate = coordinatesFromDetailView() {
+            let annotation = RouteCreationAnnotation(coordinate: coordinate)
+            addFromPoint(annotation: annotation,
+                         message: messageForCoordinate(coordinate: coordinate))
+        }
+    }
+    
+    @objc func onDetailsViewToButton() {
+        if let coordinate = coordinatesFromDetailView() {
+            let annotation = RouteCreationAnnotation(coordinate: coordinate)
+            addToPoint(annotation: annotation,
+                       message: messageForCoordinate(coordinate: coordinate))
+        }
+    }
     
     func addLongTapGestureRecognizer () {
         let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(addRoutePointAnnotation(longGesture:)))
@@ -24,8 +55,12 @@ extension MapViewController {
         showRouteOptionsAlert(withAnnotation: annotation)
     }
     
+    func messageForCoordinate(coordinate: CLLocationCoordinate2D) -> String{
+        return "\(String(format: "%.4f", coordinate.latitude)), \(String(format: "%.4f", coordinate.longitude))"
+    }
+    
     func showRouteOptionsAlert(withAnnotation annotation: RouteCreationAnnotation) {
-        let message = "\(String(format: "%.4f", annotation.coordinate.latitude)), \(String(format: "%.4f", annotation.coordinate.longitude))"
+        let message = messageForCoordinate(coordinate: annotation.coordinate)
         let title = "Do you want to make a route?"
         createRouteActionSheet = UIAlertController(title: title,
                                    message: message,
@@ -34,31 +69,14 @@ extension MapViewController {
                                        style: .default,
                                        handler: {
             [weak self] (action) in
-                if let oldFromAnnotation = self?.routeFromAnnotation {
-                    self?.mapView.removeAnnotation(oldFromAnnotation)
-                }
-                self?.routeFromAnnotation = annotation
-                annotation.title = "Route from this point"
-                annotation.subtitle = message
-                self?.mapView.addAnnotation(annotation)
-                self?.createRouteIfPossible()
-                self?.createRouteActionSheet?.dismiss(animated: false, completion: nil)
+                self?.addFromPoint(annotation: annotation, message: message)
             })
         createRouteActionSheet?.addAction(fromAction)
         let toAction = UIAlertAction(title: "To here",
                                      style: .default,
                                      handler: {
             [weak self] (action) in
-                if let oldToAnnotation = self?.routeToAnnotation {
-                  self?.mapView.removeAnnotation(oldToAnnotation)
-                }
-                self?.routeToAnnotation = annotation
-                annotation.title = "Route to this point"
-                annotation.subtitle = message
-                self?.mapView.addAnnotation(annotation)
-                self?.mapView.reloadInputViews()
-                self?.createRouteIfPossible()
-                self?.createRouteActionSheet?.dismiss(animated: false, completion: nil)
+                self?.addToPoint(annotation: annotation, message: message)
         })
         createRouteActionSheet?.addAction(toAction)
         createRouteActionSheet?.addAction(UIAlertAction(title: "Cancel",
@@ -68,6 +86,31 @@ extension MapViewController {
            !actionSheet.isBeingPresented {
             present(actionSheet, animated: true)
         }
+    }
+    
+    func addFromPoint(annotation: RouteCreationAnnotation, message: String) {
+        if let oldFromAnnotation = routeFromAnnotation {
+            mapView.removeAnnotation(oldFromAnnotation)
+        }
+        routeFromAnnotation = annotation
+        annotation.title = "Route from this point"
+        annotation.subtitle = message
+        mapView.addAnnotation(annotation)
+        createRouteIfPossible()
+        createRouteActionSheet?.dismiss(animated: false, completion: nil)
+    }
+    
+    func addToPoint(annotation: RouteCreationAnnotation, message: String) {
+        if let oldToAnnotation = routeToAnnotation {
+          mapView.removeAnnotation(oldToAnnotation)
+        }
+        routeToAnnotation = annotation
+        annotation.title = "Route to this point"
+        annotation.subtitle = message
+        mapView.addAnnotation(annotation)
+        mapView.reloadInputViews()
+        createRouteIfPossible()
+        createRouteActionSheet?.dismiss(animated: false, completion: nil)
     }
     
     func getRouteCreationAnnotationView(forAnnotation annotation: MKAnnotation) -> MKAnnotationView {

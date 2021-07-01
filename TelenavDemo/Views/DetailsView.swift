@@ -15,6 +15,8 @@ class DetailsView: UIView {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var categoryLabel: UILabel!
     
+    @IBOutlet weak var fromThisPointButton: UIButton!
+    @IBOutlet weak var toThisPointButton: UIButton!
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
             mapView.delegate = self
@@ -80,8 +82,10 @@ class DetailsView: UIView {
     private var currentLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.78274, longitude: -122.43152)
     private var entityLocation: CLLocationCoordinate2D = CLLocationCoordinate2D()
     
+    internal var entity: TNEntity?
+    
     func fillEntity(_ entity: TNEntity, currentCoordinate: CLLocationCoordinate2D, distanceText: String? = nil) {
-        
+        self.entity = entity
         self.currentLocation = currentCoordinate
         
         if let rating = entity.facets?.rating?.first, let count = rating.totalCount {

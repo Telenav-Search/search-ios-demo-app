@@ -51,7 +51,7 @@ class RoutePreview: UIView {
         didSet {
             let kilometers = String(format: "%.3f", (route?.length ?? 0)/1000)
             distanceLabel.text = "\(kilometers) km"
-            let hours = String(format: "%.1f", (route?.duration ?? 0)/60/60)
+            let hours = String(format: "%.2f", (route?.duration ?? 0)/60/60)
             durationLabel.text = "\(hours) h"
         }
     }
