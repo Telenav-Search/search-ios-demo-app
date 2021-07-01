@@ -8,7 +8,7 @@
 import UIKit
 import TelenavEntitySDK
 
-protocol SuggestionsDisplayManagerDelegate: class {
+protocol SuggestionsDisplayManagerDelegate: AnyObject {
     func didSelectSuggestion(entity: TNEntity, distance: String?)
     func didSelectQuery(_ query: String)
 }

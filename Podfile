@@ -13,7 +13,7 @@ target 'TelenavDemo' do
   use_frameworks!
   
   pod 'TelenavEntitySDK', '1.0.0' #, :path => '../'
-  pod 'TelenavDataSourceCenter'#,  :path => '../TelenavDataSourceCenter/'
+  pod 'TelenavDataSourceCenter'#, '1.0.1-beta.2'#,  :path => '../TelenavDataSourceCenter/'
   # Pods for TelenavDemo
 
 end
@@ -22,6 +22,6 @@ target 'TelenavDemoInternal' do
   use_frameworks!
   
   pod 'TelenavEntitySDK', '1.0.0' #, :path => '../'
-  pod 'TelenavDataSourceCenter'#, :path => '../TelenavDataSourceCenter/'
+  pod 'TelenavDataSourceCenter'#, '1.0.1-beta.2'#, :path => '../TelenavDataSourceCenter/'
   
 end

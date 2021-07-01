@@ -411,6 +411,8 @@
 			dependencies = (
 			);
 			name = TelenavDemoInternal;
+			packageProductDependencies = (
+			);
 			productName = TelenavDemo;
 			productReference = 06029966254AD18A003D760A /* TelenavDemoInternal.app */;
 			productType = "com.apple.product-type.application";
@@ -431,6 +433,8 @@
 			dependencies = (
 			);
 			name = TelenavDemo;
+			packageProductDependencies = (
+			);
 			productName = TelenavDemo;
 			productReference = 06751AFE253D8D09001F6B11 /* TelenavDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -462,6 +466,8 @@
 				Base,
 			);
 			mainGroup = 06751AF5253D8D09001F6B11;
+			packageReferences = (
+			);
 			productRefGroup = 06751AFF253D8D09001F6B11 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -719,7 +725,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NSL6KMD9K6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -731,7 +737,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.0.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.thumbtack.TelenavDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -750,7 +756,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NSL6KMD9K6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -762,7 +768,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.0.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.lineate.TelenavDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

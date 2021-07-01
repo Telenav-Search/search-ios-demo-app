@@ -8,7 +8,7 @@
 import UIKit
 import TelenavEntitySDK
 
-protocol SearchResultViewControllerDelegate: class {
+protocol SearchResultViewControllerDelegate: AnyObject {
     func goBack()
     func didSelectResultItem(entity: TNEntity, distance: String?)
     func loadMoreSearchResults()

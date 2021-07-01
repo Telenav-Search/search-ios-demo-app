@@ -9,7 +9,7 @@ import UIKit
 import TelenavEntitySDK
 import CoreLocation
 
-@objc protocol FiltersViewControllerDelegate: class {
+@objc protocol FiltersViewControllerDelegate: AnyObject {
     func updateSelectedFilters(selectedFilters: [SelectableFilterItem])
 }
 
@@ -326,18 +326,10 @@ extension FiltersViewController: UITableViewDelegate {
                     return
                 }
                 
-                let discoverBrandParams: TNEntityDiscoverBrandParams
-                do {
-                    try discoverBrandParams = TNEntityDiscoverBrandParamsBuilder()
+                let discoverBrandParams = TNEntityDiscoverBrandParamsBuilder()
                     .categoryId("241")
                     .location(TNEntityGeoPoint(lat: self.currentLocation?.latitude ?? 0, lon: self.currentLocation?.longitude ?? 0))
                     .build()
-                } catch  {
-                    if let err = error as? TNEntityError {
-                        print(err.message ?? "")
-                    }
-                    return
-                }
                     
                 
                 TNEntityClient.getDiscoverBrands(params: discoverBrandParams) { (brands, err) in

@@ -384,13 +384,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
            let options = TNDataCollectorSDKOptionsBuilder()
             .apiKey(key)
             .apiSecret(secret)
-            .cloudEndPoint("https://sync4nastg.telenav.com")
+            .cloudEndPoint("https://restapistage.telenav.com")
             .appInfo(name: "sensor_data_demo", version: "1.0.0")
             .userId("DemoApp_user")
-            .deviceGuid("test_app_from_ios")
+            .deviceGuid("test_app_from_ios_2")
             .build() {
             TNLogging.logLevel = .debug
             TNDataCollectorService.initialize(sdkOptions: options)
+//            TNDataCollectorService.sharedClient
             
             if let event = TNFavoriteEventBuilder()
                 .action(TNFavoriteEventActionType.delete)
@@ -399,6 +400,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             }
             
             subscribeToFavorites()
+            subscribeToSensor()
         } else {
             print("Can't read SDKConfig.plist")
         }
@@ -412,6 +414,33 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         let client = TNDataCollectorService.sharedClient
         client?.unsubscribe(consumerWithName: "MapViewController",
                             forEventTypes: TNEventType.Favorite.values)
+    }
+    
+    private func subscribeToSensor() {
+        let client = TNDataCollectorService.sharedClient
+        client?.subscribe(consumerWithName: "MapViewController",
+                          forEventTypes: TNEventType.Sensor.values,
+                          withCallBack: { [weak self] (event) in
+            var message = ""
+                            
+            guard let e = event as? TNSensorEvent  else {
+                return
+            }
+            guard e.type == TNEventType.Sensor.hardAcceleration ||
+                e.type == TNEventType.Sensor.hardBrake ||
+                e.type == TNEventType.Sensor.sharpTurn else {
+                return
+            }
+            message = e.eventName ?? ""
+            let subscribeAlert = UIAlertController(
+                title: "MapViewController subscribed to all Favorite events",
+                message: "Event happened: \(message)",
+                preferredStyle: .alert)
+            subscribeAlert.addAction(UIAlertAction(title: "Done", style:.default, handler: nil))
+            DispatchQueue.main.async {
+                self?.present(subscribeAlert, animated: true, completion: nil)
+            }
+        })
     }
     
     private func subscribeToFavorites() {
