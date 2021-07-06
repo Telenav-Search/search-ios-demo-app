@@ -1,19 +1,32 @@
 # search-ios-demo-app
 
-### Install dependencies before openning the project:
+### Install dependencies before opening the project:
 
-1. If it is the first time you build Demo App, do the following commands from the root folder of project:
-        `pod repo-art add telenav-cocoapods "https://telenav.jfrog.io/artifactory/api/pods/telenav-cocoapods"`
+1. You need [CocoaPods](https://cocoapods.org) and [cocoapods-art](https://github.com/jfrog/cocoapods-art) plugin to de installed:
+    `sudo gem install cocoapods`
+    `sudo gem install cocoapods-art`
+
+2. If it is the first time you build Demo App, add Telenav Cocoapods repos. Do the following commands from the root folder of project:
+
+    ```
+    pod repo-art add telenav-cocoapods "https://telenav.jfrog.io/artifactory/api/pods/telenav-cocoapods"
+    ```
     and
-        `pod repo-art add telenav-cocoapods-preprod-local "https://artifactory.telenav.com/api/pods/telenav-cocoapods-preprod-local"`
-    
-    Else just update the repos:
-        `pod repo-art update telenav-cocoapods` 
-    and 
-        `pod repo-art update telenav-cocoapods-preprod-local`.
+    ```
+    pod repo-art add telenav-cocoapods-preprod-local "https://artifactory.telenav.com/api/pods/telenav-cocoapods-preprod-local"
+    ```
         
-2. Do `pod install`
-3. Open `TelenavDemo.xcworkspace` file.
+    Else just update the repos:
+    ```
+    pod repo-art update telenav-cocoapods
+    ``` 
+    and 
+    ```
+    pod repo-art update telenav-cocoapods-preprod-local
+    ```
+        
+3. Do `pod install`
+4. Open `TelenavDemo.xcworkspace` file.
 
 ### Running Demo App
 
