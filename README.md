@@ -3,7 +3,9 @@
 ### Install dependencies before opening the project:
 
 1. You need [CocoaPods](https://cocoapods.org) and [cocoapods-art](https://github.com/jfrog/cocoapods-art) plugin to de installed:
+    
     `sudo gem install cocoapods`
+
     `sudo gem install cocoapods-art`
 
 2. If it is the first time you build Demo App, add Telenav Cocoapods repos. Do the following commands from the root folder of project:
