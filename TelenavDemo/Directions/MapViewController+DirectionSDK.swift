@@ -276,8 +276,13 @@ extension MapViewController: RoutePreviewDelegate {
         }
     }
     
-    func routePreview(_ preview: RoutePreview, didTapInfoForRoute route: VNRoute?) {
-        //TODO: show manuvers
+    func routePreview(_ preview: RoutePreview,
+                      didTapInfoForRoute route: VNRoute?) {
+        let controller = ManeuversViewController()
+        let navController = UINavigationController(rootViewController: controller)
         
+        present(navController, animated: true) {
+            controller.showManeuvers(ofRoute: route)
+        }
     }
 }
