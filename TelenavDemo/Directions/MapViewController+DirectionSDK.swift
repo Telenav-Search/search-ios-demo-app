@@ -15,6 +15,7 @@ extension MapViewController {
     func handleDetailsViewRouteButtons() {
         detailsView.fromThisPointButton.addTarget(self, action: #selector(onDetailsViewFromButton), for: .touchUpInside)
         detailsView.toThisPointButton.addTarget(self, action: #selector(onDetailsViewToButton), for: .touchUpInside)
+        detailsView.viaThisPointButton.addTarget(self, action: #selector(onDetailsViewViaButton), for: .touchUpInside)
     }
     
     func coordinatesFromDetailView() -> CLLocationCoordinate2D? {
@@ -38,6 +39,14 @@ extension MapViewController {
         if let coordinate = coordinatesFromDetailView() {
             let annotation = RouteCreationAnnotation(coordinate: coordinate)
             addToPoint(annotation: annotation,
+                       message: messageForCoordinate(coordinate: coordinate))
+        }
+    }
+    
+    @objc func onDetailsViewViaButton() {
+        if let coordinate = coordinatesFromDetailView() {
+            let annotation = RouteCreationAnnotation(coordinate: coordinate)
+            addWayPoint(annotation: annotation,
                        message: messageForCoordinate(coordinate: coordinate))
         }
     }
