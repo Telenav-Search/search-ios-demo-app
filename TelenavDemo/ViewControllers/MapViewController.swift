@@ -115,6 +115,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }()
 
     internal var routeFromAnnotation: RouteCreationAnnotation?
+    internal var routeWayPointsAnnotations = [RouteCreationAnnotation]()
     internal var routeToAnnotation: RouteCreationAnnotation?
     internal var createRouteActionSheet: UIAlertController?
     internal var routePolyline: MKPolyline?
