@@ -15,6 +15,7 @@ extension MapViewController {
     func handleDetailsViewRouteButtons() {
         detailsView.fromThisPointButton.addTarget(self, action: #selector(onDetailsViewFromButton), for: .touchUpInside)
         detailsView.toThisPointButton.addTarget(self, action: #selector(onDetailsViewToButton), for: .touchUpInside)
+        detailsView.viaThisPointButton.addTarget(self, action: #selector(onDetailsViewViaButton), for: .touchUpInside)
     }
     
     func coordinatesFromDetailView() -> CLLocationCoordinate2D? {
@@ -38,6 +39,14 @@ extension MapViewController {
         if let coordinate = coordinatesFromDetailView() {
             let annotation = RouteCreationAnnotation(coordinate: coordinate)
             addToPoint(annotation: annotation,
+                       message: messageForCoordinate(coordinate: coordinate))
+        }
+    }
+    
+    @objc func onDetailsViewViaButton() {
+        if let coordinate = coordinatesFromDetailView() {
+            let annotation = RouteCreationAnnotation(coordinate: coordinate)
+            addWayPoint(annotation: annotation,
                        message: messageForCoordinate(coordinate: coordinate))
         }
     }
@@ -72,6 +81,13 @@ extension MapViewController {
                 self?.addFromPoint(annotation: annotation, message: message)
             })
         createRouteActionSheet?.addAction(fromAction)
+        let viaAction = UIAlertAction(title: "Via",
+                                     style: .default,
+                                     handler: {
+            [weak self] (action) in
+                self?.addWayPoint(annotation: annotation, message: message)
+        })
+        createRouteActionSheet?.addAction(viaAction)
         let toAction = UIAlertAction(title: "To here",
                                      style: .default,
                                      handler: {
@@ -100,6 +116,16 @@ extension MapViewController {
         createRouteActionSheet?.dismiss(animated: false, completion: nil)
     }
     
+    func addWayPoint(annotation: RouteCreationAnnotation, message: String) {
+        routeWayPointsAnnotations.append(annotation)
+        annotation.title = "Route via this point"
+        annotation.subtitle = message
+        mapView.addAnnotation(annotation)
+        mapView.reloadInputViews()
+        createRouteIfPossible()
+        createRouteActionSheet?.dismiss(animated: false, completion: nil)
+    }
+    
     func addToPoint(annotation: RouteCreationAnnotation, message: String) {
         if let oldToAnnotation = routeToAnnotation {
           mapView.removeAnnotation(oldToAnnotation)
@@ -113,6 +139,11 @@ extension MapViewController {
         createRouteActionSheet?.dismiss(animated: false, completion: nil)
     }
     
+    enum AnnotationTag: Int {
+        case from = -1
+        case to = -2
+    }
+    
     func getRouteCreationAnnotationView(forAnnotation annotation: MKAnnotation) -> MKAnnotationView {
         
         let annotationView = MKPinAnnotationView(annotation:annotation,
@@ -120,14 +151,29 @@ extension MapViewController {
 
         let label = UILabel(frame: CGRect(x: 0, y: 40, width: 50, height: 20))
         label.textColor = .black
-        label.text = annotation === routeFromAnnotation ? "From" : "To"
         annotationView.addSubview(label)
         
         annotationView.pinTintColor = MKPinAnnotationView.greenPinColor()
         annotationView.isEnabled = true
         annotationView.canShowCallout = true
         let deleteButton = UIButton(type: .close)
-        deleteButton.tag = annotation === routeFromAnnotation ? 0 : 1
+        if annotation === routeFromAnnotation {
+            deleteButton.tag = AnnotationTag.from.rawValue
+            label.text = "From"
+        } else {
+            if annotation === routeToAnnotation {
+                deleteButton.tag = AnnotationTag.to.rawValue
+                label.text = "To"
+            } else {
+                for i in 0..<routeWayPointsAnnotations.count {
+                    if annotation === routeWayPointsAnnotations[i] {
+                        deleteButton.tag = i
+                        label.text = "Via \(i+1)"
+                        annotationView.pinTintColor = MKPinAnnotationView.purplePinColor()
+                    }
+                }
+            }
+        }
         deleteButton.addTarget(self,
                                action: #selector(onDeleteRoutePoint(sender:)),
                                for: .touchUpInside)
@@ -137,18 +183,32 @@ extension MapViewController {
     
     @objc func onDeleteRoutePoint(sender: UIButton) {
         var annotationForRemoving: MKAnnotation? = nil
-        if sender.tag == 0 {
+        switch sender.tag {
+        case AnnotationTag.from.rawValue:
             annotationForRemoving = routeFromAnnotation
             routeFromAnnotation = nil
-        } else {
+            removeRouteOverlay()
+        case AnnotationTag.to.rawValue:
             annotationForRemoving = routeToAnnotation
             routeToAnnotation = nil
+            removeRouteOverlay()
+        default:
+            let index = sender.tag
+            if index >= 0 && index < routeWayPointsAnnotations.count {
+                annotationForRemoving = routeWayPointsAnnotations[index]
+                routeWayPointsAnnotations.remove(at: index)
+                createRouteIfPossible()
+            }
         }
         if let annotation = annotationForRemoving {
             mapView.removeAnnotation(annotation)
         }
         routesScrollView.setRoutes(routes: [], withDelegate: self)
         routesScrollView.isHidden = true
+        
+    }
+    
+    func removeRouteOverlay () {
         if let overlay = routePolyline {
             mapView.removeOverlay(overlay)
         }
@@ -184,10 +244,18 @@ extension MapViewController {
                                        longitude: startCoord.longitude)
             let destination = VNGeoLocation(latitude: endCoord.latitude,
                                        longitude: endCoord.longitude)
-            return VNRouteRequest.builder()?
-                .setOrigin(origin)
-                .setDestination(destination)
-                .build()
+            let builder = VNRouteRequest.builder()
+                            .setOrigin(origin)
+                            .setDestination(destination)
+            var waypoints = [VNGeoLocation]()
+            for wpAnnotation in routeWayPointsAnnotations {
+                let wpCoord = wpAnnotation.coordinate
+                let waypoint = VNGeoLocation(latitude: wpCoord.latitude,
+                                           longitude: wpCoord.longitude)
+                waypoints.append(waypoint)
+            }
+            builder.setWayPoints(waypoints)
+            return builder.build()
         }
         return nil
     }
@@ -212,9 +280,7 @@ extension MapViewController {
             guard count >= 2 else {
                 return
             }
-            if let overlay = self?.routePolyline {
-                self?.mapView.removeOverlay(overlay)
-            }
+            self?.removeRouteOverlay()
             self?.routePolyline = MKPolyline(coordinates: coordinates,
                                              count: count)
             if let overlay = self?.routePolyline {

@@ -17,6 +17,7 @@ class DetailsView: UIView {
     
     @IBOutlet weak var fromThisPointButton: UIButton!
     @IBOutlet weak var toThisPointButton: UIButton!
+    @IBOutlet weak var viaThisPointButton: UIButton!
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
             mapView.delegate = self

@@ -10,7 +10,7 @@ platform :ios, '12.0'
 
 target 'TelenavDemo' do
 
-  pod 'VividNavigationSDK', '0.1.1'
+  pod 'VividNavigationSDK', '0.1.1-beta66.2'
   
   use_frameworks!
   
