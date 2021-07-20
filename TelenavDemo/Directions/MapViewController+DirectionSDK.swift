@@ -81,7 +81,7 @@ extension MapViewController {
                 self?.addFromPoint(annotation: annotation, message: message)
             })
         createRouteActionSheet?.addAction(fromAction)
-        let viaAction = UIAlertAction(title: "Via",
+        let viaAction = UIAlertAction(title: "Add stop point",
                                      style: .default,
                                      handler: {
             [weak self] (action) in
@@ -197,6 +197,8 @@ extension MapViewController {
             if index >= 0 && index < routeWayPointsAnnotations.count {
                 annotationForRemoving = routeWayPointsAnnotations[index]
                 routeWayPointsAnnotations.remove(at: index)
+                mapView.removeAnnotations(routeWayPointsAnnotations)
+                mapView.addAnnotations(routeWayPointsAnnotations)
                 createRouteIfPossible()
             }
         }
@@ -255,6 +257,7 @@ extension MapViewController {
                 waypoints.append(waypoint)
             }
             builder.setWayPoints(waypoints)
+            builder.setRouteCount(4)
             return builder.build()
         }
         return nil

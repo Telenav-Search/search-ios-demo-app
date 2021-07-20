@@ -64,10 +64,8 @@ class ManeuversViewController: UITableViewController {
             let leg = route.legs[indexPath.section]
             if indexPath.row < leg.steps.count {
                 let step = leg.steps[indexPath.row]
-                if let maneuver = step.maneuver {
-                    cell?.textLabel?.text = String(format: "in %.1f km", step.length/1000)
-                    cell?.detailTextLabel?.text = descriptionOfManeuverAction(maneuver.action)
-                }
+                cell?.textLabel?.text = String(format: "in %.1f km", step.length/1000)
+                cell?.detailTextLabel?.text = descriptionOfManeuverAction(step.maneuver.action)
             }
         }
         return cell!
