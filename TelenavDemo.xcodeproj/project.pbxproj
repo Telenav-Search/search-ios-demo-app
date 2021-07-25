@@ -110,6 +110,8 @@
 		F782217D268CBD950085C437 /* RoutesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782217C268CBD950085C437 /* RoutesScrollView.swift */; };
 		F782217F268CBE6F0085C437 /* RoutePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782217E268CBE6F0085C437 /* RoutePreview.swift */; };
 		F7822181268CC0150085C437 /* RoutePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7822180268CC0150085C437 /* RoutePreview.xib */; };
+		F793457C26A8992600E97941 /* DirectionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */; };
+		F7F8563526A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -207,6 +209,8 @@
 		F782217C268CBD950085C437 /* RoutesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesScrollView.swift; sourceTree = "<group>"; };
 		F782217E268CBE6F0085C437 /* RoutePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreview.swift; sourceTree = "<group>"; };
 		F7822180268CC0150085C437 /* RoutePreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoutePreview.xib; sourceTree = "<group>"; };
+		F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionDetailsViewController.swift; sourceTree = "<group>"; };
+		F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsTextTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,8 +413,18 @@
 				F782217E268CBE6F0085C437 /* RoutePreview.swift */,
 				F7822180268CC0150085C437 /* RoutePreview.xib */,
 				F71A1BA62692FC2900D3C58E /* ManeuversViewController.swift */,
+				F7F8563626A9ACDF00A700A6 /* RouteSettings */,
 			);
 			path = Directions;
+			sourceTree = "<group>";
+		};
+		F7F8563626A9ACDF00A700A6 /* RouteSettings */ = {
+			isa = PBXGroup;
+			children = (
+				F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */,
+				F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */,
+			);
+			path = RouteSettings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -619,6 +633,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5D330E6256FDB7D008BFC36 /* RadioButton.swift in Sources */,
+				F793457C26A8992600E97941 /* DirectionDetailsViewController.swift in Sources */,
 				C54C0574255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */,
 				06545AC3258B9B12002F9165 /* SearchPanAnimator.swift in Sources */,
 				C54C0578255E9C150002CE83 /* SearchResultViewController.swift in Sources */,
@@ -654,6 +669,7 @@
 				C5FD76B62564220A00E6D780 /* PredictionsView.swift in Sources */,
 				C54F0AF7256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */,
 				06751B04253D8D09001F6B11 /* SceneDelegate.swift in Sources */,
+				F7F8563526A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift in Sources */,
 				C5D330EC256FDE8D008BFC36 /* BrandFilterCell.swift in Sources */,
 				F782217D268CBD950085C437 /* RoutesScrollView.swift in Sources */,
 				C54C057B255E9C750002CE83 /* SearchResultCell.swift in Sources */,

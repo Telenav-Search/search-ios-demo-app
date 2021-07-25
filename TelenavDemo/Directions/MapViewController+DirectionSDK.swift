@@ -12,6 +12,18 @@ import TelenavEntitySDK
 
 extension MapViewController {
     
+    func routeSettingsButton(setHidden isHidden: Bool) {
+        routeSettingsButton.layer.cornerRadius = 4
+        routeSettingsButton.layer.borderWidth = 1
+        routeSettingsButton.layer.borderColor = UIColor.systemBlue.cgColor
+        routeSettingsButton.isHidden = isHidden
+    }
+    
+    @IBAction func onRouteSettings(_ sender: Any) {
+        let detailsController = DirectionDetailsViewController(nibName: "DirectionDetailsViewController", bundle: .main)
+        navigationController?.pushViewController(detailsController, animated: true)
+    }
+    
     func handleDetailsViewRouteButtons() {
         detailsView.fromThisPointButton.addTarget(self, action: #selector(onDetailsViewFromButton), for: .touchUpInside)
         detailsView.toThisPointButton.addTarget(self, action: #selector(onDetailsViewToButton), for: .touchUpInside)
@@ -207,7 +219,7 @@ extension MapViewController {
         }
         routesScrollView.setRoutes(routes: [], withDelegate: self)
         routesScrollView.isHidden = true
-        
+        routeSettingsButton(setHidden: true)
     }
     
     func removeRouteOverlay () {
@@ -325,6 +337,7 @@ extension MapViewController {
                 controller.routesScrollView.setRoutes(routes: routes,
                                                       withDelegate: controller)
                 controller.routesScrollView.selectFirstRoute()
+                controller.routeSettingsButton(setHidden: false)
             }
         }
     }

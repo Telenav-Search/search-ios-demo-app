@@ -58,7 +58,7 @@ class RoutePreview: UIView {
     
     func updateSelectionColor() {
         if isSelected {
-            backgroundColor = UIColor(red: 0, green: 0, blue: 20, alpha: 0.2)
+            backgroundColor = UIColor(red: 0, green: 20, blue: 0, alpha: 0.8)
         } else {
             backgroundColor = .white
         }

@@ -120,7 +120,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     internal var createRouteActionSheet: UIAlertController?
     internal var routePolyline: MKPolyline?
     @IBOutlet weak var routesScrollView: RoutesScrollView!
-    
+    @IBOutlet weak var routeSettingsButton: UIButton!
     
     func updatePredictionsView() {
         predictionsView.backgroundColor = .clear
