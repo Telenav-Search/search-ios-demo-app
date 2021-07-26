@@ -111,6 +111,7 @@
 		F782217F268CBE6F0085C437 /* RoutePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782217E268CBE6F0085C437 /* RoutePreview.swift */; };
 		F7822181268CC0150085C437 /* RoutePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7822180268CC0150085C437 /* RoutePreview.xib */; };
 		F793457C26A8992600E97941 /* DirectionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */; };
+		F798F9AE26AE8CD100A60A1B /* RouteSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */; };
 		F7F8563526A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -210,6 +211,7 @@
 		F782217E268CBE6F0085C437 /* RoutePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreview.swift; sourceTree = "<group>"; };
 		F7822180268CC0150085C437 /* RoutePreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoutePreview.xib; sourceTree = "<group>"; };
 		F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionDetailsViewController.swift; sourceTree = "<group>"; };
+		F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSettings.swift; sourceTree = "<group>"; };
 		F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsTextTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -423,6 +425,7 @@
 			children = (
 				F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */,
 				F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */,
+				F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */,
 			);
 			path = RouteSettings;
 			sourceTree = "<group>";
@@ -660,6 +663,7 @@
 				06751B02253D8D09001F6B11 /* AppDelegate.swift in Sources */,
 				F71A1BA72692FC2900D3C58E /* ManeuversViewController.swift in Sources */,
 				C54C0571255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
+				F798F9AE26AE8CD100A60A1B /* RouteSettings.swift in Sources */,
 				C509FC3C255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */,
 				C54C0558255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC8255D7DA7008D8088 /* Throttler.swift in Sources */,

@@ -9,6 +9,7 @@ import UIKit
 import TelenavEntitySDK
 import Alamofire
 import MapKit
+import VividNavigationSDK
 
 class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLocationManagerDelegate {
     
@@ -113,7 +114,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         vc.delegate = self
         return vc
     }()
-
+    
+    // Route calculation properties
     internal var routeFromAnnotation: RouteCreationAnnotation?
     internal var routeWayPointsAnnotations = [RouteCreationAnnotation]()
     internal var routeToAnnotation: RouteCreationAnnotation?
@@ -121,6 +123,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     internal var routePolyline: MKPolyline?
     @IBOutlet weak var routesScrollView: RoutesScrollView!
     @IBOutlet weak var routeSettingsButton: UIButton!
+    var routeSettings = RouteSettings()
     
     func updatePredictionsView() {
         predictionsView.backgroundColor = .clear
@@ -1198,4 +1201,3 @@ extension MKCoordinateRegion {
                                       longitude: center.longitude + span.longitudeDelta / 2)
     }
 }
-

@@ -11,19 +11,7 @@ import VividNavigationSDK
 import TelenavEntitySDK
 
 extension MapViewController {
-    
-    func routeSettingsButton(setHidden isHidden: Bool) {
-        routeSettingsButton.layer.cornerRadius = 4
-        routeSettingsButton.layer.borderWidth = 1
-        routeSettingsButton.layer.borderColor = UIColor.systemBlue.cgColor
-        routeSettingsButton.isHidden = isHidden
-    }
-    
-    @IBAction func onRouteSettings(_ sender: Any) {
-        let detailsController = DirectionDetailsViewController(nibName: "DirectionDetailsViewController", bundle: .main)
-        navigationController?.pushViewController(detailsController, animated: true)
-    }
-    
+
     func handleDetailsViewRouteButtons() {
         detailsView.fromThisPointButton.addTarget(self, action: #selector(onDetailsViewFromButton), for: .touchUpInside)
         detailsView.toThisPointButton.addTarget(self, action: #selector(onDetailsViewToButton), for: .touchUpInside)
@@ -229,7 +217,7 @@ extension MapViewController {
     }
     
     func createRouteIfPossible() {
-        if let request = createRouteRequest() {
+        if let request = createRouteRequest(settings: routeSettings) {
             let client = VNDirectionClient.factory().build()
             let task = client?.createRouteCalculationTask(request)
             let activity = showActivityIndicator()
@@ -251,26 +239,28 @@ extension MapViewController {
         }
     }
     
-    func createRouteRequest() -> VNRouteRequest? {
+    func createRouteRequest(settings: RouteSettings) -> VNRouteRequest? {
         if let startCoord = routeFromAnnotation?.coordinate,
            let endCoord = routeToAnnotation?.coordinate {
             let origin = VNGeoLocation(latitude: startCoord.latitude,
                                        longitude: startCoord.longitude)
             let destination = VNGeoLocation(latitude: endCoord.latitude,
-                                       longitude: endCoord.longitude)
-            let builder = VNRouteRequest.builder()
-                            .setOrigin(origin)
-                            .setDestination(destination)
+                                            longitude: endCoord.longitude)
+            let requestBuilder = VNRouteRequest.builder()
+            requestBuilder.setOrigin(origin)
+                .setDestination(destination)
             var waypoints = [VNGeoLocation]()
             for wpAnnotation in routeWayPointsAnnotations {
                 let wpCoord = wpAnnotation.coordinate
                 let waypoint = VNGeoLocation(latitude: wpCoord.latitude,
-                                           longitude: wpCoord.longitude)
+                                             longitude: wpCoord.longitude)
                 waypoints.append(waypoint)
             }
-            builder.setWayPoints(waypoints)
-            builder.setRouteCount(4)
-            return builder.build()
+            requestBuilder.setWayPoints(waypoints)
+            requestBuilder.setRouteCount(settings.routeCount)
+            requestBuilder.setHeading(settings.heading)
+            requestBuilder.setSpeed(settings.speed)
+            return requestBuilder.build()
         }
         return nil
     }
@@ -366,5 +356,49 @@ extension MapViewController: RoutePreviewDelegate {
         present(navController, animated: true) {
             controller.showManeuvers(ofRoute: route)
         }
+    }
+}
+
+
+extension MapViewController: DirectionDetailsViewControllerDelegate {
+    
+    func routeSettingsButton(setHidden isHidden: Bool) {
+        routeSettingsButton.layer.cornerRadius = 4
+        routeSettingsButton.layer.borderWidth = 1
+        routeSettingsButton.layer.borderColor = UIColor.systemBlue.cgColor
+        routeSettingsButton.isHidden = isHidden
+    }
+    
+    @IBAction func onRouteSettings(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let detailsController = storyboard
+            .instantiateViewController(withIdentifier: "DirectionDetailsViewController")
+            as? DirectionDetailsViewController {
+            detailsController.delegate = self
+            detailsController.routeSettings = routeSettings
+            navigationController?.pushViewController(detailsController,
+                                                     animated: true)
+        }
+    }
+    
+    // MARK: -  DirectionDetailsViewControllerDelegate
+    
+    func onBackButtonOfDirectionDetails(_ viewController: DirectionDetailsViewController) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func directionDetails(_ viewController: DirectionDetailsViewController,
+                          didUpdateSettings settings: RouteSettings)
+    {
+        routeSettings = settings
+        if let sdkOptions = VNSDK.sharedInstance.sdkOptions,
+           sdkOptions.region != routeSettings.region {
+            let options = sdkOptions
+            options.region = routeSettings.region
+            VNSDK.sharedInstance.dispose()
+            VNSDK.sharedInstance.initialize(with: options)
+        }
+        createRouteIfPossible()
+        viewController.onBack(self)
     }
 }

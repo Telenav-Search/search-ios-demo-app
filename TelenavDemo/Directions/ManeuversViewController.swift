@@ -44,7 +44,8 @@ class ManeuversViewController: UITableViewController {
            section < route.legs.count {
             let leg = route.legs[section]
             let duration = String(format: "%.2f", leg.duration/60/60)
-            return "\(section+1) leg: \(leg.length/1000)km, \(duration) h"
+            let length = String(format: "%.2f", Double(leg.length)/1000)
+            return "\(section+1) leg: \(length) km, \(duration) h"
         }
         return ""
     }
