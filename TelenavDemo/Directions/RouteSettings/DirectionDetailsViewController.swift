@@ -24,9 +24,11 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
     var routesCountCell: DirectionSettingsTextTableViewCell?
     var headingCell: DirectionSettingsTextTableViewCell?
     var speedCell: DirectionSettingsTextTableViewCell?
+    
     var routeStyleCell: DirectionSettingsPickTableViewCell?
     var contentLevelCell: DirectionSettingsPickTableViewCell?
-    var avoidHOVLaneCell: DirectionSettingsSwitchTableViewCell?
+    
+    var preferencesCells = [Int: DirectionSettingsSwitchTableViewCell]()
     
     @IBOutlet weak var pickerView: UIPickerView?
     var selectedPickCell: DirectionSettingsPickTableViewCell?
@@ -66,7 +68,10 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
         if let level = contentLevelCell?.intValue {
             routeSettings.contentLevel = VNContentLevel(rawValue: UInt(level)) ?? .full
         }
-        routeSettings.preferences.avoidHovLanes = avoidHOVLaneCell?.switchControl.isOn ?? false
+        for i in 0..<preferencesCells.count {
+            let cell = preferencesCells[i]
+            routeSettings.set(preference: cell!.switchControl.isOn, atIndex: UInt(i))
+        }
     }
     
     @IBAction func onApplySettings(_ sender: Any) {
@@ -88,21 +93,18 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
         case 0:
             return 6
         default:
-            return 1
+            return RouteSettings.preferencesLabels.count
         }
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell?
         switch indexPath.section {
         case 0:
+            let cell: UITableViewCell?
             switch indexPath.row {
-            case 0, 1, 2, 3:
-                cell = tableView.dequeueReusableCell(withIdentifier: "DirectionSettingsTextTableViewCell")
-                (cell as? DirectionSettingsTextTableViewCell)?.textField.delegate = self
             case 4, 5:
-                cell = tableView.dequeueReusableCell(withIdentifier: "DirectionSettingsPickTableViewCell")
+                cell = tableView.dequeueReusableCell(withIdentifier: "RouteStyle")
                 (cell as? DirectionSettingsPickTableViewCell)?.textField.inputView = pickerView
                 (cell as? DirectionSettingsPickTableViewCell)?.textField.delegate = self
             default:
@@ -110,61 +112,51 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
             }
             switch indexPath.row {
             case 0:
-                regionCell = cell as? DirectionSettingsTextTableViewCell
-                regionCell?.label.text = "Region"
+                regionCell = tableView.dequeueReusableCell(withIdentifier: "Region") as? DirectionSettingsTextTableViewCell
+                regionCell?.textField.delegate = self
                 regionCell?.textField.text = routeSettings.region
-                regionCell?.descriptionLabel.text = "Region name. The default value is NA."
                 return regionCell!
             case 1:
-                routesCountCell = cell as? DirectionSettingsTextTableViewCell
-                routesCountCell?.label.text = "Number of routes"
+                routesCountCell = tableView.dequeueReusableCell(withIdentifier: "RouteCount") as? DirectionSettingsTextTableViewCell
+                routesCountCell?.textField.delegate = self
                 routesCountCell?.textField.text = "\(routeSettings.routeCount)"
-                routesCountCell?.descriptionLabel.text = "The maximum route count requested."
                 return routesCountCell!
             case 2:
-                headingCell = cell as? DirectionSettingsTextTableViewCell
-                headingCell?.label.text = "Heading"
+                headingCell = tableView.dequeueReusableCell(withIdentifier: "Heading") as? DirectionSettingsTextTableViewCell
+                headingCell?.textField.delegate = self
                 headingCell?.textField.text = "\(routeSettings.heading)"
-                headingCell?.descriptionLabel.text = "Heading angle of the vehicle, based on the north clockwise. By default is -1 (unspecific heading)"
                 return headingCell!
             case 3:
-                speedCell = cell as? DirectionSettingsTextTableViewCell
-                speedCell?.label.text = "Speed"
+                speedCell = tableView.dequeueReusableCell(withIdentifier: "Speed") as? DirectionSettingsTextTableViewCell
+                speedCell?.textField.delegate = self
                 speedCell?.textField.text = "\(routeSettings.speed)"
-                speedCell?.descriptionLabel.text = "Set the speed of the vehicle in Mps. Default is 0"
                 return speedCell!
             case 4:
-                routeStyleCell = cell as? DirectionSettingsPickTableViewCell
-                routeStyleCell?.label.text = "Style of route"
+                routeStyleCell = tableView.dequeueReusableCell(withIdentifier: "RouteStyle") as? DirectionSettingsPickTableViewCell
+                routeStyleCell?.textField.inputView = pickerView
+                routeStyleCell?.textField.delegate = self
                 routeStyleCell?.intValue = Int(routeSettings.routeStyle.rawValue)
                 routeStyleCell?.textField.text = RouteSettings.label(forRouteStyle: routeSettings.routeStyle)
-                routeStyleCell?.descriptionLabel.text = "Set route style. Default is Fastest"
                 return routeStyleCell!
             case 5:
-                contentLevelCell = cell as? DirectionSettingsPickTableViewCell
-                contentLevelCell?.label.text = "Level of content"
+                contentLevelCell = tableView.dequeueReusableCell(withIdentifier: "ContentLevel") as? DirectionSettingsPickTableViewCell
+                contentLevelCell?.textField.inputView = pickerView
+                contentLevelCell?.textField.delegate = self
                 contentLevelCell?.intValue = Int(routeSettings.contentLevel.rawValue)
                 contentLevelCell?.textField.text = RouteSettings.label(forContentLevel: routeSettings.contentLevel)
-                contentLevelCell?.descriptionLabel.text = "The content's level of detail. Default is Full"
                 return contentLevelCell!
             default:
                 return UITableViewCell()
             }
         case 1:
-            cell = tableView.dequeueReusableCell(withIdentifier: "DirectionSettingsSwitchTableViewCell")
-            (cell as? DirectionSettingsSwitchTableViewCell)?.switchControl
-                .addTarget(self,
-                           action: #selector(switchStateDidChange(switchControl:)),
-                           for: .valueChanged)
-            switch indexPath.row {
-            case 0:
-                avoidHOVLaneCell = cell as? DirectionSettingsSwitchTableViewCell
-                avoidHOVLaneCell?.label.text = "Avoid HOV Lanes"
-                avoidHOVLaneCell?.switchControl.isOn = routeSettings.preferences.avoidHovLanes
-                return avoidHOVLaneCell!
-            default:
-                return UITableViewCell()
-            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "switch\(indexPath.row)") as? DirectionSettingsSwitchTableViewCell
+            preferencesCells[indexPath.row] = cell
+            cell?.switchControl.addTarget(self,
+                                          action: #selector(switchStateDidChange(switchControl:)),
+                                          for: .valueChanged)
+            cell?.label.text = RouteSettings.label(forPreferenceAtIndex: indexPath.row)
+            cell?.switchControl.isOn = routeSettings.preference(atIndex: indexPath.row)
+            return cell!
         default:
             return UITableViewCell()
         }

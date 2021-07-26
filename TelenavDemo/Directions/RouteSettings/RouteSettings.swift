@@ -45,4 +45,86 @@ struct RouteSettings
     }
     
     var preferences = VNRoutePreferences()
+    
+    func preference(atIndex index: Int) -> Bool {
+        switch index {
+        case 0:
+            return preferences.avoidHovLanes
+        case 1:
+            return preferences.avoidHighways
+        case 2:
+            return preferences.avoidTollRoads
+        case 3:
+            return preferences.avoidFerries
+        case 4:
+            return preferences.avoidCarTrains
+        case 5:
+            return preferences.avoidUnpavedRoads
+        case 6:
+            return preferences.avoidTunnels
+        case 7:
+            return preferences.useTraffic
+        case 8:
+            return preferences.avoidSharpTurns
+        case 9:
+            return preferences.avoidCountryBorders
+        case 10:
+            return preferences.avoidPermitRequiredRoads
+        case 11:
+            return preferences.avoidSeasonalRestrictions
+        default:
+            return false
+        }
+    }
+    
+    func set(preference: Bool, atIndex index: UInt) {
+        switch index {
+        case 0:
+            preferences.avoidHovLanes = preference
+        case 1:
+            preferences.avoidHighways = preference
+        case 2:
+            preferences.avoidTollRoads = preference
+        case 3:
+            preferences.avoidFerries = preference
+        case 4:
+            preferences.avoidCarTrains = preference
+        case 5:
+            preferences.avoidUnpavedRoads = preference
+        case 6:
+            preferences.avoidTunnels = preference
+        case 7:
+            preferences.useTraffic = preference
+        case 8:
+            preferences.avoidSharpTurns = preference
+        case 9:
+            preferences.avoidCountryBorders = preference
+        case 10:
+            preferences.avoidPermitRequiredRoads = preference
+        case 11:
+            preferences.avoidSeasonalRestrictions = preference
+        default:
+            return
+        }
+    }
+    
+    static func label(forPreferenceAtIndex index: Int) -> String {
+        if index >= 0, index < preferencesLabels.count {
+            return preferencesLabels[index]
+        }
+        return ""
+    }
+    
+    static let preferencesLabels = ["Avoid HOV Lanes",
+                                    "Avoid Highways",
+                                    "Avoid Toll Roads",
+                                    "Avoid Ferries",
+                                    "Avoid Car Trains",
+                                    "Avoid Unpaved Roads",
+                                    "Avoid Tunnels",
+                                    "Use Traffic",
+                                    "Avoid Sharp Turns",
+                                    "Avoid Country Borders",
+                                    "Avoid Permit Required Roads",
+                                    "Avoid Seasonal Restrictions"]
 }
