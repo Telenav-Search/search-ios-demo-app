@@ -112,6 +112,7 @@
 		F7822181268CC0150085C437 /* RoutePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7822180268CC0150085C437 /* RoutePreview.xib */; };
 		F793457C26A8992600E97941 /* DirectionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */; };
 		F798F9AE26AE8CD100A60A1B /* RouteSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */; };
+		F798F9B026AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9AF26AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift */; };
 		F7F8563526A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -212,6 +213,7 @@
 		F7822180268CC0150085C437 /* RoutePreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoutePreview.xib; sourceTree = "<group>"; };
 		F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionDetailsViewController.swift; sourceTree = "<group>"; };
 		F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSettings.swift; sourceTree = "<group>"; };
+		F798F9AF26AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsPickTableViewCell.swift; sourceTree = "<group>"; };
 		F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsTextTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -425,6 +427,7 @@
 			children = (
 				F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */,
 				F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */,
+				F798F9AF26AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift */,
 				F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */,
 			);
 			path = RouteSettings;
@@ -638,6 +641,7 @@
 				C5D330E6256FDB7D008BFC36 /* RadioButton.swift in Sources */,
 				F793457C26A8992600E97941 /* DirectionDetailsViewController.swift in Sources */,
 				C54C0574255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */,
+				F798F9B026AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift in Sources */,
 				06545AC3258B9B12002F9165 /* SearchPanAnimator.swift in Sources */,
 				C54C0578255E9C150002CE83 /* SearchResultViewController.swift in Sources */,
 				F713FBFF2689C17F00E873F2 /* RouteCreationAnnotation.swift in Sources */,

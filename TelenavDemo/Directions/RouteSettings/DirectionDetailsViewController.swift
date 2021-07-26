@@ -24,6 +24,12 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
     var routesCountCell: DirectionSettingsTextTableViewCell?
     var headingCell: DirectionSettingsTextTableViewCell?
     var speedCell: DirectionSettingsTextTableViewCell?
+    var routeStyleCell: DirectionSettingsPickTableViewCell?
+    var contentLevelCell: DirectionSettingsPickTableViewCell?
+    
+    @IBOutlet weak var pickerView: UIPickerView?
+    var selectedPickCell: DirectionSettingsPickTableViewCell?
+    var pickerSource = [String]()
     
     weak var delegate: DirectionDetailsViewControllerDelegate?
     
@@ -35,6 +41,8 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         tableView?.dataSource = self
+        pickerView?.dataSource = self
+        pickerView?.delegate = self
         setupKeyboardAppearance()
     }
     
@@ -51,6 +59,9 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
         if let speed = Int32(speedCell?.textField.text ?? "") {
             routeSettings.speed = speed
         }
+        if let style = routeStyleCell?.intValue {
+            routeSettings.routeStyle = VNRouteStyle(rawValue: UInt(style)) ?? .fastest
+        }
     }
     
     @IBAction func onApplySettings(_ sender: Any) {
@@ -63,7 +74,7 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView,
@@ -73,6 +84,10 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
         case 0, 1, 2, 3:
             cell = tableView.dequeueReusableCell(withIdentifier: "DirectionSettingsTextTableViewCell")
             (cell as? DirectionSettingsTextTableViewCell)?.textField.delegate = self
+        case 4, 5:
+            cell = tableView.dequeueReusableCell(withIdentifier: "DirectionSettingsPickTableViewCell")
+            (cell as? DirectionSettingsPickTableViewCell)?.textField.inputView = pickerView
+            (cell as? DirectionSettingsPickTableViewCell)?.textField.delegate = self
         default:
             cell = UITableViewCell()
         }
@@ -101,6 +116,13 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
             speedCell?.textField.text = "\(routeSettings.speed)"
             speedCell?.descriptionLabel.text = "Set the speed of the vehicle in Mps. Default is 0"
             return speedCell!
+        case 4:
+            routeStyleCell = cell as? DirectionSettingsPickTableViewCell
+            routeStyleCell?.label.text = "Route Style"
+            routeStyleCell?.intValue = Int(routeSettings.routeStyle.rawValue)
+            routeStyleCell?.textField.text = RouteSettings.label(forRouteStyle: routeSettings.routeStyle)
+            routeStyleCell?.descriptionLabel.text = "Set route style. Default is Fastest"
+            return routeStyleCell!
         default:
             return UITableViewCell()
         }
@@ -139,5 +161,47 @@ extension DirectionDetailsViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         readSettingsFromFields()
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        pickerSource = [String]()
+        if textField == routeStyleCell?.textField {
+            selectedPickCell = routeStyleCell
+            for i: UInt in 0...4 {
+                let style = VNRouteStyle(rawValue: i) ?? .fastest
+                pickerSource.append(RouteSettings.label(forRouteStyle: style))
+            }
+            pickerView?.isHidden = false
+            pickerView?.reloadAllComponents()
+        }
+    }
+}
+
+
+extension DirectionDetailsViewController: UIPickerViewDelegate, UIPickerViewDataSource
+{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView,
+                    numberOfRowsInComponent component: Int) -> Int {
+        return pickerSource.count
+    }
+
+    func pickerView( _ pickerView: UIPickerView,
+                     titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerSource[row]
+    }
+
+    func pickerView( _ pickerView: UIPickerView,
+                     didSelectRow row: Int,
+                     inComponent component: Int) {
+        if selectedPickCell == routeStyleCell {
+            let style = VNRouteStyle(rawValue: UInt(row)) ?? .fastest
+            routeStyleCell?.textField.text = RouteSettings.label(forRouteStyle: style)
+            routeStyleCell?.intValue = Int(style.rawValue)
+            readSettingsFromFields()
+        }
     }
 }

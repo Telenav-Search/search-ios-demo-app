@@ -994,6 +994,12 @@
                                     <action selector="onBack:" destination="VM2-Zc-glH" eventType="touchUpInside" id="CDw-Tx-7Qc"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Route parameters" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uME-3P-J0t">
+                                <rect key="frame" x="248" y="72" width="146" height="20.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FoJ-4a-g6z">
                                 <rect key="frame" x="0.0" y="117.5" width="414" height="689.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1047,6 +1053,55 @@
                                             <outlet property="textField" destination="edy-Gy-ert" id="WBj-jt-wiW"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DirectionSettingsPickTableViewCell" rowHeight="62" id="g1l-DQ-aIu" customClass="DirectionSettingsPickTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="86.5" width="414" height="62"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g1l-DQ-aIu" id="0R5-Rs-hu5">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="62"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Style of route" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDi-KD-vqJ">
+                                                    <rect key="frame" x="20" y="11" width="92" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9IK-qK-6r2">
+                                                    <rect key="frame" x="20" y="31" width="266" height="29"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="29" id="xf2-EL-iBQ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IbH-Mj-Wa5">
+                                                    <rect key="frame" x="294" y="14" width="100" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="urj-z4-tdi"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="9IK-qK-6r2" firstAttribute="top" secondItem="GDi-KD-vqJ" secondAttribute="bottom" constant="2" id="EyM-7y-eeX"/>
+                                                <constraint firstAttribute="trailing" secondItem="IbH-Mj-Wa5" secondAttribute="trailing" constant="20" symbolic="YES" id="G9Y-cM-hEw"/>
+                                                <constraint firstItem="9IK-qK-6r2" firstAttribute="leading" secondItem="GDi-KD-vqJ" secondAttribute="leading" id="K9U-iY-sab"/>
+                                                <constraint firstItem="GDi-KD-vqJ" firstAttribute="top" secondItem="0R5-Rs-hu5" secondAttribute="top" constant="11" id="MYX-n4-LRS"/>
+                                                <constraint firstItem="IbH-Mj-Wa5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GDi-KD-vqJ" secondAttribute="trailing" constant="30" id="S8p-Wo-ejr"/>
+                                                <constraint firstAttribute="bottom" secondItem="9IK-qK-6r2" secondAttribute="bottom" constant="2" id="eCj-aI-Dm2"/>
+                                                <constraint firstItem="GDi-KD-vqJ" firstAttribute="leading" secondItem="0R5-Rs-hu5" secondAttribute="leading" constant="20" symbolic="YES" id="eR0-Tm-UcR"/>
+                                                <constraint firstItem="IbH-Mj-Wa5" firstAttribute="centerY" secondItem="0R5-Rs-hu5" secondAttribute="centerY" id="qHi-hb-jEy"/>
+                                                <constraint firstItem="IbH-Mj-Wa5" firstAttribute="leading" secondItem="9IK-qK-6r2" secondAttribute="trailing" constant="8" symbolic="YES" id="xcn-vb-qRo"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="descriptionLabel" destination="9IK-qK-6r2" id="tRL-IF-GTU"/>
+                                            <outlet property="label" destination="GDi-KD-vqJ" id="SJf-iQ-RkD"/>
+                                            <outlet property="textField" destination="IbH-Mj-Wa5" id="XOn-4o-Vai"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EAY-vh-W4Y">
@@ -1056,12 +1111,10 @@
                                     <action selector="onApplySettings:" destination="VM2-Zc-glH" eventType="touchUpInside" id="Z4x-GV-mUZ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Route parameters" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uME-3P-J0t">
-                                <rect key="frame" x="248" y="72" width="146" height="20.5"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <pickerView hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ukd-Qr-Y2F">
+                                <rect key="frame" x="0.0" y="699" width="414" height="146"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            </pickerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="VNC-zC-ThM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1080,6 +1133,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Z8N-eF-Qpd"/>
                     <connections>
+                        <outlet property="pickerView" destination="Ukd-Qr-Y2F" id="Dip-LX-ZMU"/>
                         <outlet property="tableView" destination="FoJ-4a-g6z" id="el7-Ln-d8y"/>
                     </connections>
                 </viewController>

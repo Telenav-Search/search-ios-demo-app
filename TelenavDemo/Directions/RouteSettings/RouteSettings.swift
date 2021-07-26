@@ -5,7 +5,7 @@
 //  Created by Olesya Slepchenko on 26.07.2021.
 //
 
-import Foundation
+import VividNavigationSDK
 
 struct RouteSettings
 {
@@ -14,4 +14,21 @@ struct RouteSettings
     var routeCount: Int32 = 1
     var heading: Int32 = -1
     var speed: Int32 = 0
+    
+    var routeStyle: VNRouteStyle = .fastest
+    
+    static func label(forRouteStyle routeStyle: VNRouteStyle) -> String {
+        switch routeStyle {
+        case .fastest:
+            return "Fastest"
+        case .shortest:
+            return "Shortest"
+        case .easy:
+            return "Easy"
+        case .eco:
+            return "ECO"
+        default:
+            return "Usual"
+        }
+    }
 }
