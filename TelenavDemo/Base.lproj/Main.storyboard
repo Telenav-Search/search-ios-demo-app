@@ -1706,8 +1706,18 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Tq-bw-CMK">
+                                <rect key="frame" x="20" y="815" width="75" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="LuI-uY-xJo"/>
+                                </constraints>
+                                <state key="normal" title="Reset"/>
+                                <connections>
+                                    <action selector="onReset:" destination="VM2-Zc-glH" eventType="touchUpInside" id="eAq-MQ-D2I"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EAY-vh-W4Y">
-                                <rect key="frame" x="157.5" y="815" width="99" height="30"/>
+                                <rect key="frame" x="295" y="815" width="99" height="30"/>
                                 <state key="normal" title="Apply settings"/>
                                 <connections>
                                     <action selector="onApplySettings:" destination="VM2-Zc-glH" eventType="touchUpInside" id="Z4x-GV-mUZ"/>
@@ -1721,13 +1731,15 @@
                         <viewLayoutGuide key="safeArea" id="VNC-zC-ThM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="4Tq-bw-CMK" firstAttribute="leading" secondItem="VNC-zC-ThM" secondAttribute="leading" constant="20" id="6zD-Lb-WFx"/>
+                            <constraint firstItem="VNC-zC-ThM" firstAttribute="trailing" secondItem="EAY-vh-W4Y" secondAttribute="trailing" constant="20" id="AdW-d5-EQY"/>
                             <constraint firstItem="FoJ-4a-g6z" firstAttribute="leading" secondItem="jdI-Z3-jlj" secondAttribute="leading" id="En2-KI-2QH"/>
                             <constraint firstItem="HZW-6B-OlD" firstAttribute="leading" secondItem="VNC-zC-ThM" secondAttribute="leading" id="OHw-9g-cPK"/>
                             <constraint firstAttribute="trailing" secondItem="FoJ-4a-g6z" secondAttribute="trailing" id="PLp-kR-gXv"/>
                             <constraint firstItem="VNC-zC-ThM" firstAttribute="trailing" secondItem="uME-3P-J0t" secondAttribute="trailing" constant="20" id="aqO-lg-tgO"/>
-                            <constraint firstItem="EAY-vh-W4Y" firstAttribute="centerX" secondItem="VNC-zC-ThM" secondAttribute="centerX" id="be5-7O-vHG"/>
                             <constraint firstItem="FoJ-4a-g6z" firstAttribute="top" secondItem="uME-3P-J0t" secondAttribute="bottom" constant="25" id="ium-au-WGX"/>
                             <constraint firstItem="HZW-6B-OlD" firstAttribute="top" secondItem="VNC-zC-ThM" secondAttribute="top" constant="21" id="mma-fW-lz5"/>
+                            <constraint firstItem="EAY-vh-W4Y" firstAttribute="firstBaseline" secondItem="4Tq-bw-CMK" secondAttribute="baseline" id="rLs-mH-P1e"/>
                             <constraint firstItem="uME-3P-J0t" firstAttribute="top" secondItem="VNC-zC-ThM" secondAttribute="top" constant="28" id="wfe-M9-mPd"/>
                             <constraint firstItem="VNC-zC-ThM" firstAttribute="bottom" secondItem="EAY-vh-W4Y" secondAttribute="bottom" constant="17" id="wwT-Yp-oJ7"/>
                             <constraint firstItem="VNC-zC-ThM" firstAttribute="bottom" secondItem="FoJ-4a-g6z" secondAttribute="bottom" constant="55" id="yJP-BO-qND"/>

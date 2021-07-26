@@ -90,6 +90,10 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
         delegate?.directionDetails(self, didUpdateSettings: routeSettings)
     }
     
+    @IBAction func onReset(_ sender: Any) {
+        routeSettings = RouteSettings()
+    }
+    
     @IBAction func onBack(_ sender: Any) {
         self.delegate?.onBackButtonOfDirectionDetails(self)
     }
