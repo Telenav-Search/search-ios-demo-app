@@ -1076,9 +1076,9 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IbH-Mj-Wa5">
-                                                    <rect key="frame" x="294" y="14" width="100" height="34"/>
+                                                    <rect key="frame" x="309" y="14" width="85" height="34"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="100" id="urj-z4-tdi"/>
+                                                        <constraint firstAttribute="width" constant="85" id="urj-z4-tdi"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1093,13 +1093,44 @@
                                                 <constraint firstAttribute="bottom" secondItem="9IK-qK-6r2" secondAttribute="bottom" constant="2" id="eCj-aI-Dm2"/>
                                                 <constraint firstItem="GDi-KD-vqJ" firstAttribute="leading" secondItem="0R5-Rs-hu5" secondAttribute="leading" constant="20" symbolic="YES" id="eR0-Tm-UcR"/>
                                                 <constraint firstItem="IbH-Mj-Wa5" firstAttribute="centerY" secondItem="0R5-Rs-hu5" secondAttribute="centerY" id="qHi-hb-jEy"/>
-                                                <constraint firstItem="IbH-Mj-Wa5" firstAttribute="leading" secondItem="9IK-qK-6r2" secondAttribute="trailing" constant="8" symbolic="YES" id="xcn-vb-qRo"/>
+                                                <constraint firstItem="IbH-Mj-Wa5" firstAttribute="leading" secondItem="9IK-qK-6r2" secondAttribute="trailing" constant="23" id="xcn-vb-qRo"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="9IK-qK-6r2" id="tRL-IF-GTU"/>
                                             <outlet property="label" destination="GDi-KD-vqJ" id="SJf-iQ-RkD"/>
                                             <outlet property="textField" destination="IbH-Mj-Wa5" id="XOn-4o-Vai"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DirectionSettingsSwitchTableViewCell" rowHeight="51" id="aEZ-nw-wh8" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="148.5" width="414" height="51"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aEZ-nw-wh8" id="1f6-5J-BfV">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avoid HOV lanes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQt-UA-KfH">
+                                                    <rect key="frame" x="20" y="16.5" width="114" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IEZ-a5-orl">
+                                                    <rect key="frame" x="343" y="10" width="51" height="31"/>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="IEZ-a5-orl" firstAttribute="top" secondItem="1f6-5J-BfV" secondAttribute="top" constant="10" id="HY0-Ph-lIw"/>
+                                                <constraint firstItem="eQt-UA-KfH" firstAttribute="leading" secondItem="1f6-5J-BfV" secondAttribute="leading" constant="20" symbolic="YES" id="ZSx-zK-g2R"/>
+                                                <constraint firstItem="IEZ-a5-orl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eQt-UA-KfH" secondAttribute="trailing" constant="8" symbolic="YES" id="ePw-ak-BkR"/>
+                                                <constraint firstAttribute="trailing" secondItem="IEZ-a5-orl" secondAttribute="trailing" constant="22" id="ekD-aA-PAJ"/>
+                                                <constraint firstItem="eQt-UA-KfH" firstAttribute="centerY" secondItem="IEZ-a5-orl" secondAttribute="centerY" id="iIF-qp-5GZ"/>
+                                                <constraint firstAttribute="bottom" secondItem="IEZ-a5-orl" secondAttribute="bottom" constant="10" id="yd3-of-pS7"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="label" destination="eQt-UA-KfH" id="8Ty-v6-wsf"/>
+                                            <outlet property="switchControl" destination="IEZ-a5-orl" id="FeF-K9-rux"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

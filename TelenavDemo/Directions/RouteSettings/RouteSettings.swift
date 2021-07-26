@@ -43,4 +43,6 @@ struct RouteSettings
             return "Full"
         }
     }
+    
+    var preferences = VNRoutePreferences()
 }
