@@ -260,6 +260,8 @@ extension MapViewController {
             requestBuilder.setRouteCount(settings.routeCount)
             requestBuilder.setHeading(settings.heading)
             requestBuilder.setSpeed(settings.speed)
+            requestBuilder.setRouteStyle(settings.routeStyle)
+            requestBuilder.setContentLevel(settings.contentLevel)
             return requestBuilder.build()
         }
         return nil

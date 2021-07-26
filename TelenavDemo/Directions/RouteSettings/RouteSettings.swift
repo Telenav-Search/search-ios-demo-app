@@ -16,6 +16,7 @@ struct RouteSettings
     var speed: Int32 = 0
     
     var routeStyle: VNRouteStyle = .fastest
+    var contentLevel: VNContentLevel = .full
     
     static func label(forRouteStyle routeStyle: VNRouteStyle) -> String {
         switch routeStyle {
@@ -29,6 +30,17 @@ struct RouteSettings
             return "ECO"
         default:
             return "Usual"
+        }
+    }
+    
+    static func label(forContentLevel level: VNContentLevel) -> String {
+        switch level {
+        case .eta:
+            return "ETA"
+        case .overview:
+            return "Overview"
+        default:
+            return "Full"
         }
     }
 }

@@ -62,6 +62,9 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
         if let style = routeStyleCell?.intValue {
             routeSettings.routeStyle = VNRouteStyle(rawValue: UInt(style)) ?? .fastest
         }
+        if let level = contentLevelCell?.intValue {
+            routeSettings.contentLevel = VNContentLevel(rawValue: UInt(level)) ?? .full
+        }
     }
     
     @IBAction func onApplySettings(_ sender: Any) {
@@ -74,7 +77,7 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
     
     func tableView(_ tableView: UITableView,
@@ -118,11 +121,18 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
             return speedCell!
         case 4:
             routeStyleCell = cell as? DirectionSettingsPickTableViewCell
-            routeStyleCell?.label.text = "Route Style"
+            routeStyleCell?.label.text = "Style of route"
             routeStyleCell?.intValue = Int(routeSettings.routeStyle.rawValue)
             routeStyleCell?.textField.text = RouteSettings.label(forRouteStyle: routeSettings.routeStyle)
             routeStyleCell?.descriptionLabel.text = "Set route style. Default is Fastest"
             return routeStyleCell!
+        case 5:
+            contentLevelCell = cell as? DirectionSettingsPickTableViewCell
+            contentLevelCell?.label.text = "Level of content"
+            contentLevelCell?.intValue = Int(routeSettings.contentLevel.rawValue)
+            contentLevelCell?.textField.text = RouteSettings.label(forContentLevel: routeSettings.contentLevel)
+            contentLevelCell?.descriptionLabel.text = "The content's level of detail. Default is Full"
+            return contentLevelCell!
         default:
             return UITableViewCell()
         }
@@ -173,6 +183,17 @@ extension DirectionDetailsViewController: UITextFieldDelegate {
             }
             pickerView?.isHidden = false
             pickerView?.reloadAllComponents()
+            return
+        }
+        if textField == contentLevelCell?.textField {
+            selectedPickCell = contentLevelCell
+            for i: UInt in 0...2 {
+                let level = VNContentLevel(rawValue: i) ?? .full
+                pickerSource.append(RouteSettings.label(forContentLevel: level))
+            }
+            pickerView?.isHidden = false
+            pickerView?.reloadAllComponents()
+            return
         }
     }
 }
@@ -201,7 +222,12 @@ extension DirectionDetailsViewController: UIPickerViewDelegate, UIPickerViewData
             let style = VNRouteStyle(rawValue: UInt(row)) ?? .fastest
             routeStyleCell?.textField.text = RouteSettings.label(forRouteStyle: style)
             routeStyleCell?.intValue = Int(style.rawValue)
-            readSettingsFromFields()
         }
+        if selectedPickCell == contentLevelCell {
+            let level = VNContentLevel(rawValue: UInt(row)) ?? .full
+            contentLevelCell?.textField.text = RouteSettings.label(forContentLevel: level)
+            contentLevelCell?.intValue = Int(level.rawValue)
+        }
+        readSettingsFromFields()
     }
 }
