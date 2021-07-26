@@ -17,6 +17,7 @@ struct RouteSettings
     
     var routeStyle: VNRouteStyle = .fastest
     var contentLevel: VNContentLevel = .full
+    var startDate: Date?
     
     static func label(forRouteStyle routeStyle: VNRouteStyle) -> String {
         switch routeStyle {

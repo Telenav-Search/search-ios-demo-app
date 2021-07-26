@@ -1298,8 +1298,57 @@
                                             <outlet property="textField" destination="6Dx-g4-W9i" id="uMj-ZL-5q2"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="StartDate" rowHeight="62" id="i1S-21-gXG" customClass="DirectionSettingsPickTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="428.5" width="414" height="62"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="i1S-21-gXG" id="BGE-SU-zkD">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="62"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gj5-h0-Ynn">
+                                                    <rect key="frame" x="20" y="11" width="69" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start time for the route calculation" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="av2-vj-aXR">
+                                                    <rect key="frame" x="20" y="31" width="233" height="29"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="29" id="J3r-HP-ae8"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ugP-m8-BSc">
+                                                    <rect key="frame" x="261" y="14" width="133" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="133" id="U1f-rn-j5S"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="av2-vj-aXR" secondAttribute="bottom" constant="2" id="N3J-WJ-DNK"/>
+                                                <constraint firstItem="ugP-m8-BSc" firstAttribute="leading" secondItem="av2-vj-aXR" secondAttribute="trailing" constant="8" symbolic="YES" id="Vrk-Py-90V"/>
+                                                <constraint firstItem="av2-vj-aXR" firstAttribute="top" secondItem="gj5-h0-Ynn" secondAttribute="bottom" constant="2" id="Ynb-O6-t5v"/>
+                                                <constraint firstItem="ugP-m8-BSc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gj5-h0-Ynn" secondAttribute="trailing" constant="30" id="agB-F9-q1d"/>
+                                                <constraint firstItem="ugP-m8-BSc" firstAttribute="centerY" secondItem="BGE-SU-zkD" secondAttribute="centerY" id="dad-m8-XTQ"/>
+                                                <constraint firstItem="av2-vj-aXR" firstAttribute="leading" secondItem="gj5-h0-Ynn" secondAttribute="leading" id="qE0-Ub-3BD"/>
+                                                <constraint firstAttribute="trailing" secondItem="ugP-m8-BSc" secondAttribute="trailing" constant="20" symbolic="YES" id="qS4-Pc-9it"/>
+                                                <constraint firstItem="gj5-h0-Ynn" firstAttribute="top" secondItem="BGE-SU-zkD" secondAttribute="top" constant="11" id="rTv-Bk-fV7"/>
+                                                <constraint firstItem="gj5-h0-Ynn" firstAttribute="leading" secondItem="BGE-SU-zkD" secondAttribute="leading" constant="20" symbolic="YES" id="xtz-pW-lmh"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="descriptionLabel" destination="av2-vj-aXR" id="7Ql-Kq-Ibf"/>
+                                            <outlet property="label" destination="gj5-h0-Ynn" id="vCx-fA-t2d"/>
+                                            <outlet property="textField" destination="ugP-m8-BSc" id="FgG-ji-j9X"/>
+                                        </connections>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch0" rowHeight="51" id="aEZ-nw-wh8" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="428.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="490.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aEZ-nw-wh8" id="1f6-5J-BfV">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -1330,7 +1379,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch1" rowHeight="51" id="ozm-uM-Qxz" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="479.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="541.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ozm-uM-Qxz" id="eOJ-NW-M1x">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -1361,7 +1410,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch2" rowHeight="51" id="cAz-Z5-1nX" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="530.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="592.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cAz-Z5-1nX" id="RPH-cS-de2">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -1392,7 +1441,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch3" rowHeight="51" id="Hnv-D7-cAb" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="581.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="643.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hnv-D7-cAb" id="yHu-oP-W7v">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -1423,7 +1472,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch4" rowHeight="51" id="7HN-vl-W2M" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="632.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="694.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7HN-vl-W2M" id="HJ5-vs-r9c">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -1454,7 +1503,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch5" rowHeight="51" id="FU3-D9-Xeg" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="683.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="745.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FU3-D9-Xeg" id="R7k-OW-2WT">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -1485,7 +1534,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch6" rowHeight="51" id="3d8-8n-EmL" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="734.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="796.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3d8-8n-EmL" id="JHf-ma-j1d">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -1516,7 +1565,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch7" rowHeight="51" id="8z8-vK-cbk" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="785.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="847.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8z8-vK-cbk" id="L05-23-Fce">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -1547,7 +1596,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch8" rowHeight="51" id="KDA-C2-34G" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="836.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="898.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KDA-C2-34G" id="UCc-2Y-IIL">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -1578,7 +1627,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch9" rowHeight="51" id="jjq-HB-G28" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="887.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="949.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jjq-HB-G28" id="6qM-1D-Fp5">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -1609,19 +1658,19 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch10" rowHeight="51" id="e8w-aq-Uvg" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="938.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="1000.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e8w-aq-Uvg" id="dbf-2Q-4Si">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Avoid HOV lanes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3da-zu-684">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avoid HOV lanes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3da-zu-684">
                                                     <rect key="frame" x="20" y="16.5" width="114" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OHb-WN-txm">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OHb-WN-txm">
                                                     <rect key="frame" x="343" y="10" width="51" height="31"/>
                                                 </switch>
                                             </subviews>
@@ -1640,19 +1689,19 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="switch11" rowHeight="51" id="qPH-3m-Lae" customClass="DirectionSettingsSwitchTableViewCell" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="989.5" width="414" height="51"/>
+                                        <rect key="frame" x="0.0" y="1051.5" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qPH-3m-Lae" id="JqG-aF-nrE">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Avoid HOV lanes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDy-24-6W9">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avoid HOV lanes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BDy-24-6W9">
                                                     <rect key="frame" x="20" y="16.5" width="114" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fii-3K-s5P">
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fii-3K-s5P">
                                                     <rect key="frame" x="343" y="10" width="51" height="31"/>
                                                 </switch>
                                             </subviews>
@@ -1683,6 +1732,10 @@
                                 <rect key="frame" x="0.0" y="699" width="414" height="146"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </pickerView>
+                            <datePicker hidden="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="Jo9-83-Gyu">
+                                <rect key="frame" x="0.0" y="700" width="414" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            </datePicker>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="VNC-zC-ThM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1701,6 +1754,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Z8N-eF-Qpd"/>
                     <connections>
+                        <outlet property="datePicker" destination="Jo9-83-Gyu" id="Vax-7C-fOa"/>
                         <outlet property="pickerView" destination="Ukd-Qr-Y2F" id="Dip-LX-ZMU"/>
                         <outlet property="tableView" destination="FoJ-4a-g6z" id="el7-Ln-d8y"/>
                     </connections>
