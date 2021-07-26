@@ -262,7 +262,9 @@ extension MapViewController {
             requestBuilder.setSpeed(settings.speed)
             requestBuilder.setRouteStyle(settings.routeStyle)
             requestBuilder.setContentLevel(settings.contentLevel)
-            requestBuilder.setStartTime(settings.startDate ?? Date())
+            if settings.startDate > Date() {
+                requestBuilder.setStartTime(settings.startDate)
+            }
             requestBuilder.setRoutePreference(settings.preferences)
             return requestBuilder.build()
         }

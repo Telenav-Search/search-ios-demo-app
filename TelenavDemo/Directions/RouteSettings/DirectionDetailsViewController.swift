@@ -27,7 +27,7 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
     
     var routeStyleCell: DirectionSettingsPickTableViewCell?
     var contentLevelCell: DirectionSettingsPickTableViewCell?
-    var startDateCell: DirectionSettingsPickTableViewCell?
+    var startDateCell: DirectionSettingsDateTableViewCell?
     
     var preferencesCells = [Int: DirectionSettingsSwitchTableViewCell]()
     
@@ -35,7 +35,6 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
     var selectedPickCell: DirectionSettingsPickTableViewCell?
     var pickerSource = [String]()
     
-    @IBOutlet weak var datePicker: UIDatePicker?
     weak var delegate: DirectionDetailsViewControllerDelegate?
     
     var routeSettings = RouteSettings() {
@@ -51,15 +50,11 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
         tableView?.dataSource = self
         pickerView?.dataSource = self
         pickerView?.delegate = self
-        datePicker?.addTarget(self, action: #selector(onDatePickerChanged), for: .valueChanged)
         setupKeyboardAppearance()
     }
     
     @objc func onDatePickerChanged() {
-        if let date = datePicker?.date {
-            startDateCell?.textField.text = dateFormatter.string(from: date)
-            readSettingsFromFields()
-        }
+        readSettingsFromFields()
     }
     
     func readSettingsFromFields() {
@@ -81,8 +76,7 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
         if let level = contentLevelCell?.intValue {
             routeSettings.contentLevel = VNContentLevel(rawValue: UInt(level)) ?? .full
         }
-        if let dateString = startDateCell?.textField.text,
-           let date = dateFormatter.date(from: dateString) {
+        if let date = startDateCell?.datePicker.date {
             routeSettings.startDate = date
         }
         for i in 0..<preferencesCells.count {
@@ -163,14 +157,11 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
                 contentLevelCell?.textField.text = RouteSettings.label(forContentLevel: routeSettings.contentLevel)
                 return contentLevelCell!
             case 6:
-                startDateCell = tableView.dequeueReusableCell(withIdentifier: "StartDate") as? DirectionSettingsPickTableViewCell
-                startDateCell?.textField.inputView = datePicker
-                startDateCell?.textField.delegate = self
-                if let date = routeSettings.startDate {
-                    startDateCell?.textField.text = dateFormatter.string(from: date)
-                } else {
-                    startDateCell?.textField.text = ""
-                }
+                startDateCell = tableView.dequeueReusableCell(withIdentifier: "StartDate") as? DirectionSettingsDateTableViewCell
+                startDateCell?.datePicker.addTarget(self,
+                                                    action: #selector(onDatePickerChanged),
+                                                    for: .valueChanged)
+                startDateCell?.datePicker.date = routeSettings.startDate
                 return startDateCell!
             default:
                 return UITableViewCell()
@@ -256,10 +247,6 @@ extension DirectionDetailsViewController: UITextFieldDelegate {
             }
             pickerView?.isHidden = false
             pickerView?.reloadAllComponents()
-            return
-        }
-        if textField == startDateCell?.textField {
-            datePicker?.isHidden = false
             return
         }
     }

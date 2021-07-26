@@ -114,6 +114,7 @@
 		F798F9AE26AE8CD100A60A1B /* RouteSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */; };
 		F798F9B026AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9AF26AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift */; };
 		F798F9B226AEAB5700A60A1B /* DirectionSettingsSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9B126AEAB5700A60A1B /* DirectionSettingsSwitchTableViewCell.swift */; };
+		F798F9B426AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9B326AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift */; };
 		F7F8563526A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -216,6 +217,7 @@
 		F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSettings.swift; sourceTree = "<group>"; };
 		F798F9AF26AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsPickTableViewCell.swift; sourceTree = "<group>"; };
 		F798F9B126AEAB5700A60A1B /* DirectionSettingsSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		F798F9B326AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsDateTableViewCell.swift; sourceTree = "<group>"; };
 		F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsTextTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -430,6 +432,7 @@
 				F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */,
 				F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */,
 				F798F9AF26AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift */,
+				F798F9B326AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift */,
 				F798F9B126AEAB5700A60A1B /* DirectionSettingsSwitchTableViewCell.swift */,
 				F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */,
 			);
@@ -677,6 +680,7 @@
 				C5432CC8255D7DA7008D8088 /* Throttler.swift in Sources */,
 				C54C055F255DA1D30002CE83 /* DetailViewCell.swift in Sources */,
 				C5FD76BE2564230700E6D780 /* PredictionWordCell.swift in Sources */,
+				F798F9B426AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift in Sources */,
 				C587D6B9256BBCC3004D9114 /* CoordinateSettingsController.swift in Sources */,
 				C5FD76B62564220A00E6D780 /* PredictionsView.swift in Sources */,
 				C54F0AF7256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */,
