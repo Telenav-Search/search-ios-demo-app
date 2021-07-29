@@ -9,6 +9,7 @@ import VividNavigationSDK
 
 struct RouteSettings
 {
+
     var region = "NA"
     
     var routeCount: Int32 = 1

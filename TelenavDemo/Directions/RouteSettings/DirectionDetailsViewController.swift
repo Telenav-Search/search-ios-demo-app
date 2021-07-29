@@ -14,6 +14,8 @@ protocol DirectionDetailsViewControllerDelegate: AnyObject {
     
     func directionDetails(_ viewController: DirectionDetailsViewController,
                           didUpdateSettings settings: RouteSettings)
+    
+    func isRouteCalculated() -> Bool
 }
 
 class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
@@ -31,6 +33,7 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
     
     var preferencesCells = [Int: DirectionSettingsSwitchTableViewCell]()
     
+    @IBOutlet weak var applyButton: UIButton?
     @IBOutlet weak var pickerView: UIPickerView?
     var selectedPickCell: DirectionSettingsPickTableViewCell?
     var pickerSource = [String]()
@@ -43,13 +46,16 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
         }
     }
     
-    let dateFormatter = DateFormatter()
-    
     override func viewDidLoad() {
-        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
         tableView?.dataSource = self
         pickerView?.dataSource = self
         pickerView?.delegate = self
+        if let delegate = delegate,
+           delegate.isRouteCalculated() {
+            applyButton?.setTitle("Apply settings", for: .normal)
+        } else {
+            applyButton?.setTitle("Save settings", for: .normal)
+        }
         setupKeyboardAppearance()
     }
     

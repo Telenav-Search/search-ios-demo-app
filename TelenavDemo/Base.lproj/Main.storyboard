@@ -42,25 +42,25 @@
                                             <constraint firstAttribute="height" constant="300" id="95s-uj-wHd"/>
                                         </constraints>
                                     </view>
-                                    <scrollView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QP6-qj-jdW" customClass="RoutesScrollView" customModule="TelenavDemo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QP6-qj-jdW" customClass="RoutesScrollView" customModule="TelenavDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
                                         <subviews>
                                             <view tag="1001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bV4-1U-Txm">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="86"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>
                                         <viewLayoutGuide key="safeArea" id="pGh-ZJ-ntq"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="86" id="GNe-1f-BVk"/>
+                                            <constraint firstAttribute="height" id="GNe-1f-BVk"/>
                                             <constraint firstItem="pGh-ZJ-ntq" firstAttribute="trailing" secondItem="bV4-1U-Txm" secondAttribute="trailing" id="Gr2-qd-mtk"/>
                                             <constraint firstItem="bV4-1U-Txm" firstAttribute="leading" secondItem="pGh-ZJ-ntq" secondAttribute="leading" id="NKW-fv-5zE"/>
                                             <constraint firstItem="pGh-ZJ-ntq" firstAttribute="bottom" secondItem="bV4-1U-Txm" secondAttribute="bottom" id="dri-Lg-SQG"/>
                                             <constraint firstItem="bV4-1U-Txm" firstAttribute="top" secondItem="pGh-ZJ-ntq" secondAttribute="top" id="ri1-R7-VYc"/>
                                         </constraints>
                                     </scrollView>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KV7-3V-e1R">
-                                        <rect key="frame" x="138" y="94" width="138" height="32"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KV7-3V-e1R">
+                                        <rect key="frame" x="138" y="12" width="138" height="32"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="138" id="Ptt-Cu-KNA"/>
@@ -68,6 +68,15 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <inset key="contentEdgeInsets" minX="10" minY="5" maxX="10" maxY="5"/>
                                         <state key="normal" title="Route Settings"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="4"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                                <integer key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="onRouteSettings:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UOq-7y-0hu"/>
                                         </connections>
@@ -80,16 +89,16 @@
                                     <constraint firstItem="koQ-v2-zDU" firstAttribute="top" secondItem="WIn-Qv-FkV" secondAttribute="top" constant="8" id="JIv-CS-gJy"/>
                                     <constraint firstItem="pzA-GP-v7g" firstAttribute="leading" secondItem="WIn-Qv-FkV" secondAttribute="leading" id="K0S-1a-fII"/>
                                     <constraint firstItem="koQ-v2-zDU" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="WIn-Qv-FkV" secondAttribute="trailing" constant="-16" id="Kuy-dw-M6p"/>
+                                    <constraint firstItem="KV7-3V-e1R" firstAttribute="centerX" secondItem="koQ-v2-zDU" secondAttribute="centerX" id="MNf-xC-hVf"/>
                                     <constraint firstItem="QP6-qj-jdW" firstAttribute="trailing" secondItem="lZ1-5J-ZmU" secondAttribute="trailing" id="Mt9-SD-flB"/>
                                     <constraint firstAttribute="bottom" secondItem="pzA-GP-v7g" secondAttribute="bottom" constant="-300" id="RcD-Qy-qc4"/>
                                     <constraint firstAttribute="bottom" secondItem="lZ1-5J-ZmU" secondAttribute="bottom" id="bgo-ON-uBK"/>
                                     <constraint firstItem="QP6-qj-jdW" firstAttribute="leading" secondItem="lZ1-5J-ZmU" secondAttribute="leading" id="dgz-iu-Br6"/>
                                     <constraint firstItem="QP6-qj-jdW" firstAttribute="top" secondItem="lZ1-5J-ZmU" secondAttribute="top" id="fHk-kn-ara"/>
                                     <constraint firstItem="lZ1-5J-ZmU" firstAttribute="top" secondItem="WIn-Qv-FkV" secondAttribute="top" id="jOX-Gx-puw"/>
-                                    <constraint firstItem="KV7-3V-e1R" firstAttribute="top" secondItem="QP6-qj-jdW" secondAttribute="bottom" constant="8" symbolic="YES" id="lLc-hR-zJ8"/>
+                                    <constraint firstItem="KV7-3V-e1R" firstAttribute="top" secondItem="QP6-qj-jdW" secondAttribute="bottom" constant="12" id="lLc-hR-zJ8"/>
                                     <constraint firstAttribute="trailing" secondItem="lZ1-5J-ZmU" secondAttribute="trailing" id="laO-bL-K1w"/>
                                     <constraint firstAttribute="trailing" secondItem="pzA-GP-v7g" secondAttribute="trailing" id="mMK-nK-Fy5"/>
-                                    <constraint firstItem="KV7-3V-e1R" firstAttribute="centerX" secondItem="QP6-qj-jdW" secondAttribute="centerX" id="oiq-u5-eFO"/>
                                     <constraint firstAttribute="trailing" secondItem="koQ-v2-zDU" secondAttribute="trailing" constant="16" placeholder="YES" id="vbH-0S-L4U"/>
                                 </constraints>
                             </view>
@@ -179,6 +188,7 @@
                         <outlet property="mapView" destination="lZ1-5J-ZmU" id="tmL-c7-yWf"/>
                         <outlet property="predictionsView" destination="koQ-v2-zDU" id="Rm4-Tf-rc0"/>
                         <outlet property="redoSearchButton" destination="pVb-pw-Ask" id="cBe-uT-ldX"/>
+                        <outlet property="routeScrollHeightConstraint" destination="GNe-1f-BVk" id="qmZ-cg-geG"/>
                         <outlet property="routeSettingsButton" destination="KV7-3V-e1R" id="KoC-zQ-sSg"/>
                         <outlet property="routesScrollView" destination="QP6-qj-jdW" id="vlB-4Y-6F3"/>
                         <outlet property="searchQueryLabel" destination="K8f-1z-X8O" id="JoR-b7-4ez"/>
@@ -1747,6 +1757,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Z8N-eF-Qpd"/>
                     <connections>
+                        <outlet property="applyButton" destination="EAY-vh-W4Y" id="WBK-Eh-JBG"/>
                         <outlet property="pickerView" destination="Ukd-Qr-Y2F" id="Dip-LX-ZMU"/>
                         <outlet property="tableView" destination="FoJ-4a-g6z" id="el7-Ln-d8y"/>
                     </connections>

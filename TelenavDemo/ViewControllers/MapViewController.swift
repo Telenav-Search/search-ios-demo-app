@@ -36,7 +36,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     @IBOutlet weak var detailsView: DetailsView!
     
-    @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint! 
+    @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var predictionsView: PredictionsView! {
         didSet {
@@ -122,6 +122,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     internal var createRouteActionSheet: UIAlertController?
     internal var routePolyline: MKPolyline?
     @IBOutlet weak var routesScrollView: RoutesScrollView!
+    @IBOutlet weak var routeScrollHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var routeSettingsButton: UIButton!
     var routeSettings = RouteSettings()
     
@@ -229,6 +230,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
         addLongTapGestureRecognizer()
         handleDetailsViewRouteButtons()
+        routeSettingsButton.layer.borderColor = UIColor.systemBlue.cgColor
     }
     
     func findAnnIndex(id: String) -> Int {

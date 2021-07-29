@@ -32,8 +32,6 @@ class RoutePreview: UIView {
                             bundle: nil)
             .instantiate(withOwner: nil,
                          options: nil)[0] as! RoutePreview
-        preview.layer.cornerRadius = 5;
-        preview.layer.masksToBounds = true;
         preview.updateSelectionColor()
         return preview
     }

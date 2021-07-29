@@ -206,13 +206,13 @@ extension MapViewController {
             mapView.removeAnnotation(annotation)
         }
         routesScrollView.setRoutes(routes: [], withDelegate: self)
-        routesScrollView.isHidden = true
-        routeSettingsButton(setHidden: true)
+        hideRoutesScroll()
     }
     
     func removeRouteOverlay () {
         if let overlay = routePolyline {
             mapView.removeOverlay(overlay)
+            routePolyline = nil
         }
     }
     
@@ -329,11 +329,24 @@ extension MapViewController {
     func showRoutesScroll(routes: [VNRoute]) {
         OperationQueue.main.addOperation { [weak self] in
             if let controller = self {
-                controller.routesScrollView.isHidden = false
+                UIView.animate(withDuration: 0.5) { [weak controller] in
+                    controller?.routeScrollHeightConstraint.constant = 90
+                    controller?.view.layoutIfNeeded()
+                }
                 controller.routesScrollView.setRoutes(routes: routes,
                                                       withDelegate: controller)
                 controller.routesScrollView.selectFirstRoute()
-                controller.routeSettingsButton(setHidden: false)
+            }
+        }
+    }
+    
+    func hideRoutesScroll() {
+        OperationQueue.main.addOperation { [weak self] in
+            if let controller = self {
+                UIView.animate(withDuration: 0.5) { [weak controller] in
+                    controller?.routeScrollHeightConstraint.constant = 0
+                    controller?.view.layoutIfNeeded()
+                }
             }
         }
     }
@@ -368,13 +381,6 @@ extension MapViewController: RoutePreviewDelegate {
 
 extension MapViewController: DirectionDetailsViewControllerDelegate {
     
-    func routeSettingsButton(setHidden isHidden: Bool) {
-        routeSettingsButton.layer.cornerRadius = 4
-        routeSettingsButton.layer.borderWidth = 1
-        routeSettingsButton.layer.borderColor = UIColor.systemBlue.cgColor
-        routeSettingsButton.isHidden = isHidden
-    }
-    
     @IBAction func onRouteSettings(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let detailsController = storyboard
@@ -406,5 +412,9 @@ extension MapViewController: DirectionDetailsViewControllerDelegate {
         }
         createRouteIfPossible()
         viewController.onBack(self)
+    }
+    
+    func isRouteCalculated() -> Bool {
+        return (routePolyline != nil)
     }
 }
