@@ -403,13 +403,6 @@ extension MapViewController: DirectionDetailsViewControllerDelegate {
                           didUpdateSettings settings: RouteSettings)
     {
         routeSettings = settings
-        if let sdkOptions = VNSDK.sharedInstance.sdkOptions,
-           sdkOptions.region != routeSettings.region {
-            let options = sdkOptions
-            options.region = routeSettings.region
-            VNSDK.sharedInstance.dispose()
-            VNSDK.sharedInstance.initialize(with: options)
-        }
         createRouteIfPossible()
         viewController.onBack(self)
     }

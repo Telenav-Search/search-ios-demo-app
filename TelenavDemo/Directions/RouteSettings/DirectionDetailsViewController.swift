@@ -22,7 +22,6 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView?
     
-    var regionCell: DirectionSettingsTextTableViewCell?
     var routesCountCell: DirectionSettingsTextTableViewCell?
     var headingCell: DirectionSettingsTextTableViewCell?
     var speedCell: DirectionSettingsTextTableViewCell?
@@ -59,14 +58,15 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
         setupKeyboardAppearance()
     }
     
+    deinit {
+      NotificationCenter.default.removeObserver(self)
+    }
+    
     @objc func onDatePickerChanged() {
         readSettingsFromFields()
     }
     
     func readSettingsFromFields() {
-        if let region = regionCell?.textField.text {
-            routeSettings.region = region
-        }
         if let count = Int32(routesCountCell?.textField.text ?? "") {
             routeSettings.routeCount = count
         }
@@ -112,7 +112,7 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
                    numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 7
+            return 6
         default:
             return RouteSettings.preferencesLabels.count
         }
@@ -133,40 +133,35 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
             }
             switch indexPath.row {
             case 0:
-                regionCell = tableView.dequeueReusableCell(withIdentifier: "Region") as? DirectionSettingsTextTableViewCell
-                regionCell?.textField.delegate = self
-                regionCell?.textField.text = routeSettings.region
-                return regionCell!
-            case 1:
                 routesCountCell = tableView.dequeueReusableCell(withIdentifier: "RouteCount") as? DirectionSettingsTextTableViewCell
                 routesCountCell?.textField.delegate = self
                 routesCountCell?.textField.text = "\(routeSettings.routeCount)"
                 return routesCountCell!
-            case 2:
+            case 1:
                 headingCell = tableView.dequeueReusableCell(withIdentifier: "Heading") as? DirectionSettingsTextTableViewCell
                 headingCell?.textField.delegate = self
                 headingCell?.textField.text = "\(routeSettings.heading)"
                 return headingCell!
-            case 3:
+            case 2:
                 speedCell = tableView.dequeueReusableCell(withIdentifier: "Speed") as? DirectionSettingsTextTableViewCell
                 speedCell?.textField.delegate = self
                 speedCell?.textField.text = "\(routeSettings.speed)"
                 return speedCell!
-            case 4:
+            case 3:
                 routeStyleCell = tableView.dequeueReusableCell(withIdentifier: "RouteStyle") as? DirectionSettingsPickTableViewCell
                 routeStyleCell?.textField.inputView = pickerView
                 routeStyleCell?.textField.delegate = self
                 routeStyleCell?.intValue = Int(routeSettings.routeStyle.rawValue)
                 routeStyleCell?.textField.text = RouteSettings.label(forRouteStyle: routeSettings.routeStyle)
                 return routeStyleCell!
-            case 5:
+            case 4:
                 contentLevelCell = tableView.dequeueReusableCell(withIdentifier: "ContentLevel") as? DirectionSettingsPickTableViewCell
                 contentLevelCell?.textField.inputView = pickerView
                 contentLevelCell?.textField.delegate = self
                 contentLevelCell?.intValue = Int(routeSettings.contentLevel.rawValue)
                 contentLevelCell?.textField.text = RouteSettings.label(forContentLevel: routeSettings.contentLevel)
                 return contentLevelCell!
-            case 6:
+            case 5:
                 startDateCell = tableView.dequeueReusableCell(withIdentifier: "StartDate") as? DirectionSettingsDateTableViewCell
                 startDateCell?.datePicker.addTarget(self,
                                                     action: #selector(onDatePickerChanged),
@@ -224,7 +219,6 @@ extension DirectionDetailsViewController: UITextFieldDelegate {
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
-        regionCell?.textField.resignFirstResponder()
         routesCountCell?.textField.resignFirstResponder()
         headingCell?.textField.resignFirstResponder()
         speedCell?.textField.resignFirstResponder()

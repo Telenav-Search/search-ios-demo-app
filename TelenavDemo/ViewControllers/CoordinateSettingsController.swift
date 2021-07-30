@@ -7,11 +7,14 @@
 
 import UIKit
 import CoreLocation
+import VividNavigationSDK
 
 class CoordinateSettingsController: UIViewController, FiltersViewControllerDelegate {
 
     @IBOutlet weak var lngTextField: UITextField!
     @IBOutlet weak var latTextField: UITextField!
+    @IBOutlet weak var regionTextField: UITextField!
+    var activeField: UITextField?
     @IBOutlet weak var cupertinoLocSwitch: UISwitch!
     @IBOutlet weak var realLocSwitch: UISwitch!
     @IBOutlet weak var inputSwitch: UISwitch!
@@ -20,6 +23,11 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
     
     @IBOutlet weak var versionLabel: UILabel!
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var pickerToolbar: UIToolbar!
+    
+    @IBOutlet weak var regionBottomConstraint: NSLayoutConstraint!
     weak var delegate: FiltersViewControllerDelegate?
 
     lazy var filtersVC: FiltersViewController = {
@@ -58,8 +66,19 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
         let bundle = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
         
         versionLabel.text = "Version: " + (version ?? "Unknown") + " (\((bundle ?? "Unknown")))"
+        
+        regionTextField.inputView = pickerView
+        regionTextField.inputAccessoryView = pickerToolbar
+        regionTextField.delegate = self
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        setupKeyboardAppearance()
     }
 
+    deinit {
+      NotificationCenter.default.removeObserver(self)
+    }
+    
     @IBAction func showFilterAction(_ sender: Any) {
         navigationController?.pushViewController(filtersVC, animated: true)
     }
@@ -193,8 +212,32 @@ extension CoordinateSettingsController: UITextFieldDelegate {
         }
         return true
     }
+
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        activeField = textField
+//        if textField == regionTextField {
+//            pickerView?.isHidden = false
+//            pickerToolbar?.isHidden = false
+//            pickerView?.reloadAllComponents()
+//            let height = pickerView.frame.height
+//            let insets = UIEdgeInsets(top: 0, left: 0,
+//                                      bottom: height, right: 0)
+//            scrollView.contentInset = insets
+//            var aRect = self.view.frame;
+//            aRect.size.height -= height;
+//            if !aRect.contains(regionTextField.frame.origin) {
+//                let y = regionTextField.frame.origin.y - height
+//                scrollView.setContentOffset(CGPoint(x: 0,y: y), animated: true)
+//            }
+//        }
+        return true
+    }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        saveCoordinates()
+    }
+    
+    func saveCoordinates() {
         defaults.set(latTextField.text, forKey: "lat")
         defaults.set(lngTextField.text, forKey: "lng")
         
@@ -205,5 +248,103 @@ extension CoordinateSettingsController: UITextFieldDelegate {
         }
         location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
         postLocationNotif()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        activeField?.resignFirstResponder()
+        activeField = nil
+        return true
+    }
+    
+    func setupKeyboardAppearance() {
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(keyboardWillShow(notification:)),
+                           name: UIResponder.keyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(keyboardWillHide(notification:)),
+                           name: UIResponder.keyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(keyboardDidHide(notification:)),
+                           name: UIResponder.keyboardDidHideNotification, object: nil)
+        let tapGesture = UITapGestureRecognizer(target: self,
+                                                action: #selector(self.dismissInputView (_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            regionBottomConstraint.constant = keyboardSize.height
+            if activeField == regionTextField {
+                pickerView?.isHidden = false
+                pickerToolbar?.isHidden = false
+                pickerView?.reloadAllComponents()
+                scrollView.setContentOffset(CGPoint(x: 0, y: keyboardSize.height), animated: true)
+            }
+        }
+    }
+
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+    
+    @objc private func keyboardDidHide(notification: NSNotification) {
+        regionBottomConstraint.constant = 20
+    }
+    @objc func dismissInputView (_ sender: UITapGestureRecognizer) {
+        activeField?.resignFirstResponder()
+        activeField = nil
+        saveCoordinates()
+    }
+}
+
+// Picker
+extension CoordinateSettingsController: UIPickerViewDataSource, UIPickerViewDelegate
+{
+    var pickerSource: [String] {
+        return [
+            "NA",
+            "EU"
+        ]
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView,
+                    numberOfRowsInComponent component: Int) -> Int {
+        return pickerSource.count
+    }
+
+    func pickerView( _ pickerView: UIPickerView,
+                     titleForRow row: Int,
+                     forComponent component: Int) -> String? {
+        return pickerSource[row]
+    }
+    
+    func recreateNavigationSDK(withRegion region: String) {
+        var cloudEndPoint = "https://apinastg.telenav.com/"
+        switch region {
+        case "EU":
+            cloudEndPoint = "https://apieustg.telenav.com/"
+        default:
+            break
+        }
+        if let oldOptions = VNSDK.sharedInstance.sdkOptions,
+           oldOptions.region != region,
+           let newOptions = VNSDKOptions.builder()
+            .apiKey(oldOptions.apiKey ?? "")
+            .apiSecret(oldOptions.apiSecret ?? "")
+            .cloudEndPoint(cloudEndPoint)
+            .region(region)
+            .build() {
+            VNSDK.sharedInstance.dispose()
+            VNSDK.sharedInstance.initialize(with: newOptions)
+        }
+    }
+    
+    @IBAction func onPickerDone(_ sender: Any) {
+        let row = pickerView.selectedRow(inComponent: 0)
+        regionTextField.text = pickerSource[row]
+        recreateNavigationSDK(withRegion: pickerSource[row])
+        regionTextField.resignFirstResponder()
     }
 }
