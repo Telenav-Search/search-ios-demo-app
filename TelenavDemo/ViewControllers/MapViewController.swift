@@ -9,6 +9,7 @@ import UIKit
 import TelenavEntitySDK
 import Alamofire
 import MapKit
+import VividNavigationSDK
 
 class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLocationManagerDelegate {
     
@@ -35,7 +36,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     
     @IBOutlet weak var detailsView: DetailsView!
     
-    @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint! 
+    @IBOutlet weak var detailsViewBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var predictionsView: PredictionsView! {
         didSet {
@@ -113,14 +114,17 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         vc.delegate = self
         return vc
     }()
-
+    
+    // Route calculation properties
     internal var routeFromAnnotation: RouteCreationAnnotation?
     internal var routeWayPointsAnnotations = [RouteCreationAnnotation]()
     internal var routeToAnnotation: RouteCreationAnnotation?
     internal var createRouteActionSheet: UIAlertController?
     internal var routePolyline: MKPolyline?
     @IBOutlet weak var routesScrollView: RoutesScrollView!
-    
+    @IBOutlet weak var routeScrollHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var routeSettingsButton: UIButton!
+    var routeSettings = RouteSettings()
     
     func updatePredictionsView() {
         predictionsView.backgroundColor = .clear
@@ -226,6 +230,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
         addLongTapGestureRecognizer()
         handleDetailsViewRouteButtons()
+        routeSettingsButton.layer.borderColor = UIColor.systemBlue.cgColor
     }
     
     func findAnnIndex(id: String) -> Int {
@@ -1198,4 +1203,3 @@ extension MKCoordinateRegion {
                                       longitude: center.longitude + span.longitudeDelta / 2)
     }
 }
-

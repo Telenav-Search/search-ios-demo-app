@@ -110,6 +110,12 @@
 		F782217D268CBD950085C437 /* RoutesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782217C268CBD950085C437 /* RoutesScrollView.swift */; };
 		F782217F268CBE6F0085C437 /* RoutePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F782217E268CBE6F0085C437 /* RoutePreview.swift */; };
 		F7822181268CC0150085C437 /* RoutePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7822180268CC0150085C437 /* RoutePreview.xib */; };
+		F793457C26A8992600E97941 /* DirectionDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */; };
+		F798F9AE26AE8CD100A60A1B /* RouteSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */; };
+		F798F9B026AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9AF26AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift */; };
+		F798F9B226AEAB5700A60A1B /* DirectionSettingsSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9B126AEAB5700A60A1B /* DirectionSettingsSwitchTableViewCell.swift */; };
+		F798F9B426AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F798F9B326AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift */; };
+		F7F8563526A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -207,6 +213,12 @@
 		F782217C268CBD950085C437 /* RoutesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutesScrollView.swift; sourceTree = "<group>"; };
 		F782217E268CBE6F0085C437 /* RoutePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutePreview.swift; sourceTree = "<group>"; };
 		F7822180268CC0150085C437 /* RoutePreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoutePreview.xib; sourceTree = "<group>"; };
+		F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionDetailsViewController.swift; sourceTree = "<group>"; };
+		F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteSettings.swift; sourceTree = "<group>"; };
+		F798F9AF26AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsPickTableViewCell.swift; sourceTree = "<group>"; };
+		F798F9B126AEAB5700A60A1B /* DirectionSettingsSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		F798F9B326AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsDateTableViewCell.swift; sourceTree = "<group>"; };
+		F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionSettingsTextTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,8 +421,22 @@
 				F782217E268CBE6F0085C437 /* RoutePreview.swift */,
 				F7822180268CC0150085C437 /* RoutePreview.xib */,
 				F71A1BA62692FC2900D3C58E /* ManeuversViewController.swift */,
+				F7F8563626A9ACDF00A700A6 /* RouteSettings */,
 			);
 			path = Directions;
+			sourceTree = "<group>";
+		};
+		F7F8563626A9ACDF00A700A6 /* RouteSettings */ = {
+			isa = PBXGroup;
+			children = (
+				F793457B26A8992600E97941 /* DirectionDetailsViewController.swift */,
+				F7F8563426A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift */,
+				F798F9AF26AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift */,
+				F798F9B326AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift */,
+				F798F9B126AEAB5700A60A1B /* DirectionSettingsSwitchTableViewCell.swift */,
+				F798F9AD26AE8CD100A60A1B /* RouteSettings.swift */,
+			);
+			path = RouteSettings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -619,7 +645,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5D330E6256FDB7D008BFC36 /* RadioButton.swift in Sources */,
+				F798F9B226AEAB5700A60A1B /* DirectionSettingsSwitchTableViewCell.swift in Sources */,
+				F793457C26A8992600E97941 /* DirectionDetailsViewController.swift in Sources */,
 				C54C0574255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */,
+				F798F9B026AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift in Sources */,
 				06545AC3258B9B12002F9165 /* SearchPanAnimator.swift in Sources */,
 				C54C0578255E9C150002CE83 /* SearchResultViewController.swift in Sources */,
 				F713FBFF2689C17F00E873F2 /* RouteCreationAnnotation.swift in Sources */,
@@ -645,15 +674,18 @@
 				06751B02253D8D09001F6B11 /* AppDelegate.swift in Sources */,
 				F71A1BA72692FC2900D3C58E /* ManeuversViewController.swift in Sources */,
 				C54C0571255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
+				F798F9AE26AE8CD100A60A1B /* RouteSettings.swift in Sources */,
 				C509FC3C255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */,
 				C54C0558255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC8255D7DA7008D8088 /* Throttler.swift in Sources */,
 				C54C055F255DA1D30002CE83 /* DetailViewCell.swift in Sources */,
 				C5FD76BE2564230700E6D780 /* PredictionWordCell.swift in Sources */,
+				F798F9B426AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift in Sources */,
 				C587D6B9256BBCC3004D9114 /* CoordinateSettingsController.swift in Sources */,
 				C5FD76B62564220A00E6D780 /* PredictionsView.swift in Sources */,
 				C54F0AF7256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */,
 				06751B04253D8D09001F6B11 /* SceneDelegate.swift in Sources */,
+				F7F8563526A9ACDA00A700A6 /* DirectionSettingsTextTableViewCell.swift in Sources */,
 				C5D330EC256FDE8D008BFC36 /* BrandFilterCell.swift in Sources */,
 				F782217D268CBD950085C437 /* RoutesScrollView.swift in Sources */,
 				C54C057B255E9C750002CE83 /* SearchResultCell.swift in Sources */,

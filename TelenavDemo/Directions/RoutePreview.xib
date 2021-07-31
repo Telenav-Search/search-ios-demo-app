@@ -44,7 +44,7 @@
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <color key="backgroundColor" red="0.0" green="0.47711845316645274" blue="0.91879176188990019" alpha="0.23668001136001277" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.63994900707781621" green="0.91879176188990019" blue="0.7867936128005385" alpha="0.56432586462319301" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="riH-6Z-kbH" secondAttribute="trailing" constant="11" id="0cr-9A-TVz"/>
                 <constraint firstItem="moQ-1I-fkT" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="11" id="3Sa-TB-JBA"/>
@@ -63,9 +63,10 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="number" keyPath="rectCornerRadius">
-                    <integer key="value" value="18"/>
+                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                    <integer key="value" value="5"/>
                 </userDefinedRuntimeAttribute>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
             </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="distanceLabel" destination="tK2-OQ-QQM" id="SLn-pa-d7M"/>

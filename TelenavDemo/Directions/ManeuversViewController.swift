@@ -44,7 +44,8 @@ class ManeuversViewController: UITableViewController {
            section < route.legs.count {
             let leg = route.legs[section]
             let duration = String(format: "%.2f", leg.duration/60/60)
-            return "\(section+1) leg: \(leg.length/1000)km, \(duration) h"
+            let length = RouteSettings.distanceLabel(format: "%.2f %@", lengthInMeters: Double(leg.length))
+            return "\(section+1) leg: \(length), \(duration) h"
         }
         return ""
     }
@@ -64,7 +65,7 @@ class ManeuversViewController: UITableViewController {
             let leg = route.legs[indexPath.section]
             if indexPath.row < leg.steps.count {
                 let step = leg.steps[indexPath.row]
-                cell?.textLabel?.text = String(format: "in %.1f km", step.length/1000)
+                cell?.textLabel?.text = RouteSettings.distanceLabel(format: "in %.1f %@", lengthInMeters: step.length)
                 cell?.detailTextLabel?.text = descriptionOfManeuverAction(step.maneuver.action)
             }
         }

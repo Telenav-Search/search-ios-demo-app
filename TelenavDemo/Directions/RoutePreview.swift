@@ -32,8 +32,6 @@ class RoutePreview: UIView {
                             bundle: nil)
             .instantiate(withOwner: nil,
                          options: nil)[0] as! RoutePreview
-        preview.layer.cornerRadius = 5;
-        preview.layer.masksToBounds = true;
         preview.updateSelectionColor()
         return preview
     }
@@ -49,8 +47,9 @@ class RoutePreview: UIView {
     
     var route: VNRoute? {
         didSet {
-            let kilometers = String(format: "%.3f", (route?.length ?? 0)/1000)
-            distanceLabel.text = "\(kilometers) km"
+            distanceLabel.text = RouteSettings.distanceLabel(
+                format: "%.3f %@",
+                lengthInMeters: route?.length ?? 0)
             let hours = String(format: "%.2f", (route?.duration ?? 0)/60/60)
             durationLabel.text = "\(hours) h"
         }
@@ -58,7 +57,7 @@ class RoutePreview: UIView {
     
     func updateSelectionColor() {
         if isSelected {
-            backgroundColor = UIColor(red: 0, green: 0, blue: 20, alpha: 0.2)
+            backgroundColor = UIColor(red: 0.640, green: 0.919, blue: 0.787, alpha: 0.6)
         } else {
             backgroundColor = .white
         }

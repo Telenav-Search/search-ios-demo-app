@@ -11,7 +11,7 @@ import VividNavigationSDK
 import TelenavEntitySDK
 
 extension MapViewController {
-    
+
     func handleDetailsViewRouteButtons() {
         detailsView.fromThisPointButton.addTarget(self, action: #selector(onDetailsViewFromButton), for: .touchUpInside)
         detailsView.toThisPointButton.addTarget(self, action: #selector(onDetailsViewToButton), for: .touchUpInside)
@@ -206,18 +206,18 @@ extension MapViewController {
             mapView.removeAnnotation(annotation)
         }
         routesScrollView.setRoutes(routes: [], withDelegate: self)
-        routesScrollView.isHidden = true
-        
+        hideRoutesScroll()
     }
     
     func removeRouteOverlay () {
         if let overlay = routePolyline {
             mapView.removeOverlay(overlay)
+            routePolyline = nil
         }
     }
     
     func createRouteIfPossible() {
-        if let request = createRouteRequest() {
+        if let request = createRouteRequest(settings: routeSettings) {
             let client = VNDirectionClient.factory().build()
             let task = client?.createRouteCalculationTask(request)
             let activity = showActivityIndicator()
@@ -239,26 +239,34 @@ extension MapViewController {
         }
     }
     
-    func createRouteRequest() -> VNRouteRequest? {
+    func createRouteRequest(settings: RouteSettings) -> VNRouteRequest? {
         if let startCoord = routeFromAnnotation?.coordinate,
            let endCoord = routeToAnnotation?.coordinate {
             let origin = VNGeoLocation(latitude: startCoord.latitude,
                                        longitude: startCoord.longitude)
             let destination = VNGeoLocation(latitude: endCoord.latitude,
-                                       longitude: endCoord.longitude)
-            let builder = VNRouteRequest.builder()
-                            .setOrigin(origin)
-                            .setDestination(destination)
+                                            longitude: endCoord.longitude)
+            let requestBuilder = VNRouteRequest.builder()
+            requestBuilder.setOrigin(origin)
+                .setDestination(destination)
             var waypoints = [VNGeoLocation]()
             for wpAnnotation in routeWayPointsAnnotations {
                 let wpCoord = wpAnnotation.coordinate
                 let waypoint = VNGeoLocation(latitude: wpCoord.latitude,
-                                           longitude: wpCoord.longitude)
+                                             longitude: wpCoord.longitude)
                 waypoints.append(waypoint)
             }
-            builder.setWayPoints(waypoints)
-            builder.setRouteCount(4)
-            return builder.build()
+            requestBuilder.setWayPoints(waypoints)
+            requestBuilder.setRouteCount(settings.routeCount)
+            requestBuilder.setHeading(settings.heading)
+            requestBuilder.setSpeed(settings.speedInMps)
+            requestBuilder.setRouteStyle(settings.routeStyle)
+            requestBuilder.setContentLevel(settings.contentLevel)
+            if settings.startDate > Date() {
+                requestBuilder.setStartTime(settings.startDate)
+            }
+            requestBuilder.setRoutePreference(settings.preferences)
+            return requestBuilder.build()
         }
         return nil
     }
@@ -321,10 +329,24 @@ extension MapViewController {
     func showRoutesScroll(routes: [VNRoute]) {
         OperationQueue.main.addOperation { [weak self] in
             if let controller = self {
-                controller.routesScrollView.isHidden = false
+                UIView.animate(withDuration: 0.5) { [weak controller] in
+                    controller?.routeScrollHeightConstraint.constant = 90
+                    controller?.view.layoutIfNeeded()
+                }
                 controller.routesScrollView.setRoutes(routes: routes,
                                                       withDelegate: controller)
                 controller.routesScrollView.selectFirstRoute()
+            }
+        }
+    }
+    
+    func hideRoutesScroll() {
+        OperationQueue.main.addOperation { [weak self] in
+            if let controller = self {
+                UIView.animate(withDuration: 0.5) { [weak controller] in
+                    controller?.routeScrollHeightConstraint.constant = 0
+                    controller?.view.layoutIfNeeded()
+                }
             }
         }
     }
@@ -353,5 +375,39 @@ extension MapViewController: RoutePreviewDelegate {
         present(navController, animated: true) {
             controller.showManeuvers(ofRoute: route)
         }
+    }
+}
+
+
+extension MapViewController: DirectionDetailsViewControllerDelegate {
+    
+    @IBAction func onRouteSettings(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let detailsController = storyboard
+            .instantiateViewController(withIdentifier: "DirectionDetailsViewController")
+            as? DirectionDetailsViewController {
+            detailsController.delegate = self
+            detailsController.routeSettings = routeSettings
+            navigationController?.pushViewController(detailsController,
+                                                     animated: true)
+        }
+    }
+    
+    // MARK: -  DirectionDetailsViewControllerDelegate
+    
+    func onBackButtonOfDirectionDetails(_ viewController: DirectionDetailsViewController) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func directionDetails(_ viewController: DirectionDetailsViewController,
+                          didUpdateSettings settings: RouteSettings)
+    {
+        routeSettings = settings
+        createRouteIfPossible()
+        viewController.onBack(self)
+    }
+    
+    func isRouteCalculated() -> Bool {
+        return (routePolyline != nil)
     }
 }

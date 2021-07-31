@@ -7,6 +7,8 @@
     `sudo gem install cocoapods`
 
     `sudo gem install cocoapods-art`
+    
+    You can use this [Guide](https://guides.cocoapods.org/using/getting-started.html#getting-started) for installation.
 
 2. If it is the first time you build Demo App, add Telenav Cocoapods repos. Do the following commands from the root folder of project:
 
