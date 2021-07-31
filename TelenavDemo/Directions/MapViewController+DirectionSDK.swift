@@ -259,7 +259,7 @@ extension MapViewController {
             requestBuilder.setWayPoints(waypoints)
             requestBuilder.setRouteCount(settings.routeCount)
             requestBuilder.setHeading(settings.heading)
-            requestBuilder.setSpeed(settings.speed)
+            requestBuilder.setSpeed(settings.speedInMps)
             requestBuilder.setRouteStyle(settings.routeStyle)
             requestBuilder.setContentLevel(settings.contentLevel)
             if settings.startDate > Date() {

@@ -14,7 +14,35 @@ struct RouteSettings
     
     var routeCount: Int32 = 1
     var heading: Int32 = -1
+    
+    /** Speed in accrodance with current locale
+            if metric -> km/h
+            if not -> mph
+    */
     var speed: Int32 = 0
+    var speedInMps: Int32 {
+        get {
+            if RouteSettings.isMetricSystem {
+                return Int32(lround(Double(speed)/3.6))
+            } else {
+                return Int32(lround(Double(speed)/2.23694))
+            }
+        }
+    }
+    
+    static var isMetricSystem: Bool {
+        let locale = NSLocale.current
+        return locale.usesMetricSystem
+    }
+    
+    var speedDescriptionLabel: String {
+        let format = "Set the speed of the vehicle in %@. Default is 0"
+        if RouteSettings.isMetricSystem {
+            return String(format: format, "km/h")
+        } else {
+            return String(format: format, "Mph")
+        }
+    }
     
     var routeStyle: VNRouteStyle = .fastest
     var contentLevel: VNContentLevel = .full
@@ -129,4 +157,15 @@ struct RouteSettings
                                     "Avoid Country Borders",
                                     "Avoid Permit Required Roads",
                                     "Avoid Seasonal Restrictions"]
+    
+    static func distanceLabel(format: String,
+                              lengthInMeters length: Double) -> String {
+        let kilometers = length/1000
+        if RouteSettings.isMetricSystem {
+            return String(format: format, kilometers, "km")
+        } else {
+            let miles = kilometers*0.621371
+            return String(format: format, miles, "mi")
+        }
+    }
 }

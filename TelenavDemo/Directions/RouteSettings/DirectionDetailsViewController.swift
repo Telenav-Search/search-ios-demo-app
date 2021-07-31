@@ -145,6 +145,7 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
             case 2:
                 speedCell = tableView.dequeueReusableCell(withIdentifier: "Speed") as? DirectionSettingsTextTableViewCell
                 speedCell?.textField.delegate = self
+                speedCell?.descriptionLabel.text = routeSettings.speedDescriptionLabel
                 speedCell?.textField.text = "\(routeSettings.speed)"
                 return speedCell!
             case 3:
