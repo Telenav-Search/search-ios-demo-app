@@ -9,10 +9,8 @@ source 'https://cdn.cocoapods.org/'
 platform :ios, '12.0'
 
 target 'TelenavDemo' do
-
-  pod 'VividNavigationSDK', '0.2.1'
-  
   use_frameworks!
+  pod 'VividNavigationSDK', '0.2.1-beta73.1'
   
   pod 'TelenavEntitySDK', '1.0.0' #, :path => '../'
   # Pods for TelenavDemo
