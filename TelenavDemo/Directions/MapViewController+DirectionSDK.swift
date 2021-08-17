@@ -216,6 +216,19 @@ extension MapViewController {
         }
     }
     
+    func removeWayPoints() {
+        if let routeFromAnnotation = routeFromAnnotation {
+            mapView.removeAnnotation(routeFromAnnotation)
+            self.routeFromAnnotation = nil
+        }
+        if let routeToAnnotation = routeToAnnotation {
+            mapView.removeAnnotation(routeToAnnotation)
+            self.routeToAnnotation = nil
+        }
+        mapView.removeAnnotations(routeWayPointsAnnotations)
+        routeWayPointsAnnotations = [RouteCreationAnnotation]()
+    }
+    
     func createRouteIfPossible() {
         if let request = createRouteRequest(settings: routeSettings) {
             let client = VNDirectionClient.factory().build()
