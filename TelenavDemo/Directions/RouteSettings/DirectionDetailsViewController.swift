@@ -236,9 +236,8 @@ extension DirectionDetailsViewController: UITextFieldDelegate {
         pickerSource = [String]()
         if textField == routeStyleCell?.textField {
             selectedPickCell = routeStyleCell
-            for i: UInt in 0...4 {
-                let style = VNRouteStyle(rawValue: i) ?? .fastest
-                pickerSource.append(RouteSettings.label(forRouteStyle: style))
+            VNRouteStyle.demoAppStyles().forEach {
+                pickerSource.append(RouteSettings.label(forRouteStyle: $0))
             }
             pickerView?.isHidden = false
             pickerView?.reloadAllComponents()
@@ -278,9 +277,9 @@ extension DirectionDetailsViewController: UIPickerViewDelegate, UIPickerViewData
                      didSelectRow row: Int,
                      inComponent component: Int) {
         if selectedPickCell == routeStyleCell {
-            let style = VNRouteStyle(rawValue: UInt(row)) ?? .fastest
-            routeStyleCell?.textField.text = RouteSettings.label(forRouteStyle: style)
-            routeStyleCell?.intValue = Int(style.rawValue)
+            let routeStyle = VNRouteStyle.demoAppStyles()[row]
+            routeStyleCell?.textField.text = RouteSettings.label(forRouteStyle: routeStyle)
+            routeStyleCell?.intValue = Int(routeStyle.rawValue)
         }
         if selectedPickCell == contentLevelCell {
             let level = VNContentLevel(rawValue: UInt(row)) ?? .full
@@ -288,5 +287,12 @@ extension DirectionDetailsViewController: UIPickerViewDelegate, UIPickerViewData
             contentLevelCell?.intValue = Int(level.rawValue)
         }
         readSettingsFromFields()
+    }
+}
+
+extension VNRouteStyle {
+    // Available styles in the demo app.
+    static func demoAppStyles() -> [VNRouteStyle] {
+        return [.fastest, .shortest, .easy]
     }
 }
