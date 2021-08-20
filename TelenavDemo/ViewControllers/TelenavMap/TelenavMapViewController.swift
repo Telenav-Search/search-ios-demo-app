@@ -12,6 +12,9 @@ class TelenavMapViewController: UIViewController {
     var mapViewSettingsModel = TelenavMapSettingsModel()
     var map: VNMapView!
     var cameraRenderMode = VNCameraRenderMode.M2D
+    private var cameraRenderMode = VNCameraRenderMode.M2D
+    private var isListenData = false
+    private var longPressGestureRecognizer: UILongPressGestureRecognizer!
     
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
@@ -27,6 +30,14 @@ class TelenavMapViewController: UIViewController {
         return cameraSettingsButton
     }()
     
+    lazy var diagnosisButton: UIButton = {
+        let diagnosisButton = UIButton(type: .system)
+        diagnosisButton.translatesAutoresizingMaskIntoConstraints = false
+        diagnosisButton.backgroundColor = .systemBackground
+        diagnosisButton.setImage(UIImage(systemName: "waveform.path.ecg"), for: .normal)
+        return diagnosisButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,6 +51,7 @@ class TelenavMapViewController: UIViewController {
         
         setupUI()
         setupMapFeatures(settings: mapViewSettingsModel)
+        setupLongPressGestureRecognizer()
     }
     
     func setupUI() {
@@ -79,6 +91,17 @@ class TelenavMapViewController: UIViewController {
         ])
         
         cameraSettingsButton.addTarget(self, action: #selector(cameraSettingsButtonTapped), for: .touchUpInside)
+        
+        view.addSubview(diagnosisButton)
+        
+        NSLayoutConstraint.activate([
+            diagnosisButton.widthAnchor.constraint(equalToConstant: 40),
+            diagnosisButton.heightAnchor.constraint(equalToConstant: 40),
+            diagnosisButton.bottomAnchor.constraint(equalTo: cameraSettingsButton.topAnchor, constant: -16.0),
+            diagnosisButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+        ])
+        
+        diagnosisButton.addTarget(self, action: #selector(diagnosisButtonTapped), for: .touchUpInside)
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
@@ -102,6 +125,9 @@ class TelenavMapViewController: UIViewController {
         
         let layoutController = map.layoutController()
         layoutController.setOffsets(settings.horizontalOffset, vertical: settings.verticalOffset)
+        
+        isListenData = settings.isListenMapViewDataOn
+        map.listenData(settings.isListenMapViewDataOn)
     }
     
     func cameraRenderModeButtonUpdate(mode: VNCameraRenderMode) {
@@ -162,6 +188,17 @@ extension TelenavMapViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc func diagnosisButtonTapped() {
+        let mapDiagnosis = map.mapDiagnosis()
+        let mapViewState = mapDiagnosis.getMapViewStatus()
+        
+        let vc = TelenavMapDiagnosisViewController.storyboardViewController()
+        vc.mapViewState = isListenData ? mapViewState : nil
+        vc.title = "Map diagnosis"
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func positionDidChange(position: VNCameraPosition) {
         self.map.cameraController().position = position
     }
@@ -194,5 +231,81 @@ extension TelenavMapViewController: TelenavMapSettingsViewControllerDelegate {
         
         setupMapFeatures(settings: settings)
         navigationController?.popViewController(animated: true)
+    }
+}
+
+// Recognizers
+extension TelenavMapViewController {
+    private func setupLongPressGestureRecognizer() {
+        longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureRecognizerAction))
+        map.addGestureRecognizer(longPressGestureRecognizer)
+    }
+    
+    @objc private func longPressGestureRecognizerAction(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        
+        let longPressLocation = gestureRecognizer.location(in: gestureRecognizer.view)
+        
+        let scale = UIScreen.main.scale
+        let viewPoint = VNViewPoint(
+            x: Float(longPressLocation.x * scale), // in pixels
+            y: Float(longPressLocation.y * scale)  // in pixels
+        )
+        
+        guard let mapLocation = map.cameraController().viewport(toWorld: viewPoint) else {
+            return
+        }
+        
+        let geoLocation = CLLocationCoordinate2D(latitude: mapLocation.latitude, longitude: mapLocation.longitude)
+        
+        let annotationMenuAlert = UIAlertController(title: "Add annotation", message: "Please select annotations type", preferredStyle: .actionSheet)
+        
+        annotationMenuAlert.addAction(UIAlertAction(title: "Image", style: .default, handler: { [weak self] _ in
+            self?.addImageAnnotationTo(location: geoLocation)
+        }))
+        annotationMenuAlert.addAction(UIAlertAction(title: "Image and text", style: .default, handler: { [weak self] _ in
+            self?.addTextAnnotationTo(location: geoLocation)
+        }))
+        annotationMenuAlert.addAction(UIAlertAction(title: "Explicit style", style: .default, handler: { [weak self] _ in
+            self?.addExplicitStyleAnnotationTo(location: geoLocation)
+        }))
+        annotationMenuAlert.addAction(UIAlertAction(title: "Remove all annotations", style: .destructive, handler: { [weak self] _ in
+            self?.removeAllAnnotation()
+        }))
+        
+        self.present(annotationMenuAlert, animated: true, completion: nil)
+    }
+    
+    private func addImageAnnotationTo(location: CLLocationCoordinate2D) {
+        let annotationsFactory = map.annotationsController().factory()
+        
+        if let image = UIImage(systemName: "face.smiling") {
+            let annotation = annotationsFactory.create(with: image, location: location)
+            annotation.style = .screenFlagNoCulling
+            map.annotationsController().add([annotation])
+        }
+    }
+    
+    private func addTextAnnotationTo(location: CLLocationCoordinate2D) {
+        let annotationsFactory = map.annotationsController().factory()
+        
+        if let image = UIImage(systemName: "face.smiling") {
+            let annotation = annotationsFactory.create(with: image, location: location)
+            annotation.style = .screenFlagNoCulling
+            
+            let textDisplay = VNTextDisplayInfo(centeredText: "face.smiling")
+            textDisplay.textColor = .red
+            textDisplay.textFontSize = 20
+            
+            annotation.displayText = textDisplay
+            map.annotationsController().add([annotation])
+        }
+    }
+    
+    private func addExplicitStyleAnnotationTo(location: CLLocationCoordinate2D) {
+        // TODO: Now explicit style annotations don't work.
+    }
+    
+    private func removeAllAnnotation() {
+        map.annotationsController().clearAllAnnotations()
     }
 }

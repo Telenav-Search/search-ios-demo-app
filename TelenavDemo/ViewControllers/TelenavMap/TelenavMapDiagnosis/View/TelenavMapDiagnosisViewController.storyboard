@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2ZZ-c5-CQS">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Telenav Map Diagnosis View Controller-->
+        <scene sceneID="PcI-r8-G9o">
+            <objects>
+                <viewController storyboardIdentifier="TelenavMapSettingsViewController" id="2ZZ-c5-CQS" customClass="TelenavMapDiagnosisViewController" customModule="TelenavDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fcz-mD-3mj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="empty" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XOE-nO-krv">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="d9e-9W-FPt"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="d9e-9W-FPt" firstAttribute="bottom" secondItem="XOE-nO-krv" secondAttribute="bottom" id="5Pw-Rj-TGh"/>
+                            <constraint firstItem="XOE-nO-krv" firstAttribute="leading" secondItem="d9e-9W-FPt" secondAttribute="leading" id="fSu-jM-hUJ"/>
+                            <constraint firstItem="XOE-nO-krv" firstAttribute="top" secondItem="d9e-9W-FPt" secondAttribute="top" id="hAi-dR-IeE"/>
+                            <constraint firstItem="d9e-9W-FPt" firstAttribute="trailing" secondItem="XOE-nO-krv" secondAttribute="trailing" id="pac-53-5fG"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="XOE-nO-krv" id="vUb-9q-9dX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YGb-6s-uvR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-105" y="-135"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
