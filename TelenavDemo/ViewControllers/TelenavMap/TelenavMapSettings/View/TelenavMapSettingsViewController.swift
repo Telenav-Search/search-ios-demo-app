@@ -112,7 +112,7 @@ class TelenavMapSettingsViewController: UIViewController, Storyboardable {
 
 // actions
 extension TelenavMapSettingsViewController {
-    @IBAction func applyAction(_ sender: Any) {
+    @objc func applyAction(_ sender: Any) {
         if let vOffset = Double(verticalOffset ?? ""),
            let hOffset = Double(horizontalOffset ?? "") {
             mapSettings.horizontalOffset = hOffset

@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Telenav Map Settings View Controller-->
+        <!--Telenav Map Camera Position View Controller-->
         <scene sceneID="PcI-r8-G9o">
             <objects>
-                <viewController storyboardIdentifier="TelenavMapSettingsViewController" id="2ZZ-c5-CQS" customClass="TelenavMapSettingsViewController" customModule="TelenavDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TelenavMapSettingsViewController" id="2ZZ-c5-CQS" customClass="TelenavMapCameraPositionViewController" customModule="TelenavDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fcz-mD-3mj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
