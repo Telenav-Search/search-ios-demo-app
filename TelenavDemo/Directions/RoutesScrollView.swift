@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import VividNavigationSDK
+import VividMapSDK
 
 class RoutesScrollView: UIScrollView {
     

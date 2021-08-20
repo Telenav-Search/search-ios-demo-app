@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import VividNavigationSDK
+import VividMapSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,14 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         if let options = VNSDKOptions.builder()
-            .apiKey("e48ee2f9-5c2c-41e9-b0d7-167d8ad47870")
-            .apiSecret("ce7e333a-e168-4fbb-bb5a-ac5a0fb28eac")
+            .apiKey("94bc88e5-ed96-47be-bdab-2dc714a5d2e3")
+            .apiSecret("2c3fa0d2-d33b-4ada-9452-2769d6cc9c2d")
             .cloudEndPoint("https://apinastg.telenav.com/")
             .build() {
             VNSDK.sharedInstance.initialize(with: options)
         }
         
-        VNLogging.sharedInstance.logLevel = .warning
+        VNLogging.sharedInstance.logLevel = .error
         
         return true
     }

@@ -9,7 +9,7 @@ import UIKit
 import TelenavEntitySDK
 import Alamofire
 import MapKit
-import VividNavigationSDK
+import VividMapSDK
 
 class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLocationManagerDelegate {
     

@@ -7,7 +7,7 @@
 
 import UIKit
 import MapKit
-import VividNavigationSDK
+import VividMapSDK
 import TelenavEntitySDK
 
 extension MapViewController {

@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import VividNavigationSDK
+import VividMapSDK
 
 protocol RoutePreviewDelegate: AnyObject {
     func routePreview(_ preview: RoutePreview, didSelectedRoute route: VNRoute?)

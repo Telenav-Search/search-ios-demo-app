@@ -10,9 +10,10 @@ platform :ios, '12.0'
 
 target 'TelenavDemo' do
   use_frameworks!
-  pod 'VividNavigationSDK', '0.2.2'
+  #pod 'VividNavigationSDK', '0.2.2'
   
   pod 'TelenavEntitySDK', '1.0.0' #, :path => '../'
   # Pods for TelenavDemo
+  pod 'CocoaLumberjack', '3.7.2'
 
 end
