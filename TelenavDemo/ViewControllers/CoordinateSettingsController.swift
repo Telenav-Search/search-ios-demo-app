@@ -9,6 +9,11 @@ import UIKit
 import CoreLocation
 import VividNavigationSDK
 
+protocol CoordinateSettingsDelegate: class {
+    func updateSelectedFilters(selectedFilters: [SelectableFilterItem])
+    func regionDidChange(region: String)
+}
+
 class CoordinateSettingsController: UIViewController, FiltersViewControllerDelegate {
 
     @IBOutlet weak var lngTextField: UITextField!
@@ -28,7 +33,7 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
     @IBOutlet weak var pickerToolbar: UIToolbar!
     
     @IBOutlet weak var regionBottomConstraint: NSLayoutConstraint!
-    weak var delegate: FiltersViewControllerDelegate?
+    weak var delegate: CoordinateSettingsDelegate?
 
     lazy var filtersVC: FiltersViewController = {
         let vc = storyboard!.instantiateViewController(withIdentifier: "FiltersViewController") as! FiltersViewController
@@ -336,6 +341,7 @@ extension CoordinateSettingsController: UIPickerViewDataSource, UIPickerViewDele
             .cloudEndPoint(cloudEndPoint)
             .region(region)
             .build() {
+            delegate?.regionDidChange(region: region)
             VNSDK.sharedInstance.dispose()
             VNSDK.sharedInstance.initialize(with: newOptions)
         }

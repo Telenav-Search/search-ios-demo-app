@@ -1178,10 +1178,18 @@ extension MKCoordinateRegion {
     }
 }
 
-extension MapViewController: FiltersViewControllerDelegate {
+extension MapViewController: CoordinateSettingsDelegate {
     
     func updateSelectedFilters(selectedFilters: [SelectableFilterItem]) {
         self.selectedFilters = selectedFilters
+    }
+    
+    func regionDidChange(region: String) {
+        removeWayPoints()
+        removeRouteOverlay()
+        
+        routesScrollView.setRoutes(routes: [], withDelegate: self)
+        hideRoutesScroll()
     }
 }
 
