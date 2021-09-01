@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             VNSDK.sharedInstance.initialize(with: options)
         }
         
+        VNLogging.sharedInstance.logLevel = .warning
+        
         return true
     }
 
