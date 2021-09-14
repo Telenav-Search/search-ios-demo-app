@@ -290,7 +290,7 @@ extension MapViewController {
             for step in leg.steps {
                 for edge in step.edges {
                     for point in edge.geometry {
-                        coordinates.append(point.coordinate)
+                        coordinates.append(CLLocationCoordinate2D(latitude: point.latitude, longitude: point.longitude))
                     }
                 }
             }
