@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import VividNavigationSDK
+import VividMapSDK
 
 protocol DirectionDetailsViewControllerDelegate: AnyObject {
     

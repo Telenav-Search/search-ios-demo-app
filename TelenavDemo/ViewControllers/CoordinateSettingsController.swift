@@ -7,7 +7,7 @@
 
 import UIKit
 import CoreLocation
-import VividNavigationSDK
+import VividMapSDK
 
 protocol CoordinateSettingsDelegate: class {
     func updateSelectedFilters(selectedFilters: [SelectableFilterItem])
