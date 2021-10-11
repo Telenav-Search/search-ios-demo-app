@@ -11,7 +11,6 @@ import VividMapSDK
 class TelenavMapViewController: UIViewController {
     var mapViewSettingsModel = TelenavMapSettingsModel()
     var map: VNMapView!
-    var cameraRenderMode = VNCameraRenderMode.M2D
     private var cameraRenderMode = VNCameraRenderMode.M2D
     private var isListenData = false
     private var longPressGestureRecognizer: UILongPressGestureRecognizer!

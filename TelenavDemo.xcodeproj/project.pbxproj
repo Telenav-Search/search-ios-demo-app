@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -69,8 +69,6 @@
 		68A522F926CCFF0500A8AF44 /* TelenavMapSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A522F726CCFF0500A8AF44 /* TelenavMapSettingsModel.swift */; };
 		68AA9A6A270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */; };
 		68AA9A6B270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AA9A69270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard */; };
-		68D2F10D26FDD153003A8B0F /* VividMapSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68D2F10A26FDBB71003A8B0F /* VividMapSDK.xcframework */; };
-		68D2F10E26FDD153003A8B0F /* VividMapSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 68D2F10A26FDBB71003A8B0F /* VividMapSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		68D2F1A12706142A003A8B0F /* TelenavMapCameraPositionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D2F19F2706142A003A8B0F /* TelenavMapCameraPositionViewController.swift */; };
 		68D2F1A22706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D2F1A02706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard */; };
 		68D2F1A52706BDF4003A8B0F /* CameraPositionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D2F1A32706BDF3003A8B0F /* CameraPositionCell.swift */; };
@@ -172,17 +170,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0633EB0B256BDBB800692591 /* TelenavEntitySDK.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		68D2F10F26FDD153003A8B0F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				68D2F10E26FDD153003A8B0F /* VividMapSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,7 +303,6 @@
 			files = (
 				688BBFAD26EB693E00CBBDBC /* OpenGLES.framework in Frameworks */,
 				654E6A0B259CBAE40059BFB3 /* CoreLocation.framework in Frameworks */,
-				68D2F10D26FDD153003A8B0F /* VividMapSDK.xcframework in Frameworks */,
 				654E6A0A259CBADD0059BFB3 /* MapKit.framework in Frameworks */,
 				688BBFAB26EB693400CBBDBC /* GLKit.framework in Frameworks */,
 				F65BCB3F7B2C8599B153A766 /* Pods_TelenavDemo.framework in Frameworks */,
@@ -741,7 +727,6 @@
 				06751AFB253D8D09001F6B11 /* Frameworks */,
 				06751AFC253D8D09001F6B11 /* Resources */,
 				AF54A368F9C25D6DC0A0460A /* [CP] Embed Pods Frameworks */,
-				68D2F10F26FDD153003A8B0F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
