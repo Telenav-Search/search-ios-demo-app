@@ -223,7 +223,6 @@
 		68A522F726CCFF0500A8AF44 /* TelenavMapSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelenavMapSettingsModel.swift; sourceTree = "<group>"; };
 		68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelenavMapDiagnosisViewController.swift; sourceTree = "<group>"; };
 		68AA9A69270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TelenavMapDiagnosisViewController.storyboard; sourceTree = "<group>"; };
-		68D2F10A26FDBB71003A8B0F /* VividMapSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = VividMapSDK.xcframework; path = LocalFrameworks/VividMapSDK.xcframework; sourceTree = SOURCE_ROOT; };
 		68D2F19F2706142A003A8B0F /* TelenavMapCameraPositionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelenavMapCameraPositionViewController.swift; sourceTree = "<group>"; };
 		68D2F1A02706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TelenavMapCameraPositionViewController.storyboard; sourceTree = "<group>"; };
 		68D2F1A32706BDF3003A8B0F /* CameraPositionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPositionCell.swift; sourceTree = "<group>"; };
@@ -327,7 +326,6 @@
 		06751AF5253D8D09001F6B11 = {
 			isa = PBXGroup;
 			children = (
-				68D2F10626FDB8ED003A8B0F /* Local */,
 				06751B00253D8D09001F6B11 /* TelenavDemo */,
 				06608B03254C4EE700DF38C3 /* SupportFiles */,
 				06751AFF253D8D09001F6B11 /* Products */,
@@ -481,14 +479,6 @@
 				68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		68D2F10626FDB8ED003A8B0F /* Local */ = {
-			isa = PBXGroup;
-			children = (
-				68D2F10A26FDBB71003A8B0F /* VividMapSDK.xcframework */,
-			);
-			path = Local;
 			sourceTree = "<group>";
 		};
 		68D2F19B2705CC7B003A8B0F /* TelenavMapCamera */ = {
