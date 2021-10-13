@@ -13,6 +13,7 @@ class TelenavMapViewController: UIViewController {
     var map: VNMapView!
     private var cameraRenderMode = VNCameraRenderMode.M2D
     private var isListenData = false
+    private var isShapesActive = false
     private var longPressGestureRecognizer: UILongPressGestureRecognizer!
     
     lazy var cameraRenderModeButton: UIButton = {
@@ -35,6 +36,15 @@ class TelenavMapViewController: UIViewController {
         diagnosisButton.backgroundColor = .systemBackground
         diagnosisButton.setImage(UIImage(systemName: "waveform.path.ecg"), for: .normal)
         return diagnosisButton
+    }()
+
+    lazy var shapesButton: UIButton = {
+        let shapesButton = UIButton(type: .system)
+        shapesButton.translatesAutoresizingMaskIntoConstraints = false
+        shapesButton.backgroundColor = .systemBackground
+        let buttonImage = UIImage(systemName: "square.and.pencil")
+        shapesButton.setImage(buttonImage, for: .normal)
+        return shapesButton
     }()
     
     override func viewDidLoad() {
@@ -101,6 +111,16 @@ class TelenavMapViewController: UIViewController {
         ])
         
         diagnosisButton.addTarget(self, action: #selector(diagnosisButtonTapped), for: .touchUpInside)
+
+        view.addSubview(shapesButton)
+
+        NSLayoutConstraint.activate([
+            shapesButton.widthAnchor.constraint(equalToConstant: 40),
+            shapesButton.heightAnchor.constraint(equalToConstant: 40),
+            shapesButton.bottomAnchor.constraint(equalTo: diagnosisButton.topAnchor, constant: -16.0),
+            shapesButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+        ])
+
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
