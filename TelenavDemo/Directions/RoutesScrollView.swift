@@ -28,11 +28,12 @@ class RoutesScrollView: UIScrollView {
     
     func setRoutes(routes: [VNRoute], withDelegate previewDelegate: RoutePreviewDelegate) {
         removeAllRoutes()
-        for route in routes {
+        for (index, route) in routes.enumerated() {
             let preview = RoutePreview.instanceFromNib()
             routePreviews.append(preview)
             previewsContentView?.addSubview(preview)
             preview.route = route
+            preview.index = index
             preview.delegate = self
             self.previewDelegate = previewDelegate
         }
@@ -65,13 +66,17 @@ class RoutesScrollView: UIScrollView {
 }
 
 extension RoutesScrollView: RoutePreviewDelegate {
+    func routePreview(_ preview: RoutePreview, didSelectedRouteIndex index: Int) {
+        
+    }
     
     func routePreview(_ selectedPreview: RoutePreview, didSelectedRoute route: VNRoute?) {
         for preview in routePreviews {
             preview.isSelected = false
         }
         selectedPreview.isSelected = true
-        previewDelegate?.routePreview(selectedPreview, didSelectedRoute: route)
+        // previewDelegate?.routePreview(selectedPreview, didSelectedRoute: route)
+        previewDelegate?.routePreview(selectedPreview, didSelectedRouteIndex: selectedPreview.index)
     }
     
     func routePreview(_ preview: RoutePreview, didTapInfoForRoute route: VNRoute?) {

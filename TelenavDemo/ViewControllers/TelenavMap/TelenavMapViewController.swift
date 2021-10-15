@@ -207,9 +207,11 @@ extension TelenavMapViewController {
     }
     
     func getCurrentRegion() -> VNCameraRegion? {
+        let scale = UIScreen.main.scale
+        
         guard
             let location0 = self.map.cameraController().viewport(toWorld: VNViewPoint(x: 0, y: 0)),
-            let location1 = self.map.cameraController().viewport(toWorld: VNViewPoint(x: Float(map.bounds.size.width), y: Float(map.bounds.size.height))) else {
+            let location1 = self.map.cameraController().viewport(toWorld: VNViewPoint(x: Float(map.bounds.size.width * scale), y: Float(map.bounds.size.height * scale))) else {
             return nil
         }
         

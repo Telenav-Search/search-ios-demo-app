@@ -12,12 +12,15 @@ import VividMapSDK
 protocol RoutePreviewDelegate: AnyObject {
     func routePreview(_ preview: RoutePreview, didSelectedRoute route: VNRoute?)
     func routePreview(_ preview: RoutePreview, didTapInfoForRoute route: VNRoute?)
+    func routePreview(_ preview: RoutePreview, didSelectedRouteIndex index: Int)
 }
 
 class RoutePreview: UIView {
     
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
+    
+    public var index = -1
     
     internal var isSelected = false {
         didSet {
