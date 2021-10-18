@@ -8,7 +8,7 @@
 import UIKit
 import TelenavEntitySDK
 
-protocol StaticCategoriesDisplayManagerDelegate: class {
+protocol StaticCategoriesDisplayManagerDelegate: AnyObject {
     func didSelectCategoryItem(_ item: StaticCategoryCellItem)
 }
 
