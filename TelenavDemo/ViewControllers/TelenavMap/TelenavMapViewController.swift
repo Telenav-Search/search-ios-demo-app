@@ -388,19 +388,24 @@ extension TelenavMapViewController {
 
     private func addPolygonShapeTo(coordinates: [CLLocationCoordinate2D]) {
 
-        if coordinates.count < 4 { return }
+//        if coordinates.count < 4 { return }
+
+//        if coordinates.count > 4 {
+//            shapeCollectionIds.forEach { map.shapesController().removeCollection($0)}
+//        }
 
         let coordinates = coordinates.compactMap {
             CLLocation(latitude: $0.latitude, longitude: $0.longitude)
         }
 
+
         let shapeAttributes = VNShapeAttributes
             .builder()
-            .shapeStyle("route.ADI_LINE")
+            .shapeStyle("bubble2.png")
             .build()
 
         let shape = VNShape(
-            type: .texturedQuad,
+            type: .polygon,
             attributes: shapeAttributes,
             coordinates: coordinates
         )
