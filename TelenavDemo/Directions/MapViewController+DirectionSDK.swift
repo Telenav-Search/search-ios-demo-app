@@ -21,42 +21,29 @@ extension MapViewController {
     func coordinatesFromDetailView() -> CLLocationCoordinate2D? {
         if let point = detailsView.entity?.place?.address?.navCoordinates,
            let lat = point.latitude, let lon = point.longitude {
-            return CLLocationCoordinate2D(latitude:lat,
-                                          longitude:lon)
+            return CLLocationCoordinate2D(latitude: lat, longitude: lon)
         }
         return nil
     }
     
     @objc func onDetailsViewFromButton() {
-        if let coordinate = coordinatesFromDetailView() {
-            let location = VNGeoPoint(
-                latitude: coordinate.latitude,
-                longitude: coordinate.longitude
-            )
-            
-            addFromPoint(location: location!, message: "")
+        if let coordinate = coordinatesFromDetailView(),
+           let location = VNGeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude) {
+            addFromPoint(location: location, message: "")
         }
     }
     
     @objc func onDetailsViewToButton() {
-        if let coordinate = coordinatesFromDetailView() {
-            let location = VNGeoPoint(
-                latitude: coordinate.latitude,
-                longitude: coordinate.longitude
-            )
-            
-            addToPoint(location: location!, message: "")
+        if let coordinate = coordinatesFromDetailView(),
+           let location = VNGeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude) {
+            addToPoint(location: location, message: "")
         }
     }
     
     @objc func onDetailsViewViaButton() {
-        if let coordinate = coordinatesFromDetailView() {
-            let location = VNGeoPoint(
-                latitude: coordinate.latitude,
-                longitude: coordinate.longitude
-            )
-            
-            addWayPoint(location: location!, message: "")
+        if let coordinate = coordinatesFromDetailView(),
+           let location = VNGeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude) {
+            addWayPoint(location: location, message: "")
         }
     }
     

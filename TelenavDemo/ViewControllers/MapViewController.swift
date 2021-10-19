@@ -465,7 +465,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         let annotationController = mapView.annotationsController()
         let annotaionsFactory = annotationController.factory()
         
-        let entityAnnotationImage = makeEntityAnnotaionIcon(by: "\(index + 1)")!
+        guard let entityAnnotationImage = makeEntityAnnotaionIcon(by: "\(index + 1)") else {
+            return nil
+        }
         let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         
         let annotation = annotaionsFactory.create(with: entityAnnotationImage, location: coordinate)
@@ -477,7 +479,9 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private func makeEntityAnnotaionIcon(by text: String) -> UIImage? {
         let textColor = UIColor.black
         let textFont = UIFont.systemFont(ofSize: 24)
-        let entityAnnotationImage = UIImage(named: "entity-annotation-icon")!
+        guard let entityAnnotationImage = UIImage(named: "entity-annotation-icon") else {
+            return nil
+        }
         
         let scale = UIScreen.main.scale
         UIGraphicsBeginImageContextWithOptions(entityAnnotationImage.size, false, scale)
@@ -500,7 +504,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
-        return newImage!
+        return newImage
     }
     
     func didSelectSuggestion(entity: TNEntity, distance: String?) {
