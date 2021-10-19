@@ -17,7 +17,7 @@ class TelenavMapDiagnosisViewController: UIViewController, Storyboardable {
         super.viewDidLoad()
 
         guard let mapViewState = mapViewState else {
-            textView.text = "The Map Diagnosis isn't available. Need to activate \"Listen to the map data\" in map settings."
+            textView.text = "The Map Diagnosis isn't available."
             return
         }
         
@@ -40,7 +40,7 @@ class TelenavMapDiagnosisViewController: UIViewController, Storyboardable {
         state += "camera vertical FOV = \(mapViewState.cameraVerticalFOV)\n"
         state += "camera eye distance = \(mapViewState.cameraEyeDistance)\n"
         state += "camera base tile size = \(mapViewState.cameraBaseTileSize)\n"
-        state += "camera orientation = \(mapViewState.cameraOrientation.rawValue)\n"
+        state += "camera orientation = \(mapViewState.cameraOrientation)\n"
         state += "---\n"
         state += "range horizontal = \(mapViewState.rangeHorizontal)\n"
         state += "car latitude = \(mapViewState.carLatitude)\n"
@@ -49,8 +49,8 @@ class TelenavMapDiagnosisViewController: UIViewController, Storyboardable {
         state += "zoom level = \(mapViewState.zoomLevel)\n"
         state += "data zoom level = \(mapViewState.dataZoomLevel)\n"
         state += "---\n"
-        state += "interaction mode = \(mapViewState.interactionMode.rawValue)\n"
-        state += "render mode = \(mapViewState.renderMode.rawValue)\n"
+        state += "interaction mode = \(mapViewState.interactionMode)\n"
+        state += "render mode = \(mapViewState.renderMode)\n"
         state += "isAnimating = \(mapViewState.isAnimating)\n"
         state += "isAutoZoomAnimationRunning = \(mapViewState.isAutoZoomAnimationRunning)\n"
         state += "---\n"
@@ -73,5 +73,62 @@ class TelenavMapDiagnosisViewController: UIViewController, Storyboardable {
         state += "optimal tile set loaded = \(mapViewState.optimalTileSetLoaded)\n"
         
         textView.text = state
+    }
+}
+
+extension VNOrientation: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .landscapeLeft:
+            return "Landscape left"
+        case .landscapeRight:
+            return "Landscape right"
+        case .portraitBottom:
+            return "Portrait bottom"
+        case .portraitTop:
+            return "Portrait top"
+        default:
+            return "Invalid"
+        }
+    }
+}
+
+extension VNInteractionMode: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .followVehicle:
+            return "Follow vehicle"
+        case .freeLook:
+            return "Free look"
+        case .none:
+            return "None"
+        case .panAndZoom:
+            return "Pan and Zoom"
+        case .rotateAroundPoint:
+            return "Rotate around point"
+        default:
+            return "Invalid"
+        }
+    }
+}
+
+extension VNRenderingMode: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .mode2D:
+            return "Mode 2D"
+        case .mode2DHeadingUp:
+            return "Mode 2D Heading Up"
+        case .mode2DNorthUp:
+            return "Mode 2D North Up"
+        case .mode3D:
+            return "Mode 3D"
+        case .mode3DHeadingUp:
+            return "Mode 3D Heading Up"
+        case .mode3DNorthUp:
+            return "Mode 3D North Up"
+        default:
+            return "Invalid"
+        }
     }
 }

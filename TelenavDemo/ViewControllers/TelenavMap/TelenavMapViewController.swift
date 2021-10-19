@@ -235,10 +235,9 @@ extension TelenavMapViewController {
     
     @objc func diagnosisButtonTapped() {
         let mapDiagnosis = map.mapDiagnosis()
-        let mapViewState = mapDiagnosis.getMapViewStatus()
         
         let vc = TelenavMapDiagnosisViewController.storyboardViewController()
-        vc.mapViewState = isListenData ? mapViewState : nil
+        vc.mapViewState = mapDiagnosis.getMapViewStatus()
         vc.title = "Map diagnosis"
         
         navigationController?.pushViewController(vc, animated: true)
