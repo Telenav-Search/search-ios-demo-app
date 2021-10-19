@@ -7,12 +7,16 @@
 
 import UIKit
 import VividMapSDK
+import CoreLocation
 
 class TelenavMapViewController: UIViewController {
     var mapViewSettingsModel = TelenavMapSettingsModel()
     var map: VNMapView!
+    private var locationManager: CLLocationManager!
     private var cameraRenderMode = VNCameraRenderMode.M2D
     private var isListenData = false
+    //Vehicle
+    private var isVehicleTrackActive = false
     //Shapes
     private var isShapesPressed = false
     private var shapesPoints = [CLLocationCoordinate2D]()
@@ -51,6 +55,14 @@ class TelenavMapViewController: UIViewController {
         shapesButton.setImage(buttonImage, for: .normal)
         return shapesButton
     }()
+
+    lazy var vehicleTrackButton: UIButton = {
+        let diagnosisButton = UIButton(type: .system)
+        diagnosisButton.translatesAutoresizingMaskIntoConstraints = false
+        diagnosisButton.backgroundColor = .systemBackground
+        diagnosisButton.setImage(UIImage(systemName: "car"), for: .normal)
+        return diagnosisButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +74,8 @@ class TelenavMapViewController: UIViewController {
             target: self,
             action: #selector(showSettingsAction)
         )
-        
+
+        setupCoreLocation()
         setupUI()
         setupMapFeatures(settings: mapViewSettingsModel)
         setupMapCustomGestureRecognizers()
@@ -128,6 +141,17 @@ class TelenavMapViewController: UIViewController {
 
         shapesButton.addTarget(self, action: #selector(shapesButtonTapped), for: .touchUpInside)
 
+
+        view.addSubview(vehicleTrackButton)
+
+        NSLayoutConstraint.activate([
+            vehicleTrackButton.widthAnchor.constraint(equalToConstant: 40),
+            vehicleTrackButton.heightAnchor.constraint(equalToConstant: 40),
+            vehicleTrackButton.bottomAnchor.constraint(equalTo: shapesButton.topAnchor, constant: -16.0),
+            vehicleTrackButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+        ])
+
+        vehicleTrackButton.addTarget(self, action: #selector(vehicleTrackButtonTapped), for: .touchUpInside)
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
@@ -165,6 +189,11 @@ class TelenavMapViewController: UIViewController {
         shapesButton.backgroundColor = isShapesPressed ? .systemBlue : .systemBackground
         shapesButton.tintColor = isShapesPressed ? .systemBackground : .systemBlue
     }
+
+    func vehicleTrackButtonRenderUpdate() {
+        vehicleTrackButton.backgroundColor = isVehicleTrackActive ? .systemBlue : .systemBackground
+        vehicleTrackButton.tintColor = isVehicleTrackActive ? .systemBackground : .systemBlue
+    }
 }
 
 // actions
@@ -182,6 +211,24 @@ extension TelenavMapViewController {
         cameraRenderModeButtonUpdate(mode: cameraRenderMode)
         
         map.cameraController().renderMode = cameraRenderMode
+    }
+
+    @objc func vehicleTrackButtonTapped() {
+        isVehicleTrackActive.toggle()
+
+        if isVehicleTrackActive {
+            let image = UIImage(systemName: "car")!
+            image.withRenderingMode(.alwaysTemplate)
+            image.withTintColor(.red)
+            map.vehicleController().setIcon(image)
+        }
+
+        if isVehicleTrackActive == false {
+            stopUpdateLocation()
+            map.vehicleController().setIcon(nil)
+        }
+
+        vehicleTrackButtonRenderUpdate()
     }
     
     @objc func cameraSettingsButtonTapped() {
@@ -221,10 +268,9 @@ extension TelenavMapViewController {
     
     @objc func diagnosisButtonTapped() {
         let mapDiagnosis = map.mapDiagnosis()
-        let mapViewState = mapDiagnosis.getMapViewStatus()
         
         let vc = TelenavMapDiagnosisViewController.storyboardViewController()
-        vc.mapViewState = isListenData ? mapViewState : nil
+        vc.mapViewState = mapDiagnosis.getMapViewStatus()
         vc.title = "Map diagnosis"
         
         navigationController?.pushViewController(vc, animated: true)
@@ -260,9 +306,11 @@ extension TelenavMapViewController {
     }
     
     func getCurrentRegion() -> VNCameraRegion? {
+        let scale = UIScreen.main.scale
+        
         guard
             let location0 = self.map.cameraController().viewport(toWorld: VNViewPoint(x: 0, y: 0)),
-            let location1 = self.map.cameraController().viewport(toWorld: VNViewPoint(x: Float(map.bounds.size.width), y: Float(map.bounds.size.height))) else {
+            let location1 = self.map.cameraController().viewport(toWorld: VNViewPoint(x: Float(map.bounds.size.width * scale), y: Float(map.bounds.size.height * scale))) else {
             return nil
         }
         
@@ -413,5 +461,39 @@ extension TelenavMapViewController {
     
     private func removeAllAnnotation() {
         map.annotationsController().clearAllAnnotations()
+    }
+}
+
+//MARK: CoreLocation
+
+private extension TelenavMapViewController {
+
+     func setupCoreLocation() {
+         locationManager = CLLocationManager()
+         locationManager.delegate = self
+         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+         locationManager.requestAlwaysAuthorization()
+         locationManager.startUpdatingLocation()
+    }
+
+    func stopUpdateLocation() {
+        locationManager.stopUpdatingLocation()
+    }
+}
+
+//MARK: CoreLocation delegate
+
+extension TelenavMapViewController: CLLocationManagerDelegate {
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
+        guard let lastPoint = locations.last else {
+            return
+        }
+
+        if isVehicleTrackActive {
+            map.vehicleController().setLocation(lastPoint)
+        }
+
     }
 }

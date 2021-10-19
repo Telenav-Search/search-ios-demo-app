@@ -57,6 +57,7 @@
 		6873935626CEB91200BBC978 /* CustomLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6873935226CEB91200BBC978 /* CustomLocationTableViewCell.xib */; };
 		688BBFAB26EB693400CBBDBC /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 688BBFAA26EB693400CBBDBC /* GLKit.framework */; };
 		688BBFAD26EB693E00CBBDBC /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 688BBFAC26EB693E00CBBDBC /* OpenGLES.framework */; };
+		68A35E6B2719F88300BD73FF /* PlaceAnnotation2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A35E6A2719F88300BD73FF /* PlaceAnnotation2.swift */; };
 		68A5228F26CCD0C600A8AF44 /* TelenavMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A5228E26CCD0C600A8AF44 /* TelenavMapViewController.swift */; };
 		68A5229026CCD0CE00A8AF44 /* TelenavMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A5228E26CCD0C600A8AF44 /* TelenavMapViewController.swift */; };
 		68A5229326CCE37400A8AF44 /* TelenavMapSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A5229226CCE37400A8AF44 /* TelenavMapSettingsViewController.swift */; };
@@ -81,8 +82,6 @@
 		68D2F1BB2707076C003A8B0F /* TelenavMapCameraRegionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D2F1B92707076C003A8B0F /* TelenavMapCameraRegionViewController.storyboard */; };
 		68D2F1BE270707E9003A8B0F /* CameraRegionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D2F1BC270707E9003A8B0F /* CameraRegionCell.swift */; };
 		68D2F1BF270707E9003A8B0F /* CameraRegionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D2F1BD270707E9003A8B0F /* CameraRegionCell.xib */; };
-		C509FC3C255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */; };
-		C509FC3D255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */; };
 		C528633025628B00007B67C6 /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C528632F25628B00007B67C6 /* PlaceAnnotationView.swift */; };
 		C528633125628B00007B67C6 /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C528632F25628B00007B67C6 /* PlaceAnnotationView.swift */; };
 		C5432C5E255D3F4D008D8088 /* StaticCategoriesGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5432C5D255D3F4D008D8088 /* StaticCategoriesGenerator.swift */; };
@@ -216,6 +215,7 @@
 		6873935226CEB91200BBC978 /* CustomLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomLocationTableViewCell.xib; sourceTree = "<group>"; };
 		688BBFAA26EB693400CBBDBC /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		688BBFAC26EB693E00CBBDBC /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		68A35E6A2719F88300BD73FF /* PlaceAnnotation2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation2.swift; sourceTree = "<group>"; };
 		68A5228E26CCD0C600A8AF44 /* TelenavMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelenavMapViewController.swift; sourceTree = "<group>"; };
 		68A5229226CCE37400A8AF44 /* TelenavMapSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelenavMapSettingsViewController.swift; sourceTree = "<group>"; };
 		68A5229526CCE54900A8AF44 /* TelenavMapSettingsViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TelenavMapSettingsViewController.storyboard; sourceTree = "<group>"; };
@@ -236,7 +236,6 @@
 		68D2F1BC270707E9003A8B0F /* CameraRegionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraRegionCell.swift; sourceTree = "<group>"; };
 		68D2F1BD270707E9003A8B0F /* CameraRegionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraRegionCell.xib; sourceTree = "<group>"; };
 		93F747A42E8FF78AEB9586DE /* Pods-TelenavDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.debug.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotation.swift; sourceTree = "<group>"; };
 		C528632F25628B00007B67C6 /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
 		C5432C5D255D3F4D008D8088 /* StaticCategoriesGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticCategoriesGenerator.swift; sourceTree = "<group>"; };
 		C5432C61255D4127008D8088 /* StaticCategories.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = StaticCategories.json; sourceTree = "<group>"; };
@@ -623,13 +622,13 @@
 				C54C055A255D9CE90002CE83 /* DetailsView.xib */,
 				C54C055D255DA1D30002CE83 /* DetailViewCell.swift */,
 				C54C055E255DA1D30002CE83 /* DetailViewCell.xib */,
-				C509FC3B255EC76E00C1EE56 /* PlaceAnnotation.swift */,
 				C528632F25628B00007B67C6 /* PlaceAnnotationView.swift */,
 				C5FD76B52564220A00E6D780 /* PredictionsView.swift */,
 				C5FD76B92564221300E6D780 /* PredictionsView.xib */,
 				C5FD76BC2564230700E6D780 /* PredictionWordCell.swift */,
 				C5FD76BD2564230700E6D780 /* PredictionWordCell.xib */,
 				C5FD76CB25653CA800E6D780 /* SelfSizedCollectionView.swift */,
+				68A35E6A2719F88300BD73FF /* PlaceAnnotation2.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -896,7 +895,6 @@
 				068E59A6257E780400910EC0 /* TNEntityStaticCategory.swift in Sources */,
 				68A5229B26CCE81400A8AF44 /* Storyboardable.swift in Sources */,
 				C54C0572255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
-				C509FC3D255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */,
 				C54C0559255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC9255D7DA7008D8088 /* Throttler.swift in Sources */,
 				C54C0560255DA1D30002CE83 /* DetailViewCell.swift in Sources */,
@@ -938,6 +936,7 @@
 				C5432CB6255D77D2008D8088 /* SuggestionsDisplayManager.swift in Sources */,
 				C5432CB2255D7730008D8088 /* SuggesstionCell.swift in Sources */,
 				C5432CB9255D77E1008D8088 /* CategoriesDisplayManager.swift in Sources */,
+				68A35E6B2719F88300BD73FF /* PlaceAnnotation2.swift in Sources */,
 				C54F0AF4256FCBD20035E63D /* FiltersViewController.swift in Sources */,
 				C5FD76CC25653CA800E6D780 /* SelfSizedCollectionView.swift in Sources */,
 				F713FC002689C17F00E873F2 /* MapViewController+DirectionSDK.swift in Sources */,
@@ -966,7 +965,6 @@
 				C54C0571255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
 				F798F9AE26AE8CD100A60A1B /* RouteSettings.swift in Sources */,
 				68D2F1A52706BDF4003A8B0F /* CameraPositionCell.swift in Sources */,
-				C509FC3C255EC76E00C1EE56 /* PlaceAnnotation.swift in Sources */,
 				68A5228F26CCD0C600A8AF44 /* TelenavMapViewController.swift in Sources */,
 				C54C0558255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC8255D7DA7008D8088 /* Throttler.swift in Sources */,
