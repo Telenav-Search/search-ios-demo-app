@@ -15,7 +15,6 @@ class TelenavMapViewController: UIViewController {
     private var isListenData = false
     //Shapes
     private var isShapesPressed = false
-    private var selectedShapeType: VNShapeType?
     private var shapesPoints = [CLLocationCoordinate2D]()
     private var shapeCollectionIds = [VNShapeCollectionID]()
     //Gestures
@@ -250,21 +249,7 @@ extension TelenavMapViewController {
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction))
         map.addGestureRecognizer(tapGestureRecognizer)
 
-        let annotationMenuAlert = UIAlertController(title: "Add shapes", message: "Please select shape type", preferredStyle: .actionSheet)
-
-        annotationMenuAlert.addAction(UIAlertAction(title: "Polylines", style: .default, handler: { [weak self] _ in
-            self?.selectedShapeType = .polyline
-
-        }))
-
-        annotationMenuAlert.addAction(UIAlertAction(title: "Polygon", style: .default, handler: { [weak self] _ in
-            self?.selectedShapeType = .polygon
-
-        }))
-
-        self.present(annotationMenuAlert, animated: true, completion: nil)
     }
-
 
     func positionDidChange(position: VNCameraPosition) {
         self.map.cameraController().position = position
@@ -338,21 +323,14 @@ extension TelenavMapViewController {
         if isShapesPressed == false { return }
 
         guard
-            let geoLocation = getCoordinatesFrom(gestureRecognizer: gestureRecognizer),
-            let selectedShapeType = selectedShapeType
+            let geoLocation = getCoordinatesFrom(gestureRecognizer: gestureRecognizer)
         else {
             return
         }
 
-        self.shapesPoints.append(geoLocation)
+        shapesPoints.append(geoLocation)
 
-        switch selectedShapeType {
-        case .polyline:
-            self.addPolylineShapeTo(coordinates: shapesPoints)
-        case .polygon:
-            self.addPolygonShapeTo(coordinates: shapesPoints)
-        default: break
-        }
+        addPolylineShapeTo(coordinates: shapesPoints)
     }
 
     private func addPolylineShapeTo(coordinates: [CLLocationCoordinate2D]) {
@@ -365,8 +343,6 @@ extension TelenavMapViewController {
 
         let shapeAttributes = VNShapeAttributes
             .builder()
-            .lineWidth(2.0)
-            .color(.red)
             .shapeStyle("route.ADI_LINE")
             .build()
 
@@ -375,41 +351,6 @@ extension TelenavMapViewController {
             attributes: shapeAttributes,
             coordinates: coordinates
         )
-
-        let shapeCollection = VNShapeCollection
-            .builder()
-            .add(shape)
-            .build()
-
-        if let shapeCollectionId = map.shapesController().add(shapeCollection) {
-            shapeCollectionIds.append(shapeCollectionId)
-        }
-    }
-
-    private func addPolygonShapeTo(coordinates: [CLLocationCoordinate2D]) {
-
-//        if coordinates.count < 4 { return }
-
-//        if coordinates.count > 4 {
-//            shapeCollectionIds.forEach { map.shapesController().removeCollection($0)}
-//        }
-
-        let coordinates = coordinates.compactMap {
-            CLLocation(latitude: $0.latitude, longitude: $0.longitude)
-        }
-
-
-        let shapeAttributes = VNShapeAttributes
-            .builder()
-            .shapeStyle("bubble2.png")
-            .build()
-
-        let shape = VNShape(
-            type: .polygon,
-            attributes: shapeAttributes,
-            coordinates: coordinates
-        )
-
 
         let shapeCollection = VNShapeCollection
             .builder()
