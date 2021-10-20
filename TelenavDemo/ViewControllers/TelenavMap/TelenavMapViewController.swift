@@ -15,8 +15,15 @@ class TelenavMapViewController: UIViewController {
     private var locationManager: CLLocationManager!
     private var cameraRenderMode = VNCameraRenderMode.M2D
     private var isListenData = false
+    //Vehicle
     private var isVehicleTrackActive = false
+    //Shapes
+    private var isShapesPressed = false
+    private var shapesPoints = [CLLocationCoordinate2D]()
+    private var shapeCollectionIds = [VNShapeCollectionID]()
+    //Gestures
     private var longPressGestureRecognizer: UILongPressGestureRecognizer!
+    private var tapGestureRecognizer: UITapGestureRecognizer!
     
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
@@ -38,6 +45,15 @@ class TelenavMapViewController: UIViewController {
         diagnosisButton.backgroundColor = .systemBackground
         diagnosisButton.setImage(UIImage(systemName: "waveform.path.ecg"), for: .normal)
         return diagnosisButton
+    }()
+
+    lazy var shapesButton: UIButton = {
+        let shapesButton = UIButton(type: .system)
+        shapesButton.translatesAutoresizingMaskIntoConstraints = false
+        shapesButton.backgroundColor = .systemBackground
+        let buttonImage = UIImage(systemName: "square.and.pencil")
+        shapesButton.setImage(buttonImage, for: .normal)
+        return shapesButton
     }()
 
     lazy var vehicleTrackButton: UIButton = {
@@ -62,7 +78,7 @@ class TelenavMapViewController: UIViewController {
         setupCoreLocation()
         setupUI()
         setupMapFeatures(settings: mapViewSettingsModel)
-        setupLongPressGestureRecognizer()
+        setupMapCustomGestureRecognizers()
     }
     
     func setupUI() {
@@ -114,12 +130,24 @@ class TelenavMapViewController: UIViewController {
         
         diagnosisButton.addTarget(self, action: #selector(diagnosisButtonTapped), for: .touchUpInside)
 
+        view.addSubview(shapesButton)
+
+        NSLayoutConstraint.activate([
+            shapesButton.widthAnchor.constraint(equalToConstant: 40),
+            shapesButton.heightAnchor.constraint(equalToConstant: 40),
+            shapesButton.bottomAnchor.constraint(equalTo: diagnosisButton.topAnchor, constant: -16.0),
+            shapesButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+        ])
+
+        shapesButton.addTarget(self, action: #selector(shapesButtonTapped), for: .touchUpInside)
+
+
         view.addSubview(vehicleTrackButton)
 
         NSLayoutConstraint.activate([
             vehicleTrackButton.widthAnchor.constraint(equalToConstant: 40),
             vehicleTrackButton.heightAnchor.constraint(equalToConstant: 40),
-            vehicleTrackButton.bottomAnchor.constraint(equalTo: diagnosisButton.topAnchor, constant: -16.0),
+            vehicleTrackButton.bottomAnchor.constraint(equalTo: shapesButton.topAnchor, constant: -16.0),
             vehicleTrackButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
 
@@ -155,6 +183,11 @@ class TelenavMapViewController: UIViewController {
     func cameraRenderModeButtonUpdate(mode: VNCameraRenderMode) {
         cameraRenderModeButton.backgroundColor = mode == .M2D ? .systemBackground : .systemGreen
         cameraRenderModeButton.setTitleColor(mode == .M2D ? .black : .white, for: .normal)
+    }
+
+    func shapesRenderModeButtonUpdate() {
+        shapesButton.backgroundColor = isShapesPressed ? .systemBlue : .systemBackground
+        shapesButton.tintColor = isShapesPressed ? .systemBackground : .systemBlue
     }
 
     func vehicleTrackButtonRenderUpdate() {
@@ -242,7 +275,28 @@ extension TelenavMapViewController {
         
         navigationController?.pushViewController(vc, animated: true)
     }
-    
+
+    @objc func shapesButtonTapped() {
+        isShapesPressed.toggle()
+
+        shapesRenderModeButtonUpdate()
+
+        if isShapesPressed == false {
+            map.removeGestureRecognizer(tapGestureRecognizer)
+            tapGestureRecognizer = nil
+            shapesPoints.removeAll()
+
+            shapeCollectionIds.forEach { self.map.shapesController().removeCollection($0)}
+            shapeCollectionIds.removeAll()
+
+            return
+        }
+
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction))
+        map.addGestureRecognizer(tapGestureRecognizer)
+
+    }
+
     func positionDidChange(position: VNCameraPosition) {
         self.map.cameraController().position = position
     }
@@ -280,28 +334,19 @@ extension TelenavMapViewController: TelenavMapSettingsViewControllerDelegate {
     }
 }
 
-// Recognizers
+// Recognizer's
 extension TelenavMapViewController {
-    private func setupLongPressGestureRecognizer() {
+
+    private func setupMapCustomGestureRecognizers() {
         longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureRecognizerAction))
         map.addGestureRecognizer(longPressGestureRecognizer)
     }
     
     @objc private func longPressGestureRecognizerAction(_ gestureRecognizer: UILongPressGestureRecognizer) {
         
-        let longPressLocation = gestureRecognizer.location(in: gestureRecognizer.view)
-        
-        let scale = UIScreen.main.scale
-        let viewPoint = VNViewPoint(
-            x: Float(longPressLocation.x * scale), // in pixels
-            y: Float(longPressLocation.y * scale)  // in pixels
-        )
-        
-        guard let mapLocation = map.cameraController().viewport(toWorld: viewPoint) else {
+        guard let geoLocation = getCoordinatesFrom(gestureRecognizer: gestureRecognizer) else {
             return
         }
-        
-        let geoLocation = CLLocationCoordinate2D(latitude: mapLocation.latitude, longitude: mapLocation.longitude)
         
         let annotationMenuAlert = UIAlertController(title: "Add annotation", message: "Please select annotations type", preferredStyle: .actionSheet)
         
@@ -319,6 +364,50 @@ extension TelenavMapViewController {
         }))
         
         self.present(annotationMenuAlert, animated: true, completion: nil)
+    }
+
+    @objc private func tapGestureRecognizerAction(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        if isShapesPressed == false { return }
+
+        guard
+            let geoLocation = getCoordinatesFrom(gestureRecognizer: gestureRecognizer)
+        else {
+            return
+        }
+
+        shapesPoints.append(geoLocation)
+
+        addPolylineShapeTo(coordinates: shapesPoints)
+    }
+
+    private func addPolylineShapeTo(coordinates: [CLLocationCoordinate2D]) {
+
+        if coordinates.count < 2 { return }
+
+        let coordinates = coordinates.compactMap {
+            CLLocation(latitude: $0.latitude, longitude: $0.longitude)
+        }
+
+        let shapeAttributes = VNShapeAttributes
+            .builder()
+            .shapeStyle("route.ADI_LINE")
+            .build()
+
+        let shape = VNShape(
+            type: .polyline,
+            attributes: shapeAttributes,
+            coordinates: coordinates
+        )
+
+        let shapeCollection = VNShapeCollection
+            .builder()
+            .add(shape)
+            .build()
+
+        if let shapeCollectionId = map.shapesController().add(shapeCollection) {
+            shapeCollectionIds.append(shapeCollectionId)
+        }
     }
     
     private func addImageAnnotationTo(location: CLLocationCoordinate2D) {
@@ -345,6 +434,25 @@ extension TelenavMapViewController {
             annotation.displayText = textDisplay
             map.annotationsController().add([annotation])
         }
+    }
+
+    private func getCoordinatesFrom(gestureRecognizer: UIGestureRecognizer) -> CLLocationCoordinate2D? {
+        let tapPressLocation = gestureRecognizer.location(in: gestureRecognizer.view)
+
+        let scale = UIScreen.main.scale
+        let viewPoint = VNViewPoint(
+            x: Float(tapPressLocation.x * scale), // in pixels
+            y: Float(tapPressLocation.y * scale)  // in pixels
+        )
+
+        guard let mapLocation = map.cameraController().viewport(toWorld: viewPoint) else {
+            return nil
+        }
+
+        return CLLocationCoordinate2D(
+            latitude: mapLocation.latitude,
+            longitude: mapLocation.longitude
+        )
     }
     
     private func addExplicitStyleAnnotationTo(location: CLLocationCoordinate2D) {
