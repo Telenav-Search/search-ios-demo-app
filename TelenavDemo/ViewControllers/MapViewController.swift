@@ -274,6 +274,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     func addChildView() {
+        mapView.preferredFPS = 30
         mapContainerView.insertSubview(mapView, at: 0)
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: mapContainerView.topAnchor),
@@ -537,7 +538,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             let region = self.obtainRegionForAnnotationsArr([updatedAnnotation])
             self.mapView.cameraController().show(region)
             
-            self.addEntityAnnotations(annotations: self.currentAnnotations)
             self.backButton.isHidden = false
             
             let point = VNGeoPoint(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
@@ -979,8 +979,8 @@ extension MapViewController: UITextFieldDelegate {
         self.currentAnnotations = annotations
         
         let region = obtainRegionForAnnotationsArr(annotations)
-        mapView.cameraController().show(region)
         
+        mapView.cameraController().show(region)
         addEntityAnnotations(annotations: annotations)
     }
     
