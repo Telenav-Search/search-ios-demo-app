@@ -21,6 +21,7 @@ class TelenavMapViewController: UIViewController {
     private var isShapesPressed = false
     private var shapesPoints = [CLLocationCoordinate2D]()
     private var shapeCollectionIds = [VNShapeCollectionID]()
+    private let carPoint = CLLocation(latitude: 40.595495107440506, longitude: -73.6566129026753)
     //Gestures
     private var longPressGestureRecognizer: UILongPressGestureRecognizer!
     private var tapGestureRecognizer: UITapGestureRecognizer!
@@ -75,7 +76,6 @@ class TelenavMapViewController: UIViewController {
             action: #selector(showSettingsAction)
         )
 
-        setupCoreLocation()
         setupUI()
         setupMapFeatures(settings: mapViewSettingsModel)
         setupMapCustomGestureRecognizers()
@@ -218,14 +218,23 @@ extension TelenavMapViewController {
 
         if isVehicleTrackActive {
             let image = UIImage(systemName: "car")!
-            image.withRenderingMode(.alwaysTemplate)
-            image.withTintColor(.red)
+
             map.vehicleController().setIcon(image)
+            map.vehicleController().setLocation(carPoint)
+
+            let region = VNCameraRegion(
+                northLatitude: 40.596872279198394,
+                westLongitude: -73.65836739330247,
+                southLatitude: 40.594640327481486,
+                eastLongitude: -73.65516483569407
+            )
+
+            map.cameraController().show(region)
         }
 
         if isVehicleTrackActive == false {
-            stopUpdateLocation()
             map.vehicleController().setIcon(nil)
+            map.vehicleController().setLocation(nil)
         }
 
         vehicleTrackButtonRenderUpdate()
@@ -461,39 +470,5 @@ extension TelenavMapViewController {
     
     private func removeAllAnnotation() {
         map.annotationsController().clearAllAnnotations()
-    }
-}
-
-//MARK: CoreLocation
-
-private extension TelenavMapViewController {
-
-     func setupCoreLocation() {
-         locationManager = CLLocationManager()
-         locationManager.delegate = self
-         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-         locationManager.requestAlwaysAuthorization()
-         locationManager.startUpdatingLocation()
-    }
-
-    func stopUpdateLocation() {
-        locationManager.stopUpdatingLocation()
-    }
-}
-
-//MARK: CoreLocation delegate
-
-extension TelenavMapViewController: CLLocationManagerDelegate {
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-
-        guard let lastPoint = locations.last else {
-            return
-        }
-
-        if isVehicleTrackActive {
-            map.vehicleController().setLocation(lastPoint)
-        }
-
     }
 }
