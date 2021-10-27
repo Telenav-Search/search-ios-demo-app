@@ -7,7 +7,7 @@
 
 import UIKit
 import CoreLocation
-import VividMapSDK
+import VividDriveSessionSDK
 
 protocol CoordinateSettingsDelegate: class {
     func updateSelectedFilters(selectedFilters: [SelectableFilterItem])

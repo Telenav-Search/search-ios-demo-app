@@ -5,7 +5,7 @@
 //  Created by Olesya Slepchenko on 26.07.2021.
 //
 
-import VividMapSDK
+import VividDriveSessionSDK
 
 struct RouteSettings
 {

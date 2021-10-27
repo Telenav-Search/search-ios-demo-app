@@ -7,7 +7,7 @@
 
 import Foundation
 import CoreLocation
-import VividMapSDK
+import VividDriveSessionSDK
 
 struct TelenavMapSettingsModel {
     // gestures

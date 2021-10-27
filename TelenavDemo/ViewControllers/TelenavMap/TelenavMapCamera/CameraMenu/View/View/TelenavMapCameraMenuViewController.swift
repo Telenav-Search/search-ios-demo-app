@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import VividMapSDK
+import VividDriveSessionSDK
 
 class TelenavMapCameraMenuViewController: UIViewController, Storyboardable {
     @IBOutlet private var tableView: UITableView!

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3tG-fG-gxy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3tG-fG-gxy">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -218,11 +218,46 @@
                         <segue destination="Opn-Ue-gLw" kind="relationship" relationship="viewControllers" id="0Nt-YM-xDy"/>
                         <segue destination="wgR-gI-fbJ" kind="relationship" relationship="viewControllers" id="bf3-kN-dYE"/>
                         <segue destination="gQL-Kn-w4n" kind="relationship" relationship="viewControllers" id="AS6-pq-puV"/>
+                        <segue destination="v0Y-Lw-vuf" kind="relationship" relationship="viewControllers" id="uDP-Bb-ep3"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N44-V8-N6z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1565" y="-754"/>
+        </scene>
+        <!--Drive Session-->
+        <scene sceneID="HqB-bv-TUR">
+            <objects>
+                <navigationController id="v0Y-Lw-vuf" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Drive Session" image="car" catalog="system" id="pKv-6H-JRs"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Arv-uT-KNg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Ucr-zb-lfM" kind="relationship" relationship="rootViewController" id="SUB-ml-Pl5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s6x-K2-Woc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2473" y="-1050"/>
+        </scene>
+        <!--Drive Session View Controller-->
+        <scene sceneID="NG7-zg-fXz">
+            <objects>
+                <viewController id="Ucr-zb-lfM" customClass="DriveSessionViewController" customModule="TelenavDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="m7O-RA-pfB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="N4Y-eq-JtG"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Rn0-RL-Gvg"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dvJ-IT-gRn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3484" y="-1050"/>
         </scene>
         <!--Telenav Map View Controller-->
         <scene sceneID="cqa-O8-OJ7">
@@ -238,7 +273,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZH-PH-ezT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3543.1999999999998" y="-1501.7991004497753"/>
+            <point key="canvasLocation" x="3484" y="-1925"/>
         </scene>
         <!--Catalog View Controller-->
         <scene sceneID="Q4h-6L-OfX">
@@ -1818,12 +1853,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="unM-f0-a55" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2604" y="-1501.7991004497753"/>
+            <point key="canvasLocation" x="2473" y="-1924"/>
         </scene>
     </scenes>
     <resources>
         <image name="ArrowRight" width="96" height="96"/>
         <image name="arrow.left" catalog="system" width="128" height="98"/>
+        <image name="car" catalog="system" width="128" height="93"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
         <image name="large_0" width="132" height="24"/>

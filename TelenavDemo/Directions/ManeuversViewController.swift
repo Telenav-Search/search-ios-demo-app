@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import VividMapSDK
+import VividDriveSessionSDK
 
 class ManeuversViewController: UITableViewController {
     
