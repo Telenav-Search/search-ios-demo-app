@@ -539,12 +539,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.mapView.cameraController().show(region)
             
             self.backButton.isHidden = false
-            
-            let point = VNGeoPoint(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
-            let position = self.mapView.cameraController().position
-            let cameraPosition = VNCameraPosition(bearing: position.bearing, tilt: position.tilt, zoomLevel: position.zoomLevel, location: point)
-            self.mapView.cameraController().position = cameraPosition
+            self.moveMapCameraTo(to: annotation.coordinate)
         }
+    }
+    
+    func moveMapCameraTo(to coordinate: CLLocationCoordinate2D) {
+        let point = VNGeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let position = self.mapView.cameraController().position
+        let cameraPosition = VNCameraPosition(bearing: position.bearing, tilt: position.tilt, zoomLevel: position.zoomLevel, location: point)
+        self.mapView.cameraController().position = cameraPosition
     }
     
     func didSelectQuery(_ query: String) {
@@ -627,6 +630,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             }
             return
         }
+        
+        self.moveMapCameraTo(to: placeAnnotation.coordinate)
         
         TNEntityClient.getEntityDetail(params: params) { [weak self] (entities, err) in
             
