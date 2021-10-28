@@ -83,6 +83,7 @@ class TelenavMapViewController: UIViewController {
     
     func setupUI() {
         map = VNMapView()
+        map.preferredFPS = 30
         map.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(map)
         

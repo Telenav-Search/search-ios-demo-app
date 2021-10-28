@@ -274,6 +274,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     func addChildView() {
+        mapView.preferredFPS = 30
         mapContainerView.insertSubview(mapView, at: 0)
         NSLayoutConstraint.activate([
             mapView.topAnchor.constraint(equalTo: mapContainerView.topAnchor),
@@ -537,14 +538,16 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             let region = self.obtainRegionForAnnotationsArr([updatedAnnotation])
             self.mapView.cameraController().show(region)
             
-            self.addEntityAnnotations(annotations: self.currentAnnotations)
             self.backButton.isHidden = false
-            
-            let point = VNGeoPoint(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
-            let position = self.mapView.cameraController().position
-            let cameraPosition = VNCameraPosition(bearing: position.bearing, tilt: position.tilt, zoomLevel: position.zoomLevel, location: point)
-            self.mapView.cameraController().position = cameraPosition
+            self.moveMapCameraTo(to: annotation.coordinate)
         }
+    }
+    
+    func moveMapCameraTo(to coordinate: CLLocationCoordinate2D) {
+        let point = VNGeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let position = self.mapView.cameraController().position
+        let cameraPosition = VNCameraPosition(bearing: position.bearing, tilt: position.tilt, zoomLevel: position.zoomLevel, location: point)
+        self.mapView.cameraController().position = cameraPosition
     }
     
     func didSelectQuery(_ query: String) {
@@ -627,6 +630,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             }
             return
         }
+        
+        self.moveMapCameraTo(to: placeAnnotation.coordinate)
         
         TNEntityClient.getEntityDetail(params: params) { [weak self] (entities, err) in
             
@@ -979,8 +984,8 @@ extension MapViewController: UITextFieldDelegate {
         self.currentAnnotations = annotations
         
         let region = obtainRegionForAnnotationsArr(annotations)
-        mapView.cameraController().show(region)
         
+        mapView.cameraController().show(region)
         addEntityAnnotations(annotations: annotations)
     }
     
