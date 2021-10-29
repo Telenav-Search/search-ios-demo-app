@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import VividMapSDK
+import VividDriveSessionSDK
 
 protocol TelenavMapSettingsViewControllerDelegate: AnyObject {
     func mapSettingsDidChange(vc: TelenavMapSettingsViewController, settings: TelenavMapSettingsModel)

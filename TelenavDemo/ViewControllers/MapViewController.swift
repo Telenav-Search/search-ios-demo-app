@@ -8,7 +8,7 @@
 import UIKit
 import TelenavEntitySDK
 import Alamofire
-import VividMapSDK
+import VividDriveSessionSDK
 
 class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLocationManagerDelegate {
     lazy var mapView: VNMapView = {

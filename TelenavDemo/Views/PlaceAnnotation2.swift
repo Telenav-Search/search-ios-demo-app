@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import VividMapSDK
+import VividDriveSessionSDK
 
 class PlaceAnnotation2 {
     var coordinate: CLLocationCoordinate2D

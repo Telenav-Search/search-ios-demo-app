@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import VividMapSDK
+import VividDriveSessionSDK
 import CoreLocation
 
 class TelenavMapViewController: UIViewController {
