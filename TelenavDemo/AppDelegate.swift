@@ -13,14 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        if let options = VNSDKOptions.builder()
-            .apiKey("94bc88e5-ed96-47be-bdab-2dc714a5d2e3")
-            .apiSecret("2c3fa0d2-d33b-4ada-9452-2769d6cc9c2d")
-            .cloudEndPoint("https://apinastg.telenav.com/")
-            .build() {
+        if let options = VNSDKOptions.builder().buildFromInfoPlist() {
             VNSDK.sharedInstance.initialize(with: options)
         }
-        
         VNLogging.sharedInstance.logLevel = .error
         
         return true

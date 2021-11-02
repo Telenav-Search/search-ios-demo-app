@@ -105,5 +105,14 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>VividNavigationSDK</key>
+	<dict>
+    	<key>apiKey</key>
+    	<string></string>
+    	<key>apiSecret</key>
+    	<string></string>
+    	<key>cloudEndPoint</key>
+    	<string></string>
+	</dict>
 </dict>
 </plist>
