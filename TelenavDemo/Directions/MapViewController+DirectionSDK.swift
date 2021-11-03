@@ -110,7 +110,7 @@ extension MapViewController {
         }
     }
     
-    func addFromPoint(location: VNGeoPoint, message: String, entity: TNEntity? = nil) {
+    func addFromPoint(location: VNGeoPoint, message: String) {
         let annotationController = mapView.annotationsController()
         let pushPinImage = UIImage(named: "map-push-pin-s")!
         
@@ -134,7 +134,7 @@ extension MapViewController {
         createRouteIfPossible()
     }
     
-    func addWayPoint(location: VNGeoPoint, message: String, entity: TNEntity? = nil) {
+    func addWayPoint(location: VNGeoPoint, message: String) {
         let annotationController = mapView.annotationsController()
         let pushPinImage = UIImage(named: "map-push-pin-w")!
         
@@ -153,7 +153,7 @@ extension MapViewController {
         createRouteIfPossible()
     }
     
-    func addToPoint(location: VNGeoPoint, message: String, entity: TNEntity? = nil) {
+    func addToPoint(location: VNGeoPoint, message: String) {
         let annotationController = mapView.annotationsController()
         let pushPinImage = UIImage(named: "map-push-pin-f")!
         
