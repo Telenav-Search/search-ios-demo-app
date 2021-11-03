@@ -114,6 +114,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     var wayAnnotations = [VNAnnotation]()
     var routeModels = [VNMapRouteModel]()
     var entityAnnotations = [VNAnnotation]()
+    var entitiesWithCoordinates = [TNEntity: CLLocationCoordinate2D]()
 
     
     func updatePredictionsView() {

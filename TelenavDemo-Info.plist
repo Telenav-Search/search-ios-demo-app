@@ -107,12 +107,12 @@
 	<string>Light</string>
 	<key>VividNavigationSDK</key>
 	<dict>
-    	<key>apiKey</key>
-    	<string></string>
-    	<key>apiSecret</key>
-    	<string></string>
-    	<key>cloudEndPoint</key>
-    	<string></string>
+		<key>apiKey</key>
+		<string>94bc88e5-ed96-47be-bdab-2dc714a5d2e3</string>
+		<key>apiSecret</key>
+		<string>2c3fa0d2-d33b-4ada-9452-2769d6cc9c2d</string>
+		<key>cloudEndPoint</key>
+		<string>https://apinastg.telenav.com/</string>
 	</dict>
 </dict>
 </plist>
