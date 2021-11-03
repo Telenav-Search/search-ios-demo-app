@@ -361,7 +361,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     // MARK: - SDK Setup
     
     private func setupSDK() {
-        let settings = readSettingsFromcConfig()
+        let settings = readSettingsFromConfig()
         if let settings = settings,
            let key = settings["apiKey"],
            let secret = settings["apiSecret"],
@@ -383,7 +383,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    private func readSettingsFromcConfig() -> [String: String]? {
+    private func readSettingsFromConfig() -> [String: String]? {
         guard let path = Bundle.main.path(forResource: "SDKConfig", ofType: "plist") else { return nil
         }
         let url = URL(fileURLWithPath: path)
