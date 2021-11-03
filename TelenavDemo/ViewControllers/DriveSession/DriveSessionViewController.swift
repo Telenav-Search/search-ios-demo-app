@@ -35,6 +35,8 @@ private extension DriveSessionViewController {
 
         mapView = VNMapView()
 
+        mapView.preferredFPS = 30
+
         mapView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(mapView)
@@ -67,7 +69,7 @@ private extension DriveSessionViewController {
         countryStack.translatesAutoresizingMaskIntoConstraints = false
 
         let adrLabelTitle = UILabel()
-        adrLabelTitle.text = "Address: "
+        adrLabelTitle.text = "Street name: "
         adrLabelTitle.textColor = .red
 
         let speedLimitTitle = UILabel()
@@ -145,7 +147,7 @@ extension DriveSessionViewController: VNPositionEventDelegate {
 
     func  onStreetUpdated(_ curStreetInfo: VNStreetInfo) {
         DispatchQueue.main.async {
-            self.addressLabel.text = curStreetInfo.combinedStreetName ?? "Null received"
+            self.addressLabel.text = curStreetInfo.streetName ?? "Null received"
 
             if let value = curStreetInfo.speedLimit?.value,
                let unit = curStreetInfo.speedLimit?.unit {
