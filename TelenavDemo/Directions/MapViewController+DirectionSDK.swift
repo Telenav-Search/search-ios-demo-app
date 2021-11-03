@@ -19,9 +19,12 @@ extension MapViewController {
     }
     
     func coordinatesFromDetailView() -> CLLocationCoordinate2D? {
-        if let point = detailsView.entity?.place?.address?.navCoordinates,
-           let lat = point.latitude, let lon = point.longitude {
-            return CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        if  let entity = detailsView.entity,
+            let point = entity.place?.address?.navCoordinates,
+            let lat = point.latitude, let lon = point.longitude {
+            let location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            entitiesWithCoordinates.updateValue(location, forKey: entity)
+            return location
         }
         return nil
     }
@@ -77,8 +80,8 @@ extension MapViewController {
         let message = messageForCoordinate(coordinate: geoPoint)
         let title = "Do you want to make a route?"
         createRouteActionSheet = UIAlertController(title: title,
-                                   message: message,
-                                   preferredStyle: .actionSheet)
+                                                   message: message,
+                                                   preferredStyle: .actionSheet)
         
         let fromAction = UIAlertAction(title: "From here", style: .default, handler: { [weak self] (action) in
             self?.addFromPoint(location: geoPoint, message: message)
@@ -219,6 +222,9 @@ extension MapViewController {
         let task = client?.createRouteCalculationTask(request)
         let activity = showActivityIndicator()
         task?.runAsync({ [weak self] response, error  in
+
+            self?.entitiesWithCoordinates.removeAll()
+
             guard error == nil, let routes = response?.routes, routes.count > 0 else {
                 self?.hideActivityIndicator(activity: activity)
                 self?.showCalculationErrorAlert(error: error)
@@ -234,18 +240,16 @@ extension MapViewController {
         guard let startCoord = fromLocation, let endCoord = toLocation else {
             return nil
         }
-        
-        let origin = VNGeoLocation(latitude: startCoord.latitude,
-                                   longitude: startCoord.longitude)
-        let destination = VNGeoLocation(latitude: endCoord.latitude,
-                                        longitude: endCoord.longitude)
-        
+
+        let origin = createGeolocation(with: startCoord)
+        let destination = createGeolocation(with: endCoord)
+
         let requestBuilder = VNRouteRequest.builder().setOrigin(origin).setDestination(destination)
         
         var waypoints = [VNGeoLocation]()
         for wayLocation in /*routeWayPointsAnnotations*/wayLocations {
             // let wpCoord = wpAnnotation.coordinate
-            let waypoint = VNGeoLocation(latitude: wayLocation.latitude, longitude: wayLocation.longitude)
+            let waypoint = createGeolocation(with: wayLocation)
             waypoints.append(waypoint)
         }
         requestBuilder.setWayPoints(waypoints)
@@ -259,6 +263,34 @@ extension MapViewController {
         }
         requestBuilder.setRoutePreference(settings.preferences)
         return requestBuilder.build()
+    }
+
+    func createGeolocation(with geoPoint: VNGeoPoint) -> VNGeoLocation {
+
+        if let entity = entitiesWithCoordinates.first(where: {
+            $1.longitude == geoPoint.longitude &&
+            $1.latitude == geoPoint.latitude
+        }) {
+            let street = entity.key.place?.address?.street?.formattedName
+            let crossStreet = entity.key.place?.address?.crossStreet?.formattedName
+            let door = entity.key.place?.address?.houseNumber
+
+            let address = VNAddress(
+                street: street,
+                crossStreet: crossStreet,
+                door: door
+            )
+
+            return VNGeoLocation(
+                latitude: geoPoint.latitude,
+                longitude: geoPoint.longitude,
+                address: address
+            )
+        }
+        return VNGeoLocation(
+            latitude: geoPoint.latitude,
+            longitude: geoPoint.longitude
+        )
     }
     
     func showRoute(routes: [VNRoute]) {
