@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>apiKey</key>
-	<string>94bc88e5-ed96-47be-bdab-2dc714a5d2e3</string>
+	<string></string>
 	<key>apiSecret</key>
-	<string>2c3fa0d2-d33b-4ada-9452-2769d6cc9c2d</string>
+	<string></string>
 	<key>cloudEndPoint</key>
-	<string>https://apinastg.telenav.com/</string>
+	<string></string>
 </dict>
 </plist>
