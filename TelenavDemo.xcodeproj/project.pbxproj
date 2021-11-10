@@ -33,6 +33,7 @@
 		068E59A6257E780400910EC0 /* TNEntityStaticCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068E59A0257E75B300910EC0 /* TNEntityStaticCategory.swift */; };
 		297E3A41272AA76300BCDE7D /* SpeedLimitUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E3A40272AA76300BCDE7D /* SpeedLimitUnit.swift */; };
 		29BB539E2728143E006590AB /* DriveSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB539D2728143E006590AB /* DriveSessionViewController.swift */; };
+		29CFAE67273A4DAC0010EB73 /* RouteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CFAE66273A4DAC0010EB73 /* RouteCell.swift */; };
 		654E6A0A259CBADD0059BFB3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06608B09254C598C00DF38C3 /* MapKit.framework */; };
 		654E6A0B259CBAE40059BFB3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06608B0B254C599100DF38C3 /* CoreLocation.framework */; };
 		657A0F2525AEB2FD00275DA0 /* SDKConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 657A0F2425AEB2FD00275DA0 /* SDKConfig.plist */; };
@@ -204,6 +205,7 @@
 		06CC38A8255933AE00345A0E /* TelenavDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TelenavDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		297E3A40272AA76300BCDE7D /* SpeedLimitUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedLimitUnit.swift; sourceTree = "<group>"; };
 		29BB539D2728143E006590AB /* DriveSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveSessionViewController.swift; sourceTree = "<group>"; };
+		29CFAE66273A4DAC0010EB73 /* RouteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCell.swift; sourceTree = "<group>"; };
 		2C5DF7B0C9C2E4222350807F /* Pods-TelenavDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.release.xcconfig"; sourceTree = "<group>"; };
 		657A0F2425AEB2FD00275DA0 /* SDKConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SDKConfig.plist; sourceTree = "<group>"; };
 		65DE8407259492FD009721D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
@@ -406,6 +408,14 @@
 			path = DriveSession;
 			sourceTree = "<group>";
 		};
+		29CFAE65273A454C0010EB73 /* RouteCell */ = {
+			isa = PBXGroup;
+			children = (
+				29CFAE66273A4DAC0010EB73 /* RouteCell.swift */,
+			);
+			path = RouteCell;
+			sourceTree = "<group>";
+		};
 		6873934726CE1EF900BBC978 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,6 +427,7 @@
 		68A5228D26CCD04E00A8AF44 /* TelenavMap */ = {
 			isa = PBXGroup;
 			children = (
+				29CFAE65273A454C0010EB73 /* RouteCell */,
 				68AA9A66270C0EF600B5A484 /* TelenavMapDiagnosis */,
 				68D2F19B2705CC7B003A8B0F /* TelenavMapCamera */,
 				68A5229126CCE33A00A8AF44 /* TelenavMapSettings */,
@@ -958,6 +969,7 @@
 				C5D330EF256FDE9F008BFC36 /* GeoFilterCell.swift in Sources */,
 				C54C056D255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
 				68D2F1B42706F0D0003A8B0F /* CameraMenuCell.swift in Sources */,
+				29CFAE67273A4DAC0010EB73 /* RouteCell.swift in Sources */,
 				C5432C80255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
 				68D2F1B02706EED2003A8B0F /* TelenavMapCameraMenuViewController.swift in Sources */,
 				06608B01254C4AF800DF38C3 /* CatalogViewController.swift in Sources */,
