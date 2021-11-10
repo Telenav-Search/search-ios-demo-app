@@ -11,10 +11,30 @@ import CoreLocation
 
 class TelenavMapViewController: UIViewController {
     var mapViewSettingsModel = TelenavMapSettingsModel()
-    var map: VNMapView!
+    var mapView: VNMapView!
     private var locationManager: CLLocationManager!
     private var cameraRenderMode = VNCameraRenderMode.M2D
     private var isListenData = false
+    //Navigation Session
+
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var imageView: UIImageView!
+
+    var latitude: Double = 0
+    var longitude: Double = 0
+    var heading: Double = 0
+    var speed: Double = 0
+
+    private var driveSession: VNDriveSessionClient!
+    private var navigationSession: VNNavigationSession!
+    private var isNavigationSessionActive = false
+    private var firstRoutePoint: VNGeoLocation?
+    private var secondRoutePoint: VNGeoLocation?
+    private var routeModels = [VNMapRouteModel]()
+    private var selectedRouteModel: VNMapRouteModel?
+    private var routes = [VNRoute]()
+    private var selectedRoute: VNRoute?
+
     //Vehicle
     private var isVehicleTrackActive = false
     //Shapes
@@ -58,11 +78,19 @@ class TelenavMapViewController: UIViewController {
     }()
 
     lazy var vehicleTrackButton: UIButton = {
-        let diagnosisButton = UIButton(type: .system)
-        diagnosisButton.translatesAutoresizingMaskIntoConstraints = false
-        diagnosisButton.backgroundColor = .systemBackground
-        diagnosisButton.setImage(UIImage(systemName: "car"), for: .normal)
-        return diagnosisButton
+        let vehicleTrackButton = UIButton(type: .system)
+        vehicleTrackButton.translatesAutoresizingMaskIntoConstraints = false
+        vehicleTrackButton.backgroundColor = .systemBackground
+        vehicleTrackButton.setImage(UIImage(systemName: "car"), for: .normal)
+        return vehicleTrackButton
+    }()
+
+    lazy var navigationSessionButton: UIButton = {
+        let navigationSessionButton = UIButton(type: .system)
+        navigationSessionButton.translatesAutoresizingMaskIntoConstraints = false
+        navigationSessionButton.backgroundColor = .systemBackground
+        navigationSessionButton.setImage(UIImage(systemName: "pencil.and.outline"), for: .normal)
+        return navigationSessionButton
     }()
     
     override func viewDidLoad() {
@@ -76,24 +104,27 @@ class TelenavMapViewController: UIViewController {
             action: #selector(showSettingsAction)
         )
 
+        driveSession = VNDriveSessionClient.factory().build()
+        driveSession.positionEventDelegate = self
+
         setupUI()
         setupMapFeatures(settings: mapViewSettingsModel)
         setupMapCustomGestureRecognizers()
     }
     
     func setupUI() {
-        map = VNMapView()
-        map.preferredFPS = 30
-        map.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(map)
+        mapView = VNMapView()
+        mapView.preferredFPS = 30
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(mapView)
         
         let safeAreaLayoutGuide = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            map.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            map.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            map.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            map.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+            mapView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            mapView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            mapView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
         
         view.addSubview(cameraRenderModeButton)
@@ -153,10 +184,28 @@ class TelenavMapViewController: UIViewController {
         ])
 
         vehicleTrackButton.addTarget(self, action: #selector(vehicleTrackButtonTapped), for: .touchUpInside)
+
+        view.addSubview(navigationSessionButton)
+
+        NSLayoutConstraint.activate([
+            navigationSessionButton.widthAnchor.constraint(equalToConstant: 40),
+            navigationSessionButton.heightAnchor.constraint(equalToConstant: 40),
+            navigationSessionButton.bottomAnchor.constraint(equalTo: vehicleTrackButton.topAnchor, constant: -16.0),
+            navigationSessionButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+        ])
+
+        navigationSessionButton.addTarget(
+            self,
+            action: #selector(navigationSessionButtonTapped),
+            for: .touchUpInside
+        )
+
+        mapView.addSubview(collectionView)
+
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
-        let features = map.featuresController()
+        let features = mapView.featuresController()
         
         settings.isTerrainOn ? features.terrain.setEnabled() : features.terrain.setDisabled()
         settings.isBuildingsOn ? features.buildings.setEnabled() : features.buildings.setDisabled()
@@ -172,13 +221,13 @@ class TelenavMapViewController: UIViewController {
             features.adiLine.setDisabled()
         }
         
-        map.setActiveGestures(settings.gestureType)
+        mapView.setActiveGestures(settings.gestureType)
         
-        let layoutController = map.layoutController()
+        let layoutController = mapView.layoutController()
         layoutController.setOffsets(settings.horizontalOffset, vertical: settings.verticalOffset)
         
         isListenData = settings.isListenMapViewDataOn
-        map.listenData(settings.isListenMapViewDataOn)
+        mapView.listenData(settings.isListenMapViewDataOn)
     }
     
     func cameraRenderModeButtonUpdate(mode: VNCameraRenderMode) {
@@ -186,14 +235,9 @@ class TelenavMapViewController: UIViewController {
         cameraRenderModeButton.setTitleColor(mode == .M2D ? .black : .white, for: .normal)
     }
 
-    func shapesRenderModeButtonUpdate() {
-        shapesButton.backgroundColor = isShapesPressed ? .systemBlue : .systemBackground
-        shapesButton.tintColor = isShapesPressed ? .systemBackground : .systemBlue
-    }
-
-    func vehicleTrackButtonRenderUpdate() {
-        vehicleTrackButton.backgroundColor = isVehicleTrackActive ? .systemBlue : .systemBackground
-        vehicleTrackButton.tintColor = isVehicleTrackActive ? .systemBackground : .systemBlue
+    func renderUpdateFor(button: UIButton, with state: Bool) {
+        button.backgroundColor = state ? .systemBlue : .systemBackground
+        button.tintColor = state ? .systemBackground : .systemBlue
     }
 }
 
@@ -211,7 +255,7 @@ extension TelenavMapViewController {
         cameraRenderMode = cameraRenderMode == .M2D ? .M3D : .M2D
         cameraRenderModeButtonUpdate(mode: cameraRenderMode)
         
-        map.cameraController().renderMode = cameraRenderMode
+        mapView.cameraController().renderMode = cameraRenderMode
     }
 
     @objc func vehicleTrackButtonTapped() {
@@ -220,8 +264,8 @@ extension TelenavMapViewController {
         if isVehicleTrackActive {
             let image = UIImage(systemName: "car")!
 
-            map.vehicleController().setIcon(image)
-            map.vehicleController().setLocation(carPoint)
+            mapView.vehicleController().setIcon(image)
+            mapView.vehicleController().setLocation(carPoint)
 
             let region = VNCameraRegion(
                 northLatitude: 40.596872279198394,
@@ -230,15 +274,15 @@ extension TelenavMapViewController {
                 eastLongitude: -73.65516483569407
             )
 
-            map.cameraController().show(region)
+            mapView.cameraController().show(region)
         }
 
         if isVehicleTrackActive == false {
-            map.vehicleController().setIcon(nil)
-            map.vehicleController().setLocation(nil)
+            mapView.vehicleController().setIcon(nil)
+            mapView.vehicleController().setLocation(nil)
         }
 
-        vehicleTrackButtonRenderUpdate()
+        renderUpdateFor(button: vehicleTrackButton, with: isVehicleTrackActive)
     }
     
     @objc func cameraSettingsButtonTapped() {
@@ -248,7 +292,7 @@ extension TelenavMapViewController {
                 return
             }
             let positionVC = TelenavMapCameraPositionViewController.storyboardViewController()
-            positionVC.cameraPosition = self.map.cameraController().position
+            positionVC.cameraPosition = self.mapView.cameraController().position
             positionVC.cameraPositionDidChange = { [weak self, weak vc] position in
                 guard let self = self else {
                     return
@@ -277,7 +321,7 @@ extension TelenavMapViewController {
     }
     
     @objc func diagnosisButtonTapped() {
-        let mapDiagnosis = map.mapDiagnosis()
+        let mapDiagnosis = mapView.mapDiagnosis()
         
         let vc = TelenavMapDiagnosisViewController.storyboardViewController()
         vc.mapViewState = mapDiagnosis.getMapViewStatus()
@@ -289,40 +333,75 @@ extension TelenavMapViewController {
     @objc func shapesButtonTapped() {
         isShapesPressed.toggle()
 
-        shapesRenderModeButtonUpdate()
+        renderUpdateFor(button: shapesButton, with: isShapesPressed)
 
         if isShapesPressed == false {
-            map.removeGestureRecognizer(tapGestureRecognizer)
+            mapView.removeGestureRecognizer(tapGestureRecognizer)
             tapGestureRecognizer = nil
             shapesPoints.removeAll()
 
-            shapeCollectionIds.forEach { self.map.shapesController().removeCollection($0)}
+            shapeCollectionIds.forEach { self.mapView.shapesController().removeCollection($0)}
             shapeCollectionIds.removeAll()
+            let routeIds = self.routeModels.map { $0.getRouteId() }
+            mapView.routeController().removeRoutes(routeIds)
 
             return
         }
 
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction))
-        map.addGestureRecognizer(tapGestureRecognizer)
+        mapView.addGestureRecognizer(tapGestureRecognizer)
 
+    }
+
+    @objc func navigationSessionButtonTapped() {
+        isNavigationSessionActive.toggle()
+
+        renderUpdateFor(
+            button: navigationSessionButton,
+            with: isNavigationSessionActive
+        )
+
+        collectionView.isHidden = !isNavigationSessionActive
+        imageView.isHidden = !isNavigationSessionActive
+
+        if isNavigationSessionActive == false {
+            setupMapCustomGestureRecognizers()
+            mapView.featuresController().traffic.setDisabled()
+            mapView.featuresController().compass.setDisabled()
+            mapView.cameraController().renderMode = .M2D
+            mapView.cameraController().disableFollowVehicle()
+            if navigationSession != nil {
+                navigationSession.stopNavigation()
+                navigationSession = nil
+            }
+            firstRoutePoint = nil
+            secondRoutePoint = nil
+            routes.removeAll()
+            let routeIds = self.routeModels.map { $0.getRouteId() }
+            mapView.routeController().removeRoutes(routeIds)
+            collectionView.reloadData()
+            return
+        }
+
+        setupNavLongPressGestures()
     }
 
     func positionDidChange(position: VNCameraPosition) {
-        self.map.cameraController().position = position
+        self.mapView.cameraController().position = position
     }
     
     func regionDidChange(region: VNCameraRegion) {
-        self.map.cameraController().show(region)
+        self.mapView.cameraController().show(region)
     }
     
     func getCurrentRegion() -> VNCameraRegion? {
         let scale = UIScreen.main.scale
         
         guard
-            let location0 = self.map.cameraController().viewport(toWorld: VNViewPoint(x: 0, y: 0)),
-            let location1 = self.map.cameraController().viewport(toWorld: VNViewPoint(x: Float(map.bounds.size.width * scale), y: Float(map.bounds.size.height * scale))) else {
-            return nil
-        }
+            let location0 = self.mapView.cameraController().viewport(toWorld: VNViewPoint(x: 0, y: 0)),
+            let location1 = self.mapView.cameraController().viewport(toWorld: VNViewPoint(x: Float(mapView.bounds.size.width * scale), y: Float(mapView.bounds.size.height * scale))) else {
+                return nil
+            }
         
         let region = VNCameraRegion(
             northLatitude: location0.latitude,
@@ -348,8 +427,17 @@ extension TelenavMapViewController: TelenavMapSettingsViewControllerDelegate {
 extension TelenavMapViewController {
 
     private func setupMapCustomGestureRecognizers() {
+        if longPressGestureRecognizer != nil {
+            mapView.removeGestureRecognizer(longPressGestureRecognizer)
+        }
         longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureRecognizerAction))
-        map.addGestureRecognizer(longPressGestureRecognizer)
+        mapView.addGestureRecognizer(longPressGestureRecognizer)
+    }
+
+    private func setupNavLongPressGestures() {
+        mapView.removeGestureRecognizer(longPressGestureRecognizer)
+        longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(navGestureAction))
+        mapView.addGestureRecognizer(longPressGestureRecognizer)
     }
     
     @objc private func longPressGestureRecognizerAction(_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -391,6 +479,91 @@ extension TelenavMapViewController {
         addPolylineShapeTo(coordinates: shapesPoints)
     }
 
+    @objc private func navGestureAction(_ gestureRecognizer: UITapGestureRecognizer) {
+
+        guard
+            let geoLocation = getCoordinatesFrom(gestureRecognizer: gestureRecognizer)
+        else {
+            return
+        }
+
+        let title = "Do you want to create a route for navigation session?"
+        let alertController = UIAlertController(
+            title: title,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+
+        let fromAction = UIAlertAction(title: "From here", style: .default, handler: { [weak self] (action) in
+            self?.firstRoutePoint = VNGeoLocation(latitude: geoLocation.latitude, longitude: geoLocation.longitude)
+            self?.createRoute()
+        })
+
+        alertController.addAction(fromAction)
+
+        let toAction = UIAlertAction(title: "Till here", style: .default, handler: { [weak self] (action) in
+            self?.secondRoutePoint = VNGeoLocation(latitude: geoLocation.latitude, longitude: geoLocation.longitude)
+            self?.createRoute()
+        })
+
+        alertController.addAction(toAction)
+
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        present(alertController, animated: true)
+    }
+
+    private func calculateRoute(startPoint: VNGeoLocation, endPoint: VNGeoLocation, completion: @escaping ([VNRoute]) -> ()) {
+
+        let request = VNRouteRequest.builder()
+            .setOrigin(startPoint)
+            .setDestination(endPoint)
+            .setRouteCount(3)
+            .build()
+
+        let client = VNDirectionClient.factory().build()
+        let task = client?.createRouteCalculationTask(request)
+
+        task?.runAsync({ response, error  in
+
+            guard error == nil, let routes = response?.routes, routes.count > 0 else {
+                return
+            }
+
+            completion(routes)
+
+        })
+
+    }
+    private func createRoute() {
+        if
+            let startPoint = firstRoutePoint,
+            let endPoint = secondRoutePoint {
+
+            mapView.vehicleController().setIcon(UIImage(systemName: "car"))
+            mapView.featuresController().traffic.setEnabled()
+            mapView.featuresController().compass.setEnabled()
+            mapView.cameraController().renderMode = .M3D
+            mapView.cameraController().enable(.headingUp, useAutoZoom: true)
+
+            navigationSession = driveSession.createNavigationSession()
+            navigationSession.delegate = self
+            calculateRoute(
+                startPoint: startPoint,
+                endPoint: endPoint) {  [weak self] routes in
+                    DispatchQueue.main.async {
+                        self?.routes = routes
+                        self?.showRoute(routes: routes)
+                        self?.collectionView.reloadData()
+                    }
+                }
+        }
+        else {
+            return
+        }
+
+    }
+
     private func addPolylineShapeTo(coordinates: [CLLocationCoordinate2D]) {
 
         if coordinates.count < 2 { return }
@@ -415,23 +588,23 @@ extension TelenavMapViewController {
             .add(shape)
             .build()
 
-        if let shapeCollectionId = map.shapesController().add(shapeCollection) {
+        if let shapeCollectionId = mapView.shapesController().add(shapeCollection) {
             shapeCollectionIds.append(shapeCollectionId)
         }
     }
     
     private func addImageAnnotationTo(location: CLLocationCoordinate2D) {
-        let annotationsFactory = map.annotationsController().factory()
+        let annotationsFactory = mapView.annotationsController().factory()
         
         if let image = UIImage(systemName: "face.smiling") {
             let annotation = annotationsFactory.create(with: image, location: location)
             annotation.style = .screenFlagNoCulling
-            map.annotationsController().add([annotation])
+            mapView.annotationsController().add([annotation])
         }
     }
     
     private func addTextAnnotationTo(location: CLLocationCoordinate2D) {
-        let annotationsFactory = map.annotationsController().factory()
+        let annotationsFactory = mapView.annotationsController().factory()
         
         if let image = UIImage(systemName: "face.smiling") {
             let annotation = annotationsFactory.create(with: image, location: location)
@@ -442,7 +615,7 @@ extension TelenavMapViewController {
             textDisplay.textFontSize = 20
             
             annotation.displayText = textDisplay
-            map.annotationsController().add([annotation])
+            mapView.annotationsController().add([annotation])
         }
     }
 
@@ -455,7 +628,9 @@ extension TelenavMapViewController {
             y: Float(tapPressLocation.y * scale)  // in pixels
         )
 
-        guard let mapLocation = map.cameraController().viewport(toWorld: viewPoint) else {
+        guard
+            let mapLocation = mapView.cameraController().viewport(toWorld: viewPoint)
+        else {
             return nil
         }
 
@@ -464,12 +639,182 @@ extension TelenavMapViewController {
             longitude: mapLocation.longitude
         )
     }
-    
+
+    private func showTurnArrows(routeName: String, route: VNRoute) {
+        mapView.routeController().disableAllTurnArrows()
+        for (legIndex, leg) in route.legs.enumerated() {
+            for (stepIndex, _) in leg.steps.enumerated() {
+                mapView.routeController().enableTurnArrow(
+                    forRouteName: routeName,
+                    legIndex: Int32(legIndex),
+                    step: Int32(stepIndex)
+                )
+            }
+        }
+    }
+
+    private func showRoute(routes: [VNRoute]) {
+        let routeModels = routes.enumerated().map { (index, element) in
+            return VNMapRouteConverter.convert(element, routeId: "\(index)")
+        }
+
+        let routeController = mapView.routeController()
+
+        if !self.routeModels.isEmpty {
+            let routeIds = self.routeModels.map { $0.getRouteId() }
+            routeController.removeRoutes(routeIds)
+        }
+
+        if !routeModels.isEmpty {
+            routeController.addRoutes(routeModels)
+            routeController.unhighlight()
+            self.routeModels = routeModels
+        }
+    }
+
     private func addExplicitStyleAnnotationTo(location: CLLocationCoordinate2D) {
         // TODO: Now explicit style annotations don't work.
     }
     
     private func removeAllAnnotation() {
-        map.annotationsController().clearAllAnnotations()
+        mapView.annotationsController().clearAllAnnotations()
+    }
+}
+
+
+//MARK: - Route collection view
+
+extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return routes.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let routeCell = collectionView.dequeueReusableCell(withReuseIdentifier: "RouteCell", for: indexPath as IndexPath) as? RouteCell {
+            routeCell.titleLabel.text = "Route: \(indexPath.row)"
+            routeCell.isSelected = false
+            return routeCell
+
+        }
+        return UICollectionViewCell()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        if selectedRoute != nil {
+            return
+        }
+
+        DispatchQueue.main.async {
+            let route = self.routes[indexPath.row]
+            let routeModel = self.routeModels[indexPath.row]
+            self.selectedRoute = route
+            self.selectedRouteModel = routeModel
+            self.showTurnArrows(routeName: routeModel.getRouteId(), route: route)
+            self.mapView.routeController().highlight(routeModel.getRouteId())
+            self.navigationSession?.updateRouteInfo(route)
+            self.navigationSession.startSimulateNavigation()
+        }
+    }
+}
+
+extension TelenavMapViewController: VNNavigationSessionDelegate {
+
+    func onRouteInfoUpdated(_ onRoadInfo: VNOnRouteInfo) {
+
+        if (onRoadInfo.isVehicleOnTrack) {
+            let routeId = selectedRouteModel?.getRouteId() ?? ""
+            mapView.routeController().vehicle(
+                onRouteInfoRouteName: routeId,
+                routeId: routeId,
+                legIndex: UInt32(onRoadInfo.legIndex),
+                step: UInt32(onRoadInfo.stepIndex),
+                edgeIndex: UInt32(onRoadInfo.edgeIndex),
+                pointIndex: UInt32(onRoadInfo.pointIndex),
+                position: .init(latitude: latitude, longitude: longitude, heightMeters: 0),
+                heading: heading,
+                passedDistance: onRoadInfo.distFromStart,
+                vehicleSpeed: speed,
+                headingTolerance: 10,
+                isEatingRoute: true)
+        }
+    }
+
+    func processNavigationSignals(signals: [VNNavigationSignal]) {
+        for signal in signals {
+            if let signalReachWaypoint = signal as? VNNavigationSignalReachWaypoint {
+                print("signalReachWaypoint = \(signalReachWaypoint)")
+            } else
+            if let signalUpdateJunctionView = signal as? VNNavigationSignalUpdateJunctionView {
+                print("signalUpdateJunctionView = \(signalUpdateJunctionView)")
+                processUpdateJunctionView(signalUpdateJunctionView: signalUpdateJunctionView)
+            } else
+            if let signalUpdateTurnByTurnList = signal as? VNNavigationSignalUpdateTurnByTurnList {
+                print("signalUpdateTurnByTurnList = \(signalUpdateTurnByTurnList)")
+
+            } else
+            if let signalTimedRestriction = signal as? VNNavigationSignalTimedRestriction {
+                print("signalTimedRestriction = \(signalTimedRestriction)")
+            } else
+            if let signalAlongRouteTrafficInfo = signal as? VNNavigationSignalAlongRouteTrafficInfo {
+                print("signalAlongRouteTrafficInfo = \(signalAlongRouteTrafficInfo)")
+            }
+        }
+    }
+
+    func processUpdateJunctionView(signalUpdateJunctionView: VNNavigationSignalUpdateJunctionView) {
+        if signalUpdateJunctionView.junctionViewStatus == .entered ||
+            signalUpdateJunctionView.junctionViewStatus == .inTransition {
+            let junctionViewRender = driveSession.getJunctionViewRender()
+
+            guard let route = selectedRoute else { return }
+            let bitmap = junctionViewRender.getJunctionViewImage(
+                forRoure: route,
+                legIndex: signalUpdateJunctionView.legIndex,
+                step: signalUpdateJunctionView.stepIndex,
+                width: 120,
+                height: 60,
+                dayNightMode: .dayMode
+            )
+
+            if let image = bitmap?.image {
+                DispatchQueue.main.async { [weak self] in
+                    self?.imageView.image = image
+                    self?.imageView.isHidden = false
+                }
+            }
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.imageView.isHidden = true
+            }
+        }
+    }
+}
+
+extension TelenavMapViewController: VNPositionEventDelegate {
+
+    func onLocationUpdated(_ vehicleLocation: VNVehicleLocationInfo) {
+        let location = CLLocation.init(
+            coordinate: .init(latitude: vehicleLocation.lat, longitude: vehicleLocation.lon),
+            altitude: 0, // not used
+            horizontalAccuracy: CLLocationAccuracy(vehicleLocation.locationAccuracy),
+            verticalAccuracy: CLLocationAccuracy(vehicleLocation.locationAccuracy),
+            course: CLLocationDirection(vehicleLocation.heading),
+            speed: CLLocationSpeed(vehicleLocation.speed),
+            timestamp: Date() // not used
+        )
+        mapView.vehicleController().setLocation(location)
+
+        latitude = vehicleLocation.lat
+        longitude = vehicleLocation.lon
+        heading = Double(vehicleLocation.heading)
+        speed = Double(vehicleLocation.speed)
+
+    }
+    func onUpdate(_ navStatus: VNNavStatus!) {
+        if navStatus.navigationSignal.count != 0 {
+            processNavigationSignals(signals: navStatus.navigationSignal)
+        }
     }
 }
