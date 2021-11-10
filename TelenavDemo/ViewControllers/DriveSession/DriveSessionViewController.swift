@@ -14,9 +14,11 @@ class DriveSessionViewController: UIViewController {
     private var driveSession: VNDriveSessionClient!
     private var navigationSession: VNNavigationSession!
     private var route: VNRoute!
+  
     private var addressLabel: UILabel!
     private var speedLimit: UILabel!
     private var country: UILabel!
+    private var audioMessage: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +74,13 @@ private extension DriveSessionViewController {
         countryStack.spacing = 8
 
         countryStack.translatesAutoresizingMaskIntoConstraints = false
+      
+        let audioMessageStack = UIStackView()
+        audioMessageStack.alignment = .fill
+        audioMessageStack.axis = .horizontal
+        audioMessageStack.spacing = 8
+
+        audioMessageStack.translatesAutoresizingMaskIntoConstraints = false
 
         let adrLabelTitle = UILabel()
         adrLabelTitle.text = "Street name: "
@@ -84,6 +93,10 @@ private extension DriveSessionViewController {
         let countryTitle = UILabel()
         countryTitle.text = "Country: "
         countryTitle.textColor = .purple
+      
+        let audioMessageTitle = UILabel()
+        audioMessageTitle.text = "Audio message: "
+        audioMessageTitle.textColor = .brown
 
         addressLabel = UILabel()
         addressLabel.textColor = .red
@@ -91,7 +104,11 @@ private extension DriveSessionViewController {
         speedLimit.textColor = .orange
         country = UILabel()
         country.textColor = .purple
-
+        audioMessage = UILabel()
+        audioMessage.numberOfLines = 0
+        audioMessage.lineBreakMode = .byWordWrapping
+        audioMessage.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
+        audioMessage.textColor = audioMessageTitle.textColor
 
         addressStack.addArrangedSubview(adrLabelTitle)
         addressStack.addArrangedSubview(addressLabel)
@@ -101,10 +118,14 @@ private extension DriveSessionViewController {
 
         countryStack.addArrangedSubview(countryTitle)
         countryStack.addArrangedSubview(country)
+      
+        audioMessageStack.addArrangedSubview(audioMessageTitle)
+        audioMessageStack.addArrangedSubview(audioMessage)
 
         mainLabelStack.addArrangedSubview(addressStack)
         mainLabelStack.addArrangedSubview(speedLimitStack)
         mainLabelStack.addArrangedSubview(countryStack)
+        mainLabelStack.addArrangedSubview(audioMessageStack)
 
         mapView.addSubview(mainLabelStack)
 
@@ -135,6 +156,7 @@ private extension DriveSessionViewController {
   
     func setupAudioGuidanceService() {
         driveSession.enableAudioDefaultPlayback(true);
+        driveSession.audioEventDelegate = self
     }
   
     func setupNavigationSession() {
@@ -213,4 +235,16 @@ extension DriveSessionViewController: VNPositionEventDelegate {
     }
 
     func onCandidateRoadDetected(_ roadCalibrator: VNRoadCalibrator) {}
+}
+
+extension DriveSessionViewController: VNAudioEventDelegate {
+    func onAudioInstructionUpdated(_ audioInstruction: VNAudioInstruction) {
+        DispatchQueue.main.async {
+            if let audioString = audioInstruction.audioOrthographyString {
+                self.audioMessage.text = audioString
+            } else {
+                self.audioMessage.text = "Null received"
+            }
+        }
+    }
 }
