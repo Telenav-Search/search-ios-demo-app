@@ -12,6 +12,8 @@ class DriveSessionViewController: UIViewController {
 
     private var mapView: VNMapView!
     private var driveSession: VNDriveSessionClient!
+    private var navigationSession: VNNavigationSession!
+    private var route: VNRoute!
     private var addressLabel: UILabel!
     private var speedLimit: UILabel!
     private var country: UILabel!
@@ -20,10 +22,13 @@ class DriveSessionViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupDriveSessionService()
+        setupAudioGuidanceService()
+        setupNavigationSession()
+        startSimulateNavigation()
     }
 
     deinit {
-
+      driveSession.dispose()
     }
 }
 
@@ -117,35 +122,71 @@ private extension DriveSessionViewController {
         ])
 
         mapView.vehicleController().setIcon(UIImage(systemName: "car"))
-
+        mapView.featuresController().traffic.setEnabled()
+        mapView.featuresController().compass.setEnabled()
+        mapView.cameraController().renderMode = .M3D
+        mapView.cameraController().enable(.headingUp, useAutoZoom: true)
     }
 
     func setupDriveSessionService() {
         driveSession = VNDriveSessionClient.factory().build()
         driveSession.positionEventDelegate = self
     }
+  
+    func setupAudioGuidanceService() {
+        driveSession.enableAudioDefaultPlayback(true);
+    }
+  
+    func setupNavigationSession() {
+        navigationSession = driveSession.createNavigationSession()
+        //navigationSession.delegate = self
+    }
+  
+    func startSimulateNavigation() {
+        requestTestRoute { [weak self, weak navigationSession] route in
+            if let route = route {
+                self?.route = route
+                navigationSession?.updateRouteInfo(route)
+                navigationSession?.startSimulateNavigation()
+            }
+        }
+    }
+  
+    func requestTestRoute(completion: @escaping (_ route: VNRoute?) -> Void) {
+        let client = VNDirectionClient.factory().build()
+        let origin = VNGeoLocation(latitude: 37.73141671, longitude: -122.42359098)
+        let destination = VNGeoLocation(latitude: 37.73175391, longitude: -121.42104766)
+        
+        let routeRequest = VNRouteRequest.builder()
+            .setOrigin(origin)
+            .setDestination(destination)
+            .build()!
+        
+        let task = client?.createRouteCalculationTask(routeRequest)
+        task?.runAsync({ response, error in
+            if let response = response {
+                completion(response.routes[0])
+            }
+        })
+    }
 }
 
 extension DriveSessionViewController: VNPositionEventDelegate {
     func onLocationUpdated(_ vehicleLocation: VNVehicleLocationInfo) {
-        let cameraPosition = VNCameraPosition.init(
-            bearing: mapView.cameraController().position.bearing,
-            tilt: mapView.cameraController().position.tilt,
-            zoomLevel: mapView.cameraController().position.zoomLevel,
-            location: VNGeoPoint.init(
-                latitude: vehicleLocation.lat,
-                longitude: vehicleLocation.lon
-            )
+        let location = CLLocation.init(
+            coordinate: .init(latitude: vehicleLocation.lat, longitude: vehicleLocation.lon),
+            altitude: 0, // not used
+            horizontalAccuracy: CLLocationAccuracy(vehicleLocation.locationAccuracy),
+            verticalAccuracy: CLLocationAccuracy(vehicleLocation.locationAccuracy),
+            course: CLLocationDirection(vehicleLocation.heading),
+            speed: CLLocationSpeed(vehicleLocation.speed),
+            timestamp: Date() // not used
         )
-        mapView.cameraController().position = cameraPosition
-        mapView.vehicleController().setLocation(CLLocation.init(
-            latitude: vehicleLocation.lat,
-            longitude: vehicleLocation.lon
-        )
-        )
+      
+        mapView.vehicleController().setLocation(location)
     }
 
-    func  onStreetUpdated(_ curStreetInfo: VNStreetInfo) {
+    func onStreetUpdated(_ curStreetInfo: VNStreetInfo) {
         DispatchQueue.main.async {
             self.addressLabel.text = curStreetInfo.streetName ?? "Null received"
 
@@ -171,7 +212,5 @@ extension DriveSessionViewController: VNPositionEventDelegate {
         }
     }
 
-    func onCandidateRoadDetected(_ roadCalibrator: VNRoadCalibrator) {
-
-    }
+    func onCandidateRoadDetected(_ roadCalibrator: VNRoadCalibrator) {}
 }
