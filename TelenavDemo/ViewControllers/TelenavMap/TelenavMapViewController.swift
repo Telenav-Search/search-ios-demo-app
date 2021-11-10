@@ -20,10 +20,10 @@ class TelenavMapViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
 
-    var latitude: Double = 0
-    var longitude: Double = 0
-    var heading: Double = 0
-    var speed: Double = 0
+    private var latitude: Double = 0
+    private var longitude: Double = 0
+    private var heading: Double = 0
+    private var speed: Double = 0
 
     private var driveSession: VNDriveSessionClient!
     private var navigationSession: VNNavigationSession!
@@ -201,6 +201,7 @@ class TelenavMapViewController: UIViewController {
         )
 
         mapView.addSubview(collectionView)
+        mapView.addSubview(imageView)
 
     }
     
@@ -374,6 +375,7 @@ extension TelenavMapViewController {
                 navigationSession.stopNavigation()
                 navigationSession = nil
             }
+            selectedRoute = nil
             firstRoutePoint = nil
             secondRoutePoint = nil
             routes.removeAll()
