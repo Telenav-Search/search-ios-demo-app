@@ -19,6 +19,7 @@ class TelenavMapViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var travelEstimationLbl: UILabel!
 
     private var latitude: Double = 0
     private var longitude: Double = 0
@@ -202,6 +203,7 @@ class TelenavMapViewController: UIViewController {
 
         mapView.addSubview(collectionView)
         mapView.addSubview(imageView)
+        mapView.addSubview(travelEstimationLbl)
 
     }
     
@@ -362,6 +364,7 @@ extension TelenavMapViewController {
             with: isNavigationSessionActive
         )
 
+        travelEstimationLbl.isHidden = !isNavigationSessionActive
         collectionView.isHidden = !isNavigationSessionActive
         imageView.isHidden = !isNavigationSessionActive
 
@@ -711,6 +714,11 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
         DispatchQueue.main.async {
             let route = self.routes[indexPath.row]
             let routeModel = self.routeModels[indexPath.row]
+
+            let routeDuration = route.duration.secondsToHoursMinutesSeconds() ?? ""
+
+            let durationText = "Route duration: \(routeDuration)"
+            self.travelEstimationLbl.text = durationText
             self.selectedRoute = route
             self.selectedRouteModel = routeModel
             self.showTurnArrows(routeName: routeModel.getRouteId(), route: route)

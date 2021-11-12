@@ -17,7 +17,7 @@ class DriveSessionViewController: UIViewController {
   
     private var addressLabel: UILabel!
     private var speedLimit: UILabel!
-    private var country: UILabel!
+    private var cityName: UILabel!
     private var audioMessage: UILabel!
 
     override func viewDidLoad() {
@@ -90,9 +90,9 @@ private extension DriveSessionViewController {
         speedLimitTitle.text = "Speed limit: "
         speedLimitTitle.textColor = .orange
 
-        let countryTitle = UILabel()
-        countryTitle.text = "Country: "
-        countryTitle.textColor = .purple
+        let cityTitle = UILabel()
+        cityTitle.text = "City: "
+        cityTitle.textColor = .purple
       
         let audioMessageTitle = UILabel()
         audioMessageTitle.text = "Audio message: "
@@ -102,8 +102,8 @@ private extension DriveSessionViewController {
         addressLabel.textColor = .red
         speedLimit = UILabel()
         speedLimit.textColor = .orange
-        country = UILabel()
-        country.textColor = .purple
+        cityName = UILabel()
+        cityName.textColor = .purple
         audioMessage = UILabel()
         audioMessage.numberOfLines = 0
         audioMessage.lineBreakMode = .byWordWrapping
@@ -116,8 +116,8 @@ private extension DriveSessionViewController {
         speedLimitStack.addArrangedSubview(speedLimitTitle)
         speedLimitStack.addArrangedSubview(speedLimit)
 
-        countryStack.addArrangedSubview(countryTitle)
-        countryStack.addArrangedSubview(country)
+        countryStack.addArrangedSubview(cityTitle)
+        countryStack.addArrangedSubview(cityName)
       
         audioMessageStack.addArrangedSubview(audioMessageTitle)
         audioMessageStack.addArrangedSubview(audioMessage)
@@ -225,10 +225,10 @@ extension DriveSessionViewController: VNPositionEventDelegate {
                 self.speedLimit.text = "Null received"
             }
 
-            if let country = curStreetInfo.adminInfo?.country  {
-                self.country.text = country
+            if let city = curStreetInfo.adminInfo?.city  {
+                self.cityName.text = city
             } else {
-                self.country.text = "Null received"
+                self.cityName.text = "Null received"
             }
 
         }

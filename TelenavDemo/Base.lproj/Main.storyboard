@@ -321,6 +321,12 @@
                                     <constraint firstAttribute="height" constant="60" id="t0u-CO-zXe"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hZo-QM-lI1">
+                                <rect key="frame" x="187.5" y="104" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                <color key="textColor" systemColor="systemYellowColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Z4E-97-p98"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -329,13 +335,16 @@
                             <constraint firstItem="Z4E-97-p98" firstAttribute="bottom" secondItem="enY-xu-1Dk" secondAttribute="bottom" constant="16" id="HTK-r9-RhY"/>
                             <constraint firstItem="Z4E-97-p98" firstAttribute="trailing" secondItem="enY-xu-1Dk" secondAttribute="trailing" constant="72" id="cbU-aO-sUl"/>
                             <constraint firstItem="VsL-Yl-BFy" firstAttribute="centerX" secondItem="Z4E-97-p98" secondAttribute="centerX" id="daE-bh-URh"/>
+                            <constraint firstItem="hZo-QM-lI1" firstAttribute="top" secondItem="Z4E-97-p98" secondAttribute="top" constant="60" id="dev-OT-JbW"/>
                             <constraint firstItem="VsL-Yl-BFy" firstAttribute="top" secondItem="Z4E-97-p98" secondAttribute="top" id="hlh-Ph-9bZ"/>
+                            <constraint firstItem="hZo-QM-lI1" firstAttribute="centerX" secondItem="Z4E-97-p98" secondAttribute="centerX" id="k6l-bJ-LzX"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="00C-D3-VQn"/>
                     <connections>
                         <outlet property="collectionView" destination="enY-xu-1Dk" id="dQb-aO-V41"/>
                         <outlet property="imageView" destination="VsL-Yl-BFy" id="D2k-U0-vpJ"/>
+                        <outlet property="travelEstimationLbl" destination="hZo-QM-lI1" id="uyy-5T-OOz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZH-PH-ezT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1946,6 +1955,9 @@
         </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
