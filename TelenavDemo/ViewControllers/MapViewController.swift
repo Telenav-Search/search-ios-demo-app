@@ -116,6 +116,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     var entityAnnotations = [VNAnnotation]()
     var entitiesWithCoordinates = [TNEntity: CLLocationCoordinate2D]()
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if previousTraitCollection?.userInterfaceStyle == .dark {
+            VNSDK.sharedInstance.setDayNightMode(.dayMode)
+        } else {
+            VNSDK.sharedInstance.setDayNightMode(.nightMode)
+        }
+    }
     
     func updatePredictionsView() {
         predictionsView.backgroundColor = .clear

@@ -29,6 +29,15 @@ class DriveSessionViewController: UIViewController {
         startSimulateNavigation()
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if previousTraitCollection?.userInterfaceStyle == .dark {
+            VNSDK.sharedInstance.setDayNightMode(.dayMode)
+        } else {
+            VNSDK.sharedInstance.setDayNightMode(.nightMode)
+        }
+    }
+
     deinit {
       driveSession.dispose()
     }
