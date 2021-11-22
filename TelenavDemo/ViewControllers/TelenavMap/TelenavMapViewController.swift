@@ -128,9 +128,9 @@ class TelenavMapViewController: UIViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         
         if previousTraitCollection?.userInterfaceStyle == .dark {
-            VNSDK.sharedInstance.setDayNightMode(.dayMode)
+            VNSDK.sharedInstance.dayNightMode = .dayMode
         } else {
-            VNSDK.sharedInstance.setDayNightMode(.nightMode)
+            VNSDK.sharedInstance.dayNightMode = .nightMode
         }
     }
     
@@ -373,11 +373,7 @@ extension TelenavMapViewController {
     
     @objc func switchColorSchemeButtonTapped() {
         isNightModeActive.toggle()
-        if isNightModeActive {
-            VNSDK.sharedInstance.setDayNightMode(.nightMode)
-        } else {
-            VNSDK.sharedInstance.setDayNightMode(.dayMode)
-        }
+        VNSDK.sharedInstance.dayNightMode = isNightModeActive ? .nightMode : .dayMode
         
         renderUpdateFor(button: switchColorScheme, with: isNightModeActive)
     }

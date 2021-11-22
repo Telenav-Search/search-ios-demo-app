@@ -32,9 +32,9 @@ class DriveSessionViewController: UIViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if previousTraitCollection?.userInterfaceStyle == .dark {
-            VNSDK.sharedInstance.setDayNightMode(.dayMode)
+            VNSDK.sharedInstance.dayNightMode = .dayMode
         } else {
-            VNSDK.sharedInstance.setDayNightMode(.nightMode)
+            VNSDK.sharedInstance.dayNightMode = .nightMode
         }
     }
 
