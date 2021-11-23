@@ -108,7 +108,6 @@ class TelenavMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Telenav Map"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Settings",
             style: .plain,
