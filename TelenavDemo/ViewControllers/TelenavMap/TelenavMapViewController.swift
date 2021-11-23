@@ -49,6 +49,13 @@ class TelenavMapViewController: UIViewController {
     //Gestures
     private var longPressGestureRecognizer: UILongPressGestureRecognizer!
     private var tapGestureRecognizer: UITapGestureRecognizer!
+  
+    // Drive Session
+    private var driveSessionLabelStack: UIStackView!
+    private var addressLabel: UILabel!
+    private var speedLimit: UILabel!
+    private var cityName: UILabel!
+    private var audioMessage: UILabel!
     
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
@@ -117,8 +124,10 @@ class TelenavMapViewController: UIViewController {
         
         driveSession = VNDriveSessionClient.factory().build()
         driveSession.positionEventDelegate = self
+        driveSession.audioEventDelegate = self
         
         setupUI()
+        setupUIDriveSession()
         setupMapFeatures(settings: mapViewSettingsModel)
         setupMapCustomGestureRecognizers()
     }
@@ -132,7 +141,101 @@ class TelenavMapViewController: UIViewController {
             VNSDK.sharedInstance.dayNightMode = .nightMode
         }
     }
+  
+    func startNavigation() {
+      self.navigationSession.startSimulateNavigation()
+      self.driveSessionLabelStack.isHidden = false
+      driveSession.enableAudioDefaultPlayback(true)
+    }
+  
+    func stopNavigation() {
+      self.navigationSession.stopNavigation()
+      self.driveSessionLabelStack.isHidden = true
+      driveSession.enableAudioDefaultPlayback(false)
+    }
     
+    func setupUIDriveSession() {
+        driveSessionLabelStack = UIStackView()
+        driveSessionLabelStack.alignment = .leading
+        driveSessionLabelStack.axis = .vertical
+
+        driveSessionLabelStack.translatesAutoresizingMaskIntoConstraints = false
+
+        let addressStack = UIStackView()
+        addressStack.alignment = .leading
+        addressStack.axis = .horizontal
+        addressStack.spacing = 8
+
+        let speedLimitStack = UIStackView()
+        speedLimitStack.alignment = .leading
+        speedLimitStack.axis = .horizontal
+        speedLimitStack.spacing = 8
+
+        speedLimitStack.translatesAutoresizingMaskIntoConstraints = false
+
+        let countryStack = UIStackView()
+        countryStack.alignment = .leading
+        countryStack.axis = .horizontal
+        countryStack.spacing = 8
+
+        countryStack.translatesAutoresizingMaskIntoConstraints = false
+      
+        let audioMessageStack = UIStackView()
+        audioMessageStack.alignment = .fill
+        audioMessageStack.axis = .horizontal
+        audioMessageStack.spacing = 8
+
+        audioMessageStack.translatesAutoresizingMaskIntoConstraints = false
+
+        let adrLabelTitle = UILabel()
+        adrLabelTitle.text = "Street name: "
+        adrLabelTitle.textColor = .red
+
+        let speedLimitTitle = UILabel()
+        speedLimitTitle.text = "Speed limit: "
+        speedLimitTitle.textColor = .orange
+
+        let cityTitle = UILabel()
+        cityTitle.text = "City: "
+        cityTitle.textColor = .purple
+      
+        let audioMessageTitle = UILabel()
+        audioMessageTitle.text = "Audio message: "
+        audioMessageTitle.textColor = .brown
+
+        addressLabel = UILabel()
+        addressLabel.textColor = .red
+        speedLimit = UILabel()
+        speedLimit.textColor = .orange
+        cityName = UILabel()
+        cityName.textColor = .purple
+        audioMessage = UILabel()
+        audioMessage.numberOfLines = 0
+        audioMessage.lineBreakMode = .byWordWrapping
+        audioMessage.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
+        audioMessage.textColor = audioMessageTitle.textColor
+
+        addressStack.addArrangedSubview(adrLabelTitle)
+        addressStack.addArrangedSubview(addressLabel)
+
+        speedLimitStack.addArrangedSubview(speedLimitTitle)
+        speedLimitStack.addArrangedSubview(speedLimit)
+
+        countryStack.addArrangedSubview(cityTitle)
+        countryStack.addArrangedSubview(cityName)
+      
+        audioMessageStack.addArrangedSubview(audioMessageTitle)
+        audioMessageStack.addArrangedSubview(audioMessage)
+
+        driveSessionLabelStack.addArrangedSubview(addressStack)
+        driveSessionLabelStack.addArrangedSubview(speedLimitStack)
+        driveSessionLabelStack.addArrangedSubview(countryStack)
+        driveSessionLabelStack.addArrangedSubview(audioMessageStack)
+      
+        driveSessionLabelStack.isHidden = true
+
+        mapView.addSubview(driveSessionLabelStack)
+    }
     
     func setupUI() {
         mapView = VNMapView()
@@ -241,7 +344,6 @@ class TelenavMapViewController: UIViewController {
         mapView.addSubview(collectionView)
         mapView.addSubview(imageView)
         mapView.addSubview(travelEstimationLbl)
-        
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
@@ -419,7 +521,7 @@ extension TelenavMapViewController {
             mapView.cameraController().renderMode = .M2D
             mapView.cameraController().disableFollowVehicle()
             if navigationSession != nil {
-                navigationSession.stopNavigation()
+                stopNavigation()
                 navigationSession = nil
             }
             selectedRoute = nil
@@ -768,7 +870,7 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
             self.showTurnArrows(routeName: routeModel.getRouteId(), route: route)
             self.mapView.routeController().highlight(routeModel.getRouteId())
             self.navigationSession?.updateRouteInfo(route)
-            self.navigationSession.startSimulateNavigation()
+            self.startNavigation()
         }
     }
 }
@@ -864,11 +966,38 @@ extension TelenavMapViewController: VNPositionEventDelegate {
         longitude = vehicleLocation.lon
         heading = Double(vehicleLocation.heading)
         speed = Double(vehicleLocation.speed)
-        
     }
+  
+    func onStreetUpdated(_ curStreetInfo: VNStreetInfo) {
+      DispatchQueue.main.async {
+        self.addressLabel.text = curStreetInfo.streetName ?? "Null received"
+        
+        let speedLimitValue = curStreetInfo.speedLimit?.value ?? VN_INVALID_SPEED_LIMIT
+        if (speedLimitValue != VN_INVALID_SPEED_LIMIT || speedLimitValue != VN_MAX_SPEED_UNLIMITED) {
+          let unitValue = SpeedLimitUnit(rawValue: curStreetInfo.speedLimit?.unit.rawValue ?? VNSpeedUnit.MPH.rawValue)
+          self.speedLimit.text = "\(speedLimitValue) \(unitValue?.unitStringRepresentation ?? "")"
+        } else if (speedLimitValue == VN_MAX_SPEED_UNLIMITED) {
+          self.speedLimit.text = "Speed unlimited"
+        } else if (speedLimitValue == VN_INVALID_SPEED_LIMIT) {
+          self.speedLimit.text = "Null received"
+        }
+        
+        self.cityName.text = curStreetInfo.adminInfo?.city ?? "Null received"
+      }
+    }
+  
     func onUpdate(_ navStatus: VNNavStatus!) {
         if navStatus.navigationSignal.count != 0 {
             processNavigationSignals(signals: navStatus.navigationSignal)
         }
     }
 }
+
+extension TelenavMapViewController: VNAudioEventDelegate {
+    func onAudioInstructionUpdated(_ audioInstruction: VNAudioInstruction) {
+        DispatchQueue.main.async {
+          self.audioMessage.text = audioInstruction.audioOrthographyString ?? "Null received"
+        }
+    }
+}
+
