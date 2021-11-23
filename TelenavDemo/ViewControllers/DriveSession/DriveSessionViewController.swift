@@ -199,7 +199,7 @@ private extension DriveSessionViewController {
             mainLabelStack.trailingAnchor.constraint(equalTo: mapView.trailingAnchor)
         ])
 
-        mapView.vehicleController().setIcon(UIImage(systemName: "car"))
+        mapView.vehicleController().setIcon(UIImage(named: "car-icon"))
         mapView.featuresController().traffic.setEnabled()
         mapView.featuresController().compass.setEnabled()
         mapView.cameraController().renderMode = .M3D
