@@ -181,7 +181,7 @@ private extension DriveSessionViewController {
         mainLabelStack.addArrangedSubview(violationMessageStack)
 
         mainLabelStack.backgroundColor = .white
-        mainLabelStack.alpha = 0.9
+        mainLabelStack.alpha = 0.6
 
         mapView.addSubview(mainLabelStack)
 
