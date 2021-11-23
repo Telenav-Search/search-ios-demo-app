@@ -160,6 +160,7 @@ class TelenavMapViewController: UIViewController {
         driveSessionLabelStack.axis = .vertical
 
         driveSessionLabelStack.translatesAutoresizingMaskIntoConstraints = false
+        driveSessionLabelStack.backgroundColor = .white.withAlphaComponent(0.6)
 
         let addressStack = UIStackView()
         addressStack.alignment = .leading
