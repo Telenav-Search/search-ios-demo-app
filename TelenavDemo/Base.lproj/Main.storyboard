@@ -215,8 +215,8 @@
                     </tabBar>
                     <connections>
                         <segue destination="Opn-Ue-gLw" kind="relationship" relationship="viewControllers" id="0Nt-YM-xDy"/>
-                        <segue destination="wgR-gI-fbJ" kind="relationship" relationship="viewControllers" id="bf3-kN-dYE"/>
                         <segue destination="gQL-Kn-w4n" kind="relationship" relationship="viewControllers" id="AS6-pq-puV"/>
+                        <segue destination="wgR-gI-fbJ" kind="relationship" relationship="viewControllers" id="bf3-kN-dYE"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N44-V8-N6z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1100,11 +1100,11 @@
             </objects>
             <point key="canvasLocation" x="5868.115942028986" y="-82.366071428571431"/>
         </scene>
-        <!--Map-->
+        <!--Search-->
         <scene sceneID="Zf5-Iu-Fa5">
             <objects>
                 <navigationController navigationBarHidden="YES" id="Opn-Ue-gLw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Map" image="map" catalog="system" selectedImage="map.fill" id="BwK-pI-jXe"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="BwK-pI-jXe"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="q7k-dJ-M2o">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1901,8 +1901,7 @@
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="gearshape.fill" catalog="system" width="128" height="121"/>
         <image name="large_0" width="132" height="24"/>
-        <image name="map" catalog="system" width="128" height="110"/>
-        <image name="map.fill" catalog="system" width="128" height="110"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="paperplane.circle" catalog="system" width="128" height="121"/>
         <image name="star.circle" catalog="system" width="128" height="121"/>
         <image name="yelp_logo" width="300" height="148"/>
