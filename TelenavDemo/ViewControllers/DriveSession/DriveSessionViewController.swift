@@ -21,6 +21,7 @@ class DriveSessionViewController: UIViewController {
     private var audioMessage: UILabel!
     private var alertMessage: UILabel!
     private var violationMessage: UILabel!
+    private var violationWarningTitle: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,9 +128,9 @@ private extension DriveSessionViewController {
         alertMessageTitle.text = "Alert message: "
         alertMessageTitle.textColor = .blue
 
-        let violationWarningTitle = UILabel()
+        violationWarningTitle = UILabel()
         violationWarningTitle.text = "Violation warning: "
-        violationWarningTitle.textColor = .cyan
+        violationWarningTitle.textColor = .green
 
 
         addressLabel = UILabel()
@@ -179,7 +180,8 @@ private extension DriveSessionViewController {
         mainLabelStack.addArrangedSubview(alertMessageStack)
         mainLabelStack.addArrangedSubview(violationMessageStack)
 
-
+        mainLabelStack.backgroundColor = .white
+        mainLabelStack.alpha = 0.9
 
         mapView.addSubview(mainLabelStack)
 
@@ -193,7 +195,8 @@ private extension DriveSessionViewController {
 
         NSLayoutConstraint.activate([
             mainLabelStack.topAnchor.constraint(equalTo: mapView.topAnchor),
-            mainLabelStack.leadingAnchor.constraint(equalTo: mapView.leadingAnchor)
+            mainLabelStack.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
+            mainLabelStack.trailingAnchor.constraint(equalTo: mapView.trailingAnchor)
         ])
 
         mapView.vehicleController().setIcon(UIImage(systemName: "car"))
@@ -318,6 +321,18 @@ extension DriveSessionViewController: VNAlertServiceDelegate {
             violationWarning.warnings.forEach { warning in
                 let warnings = ViolationType(rawValue: warning.type.rawValue)
                 DispatchQueue.main.async {
+                    switch warnings {
+                    case .invalidAttention:
+                        self.violationWarningTitle.textColor = .green
+                        self.violationMessage.textColor = self.violationWarningTitle.textColor
+                    case .overSpeedAttention:
+                        self.violationWarningTitle.textColor = .red
+                        self.violationMessage.textColor =  self.violationWarningTitle.textColor
+
+                    case .none:
+                        self.violationWarningTitle.textColor = .green
+                        self.violationMessage.textColor = self.violationWarningTitle.textColor
+                    }
                     let text = warnings?.violationTypeStringRepresentation ?? ""
                     self.violationMessage.text = text
                 }
