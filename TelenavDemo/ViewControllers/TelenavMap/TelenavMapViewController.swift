@@ -303,8 +303,8 @@ extension TelenavMapViewController {
         isVehicleTrackActive.toggle()
         
         if isVehicleTrackActive {
-            let image = UIImage(systemName: "car")!
-            
+            let image = UIImage(named: "car-icon")!
+
             mapView.vehicleController().setIcon(image)
             mapView.vehicleController().setLocation(carPoint)
             
@@ -590,7 +590,7 @@ extension TelenavMapViewController {
             let startPoint = firstRoutePoint,
             let endPoint = secondRoutePoint {
             
-            mapView.vehicleController().setIcon(UIImage(systemName: "car"))
+            mapView.vehicleController().setIcon(UIImage(named: "car-icon")!)
             mapView.featuresController().traffic.setEnabled()
             mapView.featuresController().compass.setEnabled()
             mapView.cameraController().renderMode = .M3D
