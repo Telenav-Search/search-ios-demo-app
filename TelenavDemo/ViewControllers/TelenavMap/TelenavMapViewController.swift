@@ -165,16 +165,20 @@ class TelenavMapViewController: UIViewController {
         driveSessionLabelStack.axis = .vertical
 
         driveSessionLabelStack.translatesAutoresizingMaskIntoConstraints = false
+      
+        let backgroundColor = UIColor.white.withAlphaComponent(0.6)
 
         let addressStack = UIStackView()
         addressStack.alignment = .leading
         addressStack.axis = .horizontal
         addressStack.spacing = 8
+        addressStack.backgroundColor = backgroundColor
 
         let speedLimitStack = UIStackView()
         speedLimitStack.alignment = .leading
         speedLimitStack.axis = .horizontal
         speedLimitStack.spacing = 8
+        speedLimitStack.backgroundColor = backgroundColor
 
         speedLimitStack.translatesAutoresizingMaskIntoConstraints = false
 
@@ -182,13 +186,15 @@ class TelenavMapViewController: UIViewController {
         countryStack.alignment = .leading
         countryStack.axis = .horizontal
         countryStack.spacing = 8
+        countryStack.backgroundColor = backgroundColor
 
         countryStack.translatesAutoresizingMaskIntoConstraints = false
       
         let audioMessageStack = UIStackView()
-        audioMessageStack.alignment = .fill
+        audioMessageStack.alignment = .leading
         audioMessageStack.axis = .horizontal
         audioMessageStack.spacing = 8
+        audioMessageStack.backgroundColor = backgroundColor
 
         audioMessageStack.translatesAutoresizingMaskIntoConstraints = false
       
@@ -196,6 +202,7 @@ class TelenavMapViewController: UIViewController {
         alertMessageStack.alignment = .leading
         alertMessageStack.axis = .horizontal
         alertMessageStack.spacing = 8
+        alertMessageStack.backgroundColor = backgroundColor
 
         alertMessageStack.translatesAutoresizingMaskIntoConstraints = false
 
@@ -203,6 +210,7 @@ class TelenavMapViewController: UIViewController {
         violationMessageStack.alignment = .leading
         violationMessageStack.axis = .horizontal
         violationMessageStack.spacing = 8
+        violationMessageStack.backgroundColor = backgroundColor
 
         violationMessageStack.translatesAutoresizingMaskIntoConstraints = false
 
@@ -236,11 +244,12 @@ class TelenavMapViewController: UIViewController {
         speedLimit.textColor = .orange
         cityName = UILabel()
         cityName.textColor = .purple
+      
         audioMessage = UILabel()
-        audioMessage.numberOfLines = 2
-        audioMessage.lineBreakMode = .byWordWrapping
-        audioMessage.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
         audioMessage.textColor = audioMessageTitle.textColor
+        audioMessage.numberOfLines = 2
+        audioMessage.adjustsFontSizeToFitWidth = true
+        audioMessage.minimumScaleFactor = 0.8
       
         alertMessage = UILabel()
         alertMessage.textColor = alertMessageTitle.textColor
@@ -250,7 +259,6 @@ class TelenavMapViewController: UIViewController {
 
         violationMessage = UILabel()
         violationMessage.textColor = violationWarningTitle.textColor
-        violationMessage.numberOfLines = 2
 
         addressStack.addArrangedSubview(adrLabelTitle)
         addressStack.addArrangedSubview(addressLabel)
@@ -277,10 +285,15 @@ class TelenavMapViewController: UIViewController {
         driveSessionLabelStack.addArrangedSubview(alertMessageStack)
         driveSessionLabelStack.addArrangedSubview(violationMessageStack)
 
-        driveSessionLabelStack.backgroundColor = .white.withAlphaComponent(0.6)
         driveSessionLabelStack.isHidden = true
 
         mapView.addSubview(driveSessionLabelStack)
+      
+        NSLayoutConstraint.activate([
+            driveSessionLabelStack.topAnchor.constraint(equalTo: mapView.topAnchor),
+            driveSessionLabelStack.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
+            driveSessionLabelStack.trailingAnchor.constraint(equalTo: mapView.trailingAnchor)
+        ])
     }
     
     func setupUI() {
