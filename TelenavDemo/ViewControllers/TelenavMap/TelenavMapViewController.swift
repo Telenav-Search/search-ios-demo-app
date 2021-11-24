@@ -56,6 +56,9 @@ class TelenavMapViewController: UIViewController {
     private var speedLimit: UILabel!
     private var cityName: UILabel!
     private var audioMessage: UILabel!
+    private var alertMessage: UILabel!
+    private var violationMessage: UILabel!
+    private var violationWarningTitle: UILabel!
     
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
@@ -124,6 +127,7 @@ class TelenavMapViewController: UIViewController {
         
         driveSession = VNDriveSessionClient.factory().build()
         driveSession.audioEventDelegate = self
+        driveSession.alertEventDelegate = self
         
         setupUI()
         setupUIDriveSession()
@@ -161,7 +165,6 @@ class TelenavMapViewController: UIViewController {
         driveSessionLabelStack.axis = .vertical
 
         driveSessionLabelStack.translatesAutoresizingMaskIntoConstraints = false
-        driveSessionLabelStack.backgroundColor = .white.withAlphaComponent(0.6)
 
         let addressStack = UIStackView()
         addressStack.alignment = .leading
@@ -188,6 +191,20 @@ class TelenavMapViewController: UIViewController {
         audioMessageStack.spacing = 8
 
         audioMessageStack.translatesAutoresizingMaskIntoConstraints = false
+      
+        let alertMessageStack = UIStackView()
+        alertMessageStack.alignment = .leading
+        alertMessageStack.axis = .horizontal
+        alertMessageStack.spacing = 8
+
+        alertMessageStack.translatesAutoresizingMaskIntoConstraints = false
+
+        let violationMessageStack = UIStackView()
+        violationMessageStack.alignment = .leading
+        violationMessageStack.axis = .horizontal
+        violationMessageStack.spacing = 8
+
+        violationMessageStack.translatesAutoresizingMaskIntoConstraints = false
 
         let adrLabelTitle = UILabel()
         adrLabelTitle.text = "Street name: "
@@ -204,6 +221,14 @@ class TelenavMapViewController: UIViewController {
         let audioMessageTitle = UILabel()
         audioMessageTitle.text = "Audio message: "
         audioMessageTitle.textColor = .brown
+      
+        let alertMessageTitle = UILabel()
+        alertMessageTitle.text = "Alert message: "
+        alertMessageTitle.textColor = .blue
+
+        violationWarningTitle = UILabel()
+        violationWarningTitle.text = "Violation warning: "
+        violationWarningTitle.textColor = .green
 
         addressLabel = UILabel()
         addressLabel.textColor = .red
@@ -212,10 +237,20 @@ class TelenavMapViewController: UIViewController {
         cityName = UILabel()
         cityName.textColor = .purple
         audioMessage = UILabel()
-        audioMessage.numberOfLines = 0
+        audioMessage.numberOfLines = 2
         audioMessage.lineBreakMode = .byWordWrapping
         audioMessage.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
         audioMessage.textColor = audioMessageTitle.textColor
+      
+        alertMessage = UILabel()
+        alertMessage.textColor = alertMessageTitle.textColor
+        alertMessage.numberOfLines = 6
+        alertMessage.adjustsFontSizeToFitWidth = true
+        alertMessage.minimumScaleFactor = 0.8
+
+        violationMessage = UILabel()
+        violationMessage.textColor = violationWarningTitle.textColor
+        violationMessage.numberOfLines = 2
 
         addressStack.addArrangedSubview(adrLabelTitle)
         addressStack.addArrangedSubview(addressLabel)
@@ -228,12 +263,21 @@ class TelenavMapViewController: UIViewController {
       
         audioMessageStack.addArrangedSubview(audioMessageTitle)
         audioMessageStack.addArrangedSubview(audioMessage)
+      
+        alertMessageStack.addArrangedSubview(alertMessageTitle)
+        alertMessageStack.addArrangedSubview(alertMessage)
+
+        violationMessageStack.addArrangedSubview(violationWarningTitle)
+        violationMessageStack.addArrangedSubview(violationMessage)
 
         driveSessionLabelStack.addArrangedSubview(addressStack)
         driveSessionLabelStack.addArrangedSubview(speedLimitStack)
         driveSessionLabelStack.addArrangedSubview(countryStack)
         driveSessionLabelStack.addArrangedSubview(audioMessageStack)
-      
+        driveSessionLabelStack.addArrangedSubview(alertMessageStack)
+        driveSessionLabelStack.addArrangedSubview(violationMessageStack)
+
+        driveSessionLabelStack.backgroundColor = .white.withAlphaComponent(0.6)
         driveSessionLabelStack.isHidden = true
 
         mapView.addSubview(driveSessionLabelStack)
@@ -1006,3 +1050,47 @@ extension TelenavMapViewController: VNAudioEventDelegate {
     }
 }
 
+extension TelenavMapViewController: VNAlertServiceDelegate {
+    func onAlertInfoUpdate(_ alertInfo: VNAlertInfo!) {
+        if alertInfo.aheadAlerts.isEmpty == false {
+            DispatchQueue.main.async {
+                self.alertMessage.text = self.alertsToString(alerts: alertInfo.aheadAlerts)
+            }
+        }
+    }
+
+    func onViolationWarningUpdate(_ violationWarning: VNViolationWarning!) {
+        if violationWarning.warnings.isEmpty == false {
+            violationWarning.warnings.forEach { warning in
+                let warnings = ViolationType(rawValue: warning.type.rawValue)
+                DispatchQueue.main.async {
+                    switch warnings {
+                    case .invalidAttention:
+                        self.violationWarningTitle.textColor = .green
+                        self.violationMessage.textColor = self.violationWarningTitle.textColor
+                    case .overSpeedAttention:
+                        self.violationWarningTitle.textColor = .red
+                        self.violationMessage.textColor =  self.violationWarningTitle.textColor
+
+                    case .none:
+                        self.violationWarningTitle.textColor = .green
+                        self.violationMessage.textColor = self.violationWarningTitle.textColor
+                    }
+                    let text = warnings?.violationTypeStringRepresentation ?? ""
+                    self.violationMessage.text = text
+                }
+            }
+        }
+    }
+
+    func alertsToString(alerts: [VNAlertItem]) -> String {
+      var alertsAsString = ""
+      for alert in alerts {
+        alertsAsString += alert.type.asString
+        alertsAsString += "\n"
+        alertsAsString += "to vehicle: \(alert.distanceToVehicle)"
+        alertsAsString += "\n"
+      }
+      return alertsAsString
+    }
+}
