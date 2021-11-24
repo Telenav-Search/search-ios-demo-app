@@ -20,6 +20,7 @@ class TelenavMapViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var travelEstimationLbl: UILabel!
+    @IBOutlet weak var startNavigationButton: UIButton!
     
     private var latitude: Double = 0
     private var longitude: Double = 0
@@ -436,10 +437,19 @@ class TelenavMapViewController: UIViewController {
             action: #selector(switchColorSchemeButtonTapped),
             for: .touchUpInside
         )
+      
+        startNavigationButton.isHidden = true
+      
+        startNavigationButton.addTarget(
+            self,
+            action: #selector(startNavigationButtonTapped),
+            for: .touchUpInside
+        )
         
         mapView.addSubview(collectionView)
         mapView.addSubview(imageView)
         mapView.addSubview(travelEstimationLbl)
+        mapView.addSubview(startNavigationButton)
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
@@ -610,6 +620,7 @@ extension TelenavMapViewController {
         
         if isNavigationSessionActive == false {
             setupMapCustomGestureRecognizers()
+            startNavigationButton.isHidden = true
             if navigationSession != nil {
                 stopNavigation()
                 navigationSession = nil
@@ -625,6 +636,11 @@ extension TelenavMapViewController {
         }
         
         setupNavLongPressGestures()
+    }
+  
+    @objc func startNavigationButtonTapped() {
+      self.startNavigation()
+      self.startNavigationButton.isHidden = true
     }
     
     func positionDidChange(position: VNCameraPosition) {
@@ -899,6 +915,8 @@ extension TelenavMapViewController {
             routeController.unhighlight()
             self.routeModels = routeModels
         }
+      
+        self.startNavigationButton.isHidden = true
     }
     
     private func addExplicitStyleAnnotationTo(location: CLLocationCoordinate2D) {
@@ -944,8 +962,7 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
             self.showTurnArrows(routeName: routeModel.getRouteId(), route: route)
             self.mapView.routeController().unhighlight()
             self.mapView.routeController().highlight(routeModel.getRouteId())
-            
-            self.startNavigation()
+            self.startNavigationButton.isHidden = false
         }
     }
 }

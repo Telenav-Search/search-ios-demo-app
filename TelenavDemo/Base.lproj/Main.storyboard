@@ -291,6 +291,17 @@
                                 <color key="textColor" systemColor="systemBlueColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nZW-ci-4JK">
+                                <rect key="frame" x="247" y="562" width="112" height="40"/>
+                                <color key="backgroundColor" red="0.14980372786521912" green="0.17312798066204096" blue="0.39081889613956017" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="5Q6-iR-ida"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title=" Start Navigation ">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Z4E-97-p98"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -299,15 +310,18 @@
                             <constraint firstItem="enY-xu-1Dk" firstAttribute="top" secondItem="hZo-QM-lI1" secondAttribute="bottom" constant="12" id="7Dl-gB-I5n"/>
                             <constraint firstItem="Z4E-97-p98" firstAttribute="bottom" secondItem="enY-xu-1Dk" secondAttribute="bottom" constant="16" id="HTK-r9-RhY"/>
                             <constraint firstItem="hZo-QM-lI1" firstAttribute="centerX" secondItem="h73-ph-zaf" secondAttribute="centerX" id="LXs-lU-qPg"/>
+                            <constraint firstItem="Z4E-97-p98" firstAttribute="trailing" secondItem="nZW-ci-4JK" secondAttribute="trailing" constant="16" id="bvz-zz-OCZ"/>
                             <constraint firstItem="Z4E-97-p98" firstAttribute="trailing" secondItem="enY-xu-1Dk" secondAttribute="trailing" constant="72" id="cbU-aO-sUl"/>
                             <constraint firstItem="VsL-Yl-BFy" firstAttribute="top" secondItem="Z4E-97-p98" secondAttribute="top" id="hlh-Ph-9bZ"/>
                             <constraint firstItem="Z4E-97-p98" firstAttribute="trailing" secondItem="VsL-Yl-BFy" secondAttribute="trailing" id="rzT-KV-QlM"/>
+                            <constraint firstItem="Z4E-97-p98" firstAttribute="bottom" secondItem="nZW-ci-4JK" secondAttribute="bottom" constant="16" id="tnu-6B-Zm9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="00C-D3-VQn"/>
                     <connections>
                         <outlet property="collectionView" destination="enY-xu-1Dk" id="dQb-aO-V41"/>
                         <outlet property="imageView" destination="VsL-Yl-BFy" id="D2k-U0-vpJ"/>
+                        <outlet property="startNavigationButton" destination="nZW-ci-4JK" id="t13-T9-be6"/>
                         <outlet property="travelEstimationLbl" destination="hZo-QM-lI1" id="uyy-5T-OOz"/>
                     </connections>
                 </viewController>
