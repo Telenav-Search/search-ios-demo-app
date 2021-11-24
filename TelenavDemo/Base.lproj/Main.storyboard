@@ -252,16 +252,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.40000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="Gw7-jj-Yg3">
-                                                    <rect key="frame" x="0.0" y="12" width="40" height="16"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <nil key="textColor"/>
+                                                    <rect key="frame" x="2" y="13" width="36" height="14.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Gw7-jj-Yg3" firstAttribute="leading" secondItem="b13-Dh-ozK" secondAttribute="leading" constant="2" id="D7G-xi-Urk"/>
                                                 <constraint firstItem="Gw7-jj-Yg3" firstAttribute="centerY" secondItem="b13-Dh-ozK" secondAttribute="centerY" id="c6G-Ar-myo"/>
-                                                <constraint firstItem="Gw7-jj-Yg3" firstAttribute="leading" secondItem="b13-Dh-ozK" secondAttribute="leading" id="cGE-Gj-yY4"/>
-                                                <constraint firstItem="Gw7-jj-Yg3" firstAttribute="centerX" secondItem="b13-Dh-ozK" secondAttribute="centerX" id="e5L-GM-WYQ"/>
+                                                <constraint firstAttribute="trailing" secondItem="Gw7-jj-Yg3" secondAttribute="trailing" constant="2" id="mRX-XN-FTC"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <color key="backgroundColor" systemColor="systemBlueColor"/>

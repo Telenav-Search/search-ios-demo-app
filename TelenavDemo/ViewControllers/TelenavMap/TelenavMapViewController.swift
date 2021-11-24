@@ -146,6 +146,10 @@ class TelenavMapViewController: UIViewController {
     }
   
     func startNavigation() {
+      navigationSession = driveSession.createNavigationSession()
+      navigationSession.delegate = self
+      navigationSession?.updateRouteInfo(self.selectedRoute!)
+      
       cameraRenderModeButton.isHidden = true
       cameraSettingsButton.isHidden = true
       diagnosisButton.isHidden = true
@@ -155,6 +159,7 @@ class TelenavMapViewController: UIViewController {
       
       travelEstimationLbl.isHidden = false
       // imageView hidden = false, when we show junction
+      collectionView.isHidden = true
       
       mapView.vehicleController().setIcon(UIImage(named: "car-icon")!)
       mapView.featuresController().traffic.setEnabled()
@@ -767,17 +772,15 @@ extension TelenavMapViewController {
             }
             
             completion(routes)
-            
         })
         
     }
+  
     private func createRoute() {
         if
             let startPoint = firstRoutePoint,
             let endPoint = secondRoutePoint {
             
-            navigationSession = driveSession.createNavigationSession()
-            navigationSession.delegate = self
             calculateRoute(
                 startPoint: startPoint,
                 endPoint: endPoint) {  [weak self] routes in
@@ -788,10 +791,6 @@ extension TelenavMapViewController {
                     }
                 }
         }
-        else {
-            return
-        }
-        
     }
     
     private func addPolylineShapeTo(coordinates: [CLLocationCoordinate2D]) {
@@ -922,7 +921,7 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let routeCell = collectionView.dequeueReusableCell(withReuseIdentifier: "RouteCell", for: indexPath as IndexPath) as? RouteCell {
-            routeCell.titleLabel.text = "Route: \(indexPath.row)"
+            routeCell.titleLabel.text = "Route: \(indexPath.row + 1)"
             routeCell.isSelected = false
             return routeCell
             
@@ -932,23 +931,20 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if selectedRoute != nil {
-            return
-        }
-        
         DispatchQueue.main.async {
             let route = self.routes[indexPath.row]
             let routeModel = self.routeModels[indexPath.row]
             
             let routeDuration = route.duration.secondsToHoursMinutesSeconds() ?? ""
-            
             let durationText = "Route duration: \(routeDuration)"
             self.travelEstimationLbl.text = durationText
+          
             self.selectedRoute = route
             self.selectedRouteModel = routeModel
             self.showTurnArrows(routeName: routeModel.getRouteId(), route: route)
+            self.mapView.routeController().unhighlight()
             self.mapView.routeController().highlight(routeModel.getRouteId())
-            self.navigationSession?.updateRouteInfo(route)
+            
             self.startNavigation()
         }
     }
