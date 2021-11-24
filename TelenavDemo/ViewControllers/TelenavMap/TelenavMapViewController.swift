@@ -153,6 +153,12 @@ class TelenavMapViewController: UIViewController {
       vehicleTrackButton.isHidden = true
       switchColorScheme.isHidden = true
       
+      mapView.vehicleController().setIcon(UIImage(named: "car-icon")!)
+      mapView.featuresController().traffic.setEnabled()
+      mapView.featuresController().compass.setEnabled()
+      mapView.cameraController().renderMode = .M3D
+      mapView.cameraController().enable(.headingUp, useAutoZoom: true)
+      
       driveSession.positionEventDelegate = self
       self.navigationSession.startSimulateNavigation()
       self.driveSessionLabelStack.isHidden = false
@@ -166,6 +172,12 @@ class TelenavMapViewController: UIViewController {
       shapesButton.isHidden = false
       vehicleTrackButton.isHidden = false
       switchColorScheme.isHidden = false
+      
+      mapView.vehicleController().setIcon(nil)
+      mapView.featuresController().traffic.setDisabled()
+      mapView.featuresController().compass.setDisabled()
+      mapView.cameraController().renderMode = .M2D
+      mapView.cameraController().disableFollowVehicle()
       
       driveSession.positionEventDelegate = nil
       self.navigationSession.stopNavigation()
@@ -589,11 +601,6 @@ extension TelenavMapViewController {
         
         if isNavigationSessionActive == false {
             setupMapCustomGestureRecognizers()
-            mapView.vehicleController().setIcon(nil)
-            mapView.featuresController().traffic.setDisabled()
-            mapView.featuresController().compass.setDisabled()
-            mapView.cameraController().renderMode = .M2D
-            mapView.cameraController().disableFollowVehicle()
             if navigationSession != nil {
                 stopNavigation()
                 navigationSession = nil
@@ -764,14 +771,6 @@ extension TelenavMapViewController {
         if
             let startPoint = firstRoutePoint,
             let endPoint = secondRoutePoint {
-            
-            mapView.vehicleController().setIcon(UIImage(named: "car-icon")!)
-            let location = CLLocation.init(latitude: startPoint.point.latitude, longitude: startPoint.point.longitude)
-            mapView.vehicleController().setLocation(location)
-            mapView.featuresController().traffic.setEnabled()
-            mapView.featuresController().compass.setEnabled()
-            mapView.cameraController().renderMode = .M3D
-            mapView.cameraController().enable(.headingUp, useAutoZoom: true)
             
             navigationSession = driveSession.createNavigationSession()
             navigationSession.delegate = self
