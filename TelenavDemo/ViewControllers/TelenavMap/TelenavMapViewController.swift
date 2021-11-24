@@ -123,7 +123,6 @@ class TelenavMapViewController: UIViewController {
         )
         
         driveSession = VNDriveSessionClient.factory().build()
-        driveSession.positionEventDelegate = self
         driveSession.audioEventDelegate = self
         
         setupUI()
@@ -143,12 +142,14 @@ class TelenavMapViewController: UIViewController {
     }
   
     func startNavigation() {
+      driveSession.positionEventDelegate = self
       self.navigationSession.startSimulateNavigation()
       self.driveSessionLabelStack.isHidden = false
       driveSession.enableAudioDefaultPlayback(true)
     }
   
     func stopNavigation() {
+      driveSession.positionEventDelegate = nil
       self.navigationSession.stopNavigation()
       self.driveSessionLabelStack.isHidden = true
       driveSession.enableAudioDefaultPlayback(false)
@@ -517,6 +518,7 @@ extension TelenavMapViewController {
         
         if isNavigationSessionActive == false {
             setupMapCustomGestureRecognizers()
+            mapView.vehicleController().setIcon(nil)
             mapView.featuresController().traffic.setDisabled()
             mapView.featuresController().compass.setDisabled()
             mapView.cameraController().renderMode = .M2D
@@ -693,6 +695,8 @@ extension TelenavMapViewController {
             let endPoint = secondRoutePoint {
             
             mapView.vehicleController().setIcon(UIImage(systemName: "car"))
+            let location = CLLocation.init(latitude: startPoint.point.latitude, longitude: startPoint.point.longitude)
+            mapView.vehicleController().setLocation(location)
             mapView.featuresController().traffic.setEnabled()
             mapView.featuresController().compass.setEnabled()
             mapView.cameraController().renderMode = .M3D
