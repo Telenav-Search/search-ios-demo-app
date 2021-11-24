@@ -151,6 +151,15 @@ class TelenavMapViewController: UIViewController {
       navigationSession.delegate = self
       navigationSession?.updateRouteInfo(self.selectedRoute!)
       
+      // Remove unselected routes
+      let routeIds = self.routeModels.map { $0.getRouteId() }
+      var removeRouteIds = Array<String>()
+      for routeId in routeIds {
+        if (routeId == selectedRouteModel?.getRouteId()) { continue }
+        removeRouteIds.append(routeId)
+      }
+      mapView.routeController().removeRoutes(removeRouteIds)
+      
       cameraRenderModeButton.isHidden = true
       cameraSettingsButton.isHidden = true
       diagnosisButton.isHidden = true
