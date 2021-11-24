@@ -153,6 +153,9 @@ class TelenavMapViewController: UIViewController {
       vehicleTrackButton.isHidden = true
       switchColorScheme.isHidden = true
       
+      travelEstimationLbl.isHidden = false
+      // imageView hidden = false, when we show junction
+      
       mapView.vehicleController().setIcon(UIImage(named: "car-icon")!)
       mapView.featuresController().traffic.setEnabled()
       mapView.featuresController().compass.setEnabled()
@@ -172,6 +175,9 @@ class TelenavMapViewController: UIViewController {
       shapesButton.isHidden = false
       vehicleTrackButton.isHidden = false
       switchColorScheme.isHidden = false
+      
+      travelEstimationLbl.isHidden = true
+      imageView.isHidden = true
       
       mapView.vehicleController().setIcon(nil)
       mapView.featuresController().traffic.setDisabled()
@@ -595,9 +601,7 @@ extension TelenavMapViewController {
             with: isNavigationSessionActive
         )
         
-        travelEstimationLbl.isHidden = !isNavigationSessionActive
         collectionView.isHidden = !isNavigationSessionActive
-        imageView.isHidden = !isNavigationSessionActive
         
         if isNavigationSessionActive == false {
             setupMapCustomGestureRecognizers()
