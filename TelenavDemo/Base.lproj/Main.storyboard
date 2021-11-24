@@ -277,11 +277,11 @@
                                 </connections>
                             </collectionView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VsL-Yl-BFy">
-                                <rect key="frame" x="127.5" y="44" width="120" height="60"/>
+                                <rect key="frame" x="275" y="44" width="100" height="100"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="HKT-kC-n3s"/>
-                                    <constraint firstAttribute="height" constant="60" id="t0u-CO-zXe"/>
+                                    <constraint firstAttribute="width" constant="100" id="HKT-kC-n3s"/>
+                                    <constraint firstAttribute="height" constant="100" id="t0u-CO-zXe"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="hZo-QM-lI1">
@@ -300,8 +300,8 @@
                             <constraint firstItem="Z4E-97-p98" firstAttribute="bottom" secondItem="enY-xu-1Dk" secondAttribute="bottom" constant="16" id="HTK-r9-RhY"/>
                             <constraint firstItem="hZo-QM-lI1" firstAttribute="centerX" secondItem="h73-ph-zaf" secondAttribute="centerX" id="LXs-lU-qPg"/>
                             <constraint firstItem="Z4E-97-p98" firstAttribute="trailing" secondItem="enY-xu-1Dk" secondAttribute="trailing" constant="72" id="cbU-aO-sUl"/>
-                            <constraint firstItem="VsL-Yl-BFy" firstAttribute="centerX" secondItem="Z4E-97-p98" secondAttribute="centerX" id="daE-bh-URh"/>
                             <constraint firstItem="VsL-Yl-BFy" firstAttribute="top" secondItem="Z4E-97-p98" secondAttribute="top" id="hlh-Ph-9bZ"/>
+                            <constraint firstItem="Z4E-97-p98" firstAttribute="trailing" secondItem="VsL-Yl-BFy" secondAttribute="trailing" id="rzT-KV-QlM"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="00C-D3-VQn"/>
