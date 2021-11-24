@@ -146,6 +146,13 @@ class TelenavMapViewController: UIViewController {
     }
   
     func startNavigation() {
+      cameraRenderModeButton.isHidden = true
+      cameraSettingsButton.isHidden = true
+      diagnosisButton.isHidden = true
+      shapesButton.isHidden = true
+      vehicleTrackButton.isHidden = true
+      switchColorScheme.isHidden = true
+      
       driveSession.positionEventDelegate = self
       self.navigationSession.startSimulateNavigation()
       self.driveSessionLabelStack.isHidden = false
@@ -153,6 +160,13 @@ class TelenavMapViewController: UIViewController {
     }
   
     func stopNavigation() {
+      cameraRenderModeButton.isHidden = false
+      cameraSettingsButton.isHidden = false
+      diagnosisButton.isHidden = false
+      shapesButton.isHidden = false
+      vehicleTrackButton.isHidden = false
+      switchColorScheme.isHidden = false
+      
       driveSession.positionEventDelegate = nil
       self.navigationSession.stopNavigation()
       self.driveSessionLabelStack.isHidden = true
@@ -311,26 +325,28 @@ class TelenavMapViewController: UIViewController {
             mapView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
-        
-        view.addSubview(cameraRenderModeButton)
+      
+        view.addSubview(navigationSessionButton)
         
         NSLayoutConstraint.activate([
-            cameraRenderModeButton.widthAnchor.constraint(equalToConstant: 40),
-            cameraRenderModeButton.heightAnchor.constraint(equalToConstant: 40),
-            cameraRenderModeButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16.0),
-            cameraRenderModeButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+            navigationSessionButton.widthAnchor.constraint(equalToConstant: 40),
+            navigationSessionButton.heightAnchor.constraint(equalToConstant: 40),
+            navigationSessionButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16.0),
+            navigationSessionButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
         
-        cameraRenderModeButtonUpdate(mode: cameraRenderMode)
-        cameraRenderModeButton.setTitle("3D", for: .normal)
-        cameraRenderModeButton.addTarget(self, action: #selector(cameraRenderModeButtonTapped), for: .touchUpInside)
+        navigationSessionButton.addTarget(
+            self,
+            action: #selector(navigationSessionButtonTapped),
+            for: .touchUpInside
+        )
         
         view.addSubview(cameraSettingsButton)
         
         NSLayoutConstraint.activate([
             cameraSettingsButton.widthAnchor.constraint(equalToConstant: 40),
             cameraSettingsButton.heightAnchor.constraint(equalToConstant: 40),
-            cameraSettingsButton.bottomAnchor.constraint(equalTo: cameraRenderModeButton.topAnchor, constant: -16.0),
+            cameraSettingsButton.bottomAnchor.constraint(equalTo: navigationSessionButton.topAnchor, constant: -16.0),
             cameraSettingsButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
         
@@ -369,28 +385,26 @@ class TelenavMapViewController: UIViewController {
         ])
         
         vehicleTrackButton.addTarget(self, action: #selector(vehicleTrackButtonTapped), for: .touchUpInside)
-        
-        view.addSubview(navigationSessionButton)
+      
+        view.addSubview(cameraRenderModeButton)
         
         NSLayoutConstraint.activate([
-            navigationSessionButton.widthAnchor.constraint(equalToConstant: 40),
-            navigationSessionButton.heightAnchor.constraint(equalToConstant: 40),
-            navigationSessionButton.bottomAnchor.constraint(equalTo: vehicleTrackButton.topAnchor, constant: -16.0),
-            navigationSessionButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+            cameraRenderModeButton.widthAnchor.constraint(equalToConstant: 40),
+            cameraRenderModeButton.heightAnchor.constraint(equalToConstant: 40),
+            cameraRenderModeButton.bottomAnchor.constraint(equalTo: vehicleTrackButton.topAnchor, constant: -16.0),
+            cameraRenderModeButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
         
-        navigationSessionButton.addTarget(
-            self,
-            action: #selector(navigationSessionButtonTapped),
-            for: .touchUpInside
-        )
+        cameraRenderModeButtonUpdate(mode: cameraRenderMode)
+        cameraRenderModeButton.setTitle("3D", for: .normal)
+        cameraRenderModeButton.addTarget(self, action: #selector(cameraRenderModeButtonTapped), for: .touchUpInside)
         
         view.addSubview(switchColorScheme)
         
         NSLayoutConstraint.activate([
             switchColorScheme.widthAnchor.constraint(equalToConstant: 40),
             switchColorScheme.heightAnchor.constraint(equalToConstant: 40),
-            switchColorScheme.bottomAnchor.constraint(equalTo: navigationSessionButton.topAnchor, constant: -16.0),
+            switchColorScheme.bottomAnchor.constraint(equalTo: cameraRenderModeButton.topAnchor, constant: -16.0),
             switchColorScheme.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
         
