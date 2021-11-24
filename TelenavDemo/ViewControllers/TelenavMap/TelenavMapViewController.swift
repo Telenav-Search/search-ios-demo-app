@@ -1074,13 +1074,13 @@ extension TelenavMapViewController: VNPositionEventDelegate {
         self.addressLabel.text = curStreetInfo.streetName ?? "Null received"
         
         let speedLimitValue = curStreetInfo.speedLimit?.value ?? VN_INVALID_SPEED_LIMIT
-        if (speedLimitValue != VN_INVALID_SPEED_LIMIT || speedLimitValue != VN_MAX_SPEED_UNLIMITED) {
-          let unitValue = SpeedLimitUnit(rawValue: curStreetInfo.speedLimit?.unit.rawValue ?? VNSpeedUnit.MPH.rawValue)
-          self.speedLimit.text = "\(speedLimitValue) \(unitValue?.unitStringRepresentation ?? "")"
-        } else if (speedLimitValue == VN_MAX_SPEED_UNLIMITED) {
-          self.speedLimit.text = "Speed unlimited"
+        if (speedLimitValue == VN_MAX_SPEED_UNLIMITED) {
+          self.speedLimit.text = "Max Speed Unlimited"
         } else if (speedLimitValue == VN_INVALID_SPEED_LIMIT) {
           self.speedLimit.text = "Null received"
+        } else {
+          let unitValue = SpeedLimitUnit(rawValue: curStreetInfo.speedLimit?.unit.rawValue ?? VNSpeedUnit.MPH.rawValue)
+          self.speedLimit.text = "\(speedLimitValue) \(unitValue?.unitStringRepresentation ?? "")"
         }
         
         self.cityName.text = curStreetInfo.adminInfo?.city ?? "Null received"
