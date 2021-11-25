@@ -36,6 +36,9 @@ class TelenavMapViewController: UIViewController {
     private var selectedRouteModel: VNMapRouteModel?
     private var routes = [VNRoute]()
     private var selectedRoute: VNRoute?
+  
+    private var fromAnnotation: VNAnnotation?
+    private var toAnnotation: VNAnnotation?
     
     //Day night mode
     private var isNightModeActive = false
@@ -629,6 +632,16 @@ extension TelenavMapViewController {
             selectedRoute = nil
             firstRoutePoint = nil
             secondRoutePoint = nil
+            
+            if (fromAnnotation != nil) {
+                mapView.annotationsController().remove([fromAnnotation!])
+                fromAnnotation = nil
+            }
+            if (toAnnotation != nil) {
+                mapView.annotationsController().remove([toAnnotation!])
+                toAnnotation = nil
+            }
+
             routes.removeAll()
             let routeIds = self.routeModels.map { $0.getRouteId() }
             mapView.routeController().removeRoutes(routeIds)
@@ -669,6 +682,49 @@ extension TelenavMapViewController {
         )
         
         return region
+    }
+  
+    func addFromPointAnnotation(location: VNGeoPoint) {
+        let annotationController = mapView.annotationsController()
+        let pushPinImage = UIImage(named: "map-push-pin-s")!
+        
+        if let annotation = fromAnnotation {
+
+            annotationController.remove([annotation])
+            fromAnnotation = nil
+        }
+        
+        let fromAnnotation = annotationController.factory().create(
+            with: pushPinImage,
+            location: .init(latitude: location.latitude, longitude: location.longitude)
+        )
+        
+        fromAnnotation.verticalOffset = -0.05
+        fromAnnotation.style = .screenFlagNoCulling
+        
+        self.fromAnnotation = fromAnnotation
+        annotationController.add([fromAnnotation])
+    }
+  
+    func addToPointAnnotation(location: VNGeoPoint) {
+        let annotationController = mapView.annotationsController()
+        let pushPinImage = UIImage(named: "map-push-pin-f")!
+        
+        if let annotation = toAnnotation {
+            annotationController.remove([annotation])
+            toAnnotation = nil
+        }
+        
+        let finishAnnotation = annotationController.factory().create(
+            with: pushPinImage,
+            location: .init(latitude: location.latitude, longitude: location.longitude)
+        )
+        
+        finishAnnotation.verticalOffset = -0.05
+        finishAnnotation.style = .screenFlagNoCulling
+        
+        self.toAnnotation = finishAnnotation
+        annotationController.add([finishAnnotation])
     }
 }
 
@@ -754,16 +810,18 @@ extension TelenavMapViewController {
         
         let fromAction = UIAlertAction(title: "From here", style: .default, handler: { [weak self] (action) in
             self?.firstRoutePoint = VNGeoLocation(latitude: geoLocation.latitude, longitude: geoLocation.longitude)
+            let geoPoint = VNGeoPoint.init(latitude: geoLocation.latitude, longitude: geoLocation.longitude)
+            self?.addFromPointAnnotation(location: geoPoint!)
             self?.createRoute()
         })
-        
         alertController.addAction(fromAction)
         
-        let toAction = UIAlertAction(title: "Till here", style: .default, handler: { [weak self] (action) in
+        let toAction = UIAlertAction(title: "To here", style: .default, handler: { [weak self] (action) in
             self?.secondRoutePoint = VNGeoLocation(latitude: geoLocation.latitude, longitude: geoLocation.longitude)
+            let geoPoint = VNGeoPoint.init(latitude: geoLocation.latitude, longitude: geoLocation.longitude)
+            self?.addToPointAnnotation(location: geoPoint!)
             self?.createRoute()
         })
-        
         alertController.addAction(toAction)
         
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
