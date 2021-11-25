@@ -20,6 +20,7 @@ class TelenavMapViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var travelEstimationLbl: UILabel!
+    @IBOutlet weak var startNavigationButton: UIButton!
     
     private var latitude: Double = 0
     private var longitude: Double = 0
@@ -49,6 +50,16 @@ class TelenavMapViewController: UIViewController {
     //Gestures
     private var longPressGestureRecognizer: UILongPressGestureRecognizer!
     private var tapGestureRecognizer: UITapGestureRecognizer!
+  
+    // Drive Session
+    private var driveSessionLabelStack: UIStackView!
+    private var addressLabel: UILabel!
+    private var speedLimit: UILabel!
+    private var cityName: UILabel!
+    private var audioMessage: UILabel!
+    private var alertMessage: UILabel!
+    private var violationMessage: UILabel!
+    private var violationWarningTitle: UILabel!
     
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
@@ -108,7 +119,6 @@ class TelenavMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Telenav Map"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Settings",
             style: .plain,
@@ -117,9 +127,11 @@ class TelenavMapViewController: UIViewController {
         )
         
         driveSession = VNDriveSessionClient.factory().build()
-        driveSession.positionEventDelegate = self
+        driveSession.audioEventDelegate = self
+        driveSession.alertEventDelegate = self
         
         setupUI()
+        setupUIDriveSession()
         setupMapFeatures(settings: mapViewSettingsModel)
         setupMapCustomGestureRecognizers()
     }
@@ -133,7 +145,195 @@ class TelenavMapViewController: UIViewController {
             VNSDK.sharedInstance.dayNightMode = .nightMode
         }
     }
+  
+    func startNavigation() {
+      navigationSession = driveSession.createNavigationSession()
+      navigationSession.delegate = self
+      navigationSession?.updateRouteInfo(self.selectedRoute!)
+      
+      // Remove unselected routes
+      let routeIds = self.routeModels.map { $0.getRouteId() }
+      var removeRouteIds = Array<String>()
+      for routeId in routeIds {
+        if (routeId == selectedRouteModel?.getRouteId()) { continue }
+        removeRouteIds.append(routeId)
+      }
+      mapView.routeController().removeRoutes(removeRouteIds)
+      
+      cameraRenderModeButton.isHidden = true
+      cameraSettingsButton.isHidden = true
+      diagnosisButton.isHidden = true
+      shapesButton.isHidden = true
+      vehicleTrackButton.isHidden = true
+      switchColorScheme.isHidden = true
+      
+      travelEstimationLbl.isHidden = false
+      // imageView hidden = false, when we show junction
+      collectionView.isHidden = true
+      
+      mapView.vehicleController().setIcon(UIImage(named: "car-icon")!)
+      mapView.featuresController().traffic.setEnabled()
+      mapView.featuresController().compass.setEnabled()
+      mapView.cameraController().renderMode = .M3D
+      mapView.cameraController().enable(.headingUp, useAutoZoom: true)
+      
+      driveSession.positionEventDelegate = self
+      self.navigationSession.startSimulateNavigation()
+      self.driveSessionLabelStack.isHidden = false
+      driveSession.enableAudioDefaultPlayback(true)
+    }
+  
+    func stopNavigation() {
+      cameraRenderModeButton.isHidden = false
+      cameraSettingsButton.isHidden = false
+      diagnosisButton.isHidden = false
+      shapesButton.isHidden = false
+      vehicleTrackButton.isHidden = false
+      switchColorScheme.isHidden = false
+      
+      travelEstimationLbl.isHidden = true
+      imageView.isHidden = true
+      
+      mapView.vehicleController().setIcon(nil)
+      mapView.featuresController().traffic.setDisabled()
+      mapView.featuresController().compass.setDisabled()
+      mapView.cameraController().renderMode = .M2D
+      mapView.cameraController().disableFollowVehicle()
+      
+      driveSession.positionEventDelegate = nil
+      self.navigationSession.stopNavigation()
+      self.driveSessionLabelStack.isHidden = true
+      driveSession.enableAudioDefaultPlayback(false)
+    }
     
+    func setupUIDriveSession() {
+        driveSessionLabelStack = UIStackView()
+        driveSessionLabelStack.alignment = .leading
+        driveSessionLabelStack.axis = .vertical
+
+        driveSessionLabelStack.translatesAutoresizingMaskIntoConstraints = false
+      
+        let backgroundColor = UIColor.white.withAlphaComponent(0.6)
+
+        let addressStack = UIStackView()
+        addressStack.alignment = .leading
+        addressStack.axis = .horizontal
+        addressStack.spacing = 8
+        addressStack.backgroundColor = backgroundColor
+
+        let speedLimitStack = UIStackView()
+        speedLimitStack.alignment = .leading
+        speedLimitStack.axis = .horizontal
+        speedLimitStack.spacing = 8
+        speedLimitStack.backgroundColor = backgroundColor
+
+        speedLimitStack.translatesAutoresizingMaskIntoConstraints = false
+
+        let countryStack = UIStackView()
+        countryStack.alignment = .leading
+        countryStack.axis = .horizontal
+        countryStack.spacing = 8
+        countryStack.backgroundColor = backgroundColor
+
+        countryStack.translatesAutoresizingMaskIntoConstraints = false
+      
+        let audioMessageStack = UIStackView()
+        audioMessageStack.alignment = .leading
+        audioMessageStack.axis = .horizontal
+        audioMessageStack.spacing = 8
+        audioMessageStack.backgroundColor = backgroundColor
+
+        audioMessageStack.translatesAutoresizingMaskIntoConstraints = false
+      
+        let alertMessageStack = UIStackView()
+        alertMessageStack.alignment = .leading
+        alertMessageStack.axis = .horizontal
+        alertMessageStack.spacing = 8
+        alertMessageStack.backgroundColor = backgroundColor
+
+        alertMessageStack.translatesAutoresizingMaskIntoConstraints = false
+
+        let violationMessageStack = UIStackView()
+        violationMessageStack.alignment = .leading
+        violationMessageStack.axis = .horizontal
+        violationMessageStack.spacing = 8
+        violationMessageStack.backgroundColor = backgroundColor
+
+        violationMessageStack.translatesAutoresizingMaskIntoConstraints = false
+
+        let adrLabelTitle = UILabel()
+        adrLabelTitle.text = "Street name: "
+        adrLabelTitle.textColor = .red
+
+        let speedLimitTitle = UILabel()
+        speedLimitTitle.text = "Speed limit: "
+        speedLimitTitle.textColor = .orange
+
+        let cityTitle = UILabel()
+        cityTitle.text = "City: "
+        cityTitle.textColor = .purple
+
+        violationWarningTitle = UILabel()
+        violationWarningTitle.text = "Violation warning: "
+        violationWarningTitle.textColor = .green
+
+        addressLabel = UILabel()
+        addressLabel.textColor = .red
+        speedLimit = UILabel()
+        speedLimit.textColor = .orange
+        cityName = UILabel()
+        cityName.textColor = .purple
+      
+        audioMessage = UILabel()
+        audioMessage.textColor = .brown
+        audioMessage.numberOfLines = 2
+        audioMessage.adjustsFontSizeToFitWidth = true
+        audioMessage.minimumScaleFactor = 0.8
+        audioMessage.text = "Audio message: "
+      
+        alertMessage = UILabel()
+        alertMessage.textColor = .blue
+        alertMessage.numberOfLines = 7
+        alertMessage.adjustsFontSizeToFitWidth = true
+        alertMessage.minimumScaleFactor = 0.8
+        alertMessage.text = "Alert message: "
+
+        violationMessage = UILabel()
+        violationMessage.textColor = violationWarningTitle.textColor
+
+        addressStack.addArrangedSubview(adrLabelTitle)
+        addressStack.addArrangedSubview(addressLabel)
+
+        speedLimitStack.addArrangedSubview(speedLimitTitle)
+        speedLimitStack.addArrangedSubview(speedLimit)
+
+        countryStack.addArrangedSubview(cityTitle)
+        countryStack.addArrangedSubview(cityName)
+      
+        audioMessageStack.addArrangedSubview(audioMessage)
+      
+        alertMessageStack.addArrangedSubview(alertMessage)
+
+        violationMessageStack.addArrangedSubview(violationWarningTitle)
+        violationMessageStack.addArrangedSubview(violationMessage)
+
+        driveSessionLabelStack.addArrangedSubview(addressStack)
+        driveSessionLabelStack.addArrangedSubview(speedLimitStack)
+        driveSessionLabelStack.addArrangedSubview(countryStack)
+        driveSessionLabelStack.addArrangedSubview(audioMessageStack)
+        driveSessionLabelStack.addArrangedSubview(alertMessageStack)
+        driveSessionLabelStack.addArrangedSubview(violationMessageStack)
+
+        driveSessionLabelStack.isHidden = true
+
+        mapView.addSubview(driveSessionLabelStack)
+      
+        NSLayoutConstraint.activate([
+            driveSessionLabelStack.topAnchor.constraint(equalTo: mapView.topAnchor),
+            driveSessionLabelStack.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
+            driveSessionLabelStack.trailingAnchor.constraint(equalTo: mapView.trailingAnchor)
+        ])
+    }
     
     func setupUI() {
         mapView = VNMapView()
@@ -150,26 +350,28 @@ class TelenavMapViewController: UIViewController {
             mapView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
-        
-        view.addSubview(cameraRenderModeButton)
+      
+        view.addSubview(navigationSessionButton)
         
         NSLayoutConstraint.activate([
-            cameraRenderModeButton.widthAnchor.constraint(equalToConstant: 40),
-            cameraRenderModeButton.heightAnchor.constraint(equalToConstant: 40),
-            cameraRenderModeButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16.0),
-            cameraRenderModeButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+            navigationSessionButton.widthAnchor.constraint(equalToConstant: 40),
+            navigationSessionButton.heightAnchor.constraint(equalToConstant: 40),
+            navigationSessionButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -16.0),
+            navigationSessionButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
         
-        cameraRenderModeButtonUpdate(mode: cameraRenderMode)
-        cameraRenderModeButton.setTitle("3D", for: .normal)
-        cameraRenderModeButton.addTarget(self, action: #selector(cameraRenderModeButtonTapped), for: .touchUpInside)
+        navigationSessionButton.addTarget(
+            self,
+            action: #selector(navigationSessionButtonTapped),
+            for: .touchUpInside
+        )
         
         view.addSubview(cameraSettingsButton)
         
         NSLayoutConstraint.activate([
             cameraSettingsButton.widthAnchor.constraint(equalToConstant: 40),
             cameraSettingsButton.heightAnchor.constraint(equalToConstant: 40),
-            cameraSettingsButton.bottomAnchor.constraint(equalTo: cameraRenderModeButton.topAnchor, constant: -16.0),
+            cameraSettingsButton.bottomAnchor.constraint(equalTo: navigationSessionButton.topAnchor, constant: -16.0),
             cameraSettingsButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
         
@@ -208,28 +410,26 @@ class TelenavMapViewController: UIViewController {
         ])
         
         vehicleTrackButton.addTarget(self, action: #selector(vehicleTrackButtonTapped), for: .touchUpInside)
-        
-        view.addSubview(navigationSessionButton)
+      
+        view.addSubview(cameraRenderModeButton)
         
         NSLayoutConstraint.activate([
-            navigationSessionButton.widthAnchor.constraint(equalToConstant: 40),
-            navigationSessionButton.heightAnchor.constraint(equalToConstant: 40),
-            navigationSessionButton.bottomAnchor.constraint(equalTo: vehicleTrackButton.topAnchor, constant: -16.0),
-            navigationSessionButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+            cameraRenderModeButton.widthAnchor.constraint(equalToConstant: 40),
+            cameraRenderModeButton.heightAnchor.constraint(equalToConstant: 40),
+            cameraRenderModeButton.bottomAnchor.constraint(equalTo: vehicleTrackButton.topAnchor, constant: -16.0),
+            cameraRenderModeButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
         
-        navigationSessionButton.addTarget(
-            self,
-            action: #selector(navigationSessionButtonTapped),
-            for: .touchUpInside
-        )
+        cameraRenderModeButtonUpdate(mode: cameraRenderMode)
+        cameraRenderModeButton.setTitle("3D", for: .normal)
+        cameraRenderModeButton.addTarget(self, action: #selector(cameraRenderModeButtonTapped), for: .touchUpInside)
         
         view.addSubview(switchColorScheme)
         
         NSLayoutConstraint.activate([
             switchColorScheme.widthAnchor.constraint(equalToConstant: 40),
             switchColorScheme.heightAnchor.constraint(equalToConstant: 40),
-            switchColorScheme.bottomAnchor.constraint(equalTo: navigationSessionButton.topAnchor, constant: -16.0),
+            switchColorScheme.bottomAnchor.constraint(equalTo: cameraRenderModeButton.topAnchor, constant: -16.0),
             switchColorScheme.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
         
@@ -238,11 +438,19 @@ class TelenavMapViewController: UIViewController {
             action: #selector(switchColorSchemeButtonTapped),
             for: .touchUpInside
         )
+      
+        startNavigationButton.isHidden = true
+      
+        startNavigationButton.addTarget(
+            self,
+            action: #selector(startNavigationButtonTapped),
+            for: .touchUpInside
+        )
         
         mapView.addSubview(collectionView)
         mapView.addSubview(imageView)
         mapView.addSubview(travelEstimationLbl)
-        
+        mapView.addSubview(startNavigationButton)
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
@@ -409,18 +617,13 @@ extension TelenavMapViewController {
             with: isNavigationSessionActive
         )
         
-        travelEstimationLbl.isHidden = !isNavigationSessionActive
         collectionView.isHidden = !isNavigationSessionActive
-        imageView.isHidden = !isNavigationSessionActive
         
         if isNavigationSessionActive == false {
             setupMapCustomGestureRecognizers()
-            mapView.featuresController().traffic.setDisabled()
-            mapView.featuresController().compass.setDisabled()
-            mapView.cameraController().renderMode = .M2D
-            mapView.cameraController().disableFollowVehicle()
+            startNavigationButton.isHidden = true
             if navigationSession != nil {
-                navigationSession.stopNavigation()
+                stopNavigation()
                 navigationSession = nil
             }
             selectedRoute = nil
@@ -434,6 +637,11 @@ extension TelenavMapViewController {
         }
         
         setupNavLongPressGestures()
+    }
+  
+    @objc func startNavigationButtonTapped() {
+      self.startNavigation()
+      self.startNavigationButton.isHidden = true
     }
     
     func positionDidChange(position: VNCameraPosition) {
@@ -581,23 +789,15 @@ extension TelenavMapViewController {
             }
             
             completion(routes)
-            
         })
         
     }
+  
     private func createRoute() {
         if
             let startPoint = firstRoutePoint,
             let endPoint = secondRoutePoint {
             
-            mapView.vehicleController().setIcon(UIImage(named: "car-icon")!)
-            mapView.featuresController().traffic.setEnabled()
-            mapView.featuresController().compass.setEnabled()
-            mapView.cameraController().renderMode = .M3D
-            mapView.cameraController().enable(.headingUp, useAutoZoom: true)
-            
-            navigationSession = driveSession.createNavigationSession()
-            navigationSession.delegate = self
             calculateRoute(
                 startPoint: startPoint,
                 endPoint: endPoint) {  [weak self] routes in
@@ -608,10 +808,6 @@ extension TelenavMapViewController {
                     }
                 }
         }
-        else {
-            return
-        }
-        
     }
     
     private func addPolylineShapeTo(coordinates: [CLLocationCoordinate2D]) {
@@ -720,6 +916,8 @@ extension TelenavMapViewController {
             routeController.unhighlight()
             self.routeModels = routeModels
         }
+      
+        self.startNavigationButton.isHidden = true
     }
     
     private func addExplicitStyleAnnotationTo(location: CLLocationCoordinate2D) {
@@ -742,7 +940,7 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let routeCell = collectionView.dequeueReusableCell(withReuseIdentifier: "RouteCell", for: indexPath as IndexPath) as? RouteCell {
-            routeCell.titleLabel.text = "Route: \(indexPath.row)"
+            routeCell.titleLabel.text = "Route: \(indexPath.row + 1)"
             routeCell.isSelected = false
             return routeCell
             
@@ -752,24 +950,20 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if selectedRoute != nil {
-            return
-        }
-        
         DispatchQueue.main.async {
             let route = self.routes[indexPath.row]
             let routeModel = self.routeModels[indexPath.row]
             
             let routeDuration = route.duration.secondsToHoursMinutesSeconds() ?? ""
-            
             let durationText = "Route duration: \(routeDuration)"
             self.travelEstimationLbl.text = durationText
+          
             self.selectedRoute = route
             self.selectedRouteModel = routeModel
             self.showTurnArrows(routeName: routeModel.getRouteId(), route: route)
+            self.mapView.routeController().unhighlight()
             self.mapView.routeController().highlight(routeModel.getRouteId())
-            self.navigationSession?.updateRouteInfo(route)
-            self.navigationSession.startSimulateNavigation()
+            self.startNavigationButton.isHidden = false
         }
     }
 }
@@ -865,11 +1059,83 @@ extension TelenavMapViewController: VNPositionEventDelegate {
         longitude = vehicleLocation.lon
         heading = Double(vehicleLocation.heading)
         speed = Double(vehicleLocation.speed)
-        
     }
+  
+    func onStreetUpdated(_ curStreetInfo: VNStreetInfo) {
+      DispatchQueue.main.async {
+        self.addressLabel.text = curStreetInfo.streetName ?? "Null received"
+        
+        let speedLimitValue = curStreetInfo.speedLimit?.value ?? VN_INVALID_SPEED_LIMIT
+        if (speedLimitValue == VN_MAX_SPEED_UNLIMITED) {
+          self.speedLimit.text = "Max Speed Unlimited"
+        } else if (speedLimitValue == VN_INVALID_SPEED_LIMIT) {
+          self.speedLimit.text = "Null received"
+        } else {
+          let unitValue = SpeedLimitUnit(rawValue: curStreetInfo.speedLimit?.unit.rawValue ?? VNSpeedUnit.MPH.rawValue)
+          self.speedLimit.text = "\(speedLimitValue) \(unitValue?.unitStringRepresentation ?? "")"
+        }
+        
+        self.cityName.text = curStreetInfo.adminInfo?.city ?? "Null received"
+      }
+    }
+  
     func onUpdate(_ navStatus: VNNavStatus!) {
         if navStatus.navigationSignal.count != 0 {
             processNavigationSignals(signals: navStatus.navigationSignal)
         }
+    }
+}
+
+extension TelenavMapViewController: VNAudioEventDelegate {
+    func onAudioInstructionUpdated(_ audioInstruction: VNAudioInstruction) {
+        DispatchQueue.main.async {
+          let audioString = audioInstruction.audioOrthographyString ?? "Null received"
+          self.audioMessage.text = "Audio message: \(audioString)"
+        }
+    }
+}
+
+extension TelenavMapViewController: VNAlertServiceDelegate {
+    func onAlertInfoUpdate(_ alertInfo: VNAlertInfo!) {
+        DispatchQueue.main.async {
+            let alersString = self.alertsToString(alerts: alertInfo.aheadAlerts)
+            let separator = alersString.isEmpty ? "" : "\n"
+            self.alertMessage.text = "Alert message: \(separator)\(alersString)"
+        }
+    }
+
+    func onViolationWarningUpdate(_ violationWarning: VNViolationWarning!) {
+        if violationWarning.warnings.isEmpty == false {
+            violationWarning.warnings.forEach { warning in
+                let warnings = ViolationType(rawValue: warning.type.rawValue)
+                DispatchQueue.main.async {
+                    switch warnings {
+                    case .invalidAttention:
+                        self.violationWarningTitle.textColor = .green
+                        self.violationMessage.textColor = self.violationWarningTitle.textColor
+                    case .overSpeedAttention:
+                        self.violationWarningTitle.textColor = .red
+                        self.violationMessage.textColor =  self.violationWarningTitle.textColor
+
+                    case .none:
+                        self.violationWarningTitle.textColor = .green
+                        self.violationMessage.textColor = self.violationWarningTitle.textColor
+                    }
+                    let text = warnings?.violationTypeStringRepresentation ?? ""
+                    self.violationMessage.text = text
+                }
+            }
+        }
+    }
+
+    func alertsToString(alerts: [VNAlertItem]) -> String {
+      var alertsAsString = ""
+      for alert in alerts {
+        alertsAsString += alert.type.asString
+        alertsAsString += "\n"
+        alertsAsString += "to vehicle: \(alert.distanceToVehicle)"
+        alertsAsString += "\n"
+      }
+      return alertsAsString
     }
 }
