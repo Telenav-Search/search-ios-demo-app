@@ -272,14 +272,6 @@ class TelenavMapViewController: UIViewController {
         let cityTitle = UILabel()
         cityTitle.text = "City: "
         cityTitle.textColor = .purple
-      
-        let audioMessageTitle = UILabel()
-        audioMessageTitle.text = "Audio message: "
-        audioMessageTitle.textColor = .brown
-      
-        let alertMessageTitle = UILabel()
-        alertMessageTitle.text = "Alert message: "
-        alertMessageTitle.textColor = .blue
 
         violationWarningTitle = UILabel()
         violationWarningTitle.text = "Violation warning: "
@@ -293,16 +285,18 @@ class TelenavMapViewController: UIViewController {
         cityName.textColor = .purple
       
         audioMessage = UILabel()
-        audioMessage.textColor = audioMessageTitle.textColor
+        audioMessage.textColor = .brown
         audioMessage.numberOfLines = 2
         audioMessage.adjustsFontSizeToFitWidth = true
         audioMessage.minimumScaleFactor = 0.8
+        audioMessage.text = "Audio message: "
       
         alertMessage = UILabel()
-        alertMessage.textColor = alertMessageTitle.textColor
-        alertMessage.numberOfLines = 6
+        alertMessage.textColor = .blue
+        alertMessage.numberOfLines = 7
         alertMessage.adjustsFontSizeToFitWidth = true
         alertMessage.minimumScaleFactor = 0.8
+        alertMessage.text = "Alert message: "
 
         violationMessage = UILabel()
         violationMessage.textColor = violationWarningTitle.textColor
@@ -316,10 +310,8 @@ class TelenavMapViewController: UIViewController {
         countryStack.addArrangedSubview(cityTitle)
         countryStack.addArrangedSubview(cityName)
       
-        audioMessageStack.addArrangedSubview(audioMessageTitle)
         audioMessageStack.addArrangedSubview(audioMessage)
       
-        alertMessageStack.addArrangedSubview(alertMessageTitle)
         alertMessageStack.addArrangedSubview(alertMessage)
 
         violationMessageStack.addArrangedSubview(violationWarningTitle)
@@ -1097,17 +1089,18 @@ extension TelenavMapViewController: VNPositionEventDelegate {
 extension TelenavMapViewController: VNAudioEventDelegate {
     func onAudioInstructionUpdated(_ audioInstruction: VNAudioInstruction) {
         DispatchQueue.main.async {
-          self.audioMessage.text = audioInstruction.audioOrthographyString ?? "Null received"
+          let audioString = audioInstruction.audioOrthographyString ?? "Null received"
+          self.audioMessage.text = "Audio message: \(audioString)"
         }
     }
 }
 
 extension TelenavMapViewController: VNAlertServiceDelegate {
     func onAlertInfoUpdate(_ alertInfo: VNAlertInfo!) {
-        if alertInfo.aheadAlerts.isEmpty == false {
-            DispatchQueue.main.async {
-                self.alertMessage.text = self.alertsToString(alerts: alertInfo.aheadAlerts)
-            }
+        DispatchQueue.main.async {
+            let alersString = self.alertsToString(alerts: alertInfo.aheadAlerts)
+            let separator = alersString.isEmpty ? "" : "\n"
+            self.alertMessage.text = "Alert message: \(separator)\(alersString)"
         }
     }
 
