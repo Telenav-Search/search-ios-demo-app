@@ -36,6 +36,7 @@ class TelenavMapViewController: UIViewController {
     private var selectedRouteModel: VNMapRouteModel?
     private var routes = [VNRoute]()
     private var selectedRoute: VNRoute?
+    private var demoAnnotations = [AnnotationState]()
     
     //Day night mode
     private var isNightModeActive = false
@@ -340,6 +341,7 @@ class TelenavMapViewController: UIViewController {
         overrideUserInterfaceStyle = .unspecified
         mapView.preferredFPS = 30
         mapView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.annotationTouchDelegate = self
         view.addSubview(mapView)
         
         let safeAreaLayoutGuide = view.safeAreaLayoutGuide
@@ -718,6 +720,7 @@ extension TelenavMapViewController {
         annotationMenuAlert.addAction(UIAlertAction(title: "Remove all annotations", style: .destructive, handler: { [weak self] _ in
             self?.removeAllAnnotation()
         }))
+        annotationMenuAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         self.present(annotationMenuAlert, animated: true, completion: nil)
     }
@@ -842,27 +845,55 @@ extension TelenavMapViewController {
     private func addImageAnnotationTo(location: CLLocationCoordinate2D) {
         let annotationsFactory = mapView.annotationsController().factory()
         
-        if let image = UIImage(systemName: "face.smiling") {
+        if let image = UIImage(named: "demo-annotaion-pushpin-green") {
             let annotation = annotationsFactory.create(with: image, location: location)
             annotation.style = .screenFlagNoCulling
             mapView.annotationsController().add([annotation])
+          
+            let annotationState = AnnotationState(isSelected: false, annotaton: annotation)
+            demoAnnotations.append(annotationState)
         }
     }
     
     private func addTextAnnotationTo(location: CLLocationCoordinate2D) {
         let annotationsFactory = mapView.annotationsController().factory()
         
-        if let image = UIImage(systemName: "face.smiling") {
+        if let image = UIImage(named: "demo-annotaion-pushpin-green") {
             let annotation = annotationsFactory.create(with: image, location: location)
             annotation.style = .screenFlagNoCulling
             
             let textDisplay = VNTextDisplayInfo(centeredText: "face.smiling")
-            textDisplay.textColor = .red
-            textDisplay.textFontSize = 20
+            textDisplay.textColor = .black
+            textDisplay.textFontSize = 14
             
             annotation.displayText = textDisplay
             mapView.annotationsController().add([annotation])
+          
+            let annotationState = AnnotationState(isSelected: false, annotaton: annotation)
+            demoAnnotations.append(annotationState)
         }
+    }
+  
+    private func addExplicitStyleAnnotationTo(location: CLLocationCoordinate2D) {
+        let annotationsFactory = mapView.annotationsController().factory()
+        
+        let annotation = annotationsFactory.create(with: .lightCongestionBubble, location: location)
+        
+        let textDisplay = VNTextDisplayInfo(centeredText: "Bubble")
+        textDisplay.textColor = .black
+        textDisplay.textFontSize = 14
+        
+        annotation.displayText = textDisplay
+        mapView.annotationsController().add([annotation])
+      
+        let annotationState = AnnotationState(isSelected: false, annotaton: annotation)
+        demoAnnotations.append(annotationState)
+    }
+  
+    private func removeAllAnnotation() {
+        let annotations = demoAnnotations.compactMap { $0.annotaton }
+        mapView.annotationsController().remove( annotations )
+        demoAnnotations.removeAll()
     }
     
     private func getCoordinatesFrom(gestureRecognizer: UIGestureRecognizer) -> CLLocationCoordinate2D? {
@@ -918,14 +949,6 @@ extension TelenavMapViewController {
         }
       
         self.startNavigationButton.isHidden = true
-    }
-    
-    private func addExplicitStyleAnnotationTo(location: CLLocationCoordinate2D) {
-        // TODO: Now explicit style annotations don't work.
-    }
-    
-    private func removeAllAnnotation() {
-        mapView.annotationsController().clearAllAnnotations()
     }
 }
 
@@ -1138,4 +1161,44 @@ extension TelenavMapViewController: VNAlertServiceDelegate {
       }
       return alertsAsString
     }
+}
+
+extension TelenavMapViewController: VNMapViewAnnotationTouchDelegate {
+  func mapView(_ mapView: VNMapView, touchedAnnotaion annotaion: VNAnnotation?) {
+    guard let annotaion = annotaion else {
+      return
+    }
+    
+    guard let demoAnnotation = demoAnnotations.first(where: { $0.annotaton === annotaion }) else {
+      return
+    }
+    
+    if demoAnnotation.isSelected {
+      if demoAnnotation.annotaton.displayText != nil {
+        let textDisplay = VNTextDisplayInfo(centeredText: "did touche")
+        textDisplay.textColor = .black
+        textDisplay.textFontSize = 14
+        
+        demoAnnotation.annotaton.displayText = textDisplay
+        mapView.annotationsController().add([demoAnnotation.annotaton])
+      } else {
+        demoAnnotation.annotaton.image = UIImage(named: "demo-annotaion-pushpin-green")
+        mapView.annotationsController().add([demoAnnotation.annotaton])
+      }
+    } else {
+      if demoAnnotation.annotaton.displayText != nil {
+        let textDisplay = VNTextDisplayInfo(centeredText: "did touche")
+        textDisplay.textColor = .red
+        textDisplay.textFontSize = 14
+        
+        demoAnnotation.annotaton.displayText = textDisplay
+        mapView.annotationsController().add([demoAnnotation.annotaton])
+      } else {
+        demoAnnotation.annotaton.image = UIImage(named: "demo-annotaion-pushpin-red")
+        mapView.annotationsController().add([demoAnnotation.annotaton])
+      }
+    }
+    
+    demoAnnotation.isSelected.toggle()
+  }
 }
