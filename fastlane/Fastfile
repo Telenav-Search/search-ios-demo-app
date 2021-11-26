@@ -13,6 +13,7 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+
 default_platform(:ios)
 
 platform :ios do
@@ -20,10 +21,11 @@ platform :ios do
   lane :custom_lane do
     xcodebuild(workspace: "TelenavDemo.xcworkspace",
            scheme: "TelenavDemo",
-           xcargs: "-configuration Debug -destination 'generic/platform=iOS Simulator'"
+           xcargs: "-configuration Debug -sdk 'iphonesimulator14.5' -destination 'platform=iOS Simulator,name=iPhone 8'",
+           derivedDataPath: "./simulator"
            )
-    zip(path: "./simulator/Build/Products/Debug-iphonesimulator/TelenavDemo",
-        output_path: "./build/NavigationDemo.app.zip"
+    zip(path: "./simulator/Build/Products/Debug-iphonesimulator/TelenavDemo.app",
+        output_path: "./build/TelenavDemo.app.zip"
     )
   end
 end
