@@ -470,6 +470,7 @@ class TelenavMapViewController: UIViewController {
         mapView.addSubview(imageView)
         mapView.addSubview(travelEstimationLbl)
         mapView.addSubview(startNavigationButton)
+        mapView.addSubview(followVehicleButton)
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
