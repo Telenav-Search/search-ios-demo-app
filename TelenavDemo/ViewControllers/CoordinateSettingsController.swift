@@ -92,8 +92,7 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
         realLocSwitch.isOn = !cupertinoLocSwitch.isOn
         inputSwitch.isOn = false
         if cupertinoLocSwitch.isOn {
-            location = DemoConstants.defaultLocation
-            postLocationNotif()
+            LocationProvider.shared.fakeLocation(location: DemoConstants.defaultLocation)
         }
         defaults.set(cupertinoLocSwitch.isOn, forKey: "cupertino_loc_switch")
         defaults.set(realLocSwitch.isOn, forKey: "real_loc_switch")
@@ -104,8 +103,7 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
         cupertinoLocSwitch.isOn = !realLocSwitch.isOn
         inputSwitch.isOn = false
         if realLocSwitch.isOn {
-            location = nil
-            postLocationNotif()
+            LocationProvider.shared.fakeLocation(location: nil)
         }
         defaults.set(cupertinoLocSwitch.isOn, forKey: "cupertino_loc_switch")
         defaults.set(realLocSwitch.isOn, forKey: "real_loc_switch")
@@ -114,17 +112,16 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
     
     @IBAction func inputLocSwitchStateChange(_ sender: UISwitch) {
         
-        guard let lat = Double(latTextField.text ?? ""), let lng = Double(lngTextField.text ?? "") else {
+        guard let _ = Double(latTextField.text ?? ""),
+              let _ = Double(lngTextField.text ?? "") else {
             inputSwitch.isOn = false
             realLocSwitchStateChange(realLocSwitch)
             return
         }
         
         if inputSwitch.isOn {
-            location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-            
-            postLocationNotif()
-
+            LocationProvider.shared.fakeLocation(location: location)
+          
             realLocSwitch.isOn = false
             cupertinoLocSwitch.isOn = false
                 
@@ -139,20 +136,7 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
             realLocSwitchStateChange(realLocSwitch)
         }
     }
-    
-    private func postLocationNotif() {
-        var userInfo = [String: Any]()
 
-        if let location = self.location {
-            userInfo["location"] = location
-        } else {
-            userInfo["useReal"] = true
-        }
-        
-        
-        NotificationCenter.default.post(name: Notification.Name("LocationChangedNotification"), object: nil, userInfo: userInfo)
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
@@ -252,7 +236,7 @@ extension CoordinateSettingsController: UITextFieldDelegate {
             return
         }
         location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-        postLocationNotif()
+        LocationProvider.shared.fakeLocation(location: location)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

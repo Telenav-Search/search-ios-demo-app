@@ -12,7 +12,9 @@ import CoreLocation
 class TelenavMapViewController: UIViewController {
     var mapViewSettingsModel = TelenavMapSettingsModel()
     var mapView: VNMapView!
-    private var locationManager: CLLocationManager!
+
+    private let locationProvider = LocationProvider.shared
+    private var currentLocation = LocationProvider.shared.location
     private var cameraRenderMode = VNCameraRenderMode.M2D
     private var isListenData = false
     //Navigation Session
@@ -68,7 +70,7 @@ class TelenavMapViewController: UIViewController {
     private var alertMessage: UILabel!
     private var violationMessage: UILabel!
     private var violationWarningTitle: UILabel!
-    
+  
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
         cameraRenderModeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -142,6 +144,13 @@ class TelenavMapViewController: UIViewController {
         setupUIDriveSession()
         setupMapFeatures(settings: mapViewSettingsModel)
         setupMapCustomGestureRecognizers()
+        setupLocationManager()
+      
+        locationProvider.addListner(listner: self)
+    }
+  
+    deinit {
+      locationProvider.removeListner(listner: self)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -1078,6 +1087,17 @@ extension TelenavMapViewController {
       
         self.startNavigationButton.isHidden = true
     }
+  
+    func moveMapCameraTo(to coordinate: CLLocationCoordinate2D, zoomLevel: Int? = nil) {
+        let point = VNGeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let position = self.mapView.cameraController().position
+        var currentZoomLevel = position.zoomLevel
+        if let zoomLevel = zoomLevel {
+          currentZoomLevel = NSNumber.init(value: zoomLevel)
+        }
+        let cameraPosition = VNCameraPosition(bearing: position.bearing, tilt: position.tilt, zoomLevel: currentZoomLevel, location: point)
+        self.mapView.cameraController().position = cameraPosition
+    }
 }
 
 
@@ -1328,5 +1348,35 @@ extension TelenavMapViewController: VNMapViewAnnotationTouchDelegate {
     }
     
     demoAnnotation.isSelected.toggle()
+  }
+}
+
+extension TelenavMapViewController {
+    func setupLocationManager() {
+      // need to init CoordinateSettingsController
+      if let viewControllers = tabBarController?.viewControllers {
+          for navVC in viewControllers {
+              if let navVC = navVC as? UINavigationController,
+                 let coordVC = navVC.topViewController as? CoordinateSettingsController {
+                  let _ = coordVC.view
+              }
+          }
+      }
+      
+      currentLocation = locationProvider.location
+      moveMapCameraTo(to: currentLocation, zoomLevel: 8)
+    }
+}
+
+extension TelenavMapViewController: LocationProviderDelegate {
+  func locationProvider(provider: LocationProvider, locationDidChanged location: CLLocationCoordinate2D) {
+    let from = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+    let to = CLLocation(latitude: location.latitude, longitude: location.longitude)
+    
+    if to.distance(from: from) > 500 /* meters */ {
+      moveMapCameraTo(to: location)
+    }
+    
+    currentLocation = location
   }
 }

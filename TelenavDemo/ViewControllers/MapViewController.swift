@@ -38,7 +38,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     var currentDetailID: String = ""
-    let locationManager = CLLocationManager()
     let staticCategoriesService = StaticCategoriesGenerator()
     private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 0, qosClass: .userInitiated)
     var catalogVisible = true {
@@ -79,8 +78,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private var staticCategories = [TNEntityStaticCategory]()
     
     private var annotationsSetupCallback: (() -> Void)?
-    // Cupertino location as default.
-    private var currentLocation = DemoConstants.defaultLocation
+    private let locationProvider = LocationProvider.shared
+    private var currentLocation = LocationProvider.shared.location
     private var searchResultDisplaying: Bool = false
     private var searchQuery: String?
     private var hasMoreSearchResults: Bool = false
@@ -184,26 +183,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.catalogVC.fillStaticCategories(categories)
         }
         
-        configureLocationManager()
         addChildView()
         addSearchAsChild()
         detailsView.superview?.bringSubviewToFront(detailsView)
         toggleDetailView(visible: false)
-
-        NotificationCenter.default.addObserver(forName: Notification.Name("LocationChangedNotification"), object: nil, queue: .main) { [weak self] (notif) in
-          
-            guard let self = self else { return }
-            
-            if let location = notif.userInfo?["location"] as? CLLocationCoordinate2D {
-                self.currentLocation = location
-            } else if let useReal = notif.userInfo?["useReal"] as? Bool, useReal == true {
-                if let realLoc = self.locationManager.location?.coordinate {
-                    self.currentLocation = realLoc
-                }
-            }
-          
-            self.setUserPushPin(userLocation: self.currentLocation)
-        }
         
         let panGesture2 = UIPanGestureRecognizer(target: self.searchResultViewAnimator, action: #selector(PanViewAnimator.didDragMainView(_:)))
         searchResultsVC.view.addGestureRecognizer(panGesture2)
@@ -233,8 +216,14 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         handleDetailsViewRouteButtons()
         routeSettingsButton.layer.borderColor = UIColor.systemBlue.cgColor
       
-        // first camera init.
+        currentLocation = LocationProvider.shared.location
+        locationProvider.addListner(listner: self)
         moveMapCameraTo(to: currentLocation)
+        setUserPushPin(userLocation: currentLocation)
+    }
+  
+    deinit {
+        locationProvider.removeListner(listner: self)
     }
     
     func findAnnIndex(id: String) -> Int {
@@ -274,19 +263,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         goToDetails(placeAnnotation: ann)
     }
 
-    func configureLocationManager() {
-        self.locationManager.requestAlwaysAuthorization()
-
-        // For use in foreground
-        self.locationManager.requestWhenInUseAuthorization()
-
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-        }
-    }
-    
     func addChildView() {
         mapView.preferredFPS = 30
         mapContainerView.insertSubview(mapView, at: 0)
@@ -533,7 +509,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             return
         }
         goToDetails(placeAnnotation: annotation, distance: distance) { (entity) in
-            guard let id = entity.id,
+            guard let _ = entity.id,
                   let name = entity.place?.name ?? entity.address?.formattedAddress
             else {
                 return
@@ -602,19 +578,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    // MARK: - LocationManager Delegate
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        currentLocation = locValue
-        
-        if let nav = self.tabBarController?.viewControllers?[1] as? UINavigationController,
-           let vc = nav.topViewController as? CoordinateSettingsController {
-            vc.delegate = self
-        }
-        setUserPushPin(userLocation: locValue)
-    }
-  
     private var userPushPinAnnotation: VNAnnotation?
   
     private func setUserPushPin(userLocation: CLLocationCoordinate2D) {
@@ -680,7 +643,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 }
             }
             self.detailsView.fillEntity(detail,
-                                        currentCoordinate: self.currentLocation ?? CLLocationCoordinate2D(),
+                                        currentCoordinate: self.currentLocation ,
                                         distanceText: distance)
             self.toggleDetailView(visible: true)
             
@@ -1135,4 +1098,18 @@ extension MapViewController: CoordinateSettingsDelegate {
         routesScrollView.setRoutes(routes: [], withDelegate: self)
         hideRoutesScroll()
     }
+}
+
+extension MapViewController: LocationProviderDelegate {
+  func locationProvider(provider: LocationProvider, locationDidChanged location: CLLocationCoordinate2D) {
+    let from = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+    let to = CLLocation(latitude: location.latitude, longitude: location.longitude)
+    
+    if to.distance(from: from) > 500 /* meters */ {
+      moveMapCameraTo(to: location)
+    }
+    
+    currentLocation = location
+    setUserPushPin(userLocation: currentLocation)
+  }
 }
