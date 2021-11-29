@@ -313,6 +313,17 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4JC-dR-2Ac">
+                                <rect key="frame" x="16" y="510" width="84" height="40"/>
+                                <color key="backgroundColor" red="0.14980372789999999" green="0.17312798069999999" blue="0.39081889609999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="pSN-tq-yd6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title=" Heading Up ">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Z4E-97-p98"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -321,9 +332,11 @@
                             <constraint firstItem="enY-xu-1Dk" firstAttribute="top" secondItem="hZo-QM-lI1" secondAttribute="bottom" constant="12" id="7Dl-gB-I5n"/>
                             <constraint firstItem="Z4E-97-p98" firstAttribute="bottom" secondItem="enY-xu-1Dk" secondAttribute="bottom" constant="16" id="HTK-r9-RhY"/>
                             <constraint firstItem="hZo-QM-lI1" firstAttribute="centerX" secondItem="h73-ph-zaf" secondAttribute="centerX" id="LXs-lU-qPg"/>
+                            <constraint firstItem="4JC-dR-2Ac" firstAttribute="leading" secondItem="Z4E-97-p98" secondAttribute="leading" constant="16" id="M8x-6h-rN0"/>
                             <constraint firstItem="Z4E-97-p98" firstAttribute="trailing" secondItem="nZW-ci-4JK" secondAttribute="trailing" constant="16" id="bvz-zz-OCZ"/>
                             <constraint firstItem="Z4E-97-p98" firstAttribute="trailing" secondItem="enY-xu-1Dk" secondAttribute="trailing" constant="72" id="cbU-aO-sUl"/>
                             <constraint firstItem="VsL-Yl-BFy" firstAttribute="top" secondItem="Z4E-97-p98" secondAttribute="top" id="hlh-Ph-9bZ"/>
+                            <constraint firstItem="enY-xu-1Dk" firstAttribute="top" secondItem="4JC-dR-2Ac" secondAttribute="bottom" constant="12" id="mhO-Hb-4gN"/>
                             <constraint firstItem="Z4E-97-p98" firstAttribute="trailing" secondItem="VsL-Yl-BFy" secondAttribute="trailing" id="rzT-KV-QlM"/>
                             <constraint firstItem="enY-xu-1Dk" firstAttribute="top" secondItem="Y6X-uV-VDU" secondAttribute="bottom" constant="12" id="tcH-Jb-xpr"/>
                             <constraint firstItem="Z4E-97-p98" firstAttribute="bottom" secondItem="nZW-ci-4JK" secondAttribute="bottom" constant="16" id="tnu-6B-Zm9"/>
@@ -332,6 +345,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="00C-D3-VQn"/>
                     <connections>
+                        <outlet property="cameraModeButton" destination="4JC-dR-2Ac" id="fkM-2O-9Eo"/>
                         <outlet property="collectionView" destination="enY-xu-1Dk" id="dQb-aO-V41"/>
                         <outlet property="followVehicleButton" destination="Y6X-uV-VDU" id="dUc-U7-jWi"/>
                         <outlet property="imageView" destination="VsL-Yl-BFy" id="D2k-U0-vpJ"/>
