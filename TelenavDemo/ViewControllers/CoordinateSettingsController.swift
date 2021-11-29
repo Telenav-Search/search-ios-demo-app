@@ -92,7 +92,7 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
         realLocSwitch.isOn = !cupertinoLocSwitch.isOn
         inputSwitch.isOn = false
         if cupertinoLocSwitch.isOn {
-            location = CLLocationCoordinate2D(latitude: 37.78074, longitude: -122.43052)
+            location = DemoConstants.defaultLocation
             postLocationNotif()
         }
         defaults.set(cupertinoLocSwitch.isOn, forKey: "cupertino_loc_switch")
