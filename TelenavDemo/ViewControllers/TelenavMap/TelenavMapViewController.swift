@@ -21,6 +21,7 @@ class TelenavMapViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var travelEstimationLbl: UILabel!
     @IBOutlet weak var startNavigationButton: UIButton!
+    @IBOutlet weak var followVehicleButton: UIButton!
     
     private var latitude: Double = 0
     private var longitude: Double = 0
@@ -53,6 +54,9 @@ class TelenavMapViewController: UIViewController {
     //Gestures
     private var longPressGestureRecognizer: UILongPressGestureRecognizer!
     private var tapGestureRecognizer: UITapGestureRecognizer!
+    private var panGestureRecognizer: UIPanGestureRecognizer!
+    private var pinchGestureRecognizer: UIPinchGestureRecognizer!
+    private var rotationGestureRecognizer: UIRotationGestureRecognizer!
   
     // Drive Session
     private var driveSessionLabelStack: UIStackView!
@@ -184,6 +188,8 @@ class TelenavMapViewController: UIViewController {
       self.navigationSession.startSimulateNavigation()
       self.driveSessionLabelStack.isHidden = false
       driveSession.enableAudioDefaultPlayback(true)
+      
+      setupInNavigationGestures()
     }
   
     func stopNavigation() {
@@ -207,6 +213,8 @@ class TelenavMapViewController: UIViewController {
       self.navigationSession.stopNavigation()
       self.driveSessionLabelStack.isHidden = true
       driveSession.enableAudioDefaultPlayback(false)
+      
+      restoreGestures()
     }
     
     func setupUIDriveSession() {
@@ -449,11 +457,20 @@ class TelenavMapViewController: UIViewController {
             action: #selector(startNavigationButtonTapped),
             for: .touchUpInside
         )
+      
+        followVehicleButton.isHidden = true
+      
+        followVehicleButton.addTarget(
+            self,
+            action: #selector(followVehicleButtonTapped),
+            for: .touchUpInside
+        )
         
         mapView.addSubview(collectionView)
         mapView.addSubview(imageView)
         mapView.addSubview(travelEstimationLbl)
         mapView.addSubview(startNavigationButton)
+        mapView.addSubview(followVehicleButton)
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
@@ -609,7 +626,6 @@ extension TelenavMapViewController {
         
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizerAction))
         mapView.addGestureRecognizer(tapGestureRecognizer)
-        
     }
     
     @objc func navigationSessionButtonTapped() {
@@ -625,6 +641,7 @@ extension TelenavMapViewController {
         if isNavigationSessionActive == false {
             setupMapCustomGestureRecognizers()
             startNavigationButton.isHidden = true
+            followVehicleButton.isHidden = true
             if navigationSession != nil {
                 stopNavigation()
                 navigationSession = nil
@@ -655,6 +672,12 @@ extension TelenavMapViewController {
     @objc func startNavigationButtonTapped() {
       self.startNavigation()
       self.startNavigationButton.isHidden = true
+    }
+  
+    @objc func followVehicleButtonTapped() {
+      mapView.cameraController().enable(.headingUp, useAutoZoom: true)
+      setupInNavigationGestures()
+      followVehicleButton.isHidden = true
     }
     
     func positionDidChange(position: VNCameraPosition) {
@@ -753,6 +776,45 @@ extension TelenavMapViewController {
         longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(navGestureAction))
         mapView.addGestureRecognizer(longPressGestureRecognizer)
     }
+  
+    private func setupInNavigationGestures() {
+        if tapGestureRecognizer != nil {
+          mapView.removeGestureRecognizer(tapGestureRecognizer)
+        }
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(inNavigationGestureAction))
+        mapView.addGestureRecognizer(tapGestureRecognizer)
+      
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(inNavigationGestureAction))
+        mapView.addGestureRecognizer(panGestureRecognizer)
+      
+        pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(inNavigationGestureAction))
+        mapView.addGestureRecognizer(pinchGestureRecognizer)
+      
+        rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(inNavigationGestureAction))
+        mapView.addGestureRecognizer(rotationGestureRecognizer)
+    }
+  
+    private func restoreGestures() {
+        if tapGestureRecognizer != nil {
+          mapView.removeGestureRecognizer(tapGestureRecognizer)
+          tapGestureRecognizer = nil
+        }
+      
+        if panGestureRecognizer != nil {
+          mapView.removeGestureRecognizer(panGestureRecognizer)
+          panGestureRecognizer = nil
+        }
+      
+        if pinchGestureRecognizer != nil {
+          mapView.removeGestureRecognizer(pinchGestureRecognizer)
+          pinchGestureRecognizer = nil
+        }
+      
+        if rotationGestureRecognizer != nil {
+          mapView.removeGestureRecognizer(rotationGestureRecognizer)
+          rotationGestureRecognizer = nil
+        }
+    }
     
     @objc private func longPressGestureRecognizerAction(_ gestureRecognizer: UILongPressGestureRecognizer) {
         
@@ -827,6 +889,14 @@ extension TelenavMapViewController {
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
         present(alertController, animated: true)
+    }
+  
+    @objc private func inNavigationGestureAction(_ gestureRecognizer: UITapGestureRecognizer) {
+      if (followVehicleButton.isHidden) {
+        mapView.cameraController().disableFollowVehicle()
+        restoreGestures()
+        followVehicleButton.isHidden = false
+      }
     }
     
     private func calculateRoute(startPoint: VNGeoLocation, endPoint: VNGeoLocation, completion: @escaping ([VNRoute]) -> ()) {
