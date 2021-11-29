@@ -706,7 +706,6 @@ extension TelenavMapViewController {
         cameraModeButton.setTitle(" Heading Up ", for: .normal)
       }
       
-      mapView.cameraController().disableFollowVehicle()
       mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
     }
     
