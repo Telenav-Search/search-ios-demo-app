@@ -74,6 +74,7 @@
 		68A522F926CCFF0500A8AF44 /* TelenavMapSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A522F726CCFF0500A8AF44 /* TelenavMapSettingsModel.swift */; };
 		68AA9A6A270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */; };
 		68AA9A6B270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AA9A69270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard */; };
+		68D086F32750916800FA5077 /* AnnotationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D086F22750916800FA5077 /* AnnotationState.swift */; };
 		68D2F1A12706142A003A8B0F /* TelenavMapCameraPositionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D2F19F2706142A003A8B0F /* TelenavMapCameraPositionViewController.swift */; };
 		68D2F1A22706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D2F1A02706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard */; };
 		68D2F1A52706BDF4003A8B0F /* CameraPositionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D2F1A32706BDF3003A8B0F /* CameraPositionCell.swift */; };
@@ -230,6 +231,7 @@
 		68A522F726CCFF0500A8AF44 /* TelenavMapSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelenavMapSettingsModel.swift; sourceTree = "<group>"; };
 		68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelenavMapDiagnosisViewController.swift; sourceTree = "<group>"; };
 		68AA9A69270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TelenavMapDiagnosisViewController.storyboard; sourceTree = "<group>"; };
+		68D086F22750916800FA5077 /* AnnotationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationState.swift; sourceTree = "<group>"; };
 		68D2F19F2706142A003A8B0F /* TelenavMapCameraPositionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelenavMapCameraPositionViewController.swift; sourceTree = "<group>"; };
 		68D2F1A02706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TelenavMapCameraPositionViewController.storyboard; sourceTree = "<group>"; };
 		68D2F1A32706BDF3003A8B0F /* CameraPositionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPositionCell.swift; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 		68A5228D26CCD04E00A8AF44 /* TelenavMap */ = {
 			isa = PBXGroup;
 			children = (
+				68D086F12750913300FA5077 /* Helpers */,
 				29BB539C272812D6006590AB /* DriveSession */,
 				29CFAE65273A454C0010EB73 /* RouteCell */,
 				68AA9A66270C0EF600B5A484 /* TelenavMapDiagnosis */,
@@ -514,6 +517,14 @@
 				68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		68D086F12750913300FA5077 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				68D086F22750916800FA5077 /* AnnotationState.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		68D2F19B2705CC7B003A8B0F /* TelenavMapCamera */ = {
@@ -979,6 +990,7 @@
 				68D2F1BA2707076C003A8B0F /* TelenavMapCameraRegionViewController.swift in Sources */,
 				C5D330EF256FDE9F008BFC36 /* GeoFilterCell.swift in Sources */,
 				C54C056D255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
+				68D086F32750916800FA5077 /* AnnotationState.swift in Sources */,
 				68D2F1B42706F0D0003A8B0F /* CameraMenuCell.swift in Sources */,
 				29CFAE67273A4DAC0010EB73 /* RouteCell.swift in Sources */,
 				C5432C80255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
