@@ -75,6 +75,8 @@
 		68AA9A6A270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */; };
 		68AA9A6B270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AA9A69270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard */; };
 		68D086F32750916800FA5077 /* AnnotationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D086F22750916800FA5077 /* AnnotationState.swift */; };
+		68D086F627548F8900FA5077 /* DemoConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D086F527548F8900FA5077 /* DemoConstants.swift */; };
+		68D086F82754E8D500FA5077 /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D086F72754E8D500FA5077 /* LocationProvider.swift */; };
 		68D2F1A12706142A003A8B0F /* TelenavMapCameraPositionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D2F19F2706142A003A8B0F /* TelenavMapCameraPositionViewController.swift */; };
 		68D2F1A22706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D2F1A02706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard */; };
 		68D2F1A52706BDF4003A8B0F /* CameraPositionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D2F1A32706BDF3003A8B0F /* CameraPositionCell.swift */; };
@@ -232,6 +234,8 @@
 		68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelenavMapDiagnosisViewController.swift; sourceTree = "<group>"; };
 		68AA9A69270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TelenavMapDiagnosisViewController.storyboard; sourceTree = "<group>"; };
 		68D086F22750916800FA5077 /* AnnotationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationState.swift; sourceTree = "<group>"; };
+		68D086F527548F8900FA5077 /* DemoConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoConstants.swift; sourceTree = "<group>"; };
+		68D086F72754E8D500FA5077 /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
 		68D2F19F2706142A003A8B0F /* TelenavMapCameraPositionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelenavMapCameraPositionViewController.swift; sourceTree = "<group>"; };
 		68D2F1A02706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TelenavMapCameraPositionViewController.storyboard; sourceTree = "<group>"; };
 		68D2F1A32706BDF3003A8B0F /* CameraPositionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPositionCell.swift; sourceTree = "<group>"; };
@@ -355,6 +359,7 @@
 		06751B00253D8D09001F6B11 /* TelenavDemo */ = {
 			isa = PBXGroup;
 			children = (
+				68D086F427548F6100FA5077 /* Constants */,
 				68A5229826CCE7D700A8AF44 /* Common */,
 				06751B01253D8D09001F6B11 /* AppDelegate.swift */,
 				06751B03253D8D09001F6B11 /* SceneDelegate.swift */,
@@ -465,6 +470,7 @@
 			children = (
 				29006441273E65D200456F85 /* Extensions */,
 				68A5229926CCE81400A8AF44 /* Storyboardable.swift */,
+				68D086F72754E8D500FA5077 /* LocationProvider.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -525,6 +531,14 @@
 				68D086F22750916800FA5077 /* AnnotationState.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		68D086F427548F6100FA5077 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				68D086F527548F8900FA5077 /* DemoConstants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		68D2F19B2705CC7B003A8B0F /* TelenavMapCamera */ = {
@@ -973,6 +987,7 @@
 				F793457C26A8992600E97941 /* DirectionDetailsViewController.swift in Sources */,
 				6873933D26CD0C0800BBC978 /* ToggleableTableViewCell.swift in Sources */,
 				C54C0574255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */,
+				68D086F82754E8D500FA5077 /* LocationProvider.swift in Sources */,
 				F798F9B026AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift in Sources */,
 				06545AC3258B9B12002F9165 /* SearchPanAnimator.swift in Sources */,
 				C54C0578255E9C150002CE83 /* SearchResultViewController.swift in Sources */,
@@ -1003,6 +1018,7 @@
 				C5D330F2256FDEAC008BFC36 /* EVFilterCell.swift in Sources */,
 				68A5229A26CCE81400A8AF44 /* Storyboardable.swift in Sources */,
 				06608B07254C549400DF38C3 /* CatalogBaseCell.swift in Sources */,
+				68D086F627548F8900FA5077 /* DemoConstants.swift in Sources */,
 				06751B06253D8D09001F6B11 /* MapViewController.swift in Sources */,
 				C5D330E9256FDE7E008BFC36 /* CategoryFilterCell.swift in Sources */,
 				68A522F826CCFF0500A8AF44 /* TelenavMapSettingsModel.swift in Sources */,
