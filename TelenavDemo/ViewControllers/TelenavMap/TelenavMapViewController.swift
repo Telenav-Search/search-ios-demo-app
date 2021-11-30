@@ -24,6 +24,7 @@ class TelenavMapViewController: UIViewController {
     @IBOutlet weak var travelEstimationLbl: UILabel!
     @IBOutlet weak var startNavigationButton: UIButton!
     @IBOutlet weak var followVehicleButton: UIButton!
+    @IBOutlet weak var cameraModeButton: UIButton!
     
     private var latitude: Double = 0
     private var longitude: Double = 0
@@ -70,7 +71,9 @@ class TelenavMapViewController: UIViewController {
     private var alertMessage: UILabel!
     private var violationMessage: UILabel!
     private var violationWarningTitle: UILabel!
-  
+
+    private var currentCameraMode = VNCameraFollowVehicleMode.headingUp
+    
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
         cameraRenderModeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -187,12 +190,13 @@ class TelenavMapViewController: UIViewController {
       travelEstimationLbl.isHidden = false
       // imageView hidden = false, when we show junction
       collectionView.isHidden = true
+      cameraModeButton.isHidden = false
       
       mapView.vehicleController().setIcon(UIImage(named: "car-icon")!)
       mapView.featuresController().traffic.setEnabled()
       mapView.featuresController().compass.setEnabled()
       mapView.cameraController().renderMode = .M3D
-      mapView.cameraController().enable(.headingUp, useAutoZoom: true)
+      mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
       
       driveSession.positionEventDelegate = self
       self.navigationSession.startSimulateNavigation()
@@ -476,12 +480,21 @@ class TelenavMapViewController: UIViewController {
             action: #selector(followVehicleButtonTapped),
             for: .touchUpInside
         )
+      
+        cameraModeButton.isHidden = true
+      
+        cameraModeButton.addTarget(
+            self,
+            action: #selector(cameraModeButtonTapped),
+            for: .touchUpInside
+        )
         
         mapView.addSubview(collectionView)
         mapView.addSubview(imageView)
         mapView.addSubview(travelEstimationLbl)
         mapView.addSubview(startNavigationButton)
         mapView.addSubview(followVehicleButton)
+        mapView.addSubview(cameraModeButton)
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
@@ -653,6 +666,7 @@ extension TelenavMapViewController {
             setupMapCustomGestureRecognizers()
             startNavigationButton.isHidden = true
             followVehicleButton.isHidden = true
+            cameraModeButton.isHidden = true
             if navigationSession != nil {
                 stopNavigation()
                 navigationSession = nil
@@ -686,9 +700,25 @@ extension TelenavMapViewController {
     }
   
     @objc func followVehicleButtonTapped() {
-      mapView.cameraController().enable(.headingUp, useAutoZoom: true)
+      mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
       setupInNavigationGestures()
       followVehicleButton.isHidden = true
+      cameraModeButton.isHidden = false
+    }
+  
+    @objc func cameraModeButtonTapped() {
+      if (currentCameraMode == .headingUp) {
+        currentCameraMode = .northUp
+        cameraModeButton.setTitle(" North Up ", for: .normal)
+      } else if (currentCameraMode == .northUp) {
+        currentCameraMode = .static
+        cameraModeButton.setTitle(" Static ", for: .normal)
+      } else if (currentCameraMode == .static) {
+        currentCameraMode = .headingUp
+        cameraModeButton.setTitle(" Heading Up ", for: .normal)
+      }
+      
+      mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
     }
     
     func positionDidChange(position: VNCameraPosition) {
@@ -908,6 +938,7 @@ extension TelenavMapViewController {
         mapView.cameraController().disableFollowVehicle()
         restoreGestures()
         followVehicleButton.isHidden = false
+        cameraModeButton.isHidden = true
       }
     }
     
