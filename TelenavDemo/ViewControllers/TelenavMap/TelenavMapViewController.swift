@@ -76,6 +76,7 @@ class TelenavMapViewController: UIViewController {
   
     // Search
     private var isPoiSearchActive = false
+    private var searchEngine: SearchEngine!
     
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
@@ -159,6 +160,9 @@ class TelenavMapViewController: UIViewController {
         setupMapFeatures(settings: mapViewSettingsModel)
         setupMapCustomGestureRecognizers()
         setupLocationManager()
+      
+        searchEngine = SearchEngine.init()
+        mapView.searchController().inject(searchEngine)
       
         locationProvider.addListner(listner: self)
     }
@@ -754,6 +758,13 @@ extension TelenavMapViewController {
           button: poiSearchButton,
           with: isPoiSearchActive
       )
+      
+      if (isPoiSearchActive) {
+        searchEngine.currentLocation = mapView.cameraController().position.location;
+        mapView.searchController().displayPOI(["811"]) // Fuel
+      } else {
+        mapView.searchController().clear()
+      }
     }
     
     func positionDidChange(position: VNCameraPosition) {

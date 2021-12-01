@@ -12,11 +12,7 @@ class SearchEngine : VNSearchEngine {
   
   var lastSearchResult = [VNPoiSearchEntity]()
   
-  typealias SearchCallback = (TNEntitySearchResult?, Bool) -> Void
-  var searchCallback: SearchCallback?
-  
-  var currentFilter: TNEntitySearchFilter?
-  var currentLocation: TNEntityGeoPoint?
+  var currentLocation: VNGeoPoint?
   
   // TNEntityStaticCategory(name: "Fuel", id: "811")
   override func search(withDisplayContent displayContent: [String]!,
@@ -32,26 +28,24 @@ class SearchEngine : VNSearchEngine {
     
     let searchOptions = TNEntitySearchOptions(intent: .around, showAddressLines: false)
     
+    let currentFilter = TNEntitySearchFilter()
     let geoFilter = TNEntityPolygonGeoFilter()
     geoFilter.polygon.points = entityGeoPoints
-    currentFilter?.geoFilter = geoFilter
+    currentFilter.geoFilter = geoFilter
     
     let categoryFilter = TNEntitySearchCategoryFilter()
     categoryFilter.categories = displayContent
-    currentFilter?.categoryFilter = categoryFilter
+    currentFilter.categoryFilter = categoryFilter
     
     let searchParams = TNEntitySearchParamsBuilder()
         .limit(Int(maxResultCount))
-        .location(currentLocation ?? TNEntityGeoPoint.point(lat: 0.0, lon: 0.0))
+        .location(TNEntityGeoPoint.point(lat: currentLocation?.latitude ?? 0.0,
+                                         lon: currentLocation?.longitude ?? 0.0))
         .filters(currentFilter)
         .searchOptions(searchOptions)
         .build()
 
     TNEntityClient.search(params: searchParams) { [self] (telenavSearch, err) in
-      if (searchCallback != nil) {
-        searchCallback!(telenavSearch, false)
-      }
-      
       guard let searchResults = telenavSearch?.results else {
         return
       }
@@ -62,20 +56,14 @@ class SearchEngine : VNSearchEngine {
         let entity = VNPoiSearchEntity.init(
           location: CLLocationCoordinate2DMake(result.place?.address?.geoCoordinates?.latitude ?? 0.0,
                                                result.place?.address?.geoCoordinates?.longitude ?? 0.0),
-          image: makeEntityAnnotaionIcon(by: "\(counter)"))
+          image: makeEntityAnnotaionIcon(by: "\(counter)")
+        )
         lastSearchResult.append(entity)
         counter += 1
       }
     }
     
     return lastSearchResult
-  }
-  
-  private func makeEntityAnnotaionIcon() -> UIImage? {
-    guard let fuelAnnotationImage = UIImage(named: "Fuel") else {
-        return nil
-    }
-    return fuelAnnotationImage
   }
   
   private func makeEntityAnnotaionIcon(by text: String) -> UIImage? {
