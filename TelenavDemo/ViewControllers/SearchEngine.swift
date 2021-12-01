@@ -10,8 +10,6 @@ import TelenavEntitySDK
 
 class SearchEngine : VNSearchEngine {
   
-  var lastSearchResult = [VNPoiSearchEntity]()
-  
   var currentLocation: VNGeoPoint?
   
   // TNEntityStaticCategory(name: "Fuel", id: "811")
@@ -44,13 +42,18 @@ class SearchEngine : VNSearchEngine {
         .filters(currentFilter)
         .searchOptions(searchOptions)
         .build()
-
+    
+    var searchResult = [VNPoiSearchEntity]()
+    
+    let group = DispatchGroup()
+    group.enter()
+    
     TNEntityClient.search(params: searchParams) { [self] (telenavSearch, err) in
       guard let searchResults = telenavSearch?.results else {
+        group.leave()
         return
       }
       
-      lastSearchResult = Array()
       var counter = 1
       for result in searchResults {
         let entity = VNPoiSearchEntity.init(
@@ -58,12 +61,15 @@ class SearchEngine : VNSearchEngine {
                                                result.place?.address?.geoCoordinates?.longitude ?? 0.0),
           image: makeEntityAnnotaionIcon(by: "\(counter)")
         )
-        lastSearchResult.append(entity)
+        searchResult.append(entity)
         counter += 1
       }
+      group.leave()
     }
     
-    return lastSearchResult
+    group.wait()
+    
+    return searchResult
   }
   
   private func makeEntityAnnotaionIcon(by text: String) -> UIImage? {
