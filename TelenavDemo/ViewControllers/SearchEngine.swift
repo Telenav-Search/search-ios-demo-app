@@ -18,6 +18,7 @@ class SearchEngine : VNSearchEngine {
   var currentFilter: TNEntitySearchFilter?
   var currentLocation: TNEntityGeoPoint?
   
+  // TNEntityStaticCategory(name: "Fuel", id: "811")
   override func search(withDisplayContent displayContent: [String]!,
                        searchBox: [VNGeoPoint]!,
                        maxResultCount: Int32,
@@ -31,14 +32,17 @@ class SearchEngine : VNSearchEngine {
     
     let searchOptions = TNEntitySearchOptions(intent: .around, showAddressLines: false)
     
-    let filter = TNEntityPolygonGeoFilter()
-    filter.polygon.points = entityGeoPoints
-    currentFilter?.geoFilter = filter
+    let geoFilter = TNEntityPolygonGeoFilter()
+    geoFilter.polygon.points = entityGeoPoints
+    currentFilter?.geoFilter = geoFilter
+    
+    let categoryFilter = TNEntitySearchCategoryFilter()
+    categoryFilter.categories = displayContent
+    currentFilter?.categoryFilter = categoryFilter
     
     let searchParams = TNEntitySearchParamsBuilder()
         .limit(Int(maxResultCount))
         .location(currentLocation ?? TNEntityGeoPoint.point(lat: 0.0, lon: 0.0))
-        .query(displayContent.first ?? "") // TODO Pick All values?
         .filters(currentFilter)
         .searchOptions(searchOptions)
         .build()
@@ -65,6 +69,13 @@ class SearchEngine : VNSearchEngine {
     }
     
     return lastSearchResult
+  }
+  
+  private func makeEntityAnnotaionIcon() -> UIImage? {
+    guard let fuelAnnotationImage = UIImage(named: "Fuel") else {
+        return nil
+    }
+    return fuelAnnotationImage
   }
   
   private func makeEntityAnnotaionIcon(by text: String) -> UIImage? {

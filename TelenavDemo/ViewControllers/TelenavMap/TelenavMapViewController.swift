@@ -73,6 +73,9 @@ class TelenavMapViewController: UIViewController {
     private var violationWarningTitle: UILabel!
 
     private var currentCameraMode = VNCameraFollowVehicleMode.headingUp
+  
+    // Search
+    private var isPoiSearchActive = false
     
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
@@ -127,6 +130,14 @@ class TelenavMapViewController: UIViewController {
         switchColorScheme.backgroundColor = .systemBackground
         switchColorScheme.setImage(UIImage(systemName: "moon"), for: .normal)
         return switchColorScheme
+    }()
+  
+    lazy var poiSearchButton: UIButton = {
+        let poiSearchButton = UIButton(type: .system)
+        poiSearchButton.translatesAutoresizingMaskIntoConstraints = false
+        poiSearchButton.backgroundColor = .systemBackground
+        poiSearchButton.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        return poiSearchButton
     }()
     
     override func viewDidLoad() {
@@ -465,6 +476,21 @@ class TelenavMapViewController: UIViewController {
             for: .touchUpInside
         )
       
+        view.addSubview(poiSearchButton)
+        
+        NSLayoutConstraint.activate([
+          poiSearchButton.widthAnchor.constraint(equalToConstant: 40),
+          poiSearchButton.heightAnchor.constraint(equalToConstant: 40),
+          poiSearchButton.bottomAnchor.constraint(equalTo: switchColorScheme.topAnchor, constant: -16.0),
+          poiSearchButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+        ])
+      
+        poiSearchButton.addTarget(
+            self,
+            action: #selector(poiSearchButtonTapped),
+            for: .touchUpInside
+        )
+      
         startNavigationButton.isHidden = true
       
         startNavigationButton.addTarget(
@@ -719,6 +745,15 @@ extension TelenavMapViewController {
       }
       
       mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
+    }
+  
+    @objc func poiSearchButtonTapped() {
+      isPoiSearchActive.toggle()
+      
+      renderUpdateFor(
+          button: poiSearchButton,
+          with: isPoiSearchActive
+      )
     }
     
     func positionDidChange(position: VNCameraPosition) {
