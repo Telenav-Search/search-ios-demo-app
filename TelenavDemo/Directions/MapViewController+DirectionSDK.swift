@@ -281,11 +281,19 @@ extension MapViewController {
                 door: door
             )
 
-            return VNGeoLocation(
+            let geoLocation = VNGeoLocation(
                 latitude: geoPoint.latitude,
                 longitude: geoPoint.longitude,
-                address: address
+                address: address,
+                locationName: entity.key.place?.name,
+                matchedSegment: nil,
+                placeId: entity.key.id,
+                displayPoint: nil,
+                navPoints: nil,
+                parentLocationName: nil
             )
+
+            return geoLocation
         }
         return VNGeoLocation(
             latitude: geoPoint.latitude,
