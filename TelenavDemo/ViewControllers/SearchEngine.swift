@@ -58,7 +58,7 @@ class SearchEngine : VNSearchEngine {
         let entity = VNPoiSearchEntity.init(
           location: CLLocationCoordinate2DMake(result.place?.address?.geoCoordinates?.latitude ?? 0.0,
                                                result.place?.address?.geoCoordinates?.longitude ?? 0.0),
-          image: makeEntityAnnotaionIcon(by: "\(result.place?.name ?? "")")
+          image: makeEntityAnnotationIcon(by: "\(result.place?.name ?? "")")
         )
         searchResult.append(entity)
       }
@@ -70,7 +70,7 @@ class SearchEngine : VNSearchEngine {
     return searchResult
   }
   
-  private func makeEntityAnnotaionIcon(by text: String) -> UIImage? {
+  private func makeEntityAnnotationIcon(by text: String) -> UIImage? {
       let textColor = UIColor.black
       let textFont = UIFont.systemFont(ofSize: 24)
       guard let entityAnnotationImage = UIImage(named: "map-fuel") else {
