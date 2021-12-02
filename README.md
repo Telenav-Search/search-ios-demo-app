@@ -36,7 +36,7 @@
 
 For running on physical device developer need to have correct Provisioning Profile and Signing Certificate.
 
-1. Modify configuration files `SDKConfig.plist` and `TelenavDemo-Info.plist`, fill the correct `ApiKey/ApiSecret/CloudEndpoint`.
+1. Modify configuration files `SupportFiles/SDKConfig.plist` and `TelenavDemo-Info.plist`, fill the correct `ApiKey/ApiSecret/CloudEndpoint`.
 2. Run target TelenavDemo
 
 ### Archiving Demo App
