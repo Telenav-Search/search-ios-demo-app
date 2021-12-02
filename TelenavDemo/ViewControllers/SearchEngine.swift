@@ -54,15 +54,13 @@ class SearchEngine : VNSearchEngine {
         return
       }
       
-      var counter = 1
       for result in searchResults {
         let entity = VNPoiSearchEntity.init(
           location: CLLocationCoordinate2DMake(result.place?.address?.geoCoordinates?.latitude ?? 0.0,
                                                result.place?.address?.geoCoordinates?.longitude ?? 0.0),
-          image: makeEntityAnnotaionIcon(by: "\(counter)")
+          image: makeEntityAnnotaionIcon(by: "\(result.place?.name ?? "")")
         )
         searchResult.append(entity)
-        counter += 1
       }
       group.leave()
     }
@@ -75,27 +73,30 @@ class SearchEngine : VNSearchEngine {
   private func makeEntityAnnotaionIcon(by text: String) -> UIImage? {
       let textColor = UIColor.black
       let textFont = UIFont.systemFont(ofSize: 24)
-      guard let entityAnnotationImage = UIImage(named: "entity-annotation-icon") else {
+      guard let entityAnnotationImage = UIImage(named: "map-fuel") else {
           return nil
       }
+    
+      let textFontAttributes = [
+        NSAttributedString.Key.font: textFont,
+        NSAttributedString.Key.foregroundColor: textColor,
+        ] as [NSAttributedString.Key : Any]
+    
+      let textSize = (text as NSString).size(withAttributes: textFontAttributes)
+      let textOrigin = CGPoint(
+          x: 0,
+          y: entityAnnotationImage.size.height)
+      
+      let textRect = CGRect(origin: textOrigin, size: textSize)
       
       let scale = UIScreen.main.scale
-      UIGraphicsBeginImageContextWithOptions(entityAnnotationImage.size, false, scale)
-      
-      let textFontAttributes = [
-          NSAttributedString.Key.font: textFont,
-          NSAttributedString.Key.foregroundColor: textColor,
-          ] as [NSAttributedString.Key : Any]
-      
-      let size = (text as NSString).size(withAttributes: textFontAttributes)
-      let origin = CGPoint(
-          x: entityAnnotationImage.size.width / 2 - size.width / 2,
-          y: entityAnnotationImage.size.height / 2 - size.height / 2)
-      
-      let rect = CGRect(origin: origin, size: size)
+      var imageSize = entityAnnotationImage.size
+      imageSize.width = max(imageSize.width, textSize.width)
+      imageSize.height += textSize.height
+      UIGraphicsBeginImageContextWithOptions(imageSize, false, scale)
       
       entityAnnotationImage.draw(in: CGRect(origin: CGPoint.zero, size: entityAnnotationImage.size))
-      text.draw(in: rect, withAttributes: textFontAttributes)
+      text.draw(in: textRect, withAttributes: textFontAttributes)
       
       let newImage = UIGraphicsGetImageFromCurrentImageContext()
       UIGraphicsEndImageContext()
