@@ -73,6 +73,10 @@ class TelenavMapViewController: UIViewController {
     private var violationWarningTitle: UILabel!
 
     private var currentCameraMode = VNCameraFollowVehicleMode.headingUp
+  
+    // Search
+    private var isPoiSearchActive = false
+    private var searchEngine: SearchEngine!
     
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
@@ -128,6 +132,14 @@ class TelenavMapViewController: UIViewController {
         switchColorScheme.setImage(UIImage(systemName: "moon"), for: .normal)
         return switchColorScheme
     }()
+  
+    lazy var poiSearchButton: UIButton = {
+        let poiSearchButton = UIButton(type: .system)
+        poiSearchButton.translatesAutoresizingMaskIntoConstraints = false
+        poiSearchButton.backgroundColor = .systemBackground
+        poiSearchButton.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        return poiSearchButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,6 +160,9 @@ class TelenavMapViewController: UIViewController {
         setupMapFeatures(settings: mapViewSettingsModel)
         setupMapCustomGestureRecognizers()
         setupLocationManager()
+      
+        searchEngine = SearchEngine.init()
+        mapView.searchController().inject(searchEngine)
       
         locationProvider.addListner(listner: self)
     }
@@ -186,6 +201,7 @@ class TelenavMapViewController: UIViewController {
       shapesButton.isHidden = true
       vehicleTrackButton.isHidden = true
       switchColorScheme.isHidden = true
+      poiSearchButton.isHidden = true
       
       travelEstimationLbl.isHidden = false
       // imageView hidden = false, when we show junction
@@ -213,6 +229,7 @@ class TelenavMapViewController: UIViewController {
       shapesButton.isHidden = false
       vehicleTrackButton.isHidden = false
       switchColorScheme.isHidden = false
+      poiSearchButton.isHidden = false
       
       travelEstimationLbl.isHidden = true
       imageView.isHidden = true
@@ -462,6 +479,21 @@ class TelenavMapViewController: UIViewController {
         switchColorScheme.addTarget(
             self,
             action: #selector(switchColorSchemeButtonTapped),
+            for: .touchUpInside
+        )
+      
+        view.addSubview(poiSearchButton)
+        
+        NSLayoutConstraint.activate([
+          poiSearchButton.widthAnchor.constraint(equalToConstant: 40),
+          poiSearchButton.heightAnchor.constraint(equalToConstant: 40),
+          poiSearchButton.bottomAnchor.constraint(equalTo: switchColorScheme.topAnchor, constant: -16.0),
+          poiSearchButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+        ])
+      
+        poiSearchButton.addTarget(
+            self,
+            action: #selector(poiSearchButtonTapped),
             for: .touchUpInside
         )
       
@@ -719,6 +751,22 @@ extension TelenavMapViewController {
       }
       
       mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
+    }
+  
+    @objc func poiSearchButtonTapped() {
+      isPoiSearchActive.toggle()
+      
+      renderUpdateFor(
+          button: poiSearchButton,
+          with: isPoiSearchActive
+      )
+      
+      if (isPoiSearchActive) {
+        searchEngine.currentLocation = mapView.cameraController().position.location;
+        mapView.searchController().displayPOI(["811"]) // Fuel
+      } else {
+        mapView.searchController().clear()
+      }
     }
     
     func positionDidChange(position: VNCameraPosition) {
