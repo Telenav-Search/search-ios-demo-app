@@ -26,10 +26,7 @@ class TelenavMapViewController: UIViewController {
     @IBOutlet weak var followVehicleButton: UIButton!
     @IBOutlet weak var cameraModeButton: UIButton!
     
-    private var latitude: Double = 0
-    private var longitude: Double = 0
-    private var heading: Double = 0
-    private var speed: Double = 0
+    private var accuracy: Float = 0
     
     private var driveSession: VNDriveSessionClient!
     private var navigationSession: VNNavigationSession!
@@ -1220,26 +1217,6 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
 
 extension TelenavMapViewController: VNNavigationSessionDelegate {
     
-    func onRouteInfoUpdated(_ onRoadInfo: VNOnRouteInfo) {
-        
-        if (onRoadInfo.isVehicleOnTrack) {
-            let routeId = selectedRouteModel?.getRouteId() ?? ""
-            mapView.routeController().vehicle(
-                onRouteInfoRouteName: routeId,
-                routeId: routeId,
-                legIndex: UInt32(onRoadInfo.legIndex),
-                step: UInt32(onRoadInfo.stepIndex),
-                edgeIndex: UInt32(onRoadInfo.edgeIndex),
-                pointIndex: UInt32(onRoadInfo.pointIndex),
-                position: .init(latitude: latitude, longitude: longitude, heightMeters: 0),
-                heading: heading,
-                passedDistance: onRoadInfo.distFromStart,
-                vehicleSpeed: speed,
-                headingTolerance: 10,
-                isEatingRoute: true)
-        }
-    }
-    
     func processNavigationSignals(signals: [VNNavigationSignal]) {
         for signal in signals {
             if let signalReachWaypoint = signal as? VNNavigationSignalReachWaypoint {
@@ -1289,26 +1266,65 @@ extension TelenavMapViewController: VNNavigationSessionDelegate {
             }
         }
     }
+  
+    func onUpdate(_ navStatus: VNNavStatus!) {
+        if navStatus.navigationSignal.count != 0 {
+            processNavigationSignals(signals: navStatus.navigationSignal)
+        }
+      
+        // Set turnAction
+        var turnAction = VNManeuverAction.NONE
+        let route = navStatus.route
+        
+        let legs = route.legs
+        let legIndex = Int(navStatus.currentLegIndex)
+        if (legIndex >= 0 && legIndex < legs.count) {
+          let steps = legs[legIndex].steps
+          let stepIndex = Int(navStatus.currentStepIndex)
+          if (stepIndex >= 0 && stepIndex < steps.count) {
+            turnAction = steps[stepIndex].maneuver.action
+          }
+        }
+        
+        // Fill stepInfo
+        let MPH_TO_MS = Float(1.609344) / Float(3.6)
+        let KPH_TO_MS = Float(1.0) / Float(3.6)
+        let stepInfo = VNStepInfo.init(routeId: selectedRouteModel?.getRouteId() ?? "",
+                                       currentLegIndex: navStatus.currentLegIndex,
+                                       currentStep: navStatus.currentStepIndex,
+                                       currentEdgeIndex: navStatus.currentEdgeIndex,
+                                       currentPointIndex: navStatus.currentEdgePointIndex,
+                                       currentRoadType: Int32(navStatus.roadType.rawValue),
+                                       currentRoadSubType: Int32(navStatus.roadSubtype.rawValue),
+                                       turnAction: Int32(turnAction.rawValue),
+                                       distanceToTurn: Float(navStatus.distanceToTurn),
+                                       speedLimit: (navStatus.speedLimit.unit == .MPH
+                                                      ? Float(navStatus.speedLimit.value) * MPH_TO_MS
+                                                      : Float(navStatus.speedLimit.value) * KPH_TO_MS),
+                                       vehicleSpeed: navStatus.vehicleSpeed,
+                                       heading: Float(navStatus.vehicleHeading),
+                                       passedDistance: navStatus.traveledDistance,
+                                       isNextTightTurn: navStatus.isNextStepTightTurn)
+        
+        // Fill location
+        let location = CLLocation.init(
+          coordinate: .init(latitude: navStatus.vehicleLocation.latitude, longitude: navStatus.vehicleLocation.longitude),
+          altitude: 0, // not used
+          horizontalAccuracy: CLLocationAccuracy(accuracy),
+          verticalAccuracy: CLLocationAccuracy(accuracy),
+          course: CLLocationDirection(navStatus.vehicleHeading),
+          speed: CLLocationSpeed(navStatus.vehicleSpeed),
+          timestamp: Date() // not used
+        )
+        
+        mapView.vehicleController().setStepInfoAndLocation(stepInfo, location: location)
+    }
 }
 
 extension TelenavMapViewController: VNPositionEventDelegate {
     
     func onLocationUpdated(_ vehicleLocation: VNVehicleLocationInfo) {
-        let location = CLLocation.init(
-            coordinate: .init(latitude: vehicleLocation.lat, longitude: vehicleLocation.lon),
-            altitude: 0, // not used
-            horizontalAccuracy: CLLocationAccuracy(vehicleLocation.locationAccuracy),
-            verticalAccuracy: CLLocationAccuracy(vehicleLocation.locationAccuracy),
-            course: CLLocationDirection(vehicleLocation.heading),
-            speed: CLLocationSpeed(vehicleLocation.speed),
-            timestamp: Date() // not used
-        )
-        mapView.vehicleController().setLocation(location)
-        
-        latitude = vehicleLocation.lat
-        longitude = vehicleLocation.lon
-        heading = Double(vehicleLocation.heading)
-        speed = Double(vehicleLocation.speed)
+        accuracy = vehicleLocation.locationAccuracy
     }
   
     func onStreetUpdated(_ curStreetInfo: VNStreetInfo) {
@@ -1327,12 +1343,6 @@ extension TelenavMapViewController: VNPositionEventDelegate {
         
         self.cityName.text = curStreetInfo.adminInfo?.city ?? "Null received"
       }
-    }
-  
-    func onUpdate(_ navStatus: VNNavStatus!) {
-        if navStatus.navigationSignal.count != 0 {
-            processNavigationSignals(signals: navStatus.navigationSignal)
-        }
     }
 }
 
