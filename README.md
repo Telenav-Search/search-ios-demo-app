@@ -36,14 +36,14 @@
 
 For running on physical device developer need to have correct Provisioning Profile and Signing Certificate.
 
-1. Modify the configuration file `SDKConfig.plist`, fill the correct `ApiKey/ApiSecret/CloudEndpoint`.
+1. Modify configuration files `SupportFiles/SDKConfig.plist` and `TelenavDemo-Info.plist`, fill the correct `ApiKey/ApiSecret/CloudEndpoint`.
 2. Run target TelenavDemo
 
 ### Archiving Demo App
 
 For archiving developer need to have correct Provisioning Profile and Signing Certificate.
 
-1. Modify the configuration file `SupportFiles/SDKConfig.plist`, fill the correct `ApiKey/ApiSecret/CloudEndpoint`.
+1. Modify configuration files `SupportFiles/SDKConfig.plist` and `TelenavDemo-Info.plist`, fill the correct `ApiKey/ApiSecret/CloudEndpoint`.
 2. Select target TelenavDemo.
 3. Select device 'Any iOS Device ...'
 4. Select menu Product -> Archive

@@ -38,7 +38,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     var currentDetailID: String = ""
-    let locationManager = CLLocationManager()
     let staticCategoriesService = StaticCategoriesGenerator()
     private var throttler = Throttler(throttlingInterval: 0.7, maxInterval: 0, qosClass: .userInitiated)
     var catalogVisible = true {
@@ -79,8 +78,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     private var staticCategories = [TNEntityStaticCategory]()
     
     private var annotationsSetupCallback: (() -> Void)?
-    private var currentLocation: CLLocationCoordinate2D?
-    private var fakeLocation: CLLocationCoordinate2D?
+    private let locationProvider = LocationProvider.shared
+    private var currentLocation = LocationProvider.shared.location
     private var searchResultDisplaying: Bool = false
     private var searchQuery: String?
     private var hasMoreSearchResults: Bool = false
@@ -184,24 +183,10 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             self.catalogVC.fillStaticCategories(categories)
         }
         
-        configureLocationManager()
         addChildView()
         addSearchAsChild()
         detailsView.superview?.bringSubviewToFront(detailsView)
         toggleDetailView(visible: false)
-
-        NotificationCenter.default.addObserver(forName: Notification.Name("LocationChangedNotification"), object: nil, queue: .main) { [weak self] (notif) in
-            
-            if let location = notif.userInfo?["location"] as? CLLocationCoordinate2D {
-                self?.fakeLocation = location
-                self?.currentLocation = location
-            } else if let useReal = notif.userInfo?["useReal"] as? Bool, useReal == true {
-                self?.fakeLocation = nil
-                if let realLoc = self?.locationManager.location?.coordinate {
-                    self?.currentLocation = realLoc
-                }
-            }
-        }
         
         let panGesture2 = UIPanGestureRecognizer(target: self.searchResultViewAnimator, action: #selector(PanViewAnimator.didDragMainView(_:)))
         searchResultsVC.view.addGestureRecognizer(panGesture2)
@@ -230,6 +215,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         addLongTapGestureRecognizer()
         handleDetailsViewRouteButtons()
         routeSettingsButton.layer.borderColor = UIColor.systemBlue.cgColor
+      
+        currentLocation = LocationProvider.shared.location
+        locationProvider.addListner(listner: self)
+        moveMapCameraTo(to: currentLocation)
+        setUserPushPin(userLocation: currentLocation)
+    }
+  
+    deinit {
+        locationProvider.removeListner(listner: self)
     }
     
     func findAnnIndex(id: String) -> Int {
@@ -269,19 +263,6 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         goToDetails(placeAnnotation: ann)
     }
 
-    func configureLocationManager() {
-        self.locationManager.requestAlwaysAuthorization()
-
-        // For use in foreground
-        self.locationManager.requestWhenInUseAuthorization()
-
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-        }
-    }
-    
     func addChildView() {
         mapView.preferredFPS = 30
         mapContainerView.insertSubview(mapView, at: 0)
@@ -528,7 +509,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             return
         }
         goToDetails(placeAnnotation: annotation, distance: distance) { (entity) in
-            guard let id = entity.id,
+            guard let _ = entity.id,
                   let name = entity.place?.name ?? entity.address?.formattedAddress
             else {
                 return
@@ -597,21 +578,24 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         }
     }
     
-    // MARK: - LocationManager Delegate
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-
-        if let fakeLocation = self.fakeLocation {
-            self.currentLocation = fakeLocation
-        } else {
-            self.currentLocation = locValue
-        }
-        if let nav = self.tabBarController?.viewControllers?[1] as? UINavigationController,
-           let vc = nav.topViewController as? CoordinateSettingsController {
-            vc.delegate = self
-        }
-//        setPinUsingMKPointAnnotation(location: locValue)
+    private var userPushPinAnnotation: VNAnnotation?
+  
+    private func setUserPushPin(userLocation: CLLocationCoordinate2D) {
+      let annotationsController = mapView.annotationsController()
+      
+      if userPushPinAnnotation == nil {
+        let userPushPinAnnotation = annotationsController.factory()
+          .create(with: UIImage(named: "user-pushpin")!, location: userLocation)
+        userPushPinAnnotation.style = .screenFlagNoCulling
+        userPushPinAnnotation.priority = 1
+        
+        self.userPushPinAnnotation = userPushPinAnnotation
+      }
+      
+      if let userPushPinAnnotation = self.userPushPinAnnotation {
+        userPushPinAnnotation.location = userLocation
+        annotationsController.add([userPushPinAnnotation])
+      }
     }
     
     private func obtainRegionForAnnotationsArr(_ arr: [PlaceAnnotation2]) -> VNCameraRegion {
@@ -620,7 +604,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             region.extend(toLatitude: $0.coordinate.latitude, andLongitude: $0.coordinate.longitude)
         }
         return region
-     }
+    }
     
     private func goToDetails(placeAnnotation: PlaceAnnotation2, distance: String? = nil, completion: ((TNEntity) -> Void)? = nil) {
         
@@ -659,7 +643,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
                 }
             }
             self.detailsView.fillEntity(detail,
-                                        currentCoordinate: self.currentLocation ?? CLLocationCoordinate2D(),
+                                        currentCoordinate: self.currentLocation ,
                                         distanceText: distance)
             self.toggleDetailView(visible: true)
             
@@ -671,8 +655,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     func calculateDistanceForDetails(detail: TNEntity) -> Double? {
-        if let currentLocation = currentLocation,
-           let placeCoordinates = detail.type == .place ? detail.place?.address?.geoCoordinates : detail.address?.geoCoordinates,
+        if let placeCoordinates = detail.type == .place ? detail.place?.address?.geoCoordinates : detail.address?.geoCoordinates,
            let placeLatitude = placeCoordinates.latitude,
            let placeLongitude = placeCoordinates.longitude {
             
@@ -722,8 +705,8 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         let searchParams = TNEntitySearchParamsBuilder()
             .limit(20)
             .query(searchQuery)
-            .location(TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0,
-                                       lon: currentLocation?.longitude ?? 0))
+            .location(TNEntityGeoPoint(lat: currentLocation.latitude,
+                                       lon: currentLocation.longitude))
             .filters(searchFilter)
             .searchOptions(searchOptions)
             .build()
@@ -876,8 +859,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     private func getPredictions(on searchQuery: String) {
-        
-        let location = TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
+        let location = TNEntityGeoPoint(lat: currentLocation.latitude, lon: currentLocation.longitude)
         
         var params: TNEntityWordPredictionParams!
         do {
@@ -991,16 +973,19 @@ extension MapViewController: UITextFieldDelegate {
         }
         
         self.currentAnnotations = annotations
-        
-        let region = obtainRegionForAnnotationsArr(annotations)
-        
-        mapView.cameraController().show(region)
         addEntityAnnotations(annotations: annotations)
+        
+        if searchResults.isEmpty {
+            // current point
+            moveMapCameraTo(to: currentLocation)
+        } else {
+            let region = obtainRegionForAnnotationsArr(annotations)
+            mapView.cameraController().show(region)
+        }
     }
     
     private func getSuggestions(text: String, comletion: @escaping ([TNEntitySuggestion]) -> Void) {
-        
-        let location = TNEntityGeoPoint(lat: currentLocation?.latitude ?? 0, lon: currentLocation?.longitude ?? 0)
+        let location = TNEntityGeoPoint(lat: currentLocation.latitude, lon: currentLocation.longitude)
         
         let params = TNEntitySuggestionParams(searchQuery: text, location: location, includeEntity: true)
         
@@ -1113,4 +1098,18 @@ extension MapViewController: CoordinateSettingsDelegate {
         routesScrollView.setRoutes(routes: [], withDelegate: self)
         hideRoutesScroll()
     }
+}
+
+extension MapViewController: LocationProviderDelegate {
+  func locationProvider(provider: LocationProvider, locationDidChanged location: CLLocationCoordinate2D) {
+    let from = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+    let to = CLLocation(latitude: location.latitude, longitude: location.longitude)
+    
+    if to.distance(from: from) > 500 /* meters */ {
+      moveMapCameraTo(to: location)
+    }
+    
+    currentLocation = location
+    setUserPushPin(userLocation: currentLocation)
+  }
 }

@@ -31,10 +31,10 @@
 		06751B0E253D8D0A001F6B11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06751B0C253D8D0A001F6B11 /* LaunchScreen.storyboard */; };
 		068E59A1257E75B300910EC0 /* TNEntityStaticCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068E59A0257E75B300910EC0 /* TNEntityStaticCategory.swift */; };
 		068E59A6257E780400910EC0 /* TNEntityStaticCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068E59A0257E75B300910EC0 /* TNEntityStaticCategory.swift */; };
+		16BC735927576BF600C24209 /* SearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC735827576BF600C24209 /* SearchEngine.swift */; };
 		29006443273E65E000456F85 /* Double + Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29006442273E65E000456F85 /* Double + Utils.swift */; };
 		29495635274CE2D0009A5E0D /* ViolationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29495634274CE2D0009A5E0D /* ViolationType.swift */; };
 		297E3A41272AA76300BCDE7D /* SpeedLimitUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297E3A40272AA76300BCDE7D /* SpeedLimitUnit.swift */; };
-		29BB539E2728143E006590AB /* DriveSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29BB539D2728143E006590AB /* DriveSessionViewController.swift */; };
 		29CFAE67273A4DAC0010EB73 /* RouteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CFAE66273A4DAC0010EB73 /* RouteCell.swift */; };
 		654E6A0A259CBADD0059BFB3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06608B09254C598C00DF38C3 /* MapKit.framework */; };
 		654E6A0B259CBAE40059BFB3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06608B0B254C599100DF38C3 /* CoreLocation.framework */; };
@@ -75,6 +75,9 @@
 		68A522F926CCFF0500A8AF44 /* TelenavMapSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A522F726CCFF0500A8AF44 /* TelenavMapSettingsModel.swift */; };
 		68AA9A6A270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */; };
 		68AA9A6B270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68AA9A69270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard */; };
+		68D086F32750916800FA5077 /* AnnotationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D086F22750916800FA5077 /* AnnotationState.swift */; };
+		68D086F627548F8900FA5077 /* DemoConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D086F527548F8900FA5077 /* DemoConstants.swift */; };
+		68D086F82754E8D500FA5077 /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D086F72754E8D500FA5077 /* LocationProvider.swift */; };
 		68D2F1A12706142A003A8B0F /* TelenavMapCameraPositionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D2F19F2706142A003A8B0F /* TelenavMapCameraPositionViewController.swift */; };
 		68D2F1A22706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68D2F1A02706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard */; };
 		68D2F1A52706BDF4003A8B0F /* CameraPositionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D2F1A32706BDF3003A8B0F /* CameraPositionCell.swift */; };
@@ -205,10 +208,10 @@
 		0681BB4D257F8F8800724FE3 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		068E59A0257E75B300910EC0 /* TNEntityStaticCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNEntityStaticCategory.swift; sourceTree = "<group>"; };
 		06CC38A8255933AE00345A0E /* TelenavDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TelenavDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		16BC735827576BF600C24209 /* SearchEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
 		29006442273E65E000456F85 /* Double + Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + Utils.swift"; sourceTree = "<group>"; };
 		29495634274CE2D0009A5E0D /* ViolationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViolationType.swift; sourceTree = "<group>"; };
 		297E3A40272AA76300BCDE7D /* SpeedLimitUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedLimitUnit.swift; sourceTree = "<group>"; };
-		29BB539D2728143E006590AB /* DriveSessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveSessionViewController.swift; sourceTree = "<group>"; };
 		29CFAE66273A4DAC0010EB73 /* RouteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteCell.swift; sourceTree = "<group>"; };
 		2C5DF7B0C9C2E4222350807F /* Pods-TelenavDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelenavDemo.release.xcconfig"; path = "Target Support Files/Pods-TelenavDemo/Pods-TelenavDemo.release.xcconfig"; sourceTree = "<group>"; };
 		657A0F2425AEB2FD00275DA0 /* SDKConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SDKConfig.plist; sourceTree = "<group>"; };
@@ -232,6 +235,9 @@
 		68A522F726CCFF0500A8AF44 /* TelenavMapSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelenavMapSettingsModel.swift; sourceTree = "<group>"; };
 		68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelenavMapDiagnosisViewController.swift; sourceTree = "<group>"; };
 		68AA9A69270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TelenavMapDiagnosisViewController.storyboard; sourceTree = "<group>"; };
+		68D086F22750916800FA5077 /* AnnotationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationState.swift; sourceTree = "<group>"; };
+		68D086F527548F8900FA5077 /* DemoConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoConstants.swift; sourceTree = "<group>"; };
+		68D086F72754E8D500FA5077 /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
 		68D2F19F2706142A003A8B0F /* TelenavMapCameraPositionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelenavMapCameraPositionViewController.swift; sourceTree = "<group>"; };
 		68D2F1A02706142A003A8B0F /* TelenavMapCameraPositionViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TelenavMapCameraPositionViewController.storyboard; sourceTree = "<group>"; };
 		68D2F1A32706BDF3003A8B0F /* CameraPositionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPositionCell.swift; sourceTree = "<group>"; };
@@ -355,6 +361,7 @@
 		06751B00253D8D09001F6B11 /* TelenavDemo */ = {
 			isa = PBXGroup;
 			children = (
+				68D086F427548F6100FA5077 /* Constants */,
 				68A5229826CCE7D700A8AF44 /* Common */,
 				06751B01253D8D09001F6B11 /* AppDelegate.swift */,
 				06751B03253D8D09001F6B11 /* SceneDelegate.swift */,
@@ -414,7 +421,6 @@
 		29BB539C272812D6006590AB /* DriveSession */ = {
 			isa = PBXGroup;
 			children = (
-				29BB539D2728143E006590AB /* DriveSessionViewController.swift */,
 				297E3A40272AA76300BCDE7D /* SpeedLimitUnit.swift */,
 				29495634274CE2D0009A5E0D /* ViolationType.swift */,
 			);
@@ -440,6 +446,8 @@
 		68A5228D26CCD04E00A8AF44 /* TelenavMap */ = {
 			isa = PBXGroup;
 			children = (
+				68D086F12750913300FA5077 /* Helpers */,
+				29BB539C272812D6006590AB /* DriveSession */,
 				29CFAE65273A454C0010EB73 /* RouteCell */,
 				68AA9A66270C0EF600B5A484 /* TelenavMapDiagnosis */,
 				68D2F19B2705CC7B003A8B0F /* TelenavMapCamera */,
@@ -464,6 +472,7 @@
 			children = (
 				29006441273E65D200456F85 /* Extensions */,
 				68A5229926CCE81400A8AF44 /* Storyboardable.swift */,
+				68D086F72754E8D500FA5077 /* LocationProvider.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -516,6 +525,22 @@
 				68AA9A68270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		68D086F12750913300FA5077 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				68D086F22750916800FA5077 /* AnnotationState.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		68D086F427548F6100FA5077 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				68D086F527548F8900FA5077 /* DemoConstants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		68D2F19B2705CC7B003A8B0F /* TelenavMapCamera */ = {
@@ -674,7 +699,6 @@
 		C54C0576255E9BED0002CE83 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				29BB539C272812D6006590AB /* DriveSession */,
 				68A5228D26CCD04E00A8AF44 /* TelenavMap */,
 				06608B00254C4AF800DF38C3 /* CatalogViewController.swift */,
 				06751B05253D8D09001F6B11 /* MapViewController.swift */,
@@ -683,6 +707,7 @@
 				C59A997A256E6B9B00809EF2 /* PanViewAnimator.swift */,
 				C54F0AF3256FCBD20035E63D /* FiltersViewController.swift */,
 				06545AC2258B9B11002F9165 /* SearchPanAnimator.swift */,
+				16BC735827576BF600C24209 /* SearchEngine.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -965,6 +990,7 @@
 				F793457C26A8992600E97941 /* DirectionDetailsViewController.swift in Sources */,
 				6873933D26CD0C0800BBC978 /* ToggleableTableViewCell.swift in Sources */,
 				C54C0574255E967B0002CE83 /* StaticCategoryDisplayModels.swift in Sources */,
+				68D086F82754E8D500FA5077 /* LocationProvider.swift in Sources */,
 				F798F9B026AE98A800A60A1B /* DirectionSettingsPickTableViewCell.swift in Sources */,
 				06545AC3258B9B12002F9165 /* SearchPanAnimator.swift in Sources */,
 				C54C0578255E9C150002CE83 /* SearchResultViewController.swift in Sources */,
@@ -982,6 +1008,7 @@
 				68D2F1BA2707076C003A8B0F /* TelenavMapCameraRegionViewController.swift in Sources */,
 				C5D330EF256FDE9F008BFC36 /* GeoFilterCell.swift in Sources */,
 				C54C056D255E93330002CE83 /* StaticCategoriesDisplayManager.swift in Sources */,
+				68D086F32750916800FA5077 /* AnnotationState.swift in Sources */,
 				68D2F1B42706F0D0003A8B0F /* CameraMenuCell.swift in Sources */,
 				29CFAE67273A4DAC0010EB73 /* RouteCell.swift in Sources */,
 				C5432C80255D540B008D8088 /* TelenavCategoryDisplayModel.swift in Sources */,
@@ -994,6 +1021,7 @@
 				C5D330F2256FDEAC008BFC36 /* EVFilterCell.swift in Sources */,
 				68A5229A26CCE81400A8AF44 /* Storyboardable.swift in Sources */,
 				06608B07254C549400DF38C3 /* CatalogBaseCell.swift in Sources */,
+				68D086F627548F8900FA5077 /* DemoConstants.swift in Sources */,
 				06751B06253D8D09001F6B11 /* MapViewController.swift in Sources */,
 				C5D330E9256FDE7E008BFC36 /* CategoryFilterCell.swift in Sources */,
 				68A522F826CCFF0500A8AF44 /* TelenavMapSettingsModel.swift in Sources */,
@@ -1001,6 +1029,7 @@
 				06751B02253D8D09001F6B11 /* AppDelegate.swift in Sources */,
 				29006443273E65E000456F85 /* Double + Utils.swift in Sources */,
 				F71A1BA72692FC2900D3C58E /* ManeuversViewController.swift in Sources */,
+				16BC735927576BF600C24209 /* SearchEngine.swift in Sources */,
 				68AA9A6A270C0FE100B5A484 /* TelenavMapDiagnosisViewController.swift in Sources */,
 				6873934326CD1EDC00BBC978 /* TexteditableTableViewCell.swift in Sources */,
 				C54C0571255E93EC0002CE83 /* StaticCatalogCell.swift in Sources */,
@@ -1014,7 +1043,6 @@
 				F798F9B426AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift in Sources */,
 				C587D6B9256BBCC3004D9114 /* CoordinateSettingsController.swift in Sources */,
 				C5FD76B62564220A00E6D780 /* PredictionsView.swift in Sources */,
-				29BB539E2728143E006590AB /* DriveSessionViewController.swift in Sources */,
 				C54F0AF7256FD5920035E63D /* SearchFiltersDisplayModel.swift in Sources */,
 				06751B04253D8D09001F6B11 /* SceneDelegate.swift in Sources */,
 				29495635274CE2D0009A5E0D /* ViolationType.swift in Sources */,
