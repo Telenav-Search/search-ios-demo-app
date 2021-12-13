@@ -17,7 +17,6 @@ class TelenavMapViewController: UIViewController {
     private var currentLocation = LocationProvider.shared.location
     private var cameraRenderMode = VNCameraRenderMode.M2D
     private var isListenData = false
-    //Navigation Session
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var imageView: UIImageView!
@@ -28,6 +27,7 @@ class TelenavMapViewController: UIViewController {
     
     private var accuracy: Float = 0
     
+    // Navigation Session
     private var driveSession: VNDriveSessionClient!
     private var navigationSession: VNNavigationSession!
     private var isNavigationSessionActive = false
@@ -42,17 +42,19 @@ class TelenavMapViewController: UIViewController {
     private var fromAnnotation: VNAnnotation?
     private var toAnnotation: VNAnnotation?
     
-    //Day night mode
+    // Day night mode
     private var isNightModeActive = false
-    
-    //Vehicle
+  
+    // Vehicle
     private var isVehicleTrackActive = false
-    //Shapes
+  
+    // Shapes
     private var isShapesPressed = false
     private var shapesPoints = [CLLocationCoordinate2D]()
     private var shapeCollectionIds = [VNShapeCollectionID]()
     private let carPoint = CLLocation(latitude: 40.595495107440506, longitude: -73.6566129026753)
-    //Gestures
+  
+    // Gestures
     private var longPressGestureRecognizer: UILongPressGestureRecognizer!
     private var tapGestureRecognizer: UITapGestureRecognizer!
     private var panGestureRecognizer: UIPanGestureRecognizer!
@@ -68,7 +70,6 @@ class TelenavMapViewController: UIViewController {
     private var alertMessage: UILabel!
     private var violationMessage: UILabel!
     private var violationWarningTitle: UILabel!
-
     private var currentCameraMode = VNCameraFollowVehicleMode.headingUp
   
     // Search
@@ -78,6 +79,8 @@ class TelenavMapViewController: UIViewController {
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
         cameraRenderModeButton.translatesAutoresizingMaskIntoConstraints = false
+        cameraRenderModeButton.backgroundColor = .systemBackground
+        cameraRenderModeButton.setImage(UIImage(systemName: "view.3d"), for: .normal)
         return cameraRenderModeButton
     }()
     
@@ -461,8 +464,6 @@ class TelenavMapViewController: UIViewController {
             cameraRenderModeButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
         
-        cameraRenderModeButtonUpdate(mode: cameraRenderMode)
-        cameraRenderModeButton.setTitle("3D", for: .normal)
         cameraRenderModeButton.addTarget(self, action: #selector(cameraRenderModeButtonTapped), for: .touchUpInside)
         
         view.addSubview(switchColorScheme)
@@ -561,11 +562,6 @@ class TelenavMapViewController: UIViewController {
         mapView.listenData(settings.isListenMapViewDataOn)
     }
     
-    func cameraRenderModeButtonUpdate(mode: VNCameraRenderMode) {
-        cameraRenderModeButton.backgroundColor = mode == .M2D ? .systemBackground : .systemGreen
-        cameraRenderModeButton.setTitleColor(mode == .M2D ? .black : .white, for: .normal)
-    }
-    
     func renderUpdateFor(button: UIButton, with state: Bool) {
         button.backgroundColor = state ? .systemBlue : .systemBackground
         button.tintColor = state ? .systemBackground : .systemBlue
@@ -583,8 +579,9 @@ extension TelenavMapViewController {
     }
     
     @objc func cameraRenderModeButtonTapped() {
-        cameraRenderMode = cameraRenderMode == .M2D ? .M3D : .M2D
-        cameraRenderModeButtonUpdate(mode: cameraRenderMode)
+        cameraRenderMode = (cameraRenderMode == .M2D) ? .M3D : .M2D
+        let isCameraRenderButtonActive = (cameraRenderMode == .M3D)
+        renderUpdateFor(button: cameraRenderModeButton, with: isCameraRenderButtonActive)
         
         mapView.cameraController().renderMode = cameraRenderMode
     }
