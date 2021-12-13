@@ -16,6 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let options = VNSDKOptions.builder().buildFromInfoPlist() {
             VNSDK.sharedInstance.initialize(with: options)
         }
+
+        switch  UITraitCollection.current.userInterfaceStyle {
+        case .dark:
+            VNSDK.sharedInstance.dayNightMode = .nightMode
+        default:
+            VNSDK.sharedInstance.dayNightMode = .dayMode
+        }
+
         VNLogging.sharedInstance.logLevel = .error
         
         return true
