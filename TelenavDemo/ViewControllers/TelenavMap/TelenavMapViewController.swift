@@ -157,6 +157,7 @@ class TelenavMapViewController: UIViewController {
         setupMapFeatures(settings: mapViewSettingsModel)
         setupMapCustomGestureRecognizers()
         setupLocationManager()
+        setupDayNightBtn()
       
         searchEngine = SearchEngine.init()
         mapView.searchController().inject(searchEngine)
@@ -524,6 +525,14 @@ class TelenavMapViewController: UIViewController {
         mapView.addSubview(startNavigationButton)
         mapView.addSubview(followVehicleButton)
         mapView.addSubview(cameraModeButton)
+    }
+
+    func setupDayNightBtn() {
+        isNightModeActive = UITraitCollection.current.userInterfaceStyle == .dark
+        ? true
+        : false
+
+        renderUpdateFor(button: switchColorScheme, with: isNightModeActive)
     }
     
     func setupMapFeatures(settings: TelenavMapSettingsModel) {
