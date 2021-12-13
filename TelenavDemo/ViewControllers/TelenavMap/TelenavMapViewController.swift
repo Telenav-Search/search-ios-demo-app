@@ -75,6 +75,9 @@ class TelenavMapViewController: UIViewController {
     // Search
     private var isPoiSearchActive = false
     private var searchEngine: SearchEngine!
+  
+    // MapStyle
+    private var isMapStyleActive = false
     
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
@@ -139,6 +142,14 @@ class TelenavMapViewController: UIViewController {
         poiSearchButton.backgroundColor = .systemBackground
         poiSearchButton.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         return poiSearchButton
+    }()
+  
+    lazy var mapStyleButton: UIButton = {
+        let mapStyleButton = UIButton(type: .system)
+        mapStyleButton.translatesAutoresizingMaskIntoConstraints = false
+        mapStyleButton.backgroundColor = .systemBackground
+        mapStyleButton.setImage(UIImage(systemName: "map"), for: .normal)
+        return mapStyleButton
     }()
     
     override func viewDidLoad() {
@@ -496,6 +507,21 @@ class TelenavMapViewController: UIViewController {
             for: .touchUpInside
         )
       
+        view.addSubview(mapStyleButton)
+        
+        NSLayoutConstraint.activate([
+            mapStyleButton.widthAnchor.constraint(equalToConstant: 40),
+            mapStyleButton.heightAnchor.constraint(equalToConstant: 40),
+            mapStyleButton.bottomAnchor.constraint(equalTo: poiSearchButton.topAnchor, constant: -16.0),
+            mapStyleButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+          ])
+      
+        mapStyleButton.addTarget(
+            self,
+            action: #selector(mapStyleButtonTapped),
+            for: .touchUpInside
+        )
+      
         startNavigationButton.isHidden = true
       
         startNavigationButton.addTarget(
@@ -769,6 +795,37 @@ extension TelenavMapViewController {
         mapView.searchController().displayPOI(["811"]) // Fuel
       } else {
         mapView.searchController().clear()
+      }
+    }
+  
+    @objc func mapStyleButtonTapped() {
+      isMapStyleActive.toggle()
+      
+      renderUpdateFor(
+          button: mapStyleButton,
+          with: isMapStyleActive
+      )
+      
+      if (isMapStyleActive) {
+          let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+          let filepath = paths[0].appendingPathComponent("customMapStyle.tss")
+            do {
+              try customMapStyleString.write(to: filepath, atomically: true, encoding: String.Encoding.utf8)
+            } catch {
+              print("Failed to write file: \(error.localizedDescription)")
+            }
+          let resultFilepath = filepath.absoluteString.replacingOccurrences(of: "file://", with: "")
+          mapView.themeController().loadStyleSheet(resultFilepath)
+      } else {
+          let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+          let filepath = paths[0].appendingPathComponent("defaultMapStyle.tss")
+            do {
+              try defaultMapStyleString.write(to: filepath, atomically: true, encoding: String.Encoding.utf8)
+            } catch {
+              print("Failed to write file: \(error.localizedDescription)")
+            }
+          let resultFilepath = filepath.absoluteString.replacingOccurrences(of: "file://", with: "")
+          mapView.themeController().loadStyleSheet(resultFilepath)
       }
     }
     
