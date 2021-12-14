@@ -27,8 +27,8 @@ class StaticCatalogCell: UITableViewCell {
             let cat = item as! StaticCategoryDisplayModel
             
             if let catalogImg = cat.staticCategory.img {
-                
                 mainImgView.image = UIImage(named: catalogImg)
+                mainImgView.tintColor = .label
             }
             
             catTitleLabel.text = cat.staticCategory.name
@@ -36,6 +36,7 @@ class StaticCatalogCell: UITableViewCell {
         case .moreItem:
             catTitleLabel.text = "More"
             mainImgView.image = UIImage(named: "ic_more")
+            mainImgView.tintColor = .label
         }
         
     }
