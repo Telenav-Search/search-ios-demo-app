@@ -151,6 +151,14 @@ class TelenavMapViewController: UIViewController {
         mapStyleButton.setImage(UIImage(systemName: "map"), for: .normal)
         return mapStyleButton
     }()
+  
+    lazy var screenshotButton: UIButton = {
+      let screenshotButton = UIButton(type: .system)
+      screenshotButton.translatesAutoresizingMaskIntoConstraints = false
+      screenshotButton.backgroundColor = .systemBackground
+      screenshotButton.setImage(UIImage(systemName: "photo"), for: .normal)
+      return screenshotButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -214,6 +222,7 @@ class TelenavMapViewController: UIViewController {
       vehicleTrackButton.isHidden = true
       switchColorScheme.isHidden = true
       poiSearchButton.isHidden = true
+      screenshotButton.isHidden = true
       
       travelEstimationLbl.isHidden = false
       // imageView hidden = false, when we show junction
@@ -242,6 +251,7 @@ class TelenavMapViewController: UIViewController {
       vehicleTrackButton.isHidden = false
       switchColorScheme.isHidden = false
       poiSearchButton.isHidden = false
+      screenshotButton.isHidden = false
       
       travelEstimationLbl.isHidden = true
       imageView.isHidden = true
@@ -519,6 +529,21 @@ class TelenavMapViewController: UIViewController {
         mapStyleButton.addTarget(
             self,
             action: #selector(mapStyleButtonTapped),
+            for: .touchUpInside
+        )
+      
+        view.addSubview(screenshotButton)
+      
+        NSLayoutConstraint.activate([
+            screenshotButton.widthAnchor.constraint(equalToConstant: 40),
+            screenshotButton.heightAnchor.constraint(equalToConstant: 40),
+            screenshotButton.bottomAnchor.constraint(equalTo: cameraSettingsButton.bottomAnchor),
+            screenshotButton.leadingAnchor.constraint(equalTo: cameraSettingsButton.trailingAnchor, constant: 16.0)
+          ])
+      
+        screenshotButton.addTarget(
+            self,
+            action: #selector(screenshotButtonTapped),
             for: .touchUpInside
         )
       
@@ -827,6 +852,19 @@ extension TelenavMapViewController {
           let resultFilepath = filepath.absoluteString.replacingOccurrences(of: "file://", with: "")
           mapView.themeController().loadStyleSheet(resultFilepath)
       }
+    }
+  
+    @objc func screenshotButtonTapped() {
+        screenshotButton.isEnabled = false
+        mapView.screenshot { [weak self] image in
+            guard let image = image, let self = self else { return }
+            let items = [image]
+            let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            self.present(activityViewController, animated: true) { [weak self] in
+              guard let self = self else { return }
+              self.screenshotButton.isEnabled = true
+            }
+        }
     }
     
     func positionDidChange(position: VNCameraPosition) {
