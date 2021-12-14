@@ -222,6 +222,7 @@ class TelenavMapViewController: UIViewController {
       vehicleTrackButton.isHidden = true
       switchColorScheme.isHidden = true
       poiSearchButton.isHidden = true
+      mapStyleButton.isHidden = true
       screenshotButton.isHidden = true
       
       travelEstimationLbl.isHidden = false
@@ -251,6 +252,7 @@ class TelenavMapViewController: UIViewController {
       vehicleTrackButton.isHidden = false
       switchColorScheme.isHidden = false
       poiSearchButton.isHidden = false
+      mapStyleButton.isHidden = false
       screenshotButton.isHidden = false
       
       travelEstimationLbl.isHidden = true
