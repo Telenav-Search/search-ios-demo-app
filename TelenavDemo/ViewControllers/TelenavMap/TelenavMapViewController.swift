@@ -214,6 +214,7 @@ class TelenavMapViewController: UIViewController {
       vehicleTrackButton.isHidden = true
       switchColorScheme.isHidden = true
       poiSearchButton.isHidden = true
+      mapStyleButton.isHidden = true
       
       travelEstimationLbl.isHidden = false
       // imageView hidden = false, when we show junction
@@ -242,6 +243,7 @@ class TelenavMapViewController: UIViewController {
       vehicleTrackButton.isHidden = false
       switchColorScheme.isHidden = false
       poiSearchButton.isHidden = false
+      mapStyleButton.isHidden = false
       
       travelEstimationLbl.isHidden = true
       imageView.isHidden = true
