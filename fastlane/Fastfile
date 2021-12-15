@@ -30,11 +30,11 @@ platform :ios do
     )
 
     update_info_plist( 
-      plist_path: "./SupportFiles/SDKConfig.plist",
+      plist_path: "SupportFiles/SDKConfig.plist",
       block: proc do |plist|
-        plist["VividNavigationSDK"]["apiKey"] = options[:apiKey]
-        plist["VividNavigationSDK"]["apiSecret"] = options[:apiSecret]
-        plist["VividNavigationSDK"]["cloudEndPoint"] = options[:cloudEndPoint]
+        plist["apiKey"] = options[:apiKey]
+        plist["apiSecret"] = options[:apiSecret]
+        plist["cloudEndPoint"] = options[:cloudEndPoint]
       end
     )
 
