@@ -38,6 +38,11 @@ platform :ios do
       end
     )
 
+    cocoapods(
+      clean_install: true,
+      useBundleExec: false
+    )
+
     xcodebuild(workspace: "TelenavDemo.xcworkspace",
            scheme: "TelenavDemo",
            xcargs: "-configuration Debug -sdk 'iphonesimulator15.0' -destination 'platform=iOS Simulator,name=iPhone 8'",
