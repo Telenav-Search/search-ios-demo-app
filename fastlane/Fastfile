@@ -31,7 +31,7 @@ platform :ios do
 
     xcodebuild(workspace: "TelenavDemo.xcworkspace",
            scheme: "TelenavDemo",
-           xcargs: "-configuration Debug -sdk 'iphonesimulator14.5' -destination 'platform=iOS Simulator,name=iPhone 8'",
+           xcargs: "-configuration Debug -sdk 'iphonesimulator14.4' -destination 'platform=iOS Simulator,name=iPhone 8'",
            derivedDataPath: "./simulator"
            )
 
