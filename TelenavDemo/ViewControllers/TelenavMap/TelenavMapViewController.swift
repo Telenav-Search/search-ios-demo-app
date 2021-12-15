@@ -1319,27 +1319,9 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
 }
 
 extension TelenavMapViewController: VNNavigationSessionDelegate {
-    
-    func processNavigationSignals(signals: [VNNavigationSignal]) {
-        for signal in signals {
-            if let signalReachWaypoint = signal as? VNNavigationSignalReachWaypoint {
-                print("signalReachWaypoint = \(signalReachWaypoint)")
-            } else
-            if let signalUpdateJunctionView = signal as? VNNavigationSignalUpdateJunctionView {
-                print("signalUpdateJunctionView = \(signalUpdateJunctionView)")
-                processUpdateJunctionView(signalUpdateJunctionView: signalUpdateJunctionView)
-            } else
-            if let signalUpdateTurnByTurnList = signal as? VNNavigationSignalUpdateTurnByTurnList {
-                print("signalUpdateTurnByTurnList = \(signalUpdateTurnByTurnList)")
-                
-            } else
-            if let signalTimedRestriction = signal as? VNNavigationSignalTimedRestriction {
-                print("signalTimedRestriction = \(signalTimedRestriction)")
-            } else
-            if let signalAlongRouteTrafficInfo = signal as? VNNavigationSignalAlongRouteTrafficInfo {
-                print("signalAlongRouteTrafficInfo = \(signalAlongRouteTrafficInfo)")
-            }
-        }
+
+    func onJunctionViewUpdated(_ junctionViewInfo: VNNavigationSignalUpdateJunctionView) {
+        processUpdateJunctionView(signalUpdateJunctionView: junctionViewInfo)
     }
     
     func processUpdateJunctionView(signalUpdateJunctionView: VNNavigationSignalUpdateJunctionView) {
@@ -1370,11 +1352,7 @@ extension TelenavMapViewController: VNNavigationSessionDelegate {
         }
     }
   
-    func onUpdate(_ navStatus: VNNavStatus!) {
-        if navStatus.navigationSignal.count != 0 {
-            processNavigationSignals(signals: navStatus.navigationSignal)
-        }
-      
+    func onUpdate(_ navStatus: VNNavStatus) {
         // Set turnAction
         var turnAction = VNManeuverAction.NONE
         let route = navStatus.route
