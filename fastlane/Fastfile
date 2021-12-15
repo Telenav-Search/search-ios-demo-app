@@ -18,20 +18,29 @@ default_platform(:ios)
 
 platform :ios do
   desc "Description of what the lane does"
-  lane :custom_lane do |options|
+  lane :test_lane do |options|
 
     update_info_plist( 
       plist_path: "./TelenavDemo-Info.plist",
       block: proc do |plist|
         plist["VividNavigationSDK"]["apiKey"] = options[:apiKey]
         plist["VividNavigationSDK"]["apiSecret"] = options[:apiSecret]
-        plist["VividNavigationSDK"]["cloudEndPoint"] = "https://apinastg.telenav.com/"
+        plist["VividNavigationSDK"]["cloudEndPoint"] = options[:cloudEndPoint]
+      end
+    )
+
+    update_info_plist( 
+      plist_path: "./SupportFiles/SDKConfig.plist",
+      block: proc do |plist|
+        plist["VividNavigationSDK"]["apiKey"] = options[:apiKey]
+        plist["VividNavigationSDK"]["apiSecret"] = options[:apiSecret]
+        plist["VividNavigationSDK"]["cloudEndPoint"] = options[:cloudEndPoint]
       end
     )
 
     xcodebuild(workspace: "TelenavDemo.xcworkspace",
            scheme: "TelenavDemo",
-           xcargs: "-configuration Debug -sdk 'iphonesimulator14.4' -destination 'platform=iOS Simulator,name=iPhone 8'",
+           xcargs: "-configuration Debug -sdk 'iphonesimulator15.0' -destination 'platform=iOS Simulator,name=iPhone 8'",
            derivedDataPath: "./simulator"
            )
 
