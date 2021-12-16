@@ -71,7 +71,7 @@ class SearchEngine : VNSearchEngine {
   }
   
   private func makeEntityAnnotationIcon(by text: String) -> UIImage? {
-      let textColor = UIColor.black
+      let textColor = (VNSDK.sharedInstance.dayNightMode == .dayMode) ? UIColor.black : UIColor.white
       let textFont = UIFont.systemFont(ofSize: 24)
       guard let entityAnnotationImage = UIImage(named: "map-fuel") else {
           return nil
