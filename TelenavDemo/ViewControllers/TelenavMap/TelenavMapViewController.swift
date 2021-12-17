@@ -1166,7 +1166,7 @@ extension TelenavMapViewController {
             annotation.style = .screenFlagNoCulling
             mapView.annotationsController().add([annotation])
           
-            let annotationState = AnnotationState(isSelected: false, annotaton: annotation)
+            let annotationState = AnnotationState(isSelected: false, annotation: annotation)
             demoAnnotations.append(annotationState)
         }
     }
@@ -1185,7 +1185,7 @@ extension TelenavMapViewController {
             annotation.displayText = textDisplay
             mapView.annotationsController().add([annotation])
           
-            let annotationState = AnnotationState(isSelected: false, annotaton: annotation)
+            let annotationState = AnnotationState(isSelected: false, annotation: annotation)
             demoAnnotations.append(annotationState)
         }
     }
@@ -1202,12 +1202,12 @@ extension TelenavMapViewController {
         annotation.displayText = textDisplay
         mapView.annotationsController().add([annotation])
       
-        let annotationState = AnnotationState(isSelected: false, annotaton: annotation)
+        let annotationState = AnnotationState(isSelected: false, annotation: annotation)
         demoAnnotations.append(annotationState)
     }
   
     private func removeAllAnnotation() {
-        let annotations = demoAnnotations.compactMap { $0.annotaton }
+        let annotations = demoAnnotations.compactMap { $0.annotation }
         mapView.annotationsController().remove( annotations )
         demoAnnotations.removeAll()
     }
@@ -1487,33 +1487,33 @@ extension TelenavMapViewController: VNMapViewAnnotationTouchDelegate {
       return
     }
     
-    guard let demoAnnotation = demoAnnotations.first(where: { $0.annotaton === annotaion }) else {
+    guard let demoAnnotation = demoAnnotations.first(where: { $0.annotation === annotaion }) else {
       return
     }
     
     if demoAnnotation.isSelected {
-      if demoAnnotation.annotaton.displayText != nil {
-        let textDisplay = VNTextDisplayInfo(centeredText: "did touche")
+      if demoAnnotation.annotation.displayText != nil {
+        let textDisplay = VNTextDisplayInfo(centeredText: "did touch")
         textDisplay.textColor = .black
         textDisplay.textFontSize = 14
         
-        demoAnnotation.annotaton.displayText = textDisplay
-        mapView.annotationsController().add([demoAnnotation.annotaton])
+        demoAnnotation.annotation.displayText = textDisplay
+        mapView.annotationsController().add([demoAnnotation.annotation])
       } else {
-        demoAnnotation.annotaton.image = UIImage(named: "demo-annotaion-pushpin-green")
-        mapView.annotationsController().add([demoAnnotation.annotaton])
+        demoAnnotation.annotation.image = UIImage(named: "demo-annotation-pushpin-green")
+        mapView.annotationsController().add([demoAnnotation.annotation])
       }
     } else {
-      if demoAnnotation.annotaton.displayText != nil {
-        let textDisplay = VNTextDisplayInfo(centeredText: "did touche")
+      if demoAnnotation.annotation.displayText != nil {
+        let textDisplay = VNTextDisplayInfo(centeredText: "did touch")
         textDisplay.textColor = .red
         textDisplay.textFontSize = 14
         
-        demoAnnotation.annotaton.displayText = textDisplay
-        mapView.annotationsController().add([demoAnnotation.annotaton])
+        demoAnnotation.annotation.displayText = textDisplay
+        mapView.annotationsController().add([demoAnnotation.annotation])
       } else {
-        demoAnnotation.annotaton.image = UIImage(named: "demo-annotaion-pushpin-red")
-        mapView.annotationsController().add([demoAnnotation.annotaton])
+        demoAnnotation.annotation.image = UIImage(named: "demo-annotation-pushpin-red")
+        mapView.annotationsController().add([demoAnnotation.annotation])
       }
     }
     
