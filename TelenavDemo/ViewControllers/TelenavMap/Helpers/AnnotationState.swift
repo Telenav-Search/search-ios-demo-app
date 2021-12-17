@@ -10,10 +10,10 @@ import VividDriveSessionSDK
 
 class AnnotationState {
   var isSelected = false
-  var annotaton: VNAnnotation
+  var annotation: VNAnnotation
   
-  init(isSelected: Bool, annotaton: VNAnnotation) {
+  init(isSelected: Bool, annotation: VNAnnotation) {
     self.isSelected = isSelected
-    self.annotaton = annotaton
+    self.annotation = annotation
   }
 }
