@@ -75,6 +75,9 @@ class TelenavMapViewController: UIViewController {
     // Search
     private var isPoiSearchActive = false
     private var searchEngine: SearchEngine!
+  
+    // MapStyle
+    private var isMapStyleActive = false
     
     lazy var cameraRenderModeButton: UIButton = {
         let cameraRenderModeButton = UIButton(type: .system)
@@ -140,6 +143,22 @@ class TelenavMapViewController: UIViewController {
         poiSearchButton.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         return poiSearchButton
     }()
+  
+    lazy var mapStyleButton: UIButton = {
+        let mapStyleButton = UIButton(type: .system)
+        mapStyleButton.translatesAutoresizingMaskIntoConstraints = false
+        mapStyleButton.backgroundColor = .systemBackground
+        mapStyleButton.setImage(UIImage(systemName: "map"), for: .normal)
+        return mapStyleButton
+    }()
+  
+    lazy var screenshotButton: UIButton = {
+      let screenshotButton = UIButton(type: .system)
+      screenshotButton.translatesAutoresizingMaskIntoConstraints = false
+      screenshotButton.backgroundColor = .systemBackground
+      screenshotButton.setImage(UIImage(systemName: "photo"), for: .normal)
+      return screenshotButton
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -203,6 +222,8 @@ class TelenavMapViewController: UIViewController {
       vehicleTrackButton.isHidden = true
       switchColorScheme.isHidden = true
       poiSearchButton.isHidden = true
+      mapStyleButton.isHidden = true
+      screenshotButton.isHidden = true
       
       travelEstimationLbl.isHidden = false
       // imageView hidden = false, when we show junction
@@ -231,6 +252,8 @@ class TelenavMapViewController: UIViewController {
       vehicleTrackButton.isHidden = false
       switchColorScheme.isHidden = false
       poiSearchButton.isHidden = false
+      mapStyleButton.isHidden = false
+      screenshotButton.isHidden = false
       
       travelEstimationLbl.isHidden = true
       imageView.isHidden = true
@@ -493,6 +516,36 @@ class TelenavMapViewController: UIViewController {
         poiSearchButton.addTarget(
             self,
             action: #selector(poiSearchButtonTapped),
+            for: .touchUpInside
+        )
+      
+        view.addSubview(mapStyleButton)
+        
+        NSLayoutConstraint.activate([
+            mapStyleButton.widthAnchor.constraint(equalToConstant: 40),
+            mapStyleButton.heightAnchor.constraint(equalToConstant: 40),
+            mapStyleButton.bottomAnchor.constraint(equalTo: poiSearchButton.topAnchor, constant: -16.0),
+            mapStyleButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+          ])
+      
+        mapStyleButton.addTarget(
+            self,
+            action: #selector(mapStyleButtonTapped),
+            for: .touchUpInside
+        )
+      
+        view.addSubview(screenshotButton)
+      
+        NSLayoutConstraint.activate([
+            screenshotButton.widthAnchor.constraint(equalToConstant: 40),
+            screenshotButton.heightAnchor.constraint(equalToConstant: 40),
+            screenshotButton.bottomAnchor.constraint(equalTo: cameraSettingsButton.bottomAnchor),
+            screenshotButton.leadingAnchor.constraint(equalTo: cameraSettingsButton.trailingAnchor, constant: 16.0)
+          ])
+      
+        screenshotButton.addTarget(
+            self,
+            action: #selector(screenshotButtonTapped),
             for: .touchUpInside
         )
       
@@ -770,6 +823,50 @@ extension TelenavMapViewController {
       } else {
         mapView.searchController().clear()
       }
+    }
+  
+    @objc func mapStyleButtonTapped() {
+      isMapStyleActive.toggle()
+      
+      renderUpdateFor(
+          button: mapStyleButton,
+          with: isMapStyleActive
+      )
+      
+      if (isMapStyleActive) {
+          let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+          let filepath = paths[0].appendingPathComponent("customMapStyle.tss")
+            do {
+              try customMapStyleString.write(to: filepath, atomically: true, encoding: String.Encoding.utf8)
+            } catch {
+              print("Failed to write file: \(error.localizedDescription)")
+            }
+          let resultFilepath = filepath.absoluteString.replacingOccurrences(of: "file://", with: "")
+          mapView.themeController().loadStyleSheet(resultFilepath)
+      } else {
+          let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+          let filepath = paths[0].appendingPathComponent("defaultMapStyle.tss")
+            do {
+              try defaultMapStyleString.write(to: filepath, atomically: true, encoding: String.Encoding.utf8)
+            } catch {
+              print("Failed to write file: \(error.localizedDescription)")
+            }
+          let resultFilepath = filepath.absoluteString.replacingOccurrences(of: "file://", with: "")
+          mapView.themeController().loadStyleSheet(resultFilepath)
+      }
+    }
+  
+    @objc func screenshotButtonTapped() {
+        screenshotButton.isEnabled = false
+        mapView.screenshot { [weak self] image in
+            guard let image = image, let self = self else { return }
+            let items = [image]
+            let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+            self.present(activityViewController, animated: true) { [weak self] in
+              guard let self = self else { return }
+              self.screenshotButton.isEnabled = true
+            }
+        }
     }
     
     func positionDidChange(position: VNCameraPosition) {
@@ -1069,7 +1166,7 @@ extension TelenavMapViewController {
             annotation.style = .screenFlagNoCulling
             mapView.annotationsController().add([annotation])
           
-            let annotationState = AnnotationState(isSelected: false, annotaton: annotation)
+            let annotationState = AnnotationState(isSelected: false, annotation: annotation)
             demoAnnotations.append(annotationState)
         }
     }
@@ -1088,7 +1185,7 @@ extension TelenavMapViewController {
             annotation.displayText = textDisplay
             mapView.annotationsController().add([annotation])
           
-            let annotationState = AnnotationState(isSelected: false, annotaton: annotation)
+            let annotationState = AnnotationState(isSelected: false, annotation: annotation)
             demoAnnotations.append(annotationState)
         }
     }
@@ -1105,12 +1202,12 @@ extension TelenavMapViewController {
         annotation.displayText = textDisplay
         mapView.annotationsController().add([annotation])
       
-        let annotationState = AnnotationState(isSelected: false, annotaton: annotation)
+        let annotationState = AnnotationState(isSelected: false, annotation: annotation)
         demoAnnotations.append(annotationState)
     }
   
     private func removeAllAnnotation() {
-        let annotations = demoAnnotations.compactMap { $0.annotaton }
+        let annotations = demoAnnotations.compactMap { $0.annotation }
         mapView.annotationsController().remove( annotations )
         demoAnnotations.removeAll()
     }
@@ -1222,27 +1319,9 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
 }
 
 extension TelenavMapViewController: VNNavigationSessionDelegate {
-    
-    func processNavigationSignals(signals: [VNNavigationSignal]) {
-        for signal in signals {
-            if let signalReachWaypoint = signal as? VNNavigationSignalReachWaypoint {
-                print("signalReachWaypoint = \(signalReachWaypoint)")
-            } else
-            if let signalUpdateJunctionView = signal as? VNNavigationSignalUpdateJunctionView {
-                print("signalUpdateJunctionView = \(signalUpdateJunctionView)")
-                processUpdateJunctionView(signalUpdateJunctionView: signalUpdateJunctionView)
-            } else
-            if let signalUpdateTurnByTurnList = signal as? VNNavigationSignalUpdateTurnByTurnList {
-                print("signalUpdateTurnByTurnList = \(signalUpdateTurnByTurnList)")
-                
-            } else
-            if let signalTimedRestriction = signal as? VNNavigationSignalTimedRestriction {
-                print("signalTimedRestriction = \(signalTimedRestriction)")
-            } else
-            if let signalAlongRouteTrafficInfo = signal as? VNNavigationSignalAlongRouteTrafficInfo {
-                print("signalAlongRouteTrafficInfo = \(signalAlongRouteTrafficInfo)")
-            }
-        }
+
+    func onJunctionViewUpdated(_ junctionViewInfo: VNNavigationSignalUpdateJunctionView) {
+        processUpdateJunctionView(signalUpdateJunctionView: junctionViewInfo)
     }
     
     func processUpdateJunctionView(signalUpdateJunctionView: VNNavigationSignalUpdateJunctionView) {
@@ -1273,11 +1352,7 @@ extension TelenavMapViewController: VNNavigationSessionDelegate {
         }
     }
   
-    func onUpdate(_ navStatus: VNNavStatus!) {
-        if navStatus.navigationSignal.count != 0 {
-            processNavigationSignals(signals: navStatus.navigationSignal)
-        }
-      
+    func onUpdate(_ navStatus: VNNavStatus) {
         // Set turnAction
         var turnAction = VNManeuverAction.NONE
         let route = navStatus.route
@@ -1412,33 +1487,33 @@ extension TelenavMapViewController: VNMapViewAnnotationTouchDelegate {
       return
     }
     
-    guard let demoAnnotation = demoAnnotations.first(where: { $0.annotaton === annotaion }) else {
+    guard let demoAnnotation = demoAnnotations.first(where: { $0.annotation === annotaion }) else {
       return
     }
     
     if demoAnnotation.isSelected {
-      if demoAnnotation.annotaton.displayText != nil {
-        let textDisplay = VNTextDisplayInfo(centeredText: "did touche")
+      if demoAnnotation.annotation.displayText != nil {
+        let textDisplay = VNTextDisplayInfo(centeredText: "did touch")
         textDisplay.textColor = .black
         textDisplay.textFontSize = 14
         
-        demoAnnotation.annotaton.displayText = textDisplay
-        mapView.annotationsController().add([demoAnnotation.annotaton])
+        demoAnnotation.annotation.displayText = textDisplay
+        mapView.annotationsController().add([demoAnnotation.annotation])
       } else {
-        demoAnnotation.annotaton.image = UIImage(named: "demo-annotaion-pushpin-green")
-        mapView.annotationsController().add([demoAnnotation.annotaton])
+        demoAnnotation.annotation.image = UIImage(named: "demo-annotation-pushpin-green")
+        mapView.annotationsController().add([demoAnnotation.annotation])
       }
     } else {
-      if demoAnnotation.annotaton.displayText != nil {
-        let textDisplay = VNTextDisplayInfo(centeredText: "did touche")
+      if demoAnnotation.annotation.displayText != nil {
+        let textDisplay = VNTextDisplayInfo(centeredText: "did touch")
         textDisplay.textColor = .red
         textDisplay.textFontSize = 14
         
-        demoAnnotation.annotaton.displayText = textDisplay
-        mapView.annotationsController().add([demoAnnotation.annotaton])
+        demoAnnotation.annotation.displayText = textDisplay
+        mapView.annotationsController().add([demoAnnotation.annotation])
       } else {
-        demoAnnotation.annotaton.image = UIImage(named: "demo-annotaion-pushpin-red")
-        mapView.annotationsController().add([demoAnnotation.annotaton])
+        demoAnnotation.annotation.image = UIImage(named: "demo-annotation-pushpin-red")
+        mapView.annotationsController().add([demoAnnotation.annotation])
       }
     }
     

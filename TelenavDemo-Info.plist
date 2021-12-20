@@ -103,6 +103,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>The application needs permission to save screenshots.</string>
 	<key>VividNavigationSDK</key>
 	<dict>
 		<key>apiKey</key>

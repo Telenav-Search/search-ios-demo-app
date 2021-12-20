@@ -31,6 +31,8 @@
 		06751B0E253D8D0A001F6B11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06751B0C253D8D0A001F6B11 /* LaunchScreen.storyboard */; };
 		068E59A1257E75B300910EC0 /* TNEntityStaticCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068E59A0257E75B300910EC0 /* TNEntityStaticCategory.swift */; };
 		068E59A6257E780400910EC0 /* TNEntityStaticCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068E59A0257E75B300910EC0 /* TNEntityStaticCategory.swift */; };
+		162E78282767466200846D93 /* CustomMapStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162E78272767466200846D93 /* CustomMapStyle.swift */; };
+		162E782A276747E400846D93 /* DefaultMapStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162E7829276747E400846D93 /* DefaultMapStyle.swift */; };
 		16BC735927576BF600C24209 /* SearchEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BC735827576BF600C24209 /* SearchEngine.swift */; };
 		29006443273E65E000456F85 /* Double + Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29006442273E65E000456F85 /* Double + Utils.swift */; };
 		29495635274CE2D0009A5E0D /* ViolationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29495634274CE2D0009A5E0D /* ViolationType.swift */; };
@@ -208,6 +210,8 @@
 		0681BB4D257F8F8800724FE3 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		068E59A0257E75B300910EC0 /* TNEntityStaticCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNEntityStaticCategory.swift; sourceTree = "<group>"; };
 		06CC38A8255933AE00345A0E /* TelenavDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TelenavDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		162E78272767466200846D93 /* CustomMapStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMapStyle.swift; sourceTree = "<group>"; };
+		162E7829276747E400846D93 /* DefaultMapStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultMapStyle.swift; sourceTree = "<group>"; };
 		16BC735827576BF600C24209 /* SearchEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchEngine.swift; sourceTree = "<group>"; };
 		29006442273E65E000456F85 /* Double + Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double + Utils.swift"; sourceTree = "<group>"; };
 		29495634274CE2D0009A5E0D /* ViolationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViolationType.swift; sourceTree = "<group>"; };
@@ -708,6 +712,8 @@
 				C54F0AF3256FCBD20035E63D /* FiltersViewController.swift */,
 				06545AC2258B9B11002F9165 /* SearchPanAnimator.swift */,
 				16BC735827576BF600C24209 /* SearchEngine.swift */,
+				162E7829276747E400846D93 /* DefaultMapStyle.swift */,
+				162E78272767466200846D93 /* CustomMapStyle.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1036,9 +1042,11 @@
 				F798F9AE26AE8CD100A60A1B /* RouteSettings.swift in Sources */,
 				68D2F1A52706BDF4003A8B0F /* CameraPositionCell.swift in Sources */,
 				68A5228F26CCD0C600A8AF44 /* TelenavMapViewController.swift in Sources */,
+				162E782A276747E400846D93 /* DefaultMapStyle.swift in Sources */,
 				C54C0558255D9C780002CE83 /* DetailsView.swift in Sources */,
 				C5432CC8255D7DA7008D8088 /* Throttler.swift in Sources */,
 				C54C055F255DA1D30002CE83 /* DetailViewCell.swift in Sources */,
+				162E78282767466200846D93 /* CustomMapStyle.swift in Sources */,
 				C5FD76BE2564230700E6D780 /* PredictionWordCell.swift in Sources */,
 				F798F9B426AEE16500A60A1B /* DirectionSettingsDateTableViewCell.swift in Sources */,
 				C587D6B9256BBCC3004D9114 /* CoordinateSettingsController.swift in Sources */,
