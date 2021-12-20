@@ -1368,8 +1368,6 @@ extension TelenavMapViewController: VNNavigationSessionDelegate {
         }
         
         // Fill stepInfo
-        let MPH_TO_MS = Float(1.609344) / Float(3.6)
-        let KPH_TO_MS = Float(1.0) / Float(3.6)
         let stepInfo = VNStepInfo.init(routeId: selectedRouteModel?.getRouteId() ?? "",
                                        currentLegIndex: navStatus.currentLegIndex,
                                        currentStep: navStatus.currentStepIndex,
@@ -1379,9 +1377,7 @@ extension TelenavMapViewController: VNNavigationSessionDelegate {
                                        currentRoadSubType: Int32(navStatus.roadSubtype.rawValue),
                                        turnAction: Int32(turnAction.rawValue),
                                        distanceToTurn: Float(navStatus.distanceToTurn),
-                                       speedLimit: (navStatus.speedLimit.unit == .MPH
-                                                      ? Float(navStatus.speedLimit.value) * MPH_TO_MS
-                                                      : Float(navStatus.speedLimit.value) * KPH_TO_MS),
+                                       speedLimit: navStatus.speedLimit,
                                        vehicleSpeed: navStatus.vehicleSpeed,
                                        heading: Float(navStatus.vehicleHeading),
                                        passedDistance: navStatus.traveledDistance,
