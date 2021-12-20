@@ -12,9 +12,9 @@ target 'TelenavDemo' do
   use_frameworks!
 
   if ENV['NAVIGATION_VERSION']
-    pod 'VividNavigationSDK', ENV['NAVIGATION_VERSION']
+    pod 'VividDriveSessionSDK', ENV['NAVIGATION_VERSION']
   else
-    pod 'VividNavigationSDK', '0.2.17-beta4'
+    pod 'VividDriveSessionSDK', '0.2.17-beta4'
   end
 
   if ENV['SEARCH_ENTITY_VERSION']
