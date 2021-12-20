@@ -20,6 +20,9 @@ platform :ios do
   desc "Description of what the lane does"
   lane :test_lane do |options|
 
+    ENV["NAVIGATION_VERSION"] = options[:NAVIGATION_VERSION]
+    ENV["SEARCH_ENTITY_VERSION"] = options[:SEARCH_ENTITY_VERSION]
+
     update_info_plist( 
       plist_path: "./TelenavDemo-Info.plist",
       block: proc do |plist|

@@ -10,9 +10,19 @@ platform :ios, '12.0'
 
 target 'TelenavDemo' do
   use_frameworks!
-  pod 'VividDriveSessionSDK', '0.2.16-beta5'
+
+  if ENV['NAVIGATION_VERSION']
+    pod 'VividNavigationSDK', ENV['NAVIGATION_VERSION']
+  else
+    pod 'VividNavigationSDK', '0.2.16-beta5'
+  end
+
+  if ENV['SEARCH_ENTITY_VERSION']
+    pod 'TelenavEntitySDK', ENV["SEARCH_ENTITY_VERSION"]
+  else
+    pod 'TelenavEntitySDK', '1.0.0'
+  end
   
-  pod 'TelenavEntitySDK', '1.0.0' #, :path => '../'
   # Pods for TelenavDemo
   pod 'CocoaLumberjack', '3.7.2'
 
