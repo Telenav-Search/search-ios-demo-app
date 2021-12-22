@@ -10,7 +10,7 @@ platform :ios, '12.0'
 
 target 'TelenavDemo' do
   use_frameworks!
-  pod 'VividDriveSessionSDK', '0.3.2-beta2'
+  pod 'VividDriveSessionSDK', '0.3.4-beta1'
   
   pod 'TelenavEntitySDK', '1.0.0' #, :path => '../'
   # Pods for TelenavDemo
