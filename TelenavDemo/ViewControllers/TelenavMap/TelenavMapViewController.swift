@@ -858,7 +858,7 @@ extension TelenavMapViewController {
   
     @objc func screenshotButtonTapped() {
         screenshotButton.isEnabled = false
-        mapView.screenshot { [weak self] image in
+        mapView.snapshot { [weak self] image in
             guard let image = image, let self = self else { return }
             let items = [image]
             let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
