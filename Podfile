@@ -14,7 +14,7 @@ target 'TelenavDemo' do
   if ENV['NAVIGATION_VERSION']
     pod 'VividDriveSessionSDK', ENV['NAVIGATION_VERSION']
   else
-    pod 'VividDriveSessionSDK', '0.2.17-beta4'
+    pod 'VividDriveSessionSDK', '0.3.4-beta1'
   end
 
   if ENV['SEARCH_ENTITY_VERSION']
