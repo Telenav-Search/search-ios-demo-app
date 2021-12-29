@@ -20,7 +20,7 @@ target 'TelenavDemo' do
   if ENV['SEARCH_ENTITY_VERSION']
     pod 'TelenavEntitySDK', ENV["SEARCH_ENTITY_VERSION"]
   else
-    pod 'TelenavEntitySDK', '1.0.0'
+    pod 'TelenavEntitySDK', '1.2.2'
   end
   
   # Pods for TelenavDemo
