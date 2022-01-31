@@ -15,10 +15,15 @@ class RouteCell: UICollectionViewCell {
             self.backgroundColor = isSelected ? .systemRed : .systemBlue
         }
     }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        titleLabel.accessibilityIdentifier = "routeCellTitleLabel"
+    }
 
     override class func awakeFromNib() {
         super.awakeFromNib()
 
-        titleLabel.accessibilityIdentifier = "routeCellTitleLabel"
     }
 }

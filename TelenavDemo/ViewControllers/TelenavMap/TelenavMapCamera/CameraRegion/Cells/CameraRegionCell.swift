@@ -52,16 +52,9 @@ class CameraRegionCell: UITableViewCell {
     
     func setupAccessibilityIdentifiers() {
         nLaTextField.accessibilityIdentifier = "cameraRegionCellNLaTextField"
-        nLaLabel.accessibilityIdentifier = "cameraRegionCellNLaLabel"
         sLaTextField.accessibilityIdentifier = "cameraRegionCellSLaTextField"
-        sLaLabel.accessibilityIdentifier = "cameraRegionCellSLaLabel"
         wLoTextField.accessibilityIdentifier = "cameraRegionCellWLoTextField"
-        wLoLabel.accessibilityIdentifier = "cameraRegionCellWLoLabel"
         eLoTextField.accessibilityIdentifier = "cameraRegionCellELoTextField"
-        eLoLabel.accessibilityIdentifier = "cameraRegionCellELoLabel"
-        
-        LAButton.accessibilityIdentifier = "cameraRegionCellLAButton"
-        NYButton.accessibilityIdentifier = "cameraRegionCellNYButton"
     }
     
     @objc func nLaTextFieldValueChanged(textField: UITextField) {
