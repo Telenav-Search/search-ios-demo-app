@@ -14,4 +14,12 @@ class DirectionSettingsPickTableViewCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     
     var intValue: Int = 0
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        textField.accessibilityIdentifier = "directionSettingsPickTableViewCellTextField"
+        label.accessibilityIdentifier = "directionSettingsPickTableViewCellLabel"
+        descriptionLabel.accessibilityIdentifier = "directionSettingsPickTableViewCellDescriptionLabel"
+    }
 }

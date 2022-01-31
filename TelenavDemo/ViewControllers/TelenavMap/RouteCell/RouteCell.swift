@@ -19,5 +19,6 @@ class RouteCell: UICollectionViewCell {
     override class func awakeFromNib() {
         super.awakeFromNib()
 
+        titleLabel.accessibilityIdentifier = "routeCellTitleLabel"
     }
 }

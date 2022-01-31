@@ -15,6 +15,7 @@ class PredictionWordCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        predictionLabel.accessibilityIdentifier = "predictionWordCellPredictionLabel"
     }
     
     func fillPrediction(word: TNWordPrediction) {

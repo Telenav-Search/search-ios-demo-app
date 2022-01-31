@@ -17,6 +17,8 @@ class StaticCatalogCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        mainImgView.accessibilityIdentifier = "staticCatalogCellMainImgView"
+        catTitleLabel.accessibilityIdentifier = "staticCatalogCellCatTitleLabel"
     }
     
     func fillStaticCategoryItem(_ item: StaticCategoryCellItem) {

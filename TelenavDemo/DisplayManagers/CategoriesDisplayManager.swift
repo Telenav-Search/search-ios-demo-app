@@ -48,6 +48,7 @@ extension CategoriesDisplayManager: UITableViewDataSource {
         }
         
         cell.fillCategory(categories[indexPath.row])
+        cell.accessibilityIdentifier = "catalogBaseCell"
         
         return cell
     }

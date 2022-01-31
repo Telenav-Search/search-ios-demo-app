@@ -26,6 +26,8 @@ class TelenavMapCameraMenuViewController: UIViewController, Storyboardable {
             UINib(nibName: "CameraMenuCell", bundle: nil),
             forCellReuseIdentifier: "CameraMenuCell"
         )
+        tableView.accessibilityIdentifier = "telenavMapCameraMenuViewControllerTableView"
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "telenavMapCameraMenuViewControllerBackButton"
     }
 }
 

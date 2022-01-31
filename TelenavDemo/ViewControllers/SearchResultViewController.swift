@@ -45,6 +45,15 @@ class SearchResultViewController: UIViewController {
         self.view.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         self.view.layer.shadowOpacity = 0.5
         self.view.layer.shadowRadius = 10.0
+        
+        navigationItem.titleView?.accessibilityIdentifier = "searchResultViewControllerTitleView"
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "searchResultViewControllerBackButton"
+        setupAccessibilityIdentifier()
+    }
+    
+    func setupAccessibilityIdentifier() {
+        tableView.accessibilityIdentifier = "searchResultViewControllerTableView"
+        noResultsView.accessibilityIdentifier = "searchResultViewControllerNoResultView"
     }
     
     func fillSearchResults(_ content: [TNEntity], resetPagination: Bool = false) {

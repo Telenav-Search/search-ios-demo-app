@@ -12,4 +12,10 @@ class DirectionSettingsSwitchTableViewCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var switchControl: UISwitch!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        label.accessibilityIdentifier = "directionSettingsSwitchTableViewCellLabel"
+        switchControl.accessibilityIdentifier = "directionSettingsSwitchTableViewCellControlSwitch"
+    }
 }

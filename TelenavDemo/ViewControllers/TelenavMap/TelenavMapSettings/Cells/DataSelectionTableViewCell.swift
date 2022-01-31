@@ -28,6 +28,9 @@ class DataSelectionTableViewCell: UITableViewCell {
         textField.inputView = pickerView
         textField.inputAccessoryView = makeGestureInputAccessoryView()
         textField.delegate = self
+        
+        titleLabel.accessibilityIdentifier = "dataSelectionTableViewCellLabel"
+        textField.accessibilityIdentifier = "dataSelectionTableViewCellTextField"
     }
     
     func setItems(_ items: [String], selectedItemIndex: Int) {

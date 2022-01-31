@@ -26,6 +26,7 @@ class TelenavMapCameraRegionViewController: UIViewController, Storyboardable {
             UINib(nibName: "CameraRegionCell", bundle: nil),
             forCellReuseIdentifier: "CameraRegionCell"
         )
+        tableView.accessibilityIdentifier = "telenavMapCameraRegionViewControllerTableView"
     }
     
     private func configureNavigationBar() {
@@ -35,6 +36,8 @@ class TelenavMapCameraRegionViewController: UIViewController, Storyboardable {
             target: self,
             action: #selector(applyAction)
         )
+        navigationItem.rightBarButtonItem?.accessibilityIdentifier = "telenavMapCameraRegionViewControllerApplyButton"
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "telenavMapCameraRegionViewControllerBackButton"
     }
 }
 

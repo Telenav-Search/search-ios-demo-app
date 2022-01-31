@@ -22,6 +22,8 @@ class ToggleableTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         `switch`.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
+        titleLabel.accessibilityIdentifier = "toggleableTableViewCellLabel"
+        `switch`.accessibilityIdentifier = "toggleableTableViewCellSwitch"
     }
     
     @objc func switchValueDidChange(_ sender: UISwitch) {

@@ -59,6 +59,20 @@ class DetailsView: UIView {
         
         let gest = UITapGestureRecognizer(target: self, action: #selector(tapRatingAction))
         ratingView.addGestureRecognizer(gest)
+        
+        setupAccessibilityIdentifiers()
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        tableView.accessibilityIdentifier = "detailViewCellTableView"
+        nameLabel.accessibilityIdentifier = "detailViewNameLabel"
+        categoryLabel.accessibilityIdentifier = "detailViewCategoryLabel"
+        fromThisPointButton.accessibilityIdentifier = "detailViewFromThisPointButton"
+        toThisPointButton.accessibilityIdentifier = "detailViewToThisPointButton"
+        viaThisPointButton.accessibilityIdentifier = "detailViewViaThisPointButton"
+        ratingView.accessibilityIdentifier = "detailViewRatingViewStackView"
+        ratingLabel.accessibilityIdentifier = "detailViewRatingLabel"
+        ratingImage.accessibilityIdentifier = "detailViewRatingImage"
     }
     
     @objc func tapRatingAction() {
@@ -296,6 +310,7 @@ extension DetailsView: UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.fillDetail(content[indexPath.row])
+        cell.accessibilityIdentifier = "detailViewCell"
         
         return cell
     }

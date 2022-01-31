@@ -56,10 +56,18 @@ class DirectionDetailsViewController: UIViewController, UITableViewDataSource {
             applyButton?.setTitle("Save settings", for: .normal)
         }
         setupKeyboardAppearance()
+        setupAccessibilityIdentifiers()
     }
     
     deinit {
       NotificationCenter.default.removeObserver(self)
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        tableView?.accessibilityIdentifier = "directionDetailsViewControllerTableView"
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "directionDetailsViewControllerBackButton"
+        applyButton?.accessibilityIdentifier = "directionDetailsViewControllerApplyButton"
+        pickerView?.accessibilityIdentifier = "directionDetailsViewControllerPickerView"
     }
     
     @objc func onDatePickerChanged() {

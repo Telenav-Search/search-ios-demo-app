@@ -36,6 +36,8 @@ class RoutePreview: UIView {
             .instantiate(withOwner: nil,
                          options: nil)[0] as! RoutePreview
         preview.updateSelectionColor()
+        preview.durationLabel.accessibilityIdentifier = "routePreviewDurationLabel"
+        preview.distanceLabel.accessibilityIdentifier = "routePreviewDistanceLabel"
         return preview
     }
     

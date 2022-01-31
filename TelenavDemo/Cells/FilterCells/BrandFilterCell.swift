@@ -12,6 +12,7 @@ class BrandFilterCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        brandLabel.accessibilityIdentifier = "brandFilterCellBrandLabel"
     }
 
     @IBOutlet weak var brandLabel: UILabel!

@@ -11,5 +11,7 @@ class CameraMenuCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        accessibilityIdentifier = "cameraMenuCell"
     }
 }

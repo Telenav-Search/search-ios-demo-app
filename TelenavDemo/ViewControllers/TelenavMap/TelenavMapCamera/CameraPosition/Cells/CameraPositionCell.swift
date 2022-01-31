@@ -71,6 +71,27 @@ class CameraPositionCell: UITableViewCell {
         bearingSlider.minimumValue = 0
         bearingSlider.maximumValue = 360
         bearingSlider.addTarget(self, action: #selector(bearingSliderValueChanged), for: .valueChanged)
+        
+        setupAccessibilityIdentifiers()
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        laTextField.accessibilityIdentifier = "cameraPositionCellLaTextField"
+        laLabel.accessibilityIdentifier = "cameraPositionCellLaLabel"
+        loTextField.accessibilityIdentifier = "cameraPositionCellLoTextField"
+        loLabel.accessibilityIdentifier = "cameraPositionCellLoLabel"
+        zoomSlider.accessibilityIdentifier = "cameraPositionCellZoomSlider"
+        tiltSlider.accessibilityIdentifier = "cameraPositionCellTiltSlider"
+        bearingSlider.accessibilityIdentifier = "cameraPositionCellBearingSlider"
+        zoomValueLabel.accessibilityIdentifier = "cameraPositionCellZoomValueLabel"
+        zoomLabel.accessibilityIdentifier = "cameraPositionCellZoomLabel"
+        tiltValueLabel.accessibilityIdentifier = "cameraPositionCellTiltValueLabel"
+        tiltLabel.accessibilityIdentifier = "cameraPositionCellTiltLabel"
+        bearingValueLabel.accessibilityIdentifier = "cameraPositionCellBearingValueLabel"
+        bearingLabel.accessibilityIdentifier = "cameraPositionCellBearingLabel"
+        
+        LAButton.accessibilityIdentifier = "cameraPositionCellLAButton"
+        NYButton.accessibilityIdentifier = "cameraPositionCellNYButton"
     }
     
     @objc func zoomSliderValueChanged() {

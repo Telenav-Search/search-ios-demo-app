@@ -18,6 +18,8 @@ class SuggesstionCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         contentView.layoutIfNeeded()
+        suggestionTitleLabel.accessibilityIdentifier = "suggesstionCellTitleLabel"
+        distanceLabel.accessibilityIdentifier = "suggesstionCellDistanceLabel"
     }
 
     func fillSuggestion(_ suggestion: TNEntitySuggestion) {

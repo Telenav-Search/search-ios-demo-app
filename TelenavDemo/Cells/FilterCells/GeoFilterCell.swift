@@ -15,6 +15,7 @@ class GeoFilterCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        filerTypeLabel.accessibilityIdentifier = "geoFilterCellFilterTypeLabel"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

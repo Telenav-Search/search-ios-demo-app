@@ -16,6 +16,9 @@ class EVFilterCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        itemTitleLabel.accessibilityIdentifier = "EVFilterCellItemTitleLabel"
+        itemsStackView.accessibilityIdentifier = "EVFilterCellItemsStackView"
     }
 
     private var currentFilter: EVFilter?

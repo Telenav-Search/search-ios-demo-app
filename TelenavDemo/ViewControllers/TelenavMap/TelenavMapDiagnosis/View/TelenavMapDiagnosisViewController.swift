@@ -22,6 +22,9 @@ class TelenavMapDiagnosisViewController: UIViewController, Storyboardable {
         }
         
         showMapViewState(mapViewState)
+        textView.accessibilityIdentifier = "telenavMapDiagnosisViewControllerTextView"
+        navigationItem.titleView?.accessibilityIdentifier = "telenavMapDiagnosisViewControllerTitleView"
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "telenavMapDiagnosisViewControllerBackButton"
     }
     
     private func showMapViewState(_ mapViewState: VNMapViewState) {

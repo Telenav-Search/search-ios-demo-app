@@ -18,6 +18,9 @@ class DetailViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        nameLabel.accessibilityIdentifier = "detailViewCellNameLabel"
+        titleLabel.accessibilityIdentifier = "detailViewCellTitleLabel"
+        detailTextView.accessibilityIdentifier = "detailViewCellDetailTextView"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

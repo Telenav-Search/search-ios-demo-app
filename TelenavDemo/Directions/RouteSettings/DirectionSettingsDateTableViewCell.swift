@@ -13,4 +13,11 @@ class DirectionSettingsDateTableViewCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        label.accessibilityIdentifier = "directionSettingsDateTableViewCellLabel"
+        descriptionLabel.accessibilityIdentifier = "directionSettingsDateTableViewCellDescriptionLabel"
+        datePicker.accessibilityIdentifier = "directionSettingsDateTableViewCellDatePicker"
+    }
 }

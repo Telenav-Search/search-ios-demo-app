@@ -26,6 +26,18 @@ class SearchResultCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        numberLabel.accessibilityIdentifier = "searchResultCellNumberLabel"
+        nameLabel.accessibilityIdentifier = "searchResultCellNameLabel"
+        distanceLabel.accessibilityIdentifier = "searchResultCellDistanceLabel"
+        categoryLabel.accessibilityIdentifier = "searchResultCellCategoryLabel"
+        
+        ratingView.accessibilityIdentifier = "searchResultCellRatingStackView"
+        starView.accessibilityIdentifier = "searchResultCellStarImageView"
+        
+        addressLabel.accessibilityIdentifier = "searchResultCellAddressLabel"
+        priceLabel.accessibilityIdentifier = "searchResultCellPriceLabel"
+        
+        ratingNumber.accessibilityIdentifier = "searchResultCellRatingNumberLabel"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -21,6 +21,9 @@ class CategoryFilterCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        stateImgView.accessibilityIdentifier = "categoryFilterCellStateImageView"
+        categoryLabel.accessibilityIdentifier = "categoryFilterCellCategoryLabel"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

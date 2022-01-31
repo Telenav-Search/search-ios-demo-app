@@ -49,6 +49,7 @@ extension StaticCategoriesDisplayManager: UITableViewDataSource {
         let catItem = categories[indexPath.row]
         
         cell.fillStaticCategoryItem(catItem)
+        cell.accessibilityIdentifier = "staticCatalogCell"
         
         return cell
     }

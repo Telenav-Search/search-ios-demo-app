@@ -18,6 +18,8 @@ class CatalogBaseCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        mainImageView.accessibilityIdentifier = "catalogBaseCellMainImageView"
+        mainLabel.accessibilityIdentifier = "catalogBaseCellMainLabel"
     }
 
     func fillCategory(_ category: TelenavCategoryDisplayModel) {

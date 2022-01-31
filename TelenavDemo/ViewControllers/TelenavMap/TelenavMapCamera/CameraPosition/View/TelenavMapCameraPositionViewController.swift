@@ -26,6 +26,7 @@ class TelenavMapCameraPositionViewController: UIViewController, Storyboardable {
             UINib(nibName: "CameraPositionCell", bundle: nil),
             forCellReuseIdentifier: "CameraPositionCell"
         )
+        tableView.accessibilityIdentifier = "telenavMapCameraPositionViewControllerTableView"
     }
     
     private func configureNavigationBar() {
@@ -35,6 +36,8 @@ class TelenavMapCameraPositionViewController: UIViewController, Storyboardable {
             target: self,
             action: #selector(applyAction)
         )
+        navigationItem.rightBarButtonItem?.accessibilityIdentifier = "telenavMapCameraPositionViewControllerApplyButton"
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "telenavMapCameraPositionViewControllerBackButton"
     }
 }
 
