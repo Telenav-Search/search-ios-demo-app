@@ -15,6 +15,7 @@ class ManeuversViewController: UITableViewController {
     
     override func viewDidLoad() {
         title = "Route maneuvers"
+        tableView.accessibilityIdentifier = "maneuversViewControllerViewControllerTableView"
     }
     
     func showManeuvers(ofRoute route: VNRoute?) {
@@ -69,6 +70,7 @@ class ManeuversViewController: UITableViewController {
                 cell?.detailTextLabel?.text = descriptionOfManeuverAction(step.maneuver.action)
             }
         }
+        cell?.accessibilityIdentifier = "maneuversViewControllerViewControllerTableViewCell"
         return cell!
     }
 }

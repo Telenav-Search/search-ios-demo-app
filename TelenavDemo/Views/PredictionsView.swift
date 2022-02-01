@@ -59,7 +59,7 @@ extension PredictionsView: UICollectionViewDataSource {
         }
         
         cell.fillPrediction(word: content[indexPath.row])
-        
+        cell.accessibilityIdentifier = "predictionWordCell"
         return cell
     }
 }

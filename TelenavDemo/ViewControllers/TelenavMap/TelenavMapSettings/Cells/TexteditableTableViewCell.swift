@@ -16,6 +16,25 @@ class TexteditableTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         textField.delegate = self
+        
+        setupView()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupView()
+    }
+    
+    func setupView() {
+        
+        titleLabel.accessibilityIdentifier = "texteditableTableViewCellLabel"
+        textField.accessibilityIdentifier = "texteditableTableViewCellTextField"
     }
 }
 

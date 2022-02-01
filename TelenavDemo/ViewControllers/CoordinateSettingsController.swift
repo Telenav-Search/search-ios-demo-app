@@ -78,6 +78,23 @@ class CoordinateSettingsController: UIViewController, FiltersViewControllerDeleg
         pickerView.dataSource = self
         pickerView.delegate = self
         setupKeyboardAppearance()
+        
+        setupAccessibilityIdentifiers()
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        lngTextField.accessibilityIdentifier = "coordinateSettingsViewControllerLngTextField"
+        latTextField.accessibilityIdentifier = "coordinateSettingsViewControllerLatTextField"
+        regionTextField.accessibilityIdentifier = "coordinateSettingsViewControllerRegionTextField"
+        activeField?.accessibilityIdentifier = "coordinateSettingsViewControllerActiveTextField"
+        cupertinoLocSwitch.accessibilityIdentifier = "coordinateSettingsViewControllerCupertinoLocSwitch"
+        realLocSwitch.accessibilityIdentifier = "coordinateSettingsViewControllerRealLocSwitch"
+        inputSwitch.accessibilityIdentifier = "coordinateSettingsViewControllerInputSwitch"
+        filterSwitch.accessibilityIdentifier = "coordinateSettingsViewControllerFilterSwitchSwitch"
+        versionLabel.accessibilityIdentifier = "coordinateSettingsViewControllerVersionLabel"
+        scrollView.accessibilityIdentifier = "coordinateSettingsViewControllerScrollView"
+        pickerView.accessibilityIdentifier = "coordinateSettingsViewControllerPickerView"
+        pickerToolbar.accessibilityIdentifier = "coordinateSettingsViewControllerPickerToolbar"
     }
 
     deinit {

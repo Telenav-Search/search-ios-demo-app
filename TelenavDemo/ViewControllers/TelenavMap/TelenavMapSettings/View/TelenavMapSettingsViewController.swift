@@ -60,6 +60,8 @@ class TelenavMapSettingsViewController: UIViewController, Storyboardable {
             target: self,
             action: #selector(applyAction)
         )
+        navigationItem.rightBarButtonItem?.accessibilityIdentifier = "telenavMapSettingsViewControllerApplyButton"
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "telenavMapSettingsViewControllerBackButton"
     }
     
     private func configureTableView(_ tableView: UITableView) {
@@ -80,6 +82,7 @@ class TelenavMapSettingsViewController: UIViewController, Storyboardable {
             UINib(nibName: "CustomLocationTableViewCell", bundle: nil),
             forCellReuseIdentifier: "CustomLocationTableViewCell"
         )
+        tableView.accessibilityIdentifier = "telenavMapSettingsViewControllerTableView"
     }
     
     private func setupKeyboardListener() {

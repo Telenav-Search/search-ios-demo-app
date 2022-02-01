@@ -46,6 +46,29 @@ class CameraRegionCell: UITableViewCell {
         sLaTextField.addTarget(self, action: #selector(sLaTextFieldValueChanged(textField:)), for: .editingChanged)
         wLoTextField.addTarget(self, action: #selector(wLoTextFieldValueChanged(textField:)), for: .editingChanged)
         eLoTextField.addTarget(self, action: #selector(eLoTextFieldValueChanged(textField:)), for: .editingChanged)
+        setupView()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupView()
+    }
+    
+    func setupView() {
+        setupAccessibilityIdentifiers()
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        nLaTextField.accessibilityIdentifier = "cameraRegionCellNLaTextField"
+        sLaTextField.accessibilityIdentifier = "cameraRegionCellSLaTextField"
+        wLoTextField.accessibilityIdentifier = "cameraRegionCellWLoTextField"
+        eLoTextField.accessibilityIdentifier = "cameraRegionCellELoTextField"
     }
     
     @objc func nLaTextFieldValueChanged(textField: UITextField) {

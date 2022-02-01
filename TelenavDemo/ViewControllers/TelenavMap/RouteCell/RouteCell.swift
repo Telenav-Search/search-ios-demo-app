@@ -15,6 +15,27 @@ class RouteCell: UICollectionViewCell {
             self.backgroundColor = isSelected ? .systemRed : .systemBlue
         }
     }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        setupView()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupView()
+    }
+    
+    func setupView() {
+        
+        titleLabel.accessibilityIdentifier = "routeCellTitleLabel"
+    }
 
     override class func awakeFromNib() {
         super.awakeFromNib()

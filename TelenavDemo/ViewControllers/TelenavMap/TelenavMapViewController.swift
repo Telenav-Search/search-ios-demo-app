@@ -84,6 +84,7 @@ class TelenavMapViewController: UIViewController {
         cameraRenderModeButton.translatesAutoresizingMaskIntoConstraints = false
         cameraRenderModeButton.backgroundColor = .systemBackground
         cameraRenderModeButton.setImage(UIImage(systemName: "view.3d"), for: .normal)
+        cameraRenderModeButton.accessibilityIdentifier = "telenavMapViewControllerCameraRenderModeButton"
         return cameraRenderModeButton
     }()
     
@@ -92,6 +93,7 @@ class TelenavMapViewController: UIViewController {
         cameraSettingsButton.translatesAutoresizingMaskIntoConstraints = false
         cameraSettingsButton.backgroundColor = .systemBackground
         cameraSettingsButton.setImage(UIImage(systemName: "viewfinder"), for: .normal)
+        cameraSettingsButton.accessibilityIdentifier = "telenavMapViewControllerCameraSettingsButton"
         return cameraSettingsButton
     }()
     
@@ -100,6 +102,7 @@ class TelenavMapViewController: UIViewController {
         diagnosisButton.translatesAutoresizingMaskIntoConstraints = false
         diagnosisButton.backgroundColor = .systemBackground
         diagnosisButton.setImage(UIImage(systemName: "waveform.path.ecg"), for: .normal)
+        diagnosisButton.accessibilityIdentifier = "telenavMapViewControllerDiagnosisButton"
         return diagnosisButton
     }()
     
@@ -109,6 +112,7 @@ class TelenavMapViewController: UIViewController {
         shapesButton.backgroundColor = .systemBackground
         let buttonImage = UIImage(systemName: "square.and.pencil")
         shapesButton.setImage(buttonImage, for: .normal)
+        shapesButton.accessibilityIdentifier = "telenavMapViewControllerShapesButton"
         return shapesButton
     }()
     
@@ -117,6 +121,7 @@ class TelenavMapViewController: UIViewController {
         vehicleTrackButton.translatesAutoresizingMaskIntoConstraints = false
         vehicleTrackButton.backgroundColor = .systemBackground
         vehicleTrackButton.setImage(UIImage(systemName: "car"), for: .normal)
+        vehicleTrackButton.accessibilityIdentifier = "telenavMapViewControllerVehicleTrackButton"
         return vehicleTrackButton
     }()
     
@@ -125,6 +130,7 @@ class TelenavMapViewController: UIViewController {
         navigationSessionButton.translatesAutoresizingMaskIntoConstraints = false
         navigationSessionButton.backgroundColor = .systemBackground
         navigationSessionButton.setImage(UIImage(systemName: "pencil.and.outline"), for: .normal)
+        navigationSessionButton.accessibilityIdentifier = "telenavMapViewControllerNavigationSessionButton"
         return navigationSessionButton
     }()
     
@@ -133,6 +139,7 @@ class TelenavMapViewController: UIViewController {
         switchColorScheme.translatesAutoresizingMaskIntoConstraints = false
         switchColorScheme.backgroundColor = .systemBackground
         switchColorScheme.setImage(UIImage(systemName: "moon"), for: .normal)
+        switchColorScheme.accessibilityIdentifier = "telenavMapViewControllerSwitchColorSchemeButton"
         return switchColorScheme
     }()
   
@@ -141,6 +148,7 @@ class TelenavMapViewController: UIViewController {
         poiSearchButton.translatesAutoresizingMaskIntoConstraints = false
         poiSearchButton.backgroundColor = .systemBackground
         poiSearchButton.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        poiSearchButton.accessibilityIdentifier = "telenavMapViewControllerPoiSwitchButton"
         return poiSearchButton
     }()
   
@@ -149,15 +157,17 @@ class TelenavMapViewController: UIViewController {
         mapStyleButton.translatesAutoresizingMaskIntoConstraints = false
         mapStyleButton.backgroundColor = .systemBackground
         mapStyleButton.setImage(UIImage(systemName: "map"), for: .normal)
+        mapStyleButton.accessibilityIdentifier = "telenavMapViewControllerMapStyleButton"
         return mapStyleButton
     }()
-  
+    
     lazy var screenshotButton: UIButton = {
-      let screenshotButton = UIButton(type: .system)
-      screenshotButton.translatesAutoresizingMaskIntoConstraints = false
-      screenshotButton.backgroundColor = .systemBackground
-      screenshotButton.setImage(UIImage(systemName: "photo"), for: .normal)
-      return screenshotButton
+        let screenshotButton = UIButton(type: .system)
+        screenshotButton.translatesAutoresizingMaskIntoConstraints = false
+        screenshotButton.backgroundColor = .systemBackground
+        screenshotButton.setImage(UIImage(systemName: "photo"), for: .normal)
+        screenshotButton.accessibilityIdentifier = "telenavMapViewControllerScreenshotButton"
+        return screenshotButton
     }()
     
     override func viewDidLoad() {
@@ -169,6 +179,7 @@ class TelenavMapViewController: UIViewController {
             target: self,
             action: #selector(showSettingsAction)
         )
+        navigationItem.rightBarButtonItem?.accessibilityIdentifier = "telenavMapViewControllerSettingsButton"
         
         driveSession = VNDriveSessionClient.factory().build()
         driveSession.audioEventDelegate = self
@@ -185,6 +196,17 @@ class TelenavMapViewController: UIViewController {
         mapView.searchController().inject(searchEngine)
       
         locationProvider.addListner(listner: self)
+        
+        setupAccessibilityIdentifiers()
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        collectionView.accessibilityIdentifier = "telenavMapViewControllerCollectionView"
+        imageView.accessibilityIdentifier = "telenavMapViewControllerImageView"
+        travelEstimationLbl.accessibilityIdentifier = "telenavMapViewControllerTravelEstimationLabel"
+        startNavigationButton.accessibilityIdentifier = "telenavMapViewControllerStartNavigationButton"
+        followVehicleButton.accessibilityIdentifier = "telenavMapViewControllerFollowVehicleButton"
+        cameraModeButton.accessibilityIdentifier = "telenavMapViewControllerCameraModeButton"
     }
   
     deinit {

@@ -49,7 +49,7 @@ extension SuggestionsDisplayManager: UITableViewDataSource {
         let suggestion = suggestions[indexPath.row]
         
         cell.fillSuggestion(suggestion)
-        
+        cell.accessibilityIdentifier = "suggestionCell"
         return cell
     }
 

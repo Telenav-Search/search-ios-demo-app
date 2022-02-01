@@ -37,6 +37,10 @@ class CatalogViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.staticCategoriesDisplayManager.reloadTable()
+        
+        staticCategoriesDisplayManager.tableView?.accessibilityIdentifier = "catalogViewControllerStaticCategoriesTableView"
+        categoriesDisplayManager.tableView?.accessibilityIdentifier = "catalogViewControllerCategoriesTableView"
+        suggestionsDisplayManager.tableView?.accessibilityIdentifier = "catalogViewControllerSuggestionsTableView"
     }
 
     func fillAllCategories(_ categories: [TelenavCategoryDisplayModel]) {

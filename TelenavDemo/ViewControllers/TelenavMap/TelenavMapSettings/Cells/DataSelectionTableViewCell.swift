@@ -28,6 +28,25 @@ class DataSelectionTableViewCell: UITableViewCell {
         textField.inputView = pickerView
         textField.inputAccessoryView = makeGestureInputAccessoryView()
         textField.delegate = self
+        
+        setupView()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupView()
+    }
+    
+    func setupView() {
+        
+        titleLabel.accessibilityIdentifier = "dataSelectionTableViewCellLabel"
+        textField.accessibilityIdentifier = "dataSelectionTableViewCellTextField"
     }
     
     func setItems(_ items: [String], selectedItemIndex: Int) {

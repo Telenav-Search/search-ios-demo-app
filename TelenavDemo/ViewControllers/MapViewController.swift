@@ -14,6 +14,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     lazy var mapView: VNMapView = {
         let mapView = VNMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.accessibilityIdentifier = "mapViewControllerMapViewVNMapView"
         return mapView
     }()
     
@@ -220,6 +221,15 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         locationProvider.addListner(listner: self)
         moveMapCameraTo(to: currentLocation)
         setUserPushPin(userLocation: currentLocation)
+        
+        setupAccessibilityIdentifiers()
+    }
+    
+    func setupAccessibilityIdentifiers() {
+        backButton.accessibilityIdentifier = "mapViewControllerBackButton"
+        redoSearchButton.accessibilityIdentifier = "mapViewControllerRedoSearchButton"
+        searchQueryLabel.accessibilityIdentifier = "mapViewControllerSearchQueryLabel"
+        predictionsView.collectionView.accessibilityIdentifier = "mapViewControllerPredictionWordsCollectionView"
     }
   
     deinit {
