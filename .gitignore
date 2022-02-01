@@ -1,4 +1,6 @@
 Pods/
+Bundle/
+simulator/
 build/
 *xcuserdata*
 # OS X

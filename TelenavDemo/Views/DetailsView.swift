@@ -152,6 +152,7 @@ class DetailsView: UIView {
                     }
                 }
             }
+            break
             
 //            if let coordinates = entity.place?.address?.geoCoordinates {
 //                

@@ -803,7 +803,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					06029951254AD18A003D760A = {
 						LastSwiftMigration = 1210;
@@ -870,12 +870,7 @@
 				68AA9A6B270C0FE100B5A484 /* TelenavMapDiagnosisViewController.storyboard in Resources */,
 				C54C055B255D9CE90002CE83 /* DetailsView.xib in Resources */,
 				6873935526CEB91200BBC978 /* CustomLocationTableViewCell.xib in Resources */,
-				68D2F1BB2707076C003A8B0F /* TelenavMapCameraRegionViewController.storyboard in Resources */,
-				68A5229626CCE54900A8AF44 /* TelenavMapSettingsViewController.storyboard in Resources */,
-				06751B0E253D8D0A001F6B11 /* LaunchScreen.storyboard in Resources */,
-				C54C055B255D9CE90002CE83 /* DetailsView.xib in Resources */,
 				68D2F1BF270707E9003A8B0F /* CameraRegionCell.xib in Resources */,
-				6873935526CEB91200BBC978 /* CustomLocationTableViewCell.xib in Resources */,
 				68D2F1AF2706EED2003A8B0F /* TelenavMapCameraMenuViewController.storyboard in Resources */,
 				65DE8405259492FD009721D0 /* Localizable.stringsdict in Resources */,
 				6873934F26CE76FC00BBC978 /* DataSelectionTableViewCell.xib in Resources */,

@@ -1,0 +1,62 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :test_lane do |options|
+
+    ENV["NAVIGATION_VERSION"] = options[:NAVIGATION_VERSION]
+    ENV["SEARCH_ENTITY_VERSION"] = options[:SEARCH_ENTITY_VERSION]
+
+    update_info_plist( 
+      plist_path: "./TelenavDemo-Info.plist",
+      block: proc do |plist|
+        plist["VividNavigationSDK"]["apiKey"] = options[:apiKey]
+        plist["VividNavigationSDK"]["apiSecret"] = options[:apiSecret]
+        plist["VividNavigationSDK"]["cloudEndPoint"] = options[:cloudEndPoint]
+      end
+    )
+
+    update_info_plist( 
+      plist_path: "SupportFiles/SDKConfig.plist",
+      block: proc do |plist|
+        plist["apiKey"] = options[:apiKey]
+        plist["apiSecret"] = options[:apiSecret]
+        plist["cloudEndPoint"] = options[:cloudEndPoint]
+      end
+    )
+
+    clear_derived_data()
+
+    cocoapods(
+      clean_install: true,
+      use_bundle_exec: false
+    )
+
+    xcodebuild(workspace: "TelenavDemo.xcworkspace",
+           scheme: "TelenavDemo",
+           xcargs: "-configuration Debug -sdk 'iphonesimulator15.0' -destination 'platform=iOS Simulator,name=iPhone 8'",
+           derivedDataPath: "./simulator"
+           )
+
+    zip(path: "./simulator/Build/Products/Debug-iphonesimulator/TelenavDemo.app",
+        output_path: "./build/TelenavDemo.app.zip"
+    )
+
+  end
+end

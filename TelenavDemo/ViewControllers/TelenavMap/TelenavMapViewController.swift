@@ -880,6 +880,7 @@ extension TelenavMapViewController {
   
     @objc func screenshotButtonTapped() {
         screenshotButton.isEnabled = false
+
         mapView.snapshot { [weak self] image in
             guard let image = image, let self = self else { return }
             let items = [image]
