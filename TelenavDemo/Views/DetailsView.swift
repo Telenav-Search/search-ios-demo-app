@@ -139,8 +139,6 @@ class DetailsView: UIView {
                 }
             }
             break
-        case .none:
-            break
             
 //            if let coordinates = entity.place?.address?.geoCoordinates {
 //                
