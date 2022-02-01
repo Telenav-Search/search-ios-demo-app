@@ -72,6 +72,22 @@ class CameraPositionCell: UITableViewCell {
         bearingSlider.maximumValue = 360
         bearingSlider.addTarget(self, action: #selector(bearingSliderValueChanged), for: .valueChanged)
         
+        setupView()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupView()
+    }
+    
+    func setupView() {
+        
         setupAccessibilityIdentifiers()
     }
     

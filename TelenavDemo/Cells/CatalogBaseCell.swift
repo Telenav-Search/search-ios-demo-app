@@ -17,7 +17,23 @@ class CatalogBaseCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        
+        setupView()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        setupView()
+    }
+    
+    func setupView() {
         mainImageView.accessibilityIdentifier = "catalogBaseCellMainImageView"
         mainLabel.accessibilityIdentifier = "catalogBaseCellMainLabel"
     }

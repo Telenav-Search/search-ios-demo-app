@@ -30,6 +30,23 @@ class CustomLocationTableViewCell: UITableViewCell {
         textField1.keyboardType = .default
         `switch`.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
         
+        setupView()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        setupView()
+    }
+    
+    func setupView() {
+        
         titleLabel.accessibilityIdentifier = "customLocationTableViewCellTitleLabel"
         subtitle0Label.accessibilityIdentifier = "customLocationTableViewCellSubtitle0Label"
         subtitle1Label.accessibilityIdentifier = "customLocationTableViewCellSubtitle1Label"

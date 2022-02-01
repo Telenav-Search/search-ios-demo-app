@@ -23,9 +23,25 @@ class SearchResultCell: UITableViewCell {
     
     @IBOutlet weak var ratingNumber: UILabel!
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        setupView()
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        setupView()
+    }
+    
+    func setupView() {
         numberLabel.accessibilityIdentifier = "searchResultCellNumberLabel"
         nameLabel.accessibilityIdentifier = "searchResultCellNameLabel"
         distanceLabel.accessibilityIdentifier = "searchResultCellDistanceLabel"
