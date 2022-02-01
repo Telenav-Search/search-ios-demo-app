@@ -9,28 +9,17 @@ import UIKit
 
 class BrandFilterCell: UITableViewCell {
     
+    @IBOutlet weak var brandLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         setupView()
     }
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setupView()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupView()
-    }
-    
     func setupView() {
         brandLabel.accessibilityIdentifier = "brandFilterCellBrandLabel"
     }
-
-    @IBOutlet weak var brandLabel: UILabel!
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

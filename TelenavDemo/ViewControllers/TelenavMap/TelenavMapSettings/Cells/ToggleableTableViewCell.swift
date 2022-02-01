@@ -19,17 +19,6 @@ class ToggleableTableViewCell: UITableViewCell {
     
     var switchChanged: ((_ isOn: Bool) -> Void)?
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setupView()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupView()
-    }
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         `switch`.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
