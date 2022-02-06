@@ -22,7 +22,7 @@ class DirectionSettingsDateTableViewCell: UITableViewCell {
     func setupView() {
         
         label.accessibilityIdentifier = "directionSettingsDateTableViewCellLabel"
-        descriptionLabel.accessibilityIdentifier = "directionSettingsDateTableViewCellDescriptionLabel"
+//        descriptionLabel.accessibilityIdentifier = "directionSettingsDateTableViewCellDescriptionLabel"
         datePicker.accessibilityIdentifier = "directionSettingsDateTableViewCellDatePicker"
     }
 }
