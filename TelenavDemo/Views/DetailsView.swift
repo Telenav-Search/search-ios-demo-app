@@ -164,6 +164,9 @@ class DetailsView: UIView {
             nameLabel.text = entity.place?.name
             categoryLabel.isHidden = false
             categoryLabel.text = entity.place?.categories?.first?.name
+        case .none:
+            nameLabel.text = entity.place?.name
+            categoryLabel.isHidden = false
         }
         
         if let distance = entity.formattedDistance {
