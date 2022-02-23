@@ -20,7 +20,7 @@ class DirectionSettingsTextTableViewCell: UITableViewCell {
     }
     
     func setupView() {
-        
+        accessibilityIdentifier = label.text
         textField.accessibilityIdentifier = "directionSettingsTextTableViewCellTextField"
         label.accessibilityIdentifier = "directionSettingsTextTableViewCellLabel"
         descriptionLabel.accessibilityIdentifier = "directionSettingsTextTableViewCellDescriptionLabel"

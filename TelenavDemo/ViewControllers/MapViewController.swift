@@ -226,6 +226,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
     }
     
     func setupAccessibilityIdentifiers() {
+        routeSettingsButton.accessibilityIdentifier = "mapViewControllerRouteSettingsButton"
         backButton.accessibilityIdentifier = "mapViewControllerBackButton"
         redoSearchButton.accessibilityIdentifier = "mapViewControllerRedoSearchButton"
         searchQueryLabel.accessibilityIdentifier = "mapViewControllerSearchQueryLabel"

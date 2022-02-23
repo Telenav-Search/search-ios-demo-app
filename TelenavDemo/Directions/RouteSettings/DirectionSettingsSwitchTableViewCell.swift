@@ -19,7 +19,7 @@ class DirectionSettingsSwitchTableViewCell: UITableViewCell {
     }
     
     func setupView() {
-        
+        accessibilityIdentifier = label.text
         label.accessibilityIdentifier = "directionSettingsSwitchTableViewCellLabel"
         switchControl.accessibilityIdentifier = "directionSettingsSwitchTableViewCellControlSwitch"
     }

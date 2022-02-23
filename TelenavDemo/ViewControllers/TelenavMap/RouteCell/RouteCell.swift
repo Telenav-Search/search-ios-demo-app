@@ -23,8 +23,7 @@ class RouteCell: UICollectionViewCell {
     }
     
     func setupView() {
-        
-        titleLabel.accessibilityIdentifier = "routeCellTitleLabel"
+        accessibilityIdentifier = titleLabel.text
     }
 
     override class func awakeFromNib() {
