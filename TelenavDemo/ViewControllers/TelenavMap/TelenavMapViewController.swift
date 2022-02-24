@@ -38,29 +38,29 @@ class TelenavMapViewController: UIViewController {
     private var routes = [VNRoute]()
     private var selectedRoute: VNRoute?
     private var demoAnnotations = [AnnotationState]()
-  
+
     private var fromAnnotation: VNAnnotation?
     private var toAnnotation: VNAnnotation?
     
     // Day night mode
     private var isNightModeActive = false
-  
+
     // Vehicle
     private var isVehicleTrackActive = false
-  
+
     // Shapes
     private var isShapesPressed = false
     private var shapesPoints = [CLLocationCoordinate2D]()
     private var shapeCollectionIds = [VNShapeCollectionID]()
     private let carPoint = CLLocation(latitude: 40.595495107440506, longitude: -73.6566129026753)
-  
+
     // Gestures
     private var longPressGestureRecognizer: UILongPressGestureRecognizer!
     private var tapGestureRecognizer: UITapGestureRecognizer!
     private var panGestureRecognizer: UIPanGestureRecognizer!
     private var pinchGestureRecognizer: UIPinchGestureRecognizer!
     private var rotationGestureRecognizer: UIRotationGestureRecognizer!
-  
+
     // Drive Session
     private var driveSessionLabelStack: UIStackView!
     private var addressLabel: UILabel!
@@ -71,11 +71,11 @@ class TelenavMapViewController: UIViewController {
     private var violationMessage: UILabel!
     private var violationWarningTitle: UILabel!
     private var currentCameraMode = VNCameraFollowVehicleMode.headingUp
-  
+
     // Search
     private var isPoiSearchActive = false
     private var searchEngine: SearchEngine!
-  
+
     // MapStyle
     private var isMapStyleActive = false
     
@@ -142,7 +142,7 @@ class TelenavMapViewController: UIViewController {
         switchColorScheme.accessibilityIdentifier = "telenavMapViewControllerSwitchColorSchemeButton"
         return switchColorScheme
     }()
-  
+
     lazy var poiSearchButton: UIButton = {
         let poiSearchButton = UIButton(type: .system)
         poiSearchButton.translatesAutoresizingMaskIntoConstraints = false
@@ -151,7 +151,7 @@ class TelenavMapViewController: UIViewController {
         poiSearchButton.accessibilityIdentifier = "telenavMapViewControllerPoiSwitchButton"
         return poiSearchButton
     }()
-  
+
     lazy var mapStyleButton: UIButton = {
         let mapStyleButton = UIButton(type: .system)
         mapStyleButton.translatesAutoresizingMaskIntoConstraints = false
@@ -191,10 +191,10 @@ class TelenavMapViewController: UIViewController {
         setupMapCustomGestureRecognizers()
         setupLocationManager()
         setupDayNightBtn()
-      
+
         searchEngine = SearchEngine.init()
         mapView.searchController().inject(searchEngine)
-      
+
         locationProvider.addListner(listner: self)
         
         setupAccessibilityIdentifiers()
@@ -208,9 +208,9 @@ class TelenavMapViewController: UIViewController {
         followVehicleButton.accessibilityIdentifier = "telenavMapViewControllerFollowVehicleButton"
         cameraModeButton.accessibilityIdentifier = "telenavMapViewControllerCameraModeButton"
     }
-  
+
     deinit {
-      locationProvider.removeListner(listner: self)
+        locationProvider.removeListner(listner: self)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -222,76 +222,76 @@ class TelenavMapViewController: UIViewController {
             VNSDK.sharedInstance.dayNightMode = .nightMode
         }
     }
-  
+
     func startNavigation() {
-      navigationSession = driveSession.createNavigationSession()
-      navigationSession.delegate = self
-      navigationSession?.updateRouteInfo(self.selectedRoute!)
-      
-      // Remove unselected routes
-      let routeIds = self.routeModels.map { $0.getRouteId() }
-      var removeRouteIds = Array<String>()
-      for routeId in routeIds {
-        if (routeId == selectedRouteModel?.getRouteId()) { continue }
-        removeRouteIds.append(routeId)
-      }
-      mapView.routeController().removeRoutes(removeRouteIds)
-      
-      cameraRenderModeButton.isHidden = true
-      cameraSettingsButton.isHidden = true
-      diagnosisButton.isHidden = true
-      shapesButton.isHidden = true
-      vehicleTrackButton.isHidden = true
-      switchColorScheme.isHidden = true
-      poiSearchButton.isHidden = true
-      mapStyleButton.isHidden = true
-      screenshotButton.isHidden = true
-      
-      travelEstimationLbl.isHidden = false
-      // imageView hidden = false, when we show junction
-      collectionView.isHidden = true
-      cameraModeButton.isHidden = false
-      
-      mapView.vehicleController().setIcon(UIImage(named: "car-icon")!)
-      mapView.featuresController().traffic.setEnabled()
-      mapView.featuresController().compass.setEnabled()
-      mapView.cameraController().renderMode = .M3D
-      mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
-      
-      driveSession.positionEventDelegate = self
-      self.navigationSession.startSimulateNavigation()
-      self.driveSessionLabelStack.isHidden = false
-      driveSession.enableAudioDefaultPlayback(true)
-      
-      setupInNavigationGestures()
+        navigationSession = driveSession.createNavigationSession()
+        navigationSession.delegate = self
+        navigationSession?.updateRouteInfo(self.selectedRoute!)
+
+        // Remove unselected routes
+        let routeIds = self.routeModels.map { $0.getRouteId() }
+        var removeRouteIds = Array<String>()
+        for routeId in routeIds {
+            if (routeId == selectedRouteModel?.getRouteId()) { continue }
+            removeRouteIds.append(routeId)
+        }
+        mapView.routeController().removeRoutes(removeRouteIds)
+
+        cameraRenderModeButton.isHidden = true
+        cameraSettingsButton.isHidden = true
+        diagnosisButton.isHidden = true
+        shapesButton.isHidden = true
+        vehicleTrackButton.isHidden = true
+        switchColorScheme.isHidden = true
+        poiSearchButton.isHidden = true
+        mapStyleButton.isHidden = true
+        screenshotButton.isHidden = true
+
+        travelEstimationLbl.isHidden = false
+        // imageView hidden = false, when we show junction
+        collectionView.isHidden = true
+        cameraModeButton.isHidden = false
+
+        mapView.vehicleController().setIcon(UIImage(named: "car-icon")!)
+        mapView.featuresController().traffic.setEnabled()
+        mapView.featuresController().compass.setEnabled()
+        mapView.cameraController().renderMode = .M3D
+        mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
+
+        driveSession.positionEventDelegate = self
+        self.navigationSession.startSimulateNavigation()
+        self.driveSessionLabelStack.isHidden = false
+        driveSession.enableAudioDefaultPlayback(true)
+
+        setupInNavigationGestures()
     }
-  
+
     func stopNavigation() {
-      cameraRenderModeButton.isHidden = false
-      cameraSettingsButton.isHidden = false
-      diagnosisButton.isHidden = false
-      shapesButton.isHidden = false
-      vehicleTrackButton.isHidden = false
-      switchColorScheme.isHidden = false
-      poiSearchButton.isHidden = false
-      mapStyleButton.isHidden = false
-      screenshotButton.isHidden = false
-      
-      travelEstimationLbl.isHidden = true
-      imageView.isHidden = true
-      
-      mapView.vehicleController().setIcon(nil)
-      mapView.featuresController().traffic.setDisabled()
-      mapView.featuresController().compass.setDisabled()
-      mapView.cameraController().renderMode = .M2D
-      mapView.cameraController().disableFollowVehicle()
-      
-      driveSession.positionEventDelegate = nil
-      self.navigationSession.stopNavigation()
-      self.driveSessionLabelStack.isHidden = true
-      driveSession.enableAudioDefaultPlayback(false)
-      
-      restoreGestures()
+        cameraRenderModeButton.isHidden = false
+        cameraSettingsButton.isHidden = false
+        diagnosisButton.isHidden = false
+        shapesButton.isHidden = false
+        vehicleTrackButton.isHidden = false
+        switchColorScheme.isHidden = false
+        poiSearchButton.isHidden = false
+        mapStyleButton.isHidden = false
+        screenshotButton.isHidden = false
+
+        travelEstimationLbl.isHidden = true
+        imageView.isHidden = true
+
+        mapView.vehicleController().setIcon(nil)
+        mapView.featuresController().traffic.setDisabled()
+        mapView.featuresController().compass.setDisabled()
+        mapView.cameraController().renderMode = .M2D
+        mapView.cameraController().disableFollowVehicle()
+
+        driveSession.positionEventDelegate = nil
+        self.navigationSession.stopNavigation()
+        self.driveSessionLabelStack.isHidden = true
+        driveSession.enableAudioDefaultPlayback(false)
+
+        restoreGestures()
     }
     
     func setupUIDriveSession() {
@@ -300,7 +300,7 @@ class TelenavMapViewController: UIViewController {
         driveSessionLabelStack.axis = .vertical
 
         driveSessionLabelStack.translatesAutoresizingMaskIntoConstraints = false
-      
+
         let backgroundColor = UIColor.white.withAlphaComponent(0.6)
 
         let addressStack = UIStackView()
@@ -324,7 +324,7 @@ class TelenavMapViewController: UIViewController {
         countryStack.backgroundColor = backgroundColor
 
         countryStack.translatesAutoresizingMaskIntoConstraints = false
-      
+
         let audioMessageStack = UIStackView()
         audioMessageStack.alignment = .leading
         audioMessageStack.axis = .horizontal
@@ -332,7 +332,7 @@ class TelenavMapViewController: UIViewController {
         audioMessageStack.backgroundColor = backgroundColor
 
         audioMessageStack.translatesAutoresizingMaskIntoConstraints = false
-      
+
         let alertMessageStack = UIStackView()
         alertMessageStack.alignment = .leading
         alertMessageStack.axis = .horizontal
@@ -371,14 +371,14 @@ class TelenavMapViewController: UIViewController {
         speedLimit.textColor = .orange
         cityName = UILabel()
         cityName.textColor = .purple
-      
+
         audioMessage = UILabel()
         audioMessage.textColor = .brown
         audioMessage.numberOfLines = 2
         audioMessage.adjustsFontSizeToFitWidth = true
         audioMessage.minimumScaleFactor = 0.8
         audioMessage.text = "Audio message: "
-      
+
         alertMessage = UILabel()
         alertMessage.textColor = .blue
         alertMessage.numberOfLines = 7
@@ -397,9 +397,9 @@ class TelenavMapViewController: UIViewController {
 
         countryStack.addArrangedSubview(cityTitle)
         countryStack.addArrangedSubview(cityName)
-      
+
         audioMessageStack.addArrangedSubview(audioMessage)
-      
+
         alertMessageStack.addArrangedSubview(alertMessage)
 
         violationMessageStack.addArrangedSubview(violationWarningTitle)
@@ -415,7 +415,7 @@ class TelenavMapViewController: UIViewController {
         driveSessionLabelStack.isHidden = true
 
         mapView.addSubview(driveSessionLabelStack)
-      
+
         NSLayoutConstraint.activate([
             driveSessionLabelStack.topAnchor.constraint(equalTo: mapView.topAnchor),
             driveSessionLabelStack.leadingAnchor.constraint(equalTo: mapView.leadingAnchor),
@@ -430,7 +430,24 @@ class TelenavMapViewController: UIViewController {
         mapView.translatesAutoresizingMaskIntoConstraints = false
         mapView.annotationTouchDelegate = self
         view.addSubview(mapView)
-        
+
+
+        let carImage = UIImage(named: "demo-annotation-pushpin-green")!
+        mapView.vehicleController().setIcon(carImage)
+        mapView.vehicleController().vehicleWasTapped = { [weak self] vehiclePoint in
+
+            DispatchQueue.main.async {
+                guard
+                    let vehiclePoint = vehiclePoint,
+                    let convertedCoordinates = self?.convertCameraToRealWorld(coordinate: vehiclePoint)
+                else {
+                    return
+                }
+
+                self?.setCameraLocation(point: convertedCoordinates)
+            }
+        }
+
         let safeAreaLayoutGuide = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -439,7 +456,7 @@ class TelenavMapViewController: UIViewController {
             mapView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
-      
+
         view.addSubview(navigationSessionButton)
         
         NSLayoutConstraint.activate([
@@ -499,7 +516,7 @@ class TelenavMapViewController: UIViewController {
         ])
         
         vehicleTrackButton.addTarget(self, action: #selector(vehicleTrackButtonTapped), for: .touchUpInside)
-      
+
         view.addSubview(cameraRenderModeButton)
         
         NSLayoutConstraint.activate([
@@ -525,22 +542,22 @@ class TelenavMapViewController: UIViewController {
             action: #selector(switchColorSchemeButtonTapped),
             for: .touchUpInside
         )
-      
+
         view.addSubview(poiSearchButton)
         
         NSLayoutConstraint.activate([
-          poiSearchButton.widthAnchor.constraint(equalToConstant: 40),
-          poiSearchButton.heightAnchor.constraint(equalToConstant: 40),
-          poiSearchButton.bottomAnchor.constraint(equalTo: switchColorScheme.topAnchor, constant: -16.0),
-          poiSearchButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
+            poiSearchButton.widthAnchor.constraint(equalToConstant: 40),
+            poiSearchButton.heightAnchor.constraint(equalToConstant: 40),
+            poiSearchButton.bottomAnchor.constraint(equalTo: switchColorScheme.topAnchor, constant: -16.0),
+            poiSearchButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
         ])
-      
+
         poiSearchButton.addTarget(
             self,
             action: #selector(poiSearchButtonTapped),
             for: .touchUpInside
         )
-      
+
         view.addSubview(mapStyleButton)
         
         NSLayoutConstraint.activate([
@@ -548,47 +565,47 @@ class TelenavMapViewController: UIViewController {
             mapStyleButton.heightAnchor.constraint(equalToConstant: 40),
             mapStyleButton.bottomAnchor.constraint(equalTo: poiSearchButton.topAnchor, constant: -16.0),
             mapStyleButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16.0)
-          ])
-      
+        ])
+
         mapStyleButton.addTarget(
             self,
             action: #selector(mapStyleButtonTapped),
             for: .touchUpInside
         )
-      
+
         view.addSubview(screenshotButton)
-      
+
         NSLayoutConstraint.activate([
             screenshotButton.widthAnchor.constraint(equalToConstant: 40),
             screenshotButton.heightAnchor.constraint(equalToConstant: 40),
             screenshotButton.bottomAnchor.constraint(equalTo: cameraSettingsButton.bottomAnchor),
             screenshotButton.leadingAnchor.constraint(equalTo: cameraSettingsButton.trailingAnchor, constant: 16.0)
-          ])
-      
+        ])
+
         screenshotButton.addTarget(
             self,
             action: #selector(screenshotButtonTapped),
             for: .touchUpInside
         )
-      
+
         startNavigationButton.isHidden = true
-      
+
         startNavigationButton.addTarget(
             self,
             action: #selector(startNavigationButtonTapped),
             for: .touchUpInside
         )
-      
+
         followVehicleButton.isHidden = true
-      
+
         followVehicleButton.addTarget(
             self,
             action: #selector(followVehicleButtonTapped),
             for: .touchUpInside
         )
-      
+
         cameraModeButton.isHidden = true
-      
+
         cameraModeButton.addTarget(
             self,
             action: #selector(cameraModeButtonTapped),
@@ -640,6 +657,29 @@ class TelenavMapViewController: UIViewController {
     func renderUpdateFor(button: UIButton, with state: Bool) {
         button.backgroundColor = state ? .systemBlue : .systemBackground
         button.tintColor = state ? .systemBackground : .systemBlue
+    }
+
+    private func convertCameraToRealWorld(coordinate: VNViewPoint) -> VNGeoPoint {
+        if let location = mapView.cameraController().viewport(toWorld: coordinate),
+           let forCheck = mapView.cameraController().world(toViewport: location){
+            print("Check current thread: \(Thread.current)")
+            print("Check in-out coordinates: \(coordinate == forCheck)")
+            return location
+        }
+        return VNGeoPoint()
+    }
+
+    private func setCameraLocation(point: VNGeoPoint) {
+        let cameraPosition = mapView.cameraController().position
+
+        let newCameraPosition = VNCameraPosition(
+            bearing: cameraPosition.bearing,
+            tilt: cameraPosition.tilt,
+            zoomLevel: cameraPosition.zoomLevel,
+            location: point
+        )
+
+        mapView.cameraController().position = newCameraPosition
     }
 }
 
@@ -803,81 +843,81 @@ extension TelenavMapViewController {
         
         setupNavLongPressGestures()
     }
-  
+
     @objc func startNavigationButtonTapped() {
-      self.startNavigation()
-      self.startNavigationButton.isHidden = true
+        self.startNavigation()
+        self.startNavigationButton.isHidden = true
     }
-  
+
     @objc func followVehicleButtonTapped() {
-      mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
-      setupInNavigationGestures()
-      followVehicleButton.isHidden = true
-      cameraModeButton.isHidden = false
+        mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
+        setupInNavigationGestures()
+        followVehicleButton.isHidden = true
+        cameraModeButton.isHidden = false
     }
-  
+
     @objc func cameraModeButtonTapped() {
-      if (currentCameraMode == .headingUp) {
-        currentCameraMode = .northUp
-        cameraModeButton.setTitle(" North Up ", for: .normal)
-      } else if (currentCameraMode == .northUp) {
-        currentCameraMode = .static
-        cameraModeButton.setTitle(" Static ", for: .normal)
-      } else if (currentCameraMode == .static) {
-        currentCameraMode = .headingUp
-        cameraModeButton.setTitle(" Heading Up ", for: .normal)
-      }
-      
-      mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
+        if (currentCameraMode == .headingUp) {
+            currentCameraMode = .northUp
+            cameraModeButton.setTitle(" North Up ", for: .normal)
+        } else if (currentCameraMode == .northUp) {
+            currentCameraMode = .static
+            cameraModeButton.setTitle(" Static ", for: .normal)
+        } else if (currentCameraMode == .static) {
+            currentCameraMode = .headingUp
+            cameraModeButton.setTitle(" Heading Up ", for: .normal)
+        }
+
+        mapView.cameraController().enable(currentCameraMode, useAutoZoom: true)
     }
-  
+
     @objc func poiSearchButtonTapped() {
-      isPoiSearchActive.toggle()
-      
-      renderUpdateFor(
-          button: poiSearchButton,
-          with: isPoiSearchActive
-      )
-      
-      if (isPoiSearchActive) {
-        searchEngine.currentLocation = mapView.cameraController().position.location;
-        mapView.searchController().displayPOI(["811"]) // Fuel
-      } else {
-        mapView.searchController().clear()
-      }
+        isPoiSearchActive.toggle()
+
+        renderUpdateFor(
+            button: poiSearchButton,
+            with: isPoiSearchActive
+        )
+
+        if (isPoiSearchActive) {
+            searchEngine.currentLocation = mapView.cameraController().position.location;
+            mapView.searchController().displayPOI(["811"]) // Fuel
+        } else {
+            mapView.searchController().clear()
+        }
     }
-  
+
     @objc func mapStyleButtonTapped() {
-      isMapStyleActive.toggle()
-      
-      renderUpdateFor(
-          button: mapStyleButton,
-          with: isMapStyleActive
-      )
-      
-      if (isMapStyleActive) {
-          let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-          let filepath = paths[0].appendingPathComponent("customMapStyle.tss")
+        isMapStyleActive.toggle()
+
+        renderUpdateFor(
+            button: mapStyleButton,
+            with: isMapStyleActive
+        )
+
+        if (isMapStyleActive) {
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            let filepath = paths[0].appendingPathComponent("customMapStyle.tss")
             do {
-              try customMapStyleString.write(to: filepath, atomically: true, encoding: String.Encoding.utf8)
+                try customMapStyleString.write(to: filepath, atomically: true, encoding: String.Encoding.utf8)
             } catch {
-              print("Failed to write file: \(error.localizedDescription)")
+                print("Failed to write file: \(error.localizedDescription)")
             }
-          let resultFilepath = filepath.absoluteString.replacingOccurrences(of: "file://", with: "")
-          mapView.themeController().loadStyleSheet(resultFilepath)
-      } else {
-          let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-          let filepath = paths[0].appendingPathComponent("defaultMapStyle.tss")
+            let resultFilepath = filepath.absoluteString.replacingOccurrences(of: "file://", with: "")
+            mapView.themeController().loadStyleSheet(resultFilepath)
+        } else {
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            let filepath = paths[0].appendingPathComponent("defaultMapStyle.tss")
             do {
-              try defaultMapStyleString.write(to: filepath, atomically: true, encoding: String.Encoding.utf8)
+                try defaultMapStyleString.write(to: filepath, atomically: true, encoding: String.Encoding.utf8)
             } catch {
-              print("Failed to write file: \(error.localizedDescription)")
+                print("Failed to write file: \(error.localizedDescription)")
             }
-          let resultFilepath = filepath.absoluteString.replacingOccurrences(of: "file://", with: "")
-          mapView.themeController().loadStyleSheet(resultFilepath)
-      }
+            let resultFilepath = filepath.absoluteString.replacingOccurrences(of: "file://", with: "")
+            mapView.themeController().loadStyleSheet(resultFilepath)
+        }
     }
-  
+
     @objc func screenshotButtonTapped() {
         screenshotButton.isEnabled = false
 
@@ -886,8 +926,8 @@ extension TelenavMapViewController {
             let items = [image]
             let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
             self.present(activityViewController, animated: true) { [weak self] in
-              guard let self = self else { return }
-              self.screenshotButton.isEnabled = true
+                guard let self = self else { return }
+                self.screenshotButton.isEnabled = true
             }
         }
     }
@@ -918,7 +958,7 @@ extension TelenavMapViewController {
         
         return region
     }
-  
+
     func addFromPointAnnotation(location: VNGeoPoint) {
         let annotationController = mapView.annotationsController()
         let pushPinImage = UIImage(named: "map-push-pin-s")!
@@ -940,7 +980,7 @@ extension TelenavMapViewController {
         self.fromAnnotation = fromAnnotation
         annotationController.add([fromAnnotation])
     }
-  
+
     func addToPointAnnotation(location: VNGeoPoint) {
         let annotationController = mapView.annotationsController()
         let pushPinImage = UIImage(named: "map-push-pin-f")!
@@ -988,43 +1028,43 @@ extension TelenavMapViewController {
         longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(navGestureAction))
         mapView.addGestureRecognizer(longPressGestureRecognizer)
     }
-  
+
     private func setupInNavigationGestures() {
         if tapGestureRecognizer != nil {
-          mapView.removeGestureRecognizer(tapGestureRecognizer)
+            mapView.removeGestureRecognizer(tapGestureRecognizer)
         }
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(inNavigationGestureAction))
         mapView.addGestureRecognizer(tapGestureRecognizer)
-      
+
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(inNavigationGestureAction))
         mapView.addGestureRecognizer(panGestureRecognizer)
-      
+
         pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(inNavigationGestureAction))
         mapView.addGestureRecognizer(pinchGestureRecognizer)
-      
+
         rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(inNavigationGestureAction))
         mapView.addGestureRecognizer(rotationGestureRecognizer)
     }
-  
+
     private func restoreGestures() {
         if tapGestureRecognizer != nil {
-          mapView.removeGestureRecognizer(tapGestureRecognizer)
-          tapGestureRecognizer = nil
+            mapView.removeGestureRecognizer(tapGestureRecognizer)
+            tapGestureRecognizer = nil
         }
-      
+
         if panGestureRecognizer != nil {
-          mapView.removeGestureRecognizer(panGestureRecognizer)
-          panGestureRecognizer = nil
+            mapView.removeGestureRecognizer(panGestureRecognizer)
+            panGestureRecognizer = nil
         }
-      
+
         if pinchGestureRecognizer != nil {
-          mapView.removeGestureRecognizer(pinchGestureRecognizer)
-          pinchGestureRecognizer = nil
+            mapView.removeGestureRecognizer(pinchGestureRecognizer)
+            pinchGestureRecognizer = nil
         }
-      
+
         if rotationGestureRecognizer != nil {
-          mapView.removeGestureRecognizer(rotationGestureRecognizer)
-          rotationGestureRecognizer = nil
+            mapView.removeGestureRecognizer(rotationGestureRecognizer)
+            rotationGestureRecognizer = nil
         }
     }
     
@@ -1103,14 +1143,14 @@ extension TelenavMapViewController {
         
         present(alertController, animated: true)
     }
-  
+
     @objc private func inNavigationGestureAction(_ gestureRecognizer: UITapGestureRecognizer) {
-      if (followVehicleButton.isHidden) {
-        mapView.cameraController().disableFollowVehicle()
-        restoreGestures()
-        followVehicleButton.isHidden = false
-        cameraModeButton.isHidden = true
-      }
+        if (followVehicleButton.isHidden) {
+            mapView.cameraController().disableFollowVehicle()
+            restoreGestures()
+            followVehicleButton.isHidden = false
+            cameraModeButton.isHidden = true
+        }
     }
     
     private func calculateRoute(startPoint: VNGeoLocation, endPoint: VNGeoLocation, completion: @escaping ([VNRoute]) -> ()) {
@@ -1134,7 +1174,7 @@ extension TelenavMapViewController {
         })
         
     }
-  
+
     private func createRoute() {
         if
             let startPoint = firstRoutePoint,
@@ -1188,7 +1228,7 @@ extension TelenavMapViewController {
             let annotation = annotationsFactory.create(with: image, location: location)
             annotation.style = .screenFlagNoCulling
             mapView.annotationsController().add([annotation])
-          
+
             let annotationState = AnnotationState(isSelected: false, annotation: annotation)
             demoAnnotations.append(annotationState)
         }
@@ -1207,12 +1247,12 @@ extension TelenavMapViewController {
             
             annotation.displayText = textDisplay
             mapView.annotationsController().add([annotation])
-          
+
             let annotationState = AnnotationState(isSelected: false, annotation: annotation)
             demoAnnotations.append(annotationState)
         }
     }
-  
+
     private func addExplicitStyleAnnotationTo(location: CLLocationCoordinate2D) {
         let annotationsFactory = mapView.annotationsController().factory()
         
@@ -1224,11 +1264,11 @@ extension TelenavMapViewController {
         
         annotation.displayText = textDisplay
         mapView.annotationsController().add([annotation])
-      
+
         let annotationState = AnnotationState(isSelected: false, annotation: annotation)
         demoAnnotations.append(annotationState)
     }
-  
+
     private func removeAllAnnotation() {
         let annotations = demoAnnotations.compactMap { $0.annotation }
         mapView.annotationsController().remove( annotations )
@@ -1286,16 +1326,16 @@ extension TelenavMapViewController {
             routeController.unhighlight()
             self.routeModels = routeModels
         }
-      
+
         self.startNavigationButton.isHidden = true
     }
-  
+
     func moveMapCameraTo(to coordinate: CLLocationCoordinate2D, zoomLevel: Int? = nil) {
         let point = VNGeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude)
         let position = self.mapView.cameraController().position
         var currentZoomLevel = position.zoomLevel
         if let zoomLevel = zoomLevel {
-          currentZoomLevel = NSNumber.init(value: zoomLevel)
+            currentZoomLevel = NSNumber.init(value: zoomLevel)
         }
         let cameraPosition = VNCameraPosition(bearing: position.bearing, tilt: position.tilt, zoomLevel: currentZoomLevel, location: point)
         self.mapView.cameraController().position = cameraPosition
@@ -1330,7 +1370,7 @@ extension TelenavMapViewController: UICollectionViewDelegate, UICollectionViewDa
             let routeDuration = route.duration.secondsToHoursMinutesSeconds() ?? ""
             let durationText = "Route duration: \(routeDuration)"
             self.travelEstimationLbl.text = durationText
-          
+
             self.selectedRoute = route
             self.selectedRouteModel = routeModel
             self.showTurnArrows(routeName: routeModel.getRouteId(), route: route)
@@ -1374,7 +1414,7 @@ extension TelenavMapViewController: VNNavigationSessionDelegate {
             }
         }
     }
-  
+
     func onUpdate(_ navStatus: VNNavStatus) {
         // Set turnAction
         var turnAction = VNManeuverAction.NONE
@@ -1383,11 +1423,11 @@ extension TelenavMapViewController: VNNavigationSessionDelegate {
         let legs = route.legs
         let legIndex = Int(navStatus.currentLegIndex)
         if (legIndex >= 0 && legIndex < legs.count) {
-          let steps = legs[legIndex].steps
-          let stepIndex = Int(navStatus.currentStepIndex)
-          if (stepIndex >= 0 && stepIndex < steps.count) {
-            turnAction = steps[stepIndex].maneuver.action
-          }
+            let steps = legs[legIndex].steps
+            let stepIndex = Int(navStatus.currentStepIndex)
+            if (stepIndex >= 0 && stepIndex < steps.count) {
+                turnAction = steps[stepIndex].maneuver.action
+            }
         }
         
         // Fill stepInfo
@@ -1408,13 +1448,13 @@ extension TelenavMapViewController: VNNavigationSessionDelegate {
         
         // Fill location
         let location = CLLocation.init(
-          coordinate: .init(latitude: navStatus.vehicleLocation.latitude, longitude: navStatus.vehicleLocation.longitude),
-          altitude: 0, // not used
-          horizontalAccuracy: CLLocationAccuracy(accuracy),
-          verticalAccuracy: CLLocationAccuracy(accuracy),
-          course: CLLocationDirection(navStatus.vehicleHeading),
-          speed: CLLocationSpeed(navStatus.vehicleSpeed),
-          timestamp: Date() // not used
+            coordinate: .init(latitude: navStatus.vehicleLocation.latitude, longitude: navStatus.vehicleLocation.longitude),
+            altitude: 0, // not used
+            horizontalAccuracy: CLLocationAccuracy(accuracy),
+            verticalAccuracy: CLLocationAccuracy(accuracy),
+            course: CLLocationDirection(navStatus.vehicleHeading),
+            speed: CLLocationSpeed(navStatus.vehicleSpeed),
+            timestamp: Date() // not used
         )
         
         mapView.vehicleController().setStepInfoAndLocation(stepInfo, location: location)
@@ -1426,31 +1466,31 @@ extension TelenavMapViewController: VNPositionEventDelegate {
     func onLocationUpdated(_ vehicleLocation: VNVehicleLocationInfo) {
         accuracy = vehicleLocation.locationAccuracy
     }
-  
+
     func onStreetUpdated(_ curStreetInfo: VNStreetInfo) {
-      DispatchQueue.main.async {
-        self.addressLabel.text = curStreetInfo.streetName ?? "Null received"
-        
-        let speedLimitValue = curStreetInfo.speedLimit?.value ?? VN_INVALID_SPEED_LIMIT
-        if (speedLimitValue == VN_MAX_SPEED_UNLIMITED) {
-          self.speedLimit.text = "Max Speed Unlimited"
-        } else if (speedLimitValue == VN_INVALID_SPEED_LIMIT) {
-          self.speedLimit.text = "Null received"
-        } else {
-          let unitValue = SpeedLimitUnit(rawValue: curStreetInfo.speedLimit?.unit.rawValue ?? VNSpeedUnit.MPH.rawValue)
-          self.speedLimit.text = "\(speedLimitValue) \(unitValue?.unitStringRepresentation ?? "")"
+        DispatchQueue.main.async {
+            self.addressLabel.text = curStreetInfo.streetName ?? "Null received"
+
+            let speedLimitValue = curStreetInfo.speedLimit?.value ?? VN_INVALID_SPEED_LIMIT
+            if (speedLimitValue == VN_MAX_SPEED_UNLIMITED) {
+                self.speedLimit.text = "Max Speed Unlimited"
+            } else if (speedLimitValue == VN_INVALID_SPEED_LIMIT) {
+                self.speedLimit.text = "Null received"
+            } else {
+                let unitValue = SpeedLimitUnit(rawValue: curStreetInfo.speedLimit?.unit.rawValue ?? VNSpeedUnit.MPH.rawValue)
+                self.speedLimit.text = "\(speedLimitValue) \(unitValue?.unitStringRepresentation ?? "")"
+            }
+
+            self.cityName.text = curStreetInfo.adminInfo?.city ?? "Null received"
         }
-        
-        self.cityName.text = curStreetInfo.adminInfo?.city ?? "Null received"
-      }
     }
 }
 
 extension TelenavMapViewController: VNAudioEventDelegate {
     func onAudioInstructionUpdated(_ audioInstruction: VNAudioInstruction) {
         DispatchQueue.main.async {
-          let audioString = audioInstruction.audioOrthographyString ?? "Null received"
-          self.audioMessage.text = "Audio message: \(audioString)"
+            let audioString = audioInstruction.audioOrthographyString ?? "Null received"
+            self.audioMessage.text = "Audio message: \(audioString)"
         }
     }
 }
@@ -1489,83 +1529,85 @@ extension TelenavMapViewController: VNAlertServiceDelegate {
     }
 
     func alertsToString(alerts: [VNAlertItem]) -> String {
-      var alertsAsString = ""
-      for alert in alerts {
-        alertsAsString += alert.type.asString
-        alertsAsString += "\n"
-        alertsAsString += "to vehicle: \(alert.distanceToVehicle)"
-        alertsAsString += "\n"
-      }
-      return alertsAsString
+        var alertsAsString = ""
+        for alert in alerts {
+            alertsAsString += alert.type.asString
+            alertsAsString += "\n"
+            alertsAsString += "to vehicle: \(alert.distanceToVehicle)"
+            alertsAsString += "\n"
+        }
+        return alertsAsString
     }
 }
 
 extension TelenavMapViewController: VNMapViewAnnotationTouchDelegate {
-  func mapView(_ mapView: VNMapView, touchedAnnotaion annotaion: VNAnnotation?) {
-    guard let annotaion = annotaion else {
-      return
+    func mapView(_ mapView: VNMapView, touchedAnnotation annotaion: VNAnnotation?) {
+        guard let annotaion = annotaion else {
+            return
+        }
+
+        guard let demoAnnotation = demoAnnotations.first(where: { $0.annotation === annotaion }) else {
+            return
+        }
+
+        if demoAnnotation.isSelected {
+            if demoAnnotation.annotation.displayText != nil {
+                let textDisplay = VNTextDisplayInfo(centeredText: "did touch")
+                textDisplay.textColor = .black
+                textDisplay.textFontSize = 14
+
+                demoAnnotation.annotation.displayText = textDisplay
+                mapView.annotationsController().add([demoAnnotation.annotation])
+            } else {
+                demoAnnotation.annotation.image = UIImage(named: "demo-annotation-pushpin-green")
+                mapView.annotationsController().add([demoAnnotation.annotation])
+            }
+        } else {
+            if demoAnnotation.annotation.displayText != nil {
+                let textDisplay = VNTextDisplayInfo(centeredText: "did touch")
+                textDisplay.textColor = .red
+                textDisplay.textFontSize = 14
+
+                demoAnnotation.annotation.displayText = textDisplay
+                mapView.annotationsController().add([demoAnnotation.annotation])
+            } else {
+                demoAnnotation.annotation.image = UIImage(named: "demo-annotation-pushpin-red")
+                mapView.annotationsController().add([demoAnnotation.annotation])
+            }
+        }
+
+        demoAnnotation.isSelected.toggle()
     }
-    
-    guard let demoAnnotation = demoAnnotations.first(where: { $0.annotation === annotaion }) else {
-      return
-    }
-    
-    if demoAnnotation.isSelected {
-      if demoAnnotation.annotation.displayText != nil {
-        let textDisplay = VNTextDisplayInfo(centeredText: "did touch")
-        textDisplay.textColor = .black
-        textDisplay.textFontSize = 14
-        
-        demoAnnotation.annotation.displayText = textDisplay
-        mapView.annotationsController().add([demoAnnotation.annotation])
-      } else {
-        demoAnnotation.annotation.image = UIImage(named: "demo-annotation-pushpin-green")
-        mapView.annotationsController().add([demoAnnotation.annotation])
-      }
-    } else {
-      if demoAnnotation.annotation.displayText != nil {
-        let textDisplay = VNTextDisplayInfo(centeredText: "did touch")
-        textDisplay.textColor = .red
-        textDisplay.textFontSize = 14
-        
-        demoAnnotation.annotation.displayText = textDisplay
-        mapView.annotationsController().add([demoAnnotation.annotation])
-      } else {
-        demoAnnotation.annotation.image = UIImage(named: "demo-annotation-pushpin-red")
-        mapView.annotationsController().add([demoAnnotation.annotation])
-      }
-    }
-    
-    demoAnnotation.isSelected.toggle()
-  }
 }
 
 extension TelenavMapViewController {
     func setupLocationManager() {
-      // need to init CoordinateSettingsController
-      if let viewControllers = tabBarController?.viewControllers {
-          for navVC in viewControllers {
-              if let navVC = navVC as? UINavigationController,
-                 let coordVC = navVC.topViewController as? CoordinateSettingsController {
-                  let _ = coordVC.view
-              }
-          }
-      }
-      
-      currentLocation = locationProvider.location
-      moveMapCameraTo(to: currentLocation, zoomLevel: 8)
+        // need to init CoordinateSettingsController
+        if let viewControllers = tabBarController?.viewControllers {
+            for navVC in viewControllers {
+                if let navVC = navVC as? UINavigationController,
+                   let coordVC = navVC.topViewController as? CoordinateSettingsController {
+                    let _ = coordVC.view
+                }
+            }
+        }
+
+        currentLocation = locationProvider.location
+        moveMapCameraTo(to: currentLocation, zoomLevel: 8)
     }
 }
 
 extension TelenavMapViewController: LocationProviderDelegate {
-  func locationProvider(provider: LocationProvider, locationDidChanged location: CLLocationCoordinate2D) {
-    let from = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
-    let to = CLLocation(latitude: location.latitude, longitude: location.longitude)
-    
-    if to.distance(from: from) > 500 /* meters */ {
-      moveMapCameraTo(to: location)
+    func locationProvider(provider: LocationProvider, locationDidChanged location: CLLocationCoordinate2D) {
+        let from = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+        let to = CLLocation(latitude: location.latitude, longitude: location.longitude)
+
+        if to.distance(from: from) > 500 /* meters */ {
+            moveMapCameraTo(to: location)
+        }
+
+        let vehicleLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
+        mapView.vehicleController().setLocation(vehicleLocation)
+        currentLocation = location
     }
-    
-    currentLocation = location
-  }
 }

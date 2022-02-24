@@ -221,7 +221,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         locationProvider.addListner(listner: self)
         moveMapCameraTo(to: currentLocation)
         setUserPushPin(userLocation: currentLocation)
-        
+
         setupAccessibilityIdentifiers()
     }
     
@@ -330,7 +330,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
         constr.priority = UILayoutPriority.defaultHigh
         constr.isActive = true
     }
-    
+
     private func setupSearchHeight() -> CGFloat {
         return searchVisible ? searchHeight : 0
     }
@@ -538,7 +538,7 @@ class MapViewController: UIViewController, CatalogViewControllerDelegate, CLLoca
             
             let region = self.obtainRegionForAnnotationsArr([updatedAnnotation])
             self.mapView.cameraController().show(region)
-            
+
             self.backButton.isHidden = false
             self.moveMapCameraTo(to: annotation.coordinate)
         }
@@ -1121,6 +1121,8 @@ extension MapViewController: LocationProviderDelegate {
     }
     
     currentLocation = location
+      let vehicleLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
+      mapView.vehicleController().setLocation(vehicleLocation)
     setUserPushPin(userLocation: currentLocation)
   }
 }
