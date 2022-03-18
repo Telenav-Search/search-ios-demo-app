@@ -50,7 +50,7 @@ platform :ios do
 
     xcodebuild(workspace: "TelenavDemo.xcworkspace",
            scheme: "TelenavDemo",
-           xcargs: "-configuration Debug -sdk 'iphonesimulator15.0' -destination 'platform=iOS Simulator,name=iPhone 8'",
+           xcargs: "-configuration Debug -sdk 'iphonesimulator15.2' -destination 'platform=iOS Simulator,name=iPhone 8'",
            derivedDataPath: "./simulator"
            )
 
@@ -58,5 +58,13 @@ platform :ios do
         output_path: "./build/TelenavDemo.app.zip"
     )
 
+  end
+
+  lane :just_build do
+    xcodebuild(workspace: "TelenavDemo.xcworkspace",
+           scheme: "TelenavDemo",
+           xcargs: "-configuration Debug -sdk 'iphonesimulator15.2' -destination 'platform=iOS Simulator,name=iPhone 8'",
+           derivedDataPath: "./simulator"
+           )
   end
 end
