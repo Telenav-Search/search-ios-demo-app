@@ -258,46 +258,11 @@ extension MapViewController {
         requestBuilder.setSpeed(settings.speedInMps)
         requestBuilder.setRouteStyle(settings.routeStyle)
         requestBuilder.setContentLevel(settings.contentLevel)
-        if settings.startDate > Date() {
-            requestBuilder.setStartTime(settings.startDate)
-        }
         requestBuilder.setRoutePreference(settings.preferences)
         return requestBuilder.build()
     }
 
     func createGeolocation(with geoPoint: VNGeoPoint) -> VNGeoLocation {
-
-        if let entity = entitiesWithCoordinates.first(where: {
-            $1.longitude == geoPoint.longitude &&
-            $1.latitude == geoPoint.latitude
-        }) {
-            let street = entity.key.place?.address?.street?.formattedName
-            let crossStreet = entity.key.place?.address?.crossStreet?.formattedName
-            let door = entity.key.place?.address?.houseNumber
-
-            let address = VNAddress(
-                street: street,
-                crossStreet: crossStreet,
-                door: door
-            )
-
-            let displayPoint = VNLatLon(
-              coordinates: geoPoint.longitude,
-              latitude: geoPoint.latitude
-            )
-
-            let geoLocation = VNGeoLocation(
-              address: address,
-              locationName: nil,
-              matchedSegment: nil,
-              placeId: nil,
-              displayPoint: displayPoint,
-              navPoints: nil,
-              parentLocationName: nil
-            )
-
-            return geoLocation
-        }
         return VNGeoLocation(
             latitude: geoPoint.latitude,
             longitude: geoPoint.longitude
